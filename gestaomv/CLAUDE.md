@@ -1,13 +1,6 @@
 # CLAUDE.md
 
-Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabalhar com código neste repositório.
-
-## Idioma e Comunicação
-
-- **SEMPRE** responda e se comunique em português brasileiro
-- Use terminologia técnica apropriada em português quando possível
-- Mantenha nomes de variáveis, funções e arquivos em inglês (padrão do código)
-- Comentários em código devem ser em português brasileiro
+Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabalhar no app `gestaomv` (@gestaomv/app).
 
 ## Comandos
 
@@ -71,3 +64,10 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
 ### Roteamento Baseado em Arquivos
 
 Rotas em `src/routes/` são automaticamente gerenciadas pelo TanStack Router. O `__root.tsx` serve como wrapper de layout com `<Outlet />` para rotas aninhadas.
+
+### Templates de Email
+
+Templates Handlebars estão em `src/modules/core/services/templates/`:
+
+- `welcome.hbs` - Email de boas-vindas
+- `almoxarifado/` - Templates específicos do almoxarifado (solicitações)
