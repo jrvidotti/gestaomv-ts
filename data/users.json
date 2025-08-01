@@ -9,8 +9,9 @@
     {
       "email": "jrvidotti@gmail.com",
       "name": "Junior",
+      "password": "junior123",
       "isActive": true,
-      "roles": []
+      "roles": ["admin"]
     }
   ]
 }

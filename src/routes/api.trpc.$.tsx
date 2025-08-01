@@ -10,10 +10,11 @@ function handler({ request }: { request: Request }) {
 		endpoint: "/api/trpc",
 		createContext: ({ req }) => {
 			const authHeader = req.headers.get("authorization");
-			const token = authHeader?.replace("Bearer ", "");
-			const user = token ? getUserFromToken(token) : null;
+			const [authType, token] = authHeader?.split(" ") || ["", ""];
+			const hasToken = authType === "Bearer" && token;
+			const user = hasToken ? getUserFromToken(token) : null;
 			console.log(
-				`[TRPC] Auth: has header: ${!!authHeader}, has token: ${!!token}, user: ${user?.email}`,
+				`[TRPC] Auth: has header: ${!!authHeader}, has token: ${hasToken}, user: ${user?.email}`,
 			);
 
 			return {

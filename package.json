@@ -13,7 +13,7 @@
     "check": "biome check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "drizzle-kit seed"
+    "db:seed": "yarn db:migrate && tsx --env-file=.env scripts/seed.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.1.17",
