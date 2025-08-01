@@ -1,3 +1,4 @@
+import type { User } from "@/modules/core/types";
 import { z } from "zod";
 
 export const loginSchema = z.object({
@@ -19,3 +20,8 @@ export const registerSchema = z.object({
 export type LoginDto = z.infer<typeof loginSchema>;
 export type TagOneAuthLoginDto = z.infer<typeof tagoneAuthLoginSchema>;
 export type RegisterDto = z.infer<typeof registerSchema>;
+
+export interface AuthResponse {
+	access_token: string;
+	user: Omit<User, "password">;
+}

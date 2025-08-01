@@ -32,7 +32,7 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
 
 ### Componentes UI
 
-- `pnpx shadcn@latest add <componente>` - Adiciona componentes Shadcn (use `pnpx`, não `yarn dlx`)
+- `npx shadcn@latest add <componente>`
 
 ## Arquitetura
 

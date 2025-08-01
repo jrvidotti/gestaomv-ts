@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Solicitação Rejeitada</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 650px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #ef4444, #dc2626); padding: 30px; border-radius: 8px; margin-bottom: 20px; text-align: center; color: white; }
+        .content { background: white; padding: 30px; border: 1px solid #dee2e6; border-radius: 8px; }
+        .solicitacao-info { background: #fef2f2; padding: 20px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #ef4444; }
+        .material-item { background: #f9fafb; padding: 12px; border-radius: 4px; margin: 8px 0; border: 1px solid #e5e7eb; }
+        .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6; font-size: 12px; color: #6c757d; text-align: center; }
+        .btn { display: inline-block; background: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 5px; }
+        .btn:hover { background: #2563eb; }
+        .btn-primary { background: #10b981; }
+        .btn-primary:hover { background: #059669; }
+        .badge { background: #ef4444; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .rejection-reason { background: #fef2f2; padding: 20px; border-radius: 6px; margin: 20px 0; border: 2px solid #ef4444; }
+        .rejected-by { background: #fef2f2; padding: 15px; border-radius: 6px; margin: 15px 0; border: 1px solid #ef4444; }
+        .next-steps { background: #f0f9ff; padding: 15px; border-radius: 6px; border-left: 4px solid #3b82f6; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="font-size: 48px; margin-bottom: 10px;">❌</div>
+            <h1 style="margin: 0; font-size: 28px;">Solicitação Rejeitada</h1>
+            <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Requer revisão</p>
+        </div>
+        
+        <div class="content">
+            <h2>Olá, {{solicitacao.solicitante.name}}!</h2>
+            
+            <p>Informamos que sua solicitação de material foi <strong>rejeitada</strong> pelo aprovador. Veja os detalhes abaixo:</p>
+            
+            <div class="solicitacao-info">
+                <h3 style="margin-top: 0; color: #ef4444;">📋 Informações da Solicitação</h3>
+                <p><strong>Número:</strong> <span class="badge">#{{formatNumber solicitacao.id}}</span></p>
+                <p><strong>Unidade de Destino:</strong> {{solicitacao.unidade.nome}}</p>
+                <p><strong>Data da Solicitação:</strong> {{formatDate solicitacao.dataOperacao}}</p>
+                <p><strong>Data de Rejeição:</strong> {{formatDate solicitacao.dataAprovacao}}</p>
+                {{#if solicitacao.observacoes}}
+                <p><strong>Suas Observações:</strong> {{solicitacao.observacoes}}</p>
+                {{/if}}
+            </div>
+            
+            {{#if solicitacao.aprovador}}
+            <div class="rejected-by">
+                <h4 style="margin-top: 0; color: #dc2626;">👤 Rejeitado por</h4>
+                <p style="margin-bottom: 0;"><strong>{{solicitacao.aprovador.name}}</strong> • {{solicitacao.aprovador.email}}</p>
+            </div>
+            {{/if}}
+            
+            {{#if motivoRejeicao}}
+            <div class="rejection-reason">
+                <h3 style="margin-top: 0; color: #dc2626;">📝 Motivo da Rejeição</h3>
+                <p style="font-size: 16px; margin-bottom: 0; font-weight: 500;">{{motivoRejeicao}}</p>
+            </div>
+            {{/if}}
+            
+            <h3>📦 Materiais da Solicitação Rejeitada</h3>
+            {{#each materiais}}
+            <div class="material-item">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>{{material.nome}}</strong>
+                        <br>
+                        <small style="color: #6b7280;">{{material.tipoMaterial.nome}} • {{material.unidadeMedida.nome}}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <strong>{{qtdSolicitada}} {{material.unidadeMedida.simbolo}}</strong>
+                        <br>
+                        <small style="color: #6b7280;">{{formatCurrency material.valorUnitario}} / unid.</small>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            
+            <div class="next-steps">
+                <h4 style="margin-top: 0; color: #3b82f6;">🔄 O que fazer agora?</h4>
+                <ul style="margin-bottom: 0;">
+                    <li><strong>Revise o motivo da rejeição</strong> e ajuste sua solicitação conforme necessário</li>
+                    <li><strong>Entre em contato</strong> com o aprovador se tiver dúvidas sobre a rejeição</li>
+                    <li><strong>Crie uma nova solicitação</strong> com as correções necessárias</li>
+                    <li><strong>Considere alternativas</strong> de materiais ou quantidades menores</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{systemUrl}}/admin/almoxarifado/solicitacoes/nova" class="btn btn-primary">
+                    ➕ Criar Nova Solicitação
+                </a>
+                <a href="{{systemUrl}}/admin/almoxarifado/solicitacoes" class="btn">
+                    📋 Ver Minhas Solicitações
+                </a>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
+                <p style="margin: 0;"><strong>💬 Precisa de ajuda?</strong> Entre em contato com o aprovador ou com a equipe do almoxarifado para esclarecimentos.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Esta é uma notificação automática do Sistema de Gestão de Almoxarifado.</p>
+            <p>Para gerenciar suas preferências de notificação, acesse as Configurações do Sistema.</p>
+        </div>
+    </div>
+</body>
+</html>

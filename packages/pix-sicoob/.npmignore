@@ -1,0 +1,54 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Configuration files
+tsconfig.json
+.eslintrc.*
+.prettierrc.*
+jest.config.*
+
+# Development files
+exemplo.ts
+test/
+tests/
+*.test.*
+*.spec.*
+
+# Documentation (keep only README.md)
+docs/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env*
+
+# Certificates
+*.pfx
+*.p12
+*.pem
+*.crt
+*.key
+
+# Temporary files
+tmp/
+temp/
+
+# Coverage
+coverage/
+.nyc_output
+
+# OS
+.DS_Store
+Thumbs.db 

@@ -1,0 +1,36 @@
+{
+  "name": "@movelabs/api-direct-data",
+  "version": "1.0.2",
+  "description": "Cliente TypeScript para a API de consulta de dados da Direct Data.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "direct data",
+    "api",
+    "client",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/movelabsbr/api-direct-data.git"
+  },
+  "author": "Junior Vidotti",
+  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/jrvidotti/packages#readme",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "zod": "^3.25.0"
+  }
+}
