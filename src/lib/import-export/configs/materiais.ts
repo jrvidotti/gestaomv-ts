@@ -1,6 +1,6 @@
 import { getDatabase, schema } from "@/db";
 import { materiais } from "@/db/schemas";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface MaterialImport {
 	nome: string;
@@ -13,6 +13,7 @@ export interface MaterialImport {
 }
 
 export const config = {
+	nomeArquivo: "materiais",
 	descricaoArquivo: "Dados de materiais para seed",
 	buscarItens: async () => {
 		return await getDatabase()

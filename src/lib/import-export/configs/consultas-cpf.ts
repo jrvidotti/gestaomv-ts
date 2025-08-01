@@ -1,6 +1,6 @@
 import { getDatabase, schema } from "@/db";
 import { consultasCpf } from "@/db/schemas";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface ConsultaCpfImport {
 	cpf: string;
@@ -9,6 +9,7 @@ export interface ConsultaCpfImport {
 }
 
 export const config = {
+	nomeArquivo: "consultas-cpf",
 	descricaoArquivo: "Dados de consultas CPF para seed",
 	buscarItens: async () => {
 		return await getDatabase()

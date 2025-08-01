@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "exportadoEm": "2025-07-29T17:04:57.402Z",
+    "totalRegistros": 6,
+    "versao": "1.0.0",
+    "descricao": "Dados de tipos de material para seed"
+  },
+  "dados": [
+    {
+      "id": "EMB_PADRAO",
+      "nome": "Embalagem Padrão"
+    },
+    {
+      "id": "EMB_PRESENTE",
+      "nome": "Embalagem Presente"
+    },
+    {
+      "id": "EMB_VENDA",
+      "nome": "Embalagem Venda"
+    },
+    {
+      "id": "MAT_COZINHA",
+      "nome": "Material Cozinha"
+    },
+    {
+      "id": "MAT_ESCRITORIO",
+      "nome": "Material Escritório"
+    },
+    {
+      "id": "MAT_LIMPEZA",
+      "nome": "Material Limpeza"
+    }
+  ]
+}

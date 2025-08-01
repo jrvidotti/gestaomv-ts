@@ -1,6 +1,6 @@
 import { getDatabase, schema } from "@/db";
 import { tiposMaterial } from "@/db/schemas";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface TipoMaterialImport {
 	id: string;
@@ -8,6 +8,7 @@ export interface TipoMaterialImport {
 }
 
 export const config = {
+	nomeArquivo: "tipos-material",
 	descricaoArquivo: "Dados de tipos de material para seed",
 	buscarItens: async () => {
 		return await getDatabase()

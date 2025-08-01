@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "exportadoEm": "2025-07-29T17:04:57.402Z",
+    "totalRegistros": 12,
+    "versao": "1.0.0",
+    "descricao": "Dados de unidades de medida para seed"
+  },
+  "dados": [
+    {
+      "id": "CX",
+      "nome": "Caixa"
+    },
+    {
+      "id": "FD",
+      "nome": "Fardo"
+    },
+    {
+      "id": "KG",
+      "nome": "Quilograma"
+    },
+    {
+      "id": "L",
+      "nome": "Litro"
+    },
+    {
+      "id": "M",
+      "nome": "Metro"
+    },
+    {
+      "id": "M2",
+      "nome": "Metro Quadrado"
+    },
+    {
+      "id": "M3",
+      "nome": "Metro Cúbico"
+    },
+    {
+      "id": "PC",
+      "nome": "Peça"
+    },
+    {
+      "id": "PCT",
+      "nome": "Pacote"
+    },
+    {
+      "id": "RL",
+      "nome": "Rolo"
+    },
+    {
+      "id": "RM",
+      "nome": "Resma"
+    },
+    {
+      "id": "UN",
+      "nome": "Unidade"
+    }
+  ]
+}

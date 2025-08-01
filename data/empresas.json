@@ -1,0 +1,130 @@
+{
+  "metadata": {
+    "exportadoEm": "2025-07-29T17:04:57.407Z",
+    "totalRegistros": 20,
+    "versao": "1.0.0",
+    "descricao": "Dados de empresas para seed"
+  },
+  "dados": [
+    {
+      "razaoSocial": "A.V PINHEIRO EIRELI",
+      "nomeFantasia": "A.V PINHEIRO EIRELI",
+      "cnpj": "01.901.270/0001-36",
+      "pontowebId": 1
+    },
+    {
+      "razaoSocial": "M.G. VIDOTTI - MATRIZ",
+      "nomeFantasia": "M.G. VIDOTTI - MATRIZ",
+      "cnpj": "02.639.830/0001-99",
+      "pontowebId": 5
+    },
+    {
+      "razaoSocial": "M.G. VIDOTTI - FILIAL ",
+      "nomeFantasia": "M.G. VIDOTTI - FILIAL ",
+      "cnpj": "02.639.830/0002-70",
+      "pontowebId": 9
+    },
+    {
+      "razaoSocial": "M.J VIDOTTI EIRELI ",
+      "nomeFantasia": "M.J VIDOTTI EIRELI ",
+      "cnpj": "03.440.498/0001-00",
+      "pontowebId": 4
+    },
+    {
+      "razaoSocial": "PINHEIRO E VIDOTTI LTDA",
+      "nomeFantasia": "PINHEIRO E VIDOTTI LTDA",
+      "cnpj": "03.651.855/0001-70",
+      "pontowebId": 3
+    },
+    {
+      "razaoSocial": "LANÇA MODAS LTDA",
+      "nomeFantasia": "LANÇA MODAS LTDA",
+      "cnpj": "04.023.809/0001-90",
+      "pontowebId": 8
+    },
+    {
+      "razaoSocial": "MARLI SIMÕES FRANÇA VIDOTTI EIRELI",
+      "nomeFantasia": "MARLI SIMÕES FRANÇA VIDOTTI EIRELI",
+      "cnpj": "04.038.769/0001-50",
+      "pontowebId": 7
+    },
+    {
+      "razaoSocial": "A. P. VIDOTTI LTDA",
+      "nomeFantasia": "A. P. VIDOTTI LTDA",
+      "cnpj": "05.157.705/0001-30",
+      "pontowebId": 6
+    },
+    {
+      "razaoSocial": "VIVA BEM TECIDOS E CONFECÇÕES LTDA",
+      "nomeFantasia": "VIVA BEM TECIDOS E CONFECÇÕES LTDA",
+      "cnpj": "10.404.867/0001-66",
+      "pontowebId": 10
+    },
+    {
+      "razaoSocial": "TESTE ",
+      "nomeFantasia": "DASD",
+      "cnpj": "12.312.312/3123-12",
+      "pontowebId": null
+    },
+    {
+      "razaoSocial": "Empresa Teste 1 LTDA",
+      "nomeFantasia": "Teste 1",
+      "cnpj": "12.345.678/0001-90",
+      "pontowebId": 1001
+    },
+    {
+      "razaoSocial": "L.O CALÇADOS E CONFECÇÕES LTDA",
+      "nomeFantasia": "L.O CALÇADOS E CONFECÇÕES LTDA",
+      "cnpj": "14.429.800/0001-37",
+      "pontowebId": 11
+    },
+    {
+      "razaoSocial": "CAROLINA FRANÇA VIDOTTI LTDA",
+      "nomeFantasia": "CAROLINA FRANÇA VIDOTTI LTDA",
+      "cnpj": "17.053.222/0001-75",
+      "pontowebId": 12
+    },
+    {
+      "razaoSocial": " CAROLINA FRANCA VIDOTTI  LTDA ( FILIAL) ",
+      "nomeFantasia": " CAROLINA FRANCA VIDOTTI  LTDA ( FILIAL) ",
+      "cnpj": "17.053.222/0003-37",
+      "pontowebId": 16
+    },
+    {
+      "razaoSocial": "GILSON SIQUEIRA CAMARGO EIRELI",
+      "nomeFantasia": "GILSON SIQUEIRA CAMARGO EIRELI",
+      "cnpj": "21.119.999/0001-62",
+      "pontowebId": 13
+    },
+    {
+      "razaoSocial": "D. V. QUIRINO LTDA",
+      "nomeFantasia": "D. V. QUIRINO LTDA",
+      "cnpj": "25.236.507/0001-70",
+      "pontowebId": 14
+    },
+    {
+      "razaoSocial": "A.A VIDOTTI EIRELI - EPP",
+      "nomeFantasia": "A.A VIDOTTI EIRELI - EPP",
+      "cnpj": "37.438.157/0001-03",
+      "pontowebId": 2
+    },
+    {
+      "razaoSocial": "K. A. V. COIADO LTDA",
+      "nomeFantasia": "K. A. V. COIADO LTDA",
+      "cnpj": "57.873.554/0001-10",
+      "pontowebId": 17
+    },
+    {
+      "razaoSocial": "Empresa Teste 2 LTDA",
+      "nomeFantasia": "Teste 2",
+      "cnpj": "98.765.432/0001-10",
+      "pontowebId": 1002
+    },
+    {
+      "razaoSocial": "PREST SERV / PRO LABORE",
+      "nomeFantasia": "PREST SERV / PRO LABORE",
+      "cnpj": "99.999.999/0001-91",
+      "pontowebId": 15
+    }
+  ]
+}

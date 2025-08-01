@@ -1,6 +1,6 @@
 import { getDatabase, schema } from "@/db";
 import { unidadesMedida } from "@/db/schemas";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface UnidadeMedidaImport {
 	id: string;
@@ -8,6 +8,7 @@ export interface UnidadeMedidaImport {
 }
 
 export const config = {
+	nomeArquivo: "unidades-medida",
 	descricaoArquivo: "Dados de unidades de medida para seed",
 	buscarItens: async () => {
 		return await getDatabase()

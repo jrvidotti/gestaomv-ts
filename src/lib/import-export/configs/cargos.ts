@@ -1,7 +1,7 @@
 import { getDatabase, schema } from "@/db";
 import { cargos } from "@/db/schemas";
 import { eq } from "drizzle-orm";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface CargoImport {
 	nome: string;
@@ -11,6 +11,7 @@ export interface CargoImport {
 }
 
 export const config = {
+	nomeArquivo: "cargos",
 	descricaoArquivo: "Dados de cargos para seed",
 	buscarItens: async () => {
 		return await getDatabase()

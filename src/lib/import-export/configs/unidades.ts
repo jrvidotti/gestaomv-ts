@@ -1,7 +1,7 @@
 import { getDatabase, schema } from "@/db";
 import { unidades } from "@/db/schemas";
 import { eq } from "drizzle-orm";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface UnidadeImport {
 	nome: string;
@@ -15,6 +15,7 @@ export interface UnidadeImport {
 }
 
 export const config = {
+	nomeArquivo: "unidades",
 	descricaoArquivo: "Dados de unidades para seed",
 	buscarItens: async () => {
 		return await getDatabase()

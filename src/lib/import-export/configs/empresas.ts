@@ -1,6 +1,6 @@
 import { getDatabase, schema } from "@/db";
 import { empresas } from "@/db/schemas";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface EmpresaImport {
 	razaoSocial: string;
@@ -10,6 +10,7 @@ export interface EmpresaImport {
 }
 
 export const config = {
+	nomeArquivo: "empresas",
 	descricaoArquivo: "Dados de empresas para seed",
 	buscarItens: async () => {
 		return await getDatabase()

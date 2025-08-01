@@ -1,7 +1,7 @@
 import { getDatabase } from "@/db";
 import { userRoles, users } from "@/db/schemas";
 import type { UserRoleType } from "@/modules/core/types";
-import type { ImportExportOptions } from ".";
+import type { ImportExportOptions } from "@/lib/import-export";
 
 export interface UserImport {
 	email: string;
@@ -11,6 +11,7 @@ export interface UserImport {
 }
 
 export const config = {
+	nomeArquivo: "users",
 	descricaoArquivo: "Dados de usuários para seed",
 	buscarItens: async () => {
 		const users = await getDatabase().query.users.findMany({

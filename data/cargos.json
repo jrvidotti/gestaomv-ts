@@ -1,0 +1,244 @@
+{
+  "metadata": {
+    "exportadoEm": "2025-07-29T17:04:57.408Z",
+    "totalRegistros": 39,
+    "versao": "1.0.0",
+    "descricao": "Dados de cargos para seed"
+  },
+  "dados": [
+    {
+      "nome": "ANALISTA DE CRÉDITO I",
+      "descricao": "ANALISTA DE CRÉDITO I",
+      "departamentoNome": "ADMINISTRATIVO",
+      "pontowebId": 17
+    },
+    {
+      "nome": "ANALISTA DE CRÉDITO II",
+      "descricao": "ANALISTA DE CRÉDITO II",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 8
+    },
+    {
+      "nome": "ANALISTA DE RH",
+      "descricao": "ANALISTA DE RH",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 29
+    },
+    {
+      "nome": "AUX. ADM. APRENDIZ",
+      "descricao": "AUX. ADM. APRENDIZ",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 3
+    },
+    {
+      "nome": "AUX. ALMOXARIFADO",
+      "descricao": "AUX. ALMOXARIFADO",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 37
+    },
+    {
+      "nome": "AUX. COMPRAS",
+      "descricao": "AUX. COMPRAS",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 4
+    },
+    {
+      "nome": "AUX. DEP. PESSOAL",
+      "descricao": "AUX. DEP. PESSOAL",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 2
+    },
+    {
+      "nome": "AUX. FISCAL I",
+      "descricao": "AUX. FISCAL I",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 43
+    },
+    {
+      "nome": "AUX. FISCAL II",
+      "descricao": "AUX. FISCAL II",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 18
+    },
+    {
+      "nome": "AUX. FISCAL III",
+      "descricao": "AUX. FISCAL III",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 9
+    },
+    {
+      "nome": "AUX. LOJA",
+      "descricao": "AUX. LOJA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 24
+    },
+    {
+      "nome": "AUX. MARKETING ",
+      "descricao": "AUX. MARKETING ",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 20
+    },
+    {
+      "nome": "AUX. SERV. GERAIS",
+      "descricao": "AUX. SERV. GERAIS",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 5
+    },
+    {
+      "nome": "AUX. T.I",
+      "descricao": "AUX. T.I",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 19
+    },
+    {
+      "nome": "AUX. VENDAS",
+      "descricao": "AUX. VENDAS",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 22
+    },
+    {
+      "nome": "AUXILIAR FINANCEIRO",
+      "descricao": "AUXILIAR FINANCEIRO",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 46
+    },
+    {
+      "nome": "COMPRADOR I",
+      "descricao": "COMPRADOR I",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 21
+    },
+    {
+      "nome": "COMPRADOR II",
+      "descricao": "COMPRADOR II",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 7
+    },
+    {
+      "nome": "COMPRADOR III",
+      "descricao": "COMPRADOR III",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 34
+    },
+    {
+      "nome": "CONFERENTE DE CAIXA",
+      "descricao": "CONFERENTE DE CAIXA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 15
+    },
+    {
+      "nome": "CREDIARISTA",
+      "descricao": "CREDIARISTA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 14
+    },
+    {
+      "nome": "DIRETOR",
+      "descricao": "DIRETOR",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 30
+    },
+    {
+      "nome": "ENCARREGADO CRÉD. E COBRANÇA",
+      "descricao": "ENCARREGADO CRÉD. E COBRANÇA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 26
+    },
+    {
+      "nome": "ENCARREGADO DEP. PESSOAL",
+      "descricao": "ENCARREGADO DEP. PESSOAL",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 27
+    },
+    {
+      "nome": "ENCARREGADO FISCAL",
+      "descricao": "ENCARREGADO FISCAL",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 12
+    },
+    {
+      "nome": "ENCARREGADO MANUTENÇÃO",
+      "descricao": "ENCARREGADO MANUTENÇÃO",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 35
+    },
+    {
+      "nome": "ESTOQUISTA",
+      "descricao": "ESTOQUISTA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 13
+    },
+    {
+      "nome": "GERENTE ADMINISTRATIVO",
+      "descricao": "GERENTE ADMINISTRATIVO",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 33
+    },
+    {
+      "nome": "GERENTE DE LOJA",
+      "descricao": "GERENTE DE LOJA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 32
+    },
+    {
+      "nome": "GERENTE FINANCEIRO",
+      "descricao": "GERENTE FINANCEIRO",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 40
+    },
+    {
+      "nome": "JOVEM APRENDIZ",
+      "descricao": "JOVEM APRENDIZ",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 45
+    },
+    {
+      "nome": "OPERADOR (A) DE CAIXA ",
+      "descricao": "OPERADOR (A) DE CAIXA ",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 11
+    },
+    {
+      "nome": "RECEPCIONISTA",
+      "descricao": "RECEPCIONISTA",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 10
+    },
+    {
+      "nome": "SERVENTE DE PEDREIRO ",
+      "descricao": "SERVENTE DE PEDREIRO ",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 38
+    },
+    {
+      "nome": "SUPERVISOR DE MARKETING",
+      "descricao": "SUPERVISOR DE MARKETING",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 31
+    },
+    {
+      "nome": "SUPERVISOR DE VENDAS I",
+      "descricao": "SUPERVISOR DE VENDAS I",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 41
+    },
+    {
+      "nome": "SUPERVISOR DE VENDAS II",
+      "descricao": "SUPERVISOR DE VENDAS II",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 23
+    },
+    {
+      "nome": "SUPERVISOR DE VISUAL MERCHANDISE",
+      "descricao": "SUPERVISOR DE VISUAL MERCHANDISE",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 39
+    },
+    {
+      "nome": "VENDEDOR",
+      "descricao": "VENDEDOR",
+      "departamentoNome": "Departamento Geral",
+      "pontowebId": 6
+    }
+  ]
+}

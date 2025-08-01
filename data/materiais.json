@@ -1,0 +1,874 @@
+{
+  "metadata": {
+    "exportadoEm": "2025-07-31T00:00:00.000Z",
+    "totalRegistros": 84,
+    "versao": "1.0.0",
+    "descricao": "Dados de materiais para seed"
+  },
+  "dados": [
+    {
+      "tipoMaterialId": "EMB_PADRAO",
+      "nome": "Sacola MV - PP",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PADRAO",
+      "nome": "Sacola MV - P",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PADRAO",
+      "nome": "Sacola MV - M",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PADRAO",
+      "nome": "Sacola MV - G",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PADRAO",
+      "nome": "Sacola MV - GG",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PRESENTE",
+      "nome": "Emb Presente PP - M3: 25x37cm",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PRESENTE",
+      "nome": "Emb Presente P - M4: 30x44cm",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PRESENTE",
+      "nome": "Emb Presente M - G1: 35x54cm",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PRESENTE",
+      "nome": "Emb Presente G - G2: 45x59cm",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_PRESENTE",
+      "nome": "Emb Presente GG: 58x89cm",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Preta - P",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Preta - M",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Preta - G",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Branca - P",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Branca - M",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "EMB_VENDA",
+      "nome": "Sacola Branca - G",
+      "unidadeMedidaId": "FD",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Açúcar",
+      "unidadeMedidaId": "KG",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Café",
+      "unidadeMedidaId": "KG",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Chá Mate",
+      "unidadeMedidaId": "KG",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Copo Plástico 200ml",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Copo Plástico 50ml",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Coador P",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_COZINHA",
+      "nome": "Coador M",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Grampo",
+      "unidadeMedidaId": "CX",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Fix Pin Antifurto Pino Tag 40mm",
+      "unidadeMedidaId": "CX",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Trava Anel 450mm",
+      "unidadeMedidaId": "CX",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Capa de Carnê",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bobina Termica - Bematech",
+      "unidadeMedidaId": "RL",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta de Promoção",
+      "unidadeMedidaId": "RL",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta Troca",
+      "unidadeMedidaId": "RL",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta Presente",
+      "unidadeMedidaId": "RL",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta de Preço",
+      "unidadeMedidaId": "RM",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta Vitrine",
+      "unidadeMedidaId": "RM",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Etiqueta Perfume",
+      "unidadeMedidaId": "RM",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Placa de Acrilico / Fechado",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caderno Grande / Folga",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Tinta p/ Carimbo",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Apontador",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Borracha",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Lápis",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caneta",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caneta Marca-texto",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caneta p/Vitrine Preta",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Pincel Atômico",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Corretivo Liquido",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Grampeador",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Calculadora",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caderno",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Caixa Arquivo",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Papel Sulfite A4",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Envelope Plastico",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Pasta Elastica",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Cola Branca",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Adesivo Instantâneo",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Aplicador Cola Quente",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bastão de Cola Quente",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Cartão Visita",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bloco de Nota Promissória",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bloco de Recibo",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bloco de Orçamento",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bloco de Transferência",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bloco de Confronto",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Carbono",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Bobina Biométrica - Ponto",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Agulha p/ Aplicador Tag",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Aplicador Tag",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Estilete",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Lamina",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Fita Larga 48x100mm",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Barbante (M)",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Linha de Anzol",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Fitilhos",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Laço",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Suporte Durex",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Fita Adesiva 12x40mm",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_ESCRITORIO",
+      "nome": "Tesoura",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Cesto P/ Lixo",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Saco de lixo (tamanho P)",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Papel Higienico",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Papel Toalha",
+      "unidadeMedidaId": "PCT",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Agua Sanitária",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Álcool",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Desinfetante",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Detergente",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Escova de Lavar Roupa",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Esponja Dupla Face",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Flanela",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Inseticida",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Limpa Vidro",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Limpador Multiuso",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Luva M",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Luva G",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Pá",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Palha de aço",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Vasoura",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    },
+    {
+      "tipoMaterialId": "MAT_LIMPEZA",
+      "nome": "Bom ar",
+      "unidadeMedidaId": "UN",
+      "descricao": "",
+      "valorUnitario": 0,
+      "foto": "",
+      "ativo": true
+    }
+  ]
+}

@@ -15,22 +15,24 @@ export interface ArquivoSeed<T> {
 }
 
 export interface ResultImportacao {
-	nomeArquivo?: string;
+	nomeArquivo: string;
 	importados: number;
 	ignorados: number;
 	erros: number;
 	timestamp?: string;
+	tempoMs?: number;
 	arquivoEncontrado: boolean;
 }
 
 export interface ResultExportacao {
-	nomeArquivo?: string;
+	nomeArquivo: string;
 	exportados: number;
 	timestamp?: string;
+	tempoMs?: number;
 }
 
 export interface ImportExportOptions<T> {
-	nomeArquivo?: string;
+	nomeArquivo: string;
 	descricaoArquivo: string;
 	buscarItens: () => Promise<T[]>;
 	importarItem: (item: T) => Promise<boolean>;
@@ -116,51 +118,28 @@ export class ImportExport<T> {
 	}
 }
 
-export const tabelasDisponiveis = [
-	"users",
-	"tipos-material",
-	"unidades-medida",
-	"consultas-cpf",
-	"empresas",
-	"unidades",
-	"departamentos",
-	"equipes",
-	"cargos",
-	"materiais",
-];
-
-export async function executaOperacao(
-	tabelas: string[],
-	operacao: "importar" | "exportar",
-) {
-	const configs: ImportExportOptions<never>[] = [];
-
-	for (const tabela of tabelas) {
-		try {
-			const { config } = (await import(`./${tabela}`)) as {
-				config: ImportExportOptions<never>;
-			};
-			configs.push({ ...config, nomeArquivo: tabela });
-		} catch (error) {
-			console.error(`Erro ao importar config de ${tabela}:`, error);
-		}
-	}
-
-	return Promise.all(
-		configs.map(async (importExportConfig) => {
-			const importador = new ImportExport(importExportConfig);
-			const caminhoArquivo = join(
-				env.DATAFILES_PATH,
-				`${importExportConfig.nomeArquivo}.json`,
-			);
-			const result =
-				operacao === "importar"
-					? await importador.importar(caminhoArquivo)
-					: await importador.exportar(caminhoArquivo);
-			return {
-				...result,
-				timestamp: new Date().toISOString(),
-			};
-		}),
-	);
+export async function executaImportacao<T>(config: ImportExportOptions<T>) {
+	const startTime = Date.now();
+	const importador = new ImportExport(config);
+	const caminhoArquivo = join(env.DATAFILES_PATH, `${config.nomeArquivo}.json`);
+	const result = await importador.importar(caminhoArquivo);
+	return {
+		...result,
+		timestamp: new Date().toISOString(),
+		tempoMs: Date.now() - startTime,
+	};
 }
+
+export async function executaExportacao<T>(config: ImportExportOptions<T>) {
+	const startTime = Date.now();
+	const exportador = new ImportExport(config);
+	const caminhoArquivo = join(env.DATAFILES_PATH, `${config.nomeArquivo}.json`);
+	const result = await exportador.exportar(caminhoArquivo);
+	return {
+		...result,
+		timestamp: new Date().toISOString(),
+		tempoMs: Date.now() - startTime,
+	};
+}
+
+export * from "./configs";
