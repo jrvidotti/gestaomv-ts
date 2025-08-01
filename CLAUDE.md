@@ -79,4 +79,11 @@ Cada pacote em `/packages/` é uma biblioteca independente com:
 
 ## Boas Práticas de Desenvolvimento
 
-- utilize TanStack Query, Form, Store e Table sempre que possivel
+Utilize sempre que possível:
+
+- **TanStack Query**: gerenciamento e sincronização de estado do servidor
+- **TanStack Form** com **Zod**: construção e validação de formulários. Não utilize react-hook-form.
+- **TanStack Store**: gerenciamento de estado
+- **TanStack Table**: construção de tabelas complexas e personalizáveis
+- **TanStack Router**: roteamento baseado em arquivos
+- **Shadcn**: componentes de UI

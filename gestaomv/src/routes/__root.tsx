@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import Header from "../components/Header";
 import { AuthProvider } from "../hooks/use-auth";
 
 import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
@@ -17,6 +16,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import type { TRPCRouter } from "@/integrations/trpc/router";
 import type { AuthUser } from "@/lib/auth";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
+import { Toaster } from "sonner";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -61,6 +61,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<AuthProvider>
 					{/* <Header /> */}
 					{children}
+					<Toaster
+						position="top-right"
+						expand={false}
+						richColors
+						closeButton
+						duration={2000}
+					/>
+					;
 					<TanStackRouterDevtools />
 					<TanStackQueryLayout />
 				</AuthProvider>
