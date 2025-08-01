@@ -6,6 +6,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import Header from "../components/Header";
+import { AuthProvider } from "../hooks/use-auth";
 
 import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
 
@@ -14,8 +15,8 @@ import appCss from "../styles.css?url";
 import type { QueryClient } from "@tanstack/react-query";
 
 import type { TRPCRouter } from "@/integrations/trpc/router";
-import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import type { AuthUser } from "@/lib/auth";
+import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
@@ -52,15 +53,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="pt-BR">
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<Header />
-				{children}
-				<TanStackRouterDevtools />
-				<TanStackQueryLayout />
+				<AuthProvider>
+					{/* <Header /> */}
+					{children}
+					<TanStackRouterDevtools />
+					<TanStackQueryLayout />
+				</AuthProvider>
 				<Scripts />
 			</body>
 		</html>

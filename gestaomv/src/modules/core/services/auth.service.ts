@@ -2,10 +2,10 @@ import { env } from "@/env";
 import type {
 	AddUserRoleDto,
 	AuthResponse,
-	LoginDto,
+	EmailLoginDto,
 	RegisterDto,
 	RemoveUserRoleDto,
-	TagOneAuthLoginDto,
+	TagoneLoginDto,
 } from "@/modules/core/dtos";
 import { EmailService } from "@/modules/core/services/email.service";
 import { NotificationsService } from "@/modules/core/services/notifications.service";
@@ -57,7 +57,7 @@ export class AuthService {
 		return null;
 	}
 
-	async login(loginDto: LoginDto): Promise<AuthResponse> {
+	async login(loginDto: EmailLoginDto): Promise<AuthResponse> {
 		const user = await this.validateUser(loginDto.email, loginDto.password);
 		if (!user) {
 			throw new Error("Credenciais inválidas");
@@ -136,11 +136,11 @@ export class AuthService {
 		return await this.usersService.findOne(userId);
 	}
 
-	async loginWithTagOne(loginDto: TagOneAuthLoginDto): Promise<AuthResponse> {
+	async loginWithTagOne(loginDto: TagoneLoginDto): Promise<AuthResponse> {
 		// Tentar fazer login no TagOne
 		const tagoneResult = await this.tagoneService.loginWithTagOne(
-			loginDto.username,
-			loginDto.password,
+			loginDto.usuarioTagone,
+			loginDto.senha,
 		);
 
 		if (!tagoneResult) {
@@ -174,8 +174,9 @@ export class AuthService {
 			"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
 		] as string;
 
-		let emailToUse = `${loginDto.username}@tagone.local`; // Email padrão
-		const nameToUse = tagoneFullName || tagoneUserName || loginDto.username; // Nome preferencial
+		let emailToUse = `${loginDto.usuarioTagone}@tagone.local`; // Email padrão
+		const nameToUse =
+			tagoneFullName || tagoneUserName || loginDto.usuarioTagone; // Nome preferencial
 
 		if (tagoneEmail && this.isValidEmail(tagoneEmail)) {
 			// Se existe usuário com este e-mail, verificar se já tem userTagone
@@ -184,7 +185,7 @@ export class AuthService {
 			if (existingEmailUser && existingEmailUser.authProvider !== "tagone") {
 				// Verificar se este usuário já conectou ao TagOne
 				const existingTagoneConnection =
-					await this.usersService.findByTagOneUsername(loginDto.username);
+					await this.usersService.findByTagOneUsername(loginDto.usuarioTagone);
 				if (
 					!existingTagoneConnection ||
 					existingTagoneConnection.id !== existingEmailUser.id
@@ -199,7 +200,7 @@ export class AuthService {
 
 		// Buscar usuário existente com este username TagOne
 		const existingTagoneUser = await this.usersService.findByTagOneUsername(
-			loginDto.username,
+			loginDto.usuarioTagone,
 		);
 
 		let user: User;
@@ -210,8 +211,8 @@ export class AuthService {
 
 			// Atualizar ou criar registro TagOne
 			await this.tagoneService.loginAndSaveTagOne(user.id, {
-				usuarioTagone: loginDto.username,
-				senha: loginDto.password,
+				usuarioTagone: loginDto.usuarioTagone,
+				senha: loginDto.senha,
 			});
 		} else {
 			// Criar novo usuário
@@ -226,8 +227,8 @@ export class AuthService {
 
 			// Criar registro TagOne
 			await this.tagoneService.loginAndSaveTagOne(user.id, {
-				usuarioTagone: loginDto.username,
-				senha: loginDto.password,
+				usuarioTagone: loginDto.usuarioTagone,
+				senha: loginDto.senha,
 			});
 		}
 

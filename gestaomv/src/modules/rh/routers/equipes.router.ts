@@ -14,11 +14,9 @@ const equipesService = new EquipesService();
 const equipeFuncionariosService = new EquipeFuncionariosService();
 
 export const equipesRouter = {
-	criar: adminProcedure
-		.input(criarEquipeSchema)
-		.mutation(async ({ input }) => {
-			return await equipesService.criarEquipe(input);
-		}),
+	criar: adminProcedure.input(criarEquipeSchema).mutation(async ({ input }) => {
+		return await equipesService.criarEquipe(input);
+	}),
 
 	listar: protectedProcedure
 		.input(filtrosEquipesSchema)

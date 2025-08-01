@@ -11,11 +11,9 @@ import z from "zod";
 const cargosService = new CargosService();
 
 export const cargosRouter = {
-	criar: adminProcedure
-		.input(criarCargoSchema)
-		.mutation(async ({ input }) => {
-			return await cargosService.criarCargo(input);
-		}),
+	criar: adminProcedure.input(criarCargoSchema).mutation(async ({ input }) => {
+		return await cargosService.criarCargo(input);
+	}),
 
 	listar: protectedProcedure
 		.input(filtrosCargosSchema)

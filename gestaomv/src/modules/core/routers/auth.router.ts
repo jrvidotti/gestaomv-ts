@@ -6,11 +6,11 @@ import {
 import {
 	addUserRoleSchema,
 	changePasswordSchema,
+	emailLoginSchema,
 	getUserRolesSchema,
-	loginSchema,
 	registerSchema,
 	removeUserRoleSchema,
-	tagoneAuthLoginSchema,
+	tagoneLoginSchema,
 } from "@/modules/core/dtos";
 import { AuthService } from "@/modules/core/services/auth.service";
 import { UsersService } from "@/modules/core/services/users.service";
@@ -20,12 +20,12 @@ const authService = new AuthService();
 const usersService = new UsersService();
 
 export const authRouter = {
-	login: publicProcedure.input(loginSchema).mutation(async ({ input }) => {
+	login: publicProcedure.input(emailLoginSchema).mutation(async ({ input }) => {
 		return authService.login(input);
 	}),
 
 	loginWithTagOne: publicProcedure
-		.input(tagoneAuthLoginSchema)
+		.input(tagoneLoginSchema)
 		.mutation(async ({ input }) => {
 			return authService.loginWithTagOne(input);
 		}),

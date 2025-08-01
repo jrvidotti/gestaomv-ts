@@ -76,3 +76,7 @@ Cada pacote em `/packages/` é uma biblioteca independente com:
 2. **Desenvolvimento local**: `yarn dev` executa a aplicação principal
 3. **Build completo**: `yarn build:packages && yarn build` constrói pacotes e aplicação
 4. **Banco de dados**: Execute `yarn db:migrate && yarn db:seed` para setup inicial
+
+## Boas Práticas de Desenvolvimento
+
+- utilize TanStack Query, Form, Store e Table sempre que possivel
