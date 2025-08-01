@@ -1,11 +1,8 @@
 import guitars from "@/data/example-guitars";
 import { env } from "@/env";
-import { authRouter } from "@/modules/core/routers/auth.router";
-import { configuracoesRouter } from "@/modules/core/routers/configuracoes.router";
-import { empresasRouter } from "@/modules/core/routers/empresas.router";
-import { tagoneRouter } from "@/modules/core/routers/tagone.router";
-import { unidadesRouter } from "@/modules/core/routers/unidades.router";
-import { usersRouter } from "@/modules/core/routers/users.router";
+import { almoxarifadoRouter } from "@/modules/almoxarifado/routers/almoxarifado.router";
+import { coreRouter } from "@/modules/core/routers/core.router";
+import { rhRouter } from "@/modules/rh/routers/rh.router";
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "./init";
@@ -38,17 +35,13 @@ const guitarsRouter = {
 } satisfies TRPCRouterRecord;
 
 export const trpcRouter = createTRPCRouter({
+	...coreRouter,
+	rh: rhRouter,
+	almoxarifado: almoxarifadoRouter,
+
 	// demo routers
 	todos: todosRouter,
 	guitars: guitarsRouter,
-
-	// core routers
-	auth: authRouter,
-	tagone: tagoneRouter,
-	configuracoes: configuracoesRouter,
-	users: usersRouter,
-	unidades: unidadesRouter,
-	empresas: empresasRouter,
 });
 
 export type TRPCRouter = typeof trpcRouter;

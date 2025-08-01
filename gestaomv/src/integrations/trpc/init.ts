@@ -59,3 +59,30 @@ export const adminProcedure = t.procedure
 			},
 		});
 	});
+
+// Novo: Procedimento que verifica se o usuário tem pelo menos uma das roles especificadas
+export const createRoleProcedure = (allowedRoles: string[]) => {
+	return t.procedure.use(({ ctx, next }) => {
+		if (!ctx.user) {
+			throw new TRPCError({
+				code: "UNAUTHORIZED",
+				message: "Acesso negado. Token de autenticação necessário.",
+			});
+		}
+
+		const hasRole = ctx.user.roles.some((role) => allowedRoles.includes(role));
+
+		if (!hasRole) {
+			throw new TRPCError({
+				code: "FORBIDDEN",
+				message: `Acesso negado. Permissões necessárias: ${allowedRoles.join(", ")}.`,
+			});
+		}
+
+		return next({
+			ctx: {
+				user: ctx.user,
+			},
+		});
+	});
+};

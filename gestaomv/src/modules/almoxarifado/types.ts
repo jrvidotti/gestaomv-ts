@@ -9,3 +9,14 @@ export type TipoMaterial = typeof tiposMaterial.$inferSelect;
 export type UnidadeMedida = typeof unidadesMedida.$inferSelect;
 
 export type Material = typeof materiais.$inferSelect;
+
+export type TopMaterialResult = {
+	materialId: number;
+	materialNome: string;
+	materialTipo: string;
+	valorUnitario: number;
+	totalSolicitado: number;
+	totalAtendido: number;
+	valorTotal: number;
+	numeroSolicitacoes: number;
+};

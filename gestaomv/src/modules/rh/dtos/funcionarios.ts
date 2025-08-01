@@ -188,7 +188,7 @@ export type AlterarStatusFuncionarioData = z.infer<
 export type CriarUserFuncionarioData = z.infer<
 	typeof criarUserFuncionarioSchema
 >;
-export type AdicionarFuncionarioEquipeData = z.infer<
+export type CriarEquipeFuncionarioData = z.infer<
 	typeof adicionarFuncionarioEquipeSchema
 >;
 export type AtualizarEquipeFuncionarioData = z.infer<
