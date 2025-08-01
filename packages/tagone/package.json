@@ -2,6 +2,7 @@
   "name": "@movelabs/tagone",
   "version": "1.0.1",
   "description": "Cliente para integração com a API do ERP TagOne",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

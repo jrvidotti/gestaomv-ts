@@ -2,6 +2,7 @@
   "name": "@movelabs/api-direct-data",
   "version": "1.0.2",
   "description": "Cliente TypeScript para a API de consulta de dados da Direct Data.",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

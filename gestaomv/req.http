@@ -1,0 +1,15 @@
+# Login
+# @name login
+POST http://localhost:3000/api/trpc/auth.login 
+Content-Type: application/json
+
+{
+    "json": {
+        "email": "jrvidotti@gmail.com",
+        "password": "junior123"
+    }
+}
+### 
+GET http://localhost:3000/api/trpc/auth.profile
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.result.data.json.access_token}}

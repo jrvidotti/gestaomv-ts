@@ -1,10 +1,11 @@
-import { tagoneLoginSchema } from "@/shared";
-import { TagoneService } from "../tagone.service";
-import { protectedProcedure, t } from "../trpc/context";
+import { protectedProcedure } from "@/integrations/trpc/init";
+import { tagoneLoginSchema } from "@/modules/core/dtos";
+import type { TRPCRouterRecord } from "@trpc/server";
+import { TagoneService } from "../services/tagone.service";
 
 const tagoneService = new TagoneService();
 
-export const tagoneRouter = t.router({
+export const tagoneRouter = {
 	login: protectedProcedure
 		.input(tagoneLoginSchema)
 		.mutation(async ({ input, ctx }) => {
@@ -22,4 +23,4 @@ export const tagoneRouter = t.router({
 	getUserTagOne: protectedProcedure.query(async ({ ctx }) => {
 		return tagoneService.getUserTagOne(ctx.user.id);
 	}),
-});
+} satisfies TRPCRouterRecord;

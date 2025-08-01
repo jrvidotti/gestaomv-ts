@@ -37,6 +37,7 @@ export const authRouter = {
 		}),
 
 	profile: protectedProcedure.query(async ({ ctx }) => {
+		console.log("ctx.user", ctx.user);
 		return authService.getUserWithRoles(ctx.user.id);
 	}),
 

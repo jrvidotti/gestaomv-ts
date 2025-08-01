@@ -21,7 +21,7 @@ interface MyRouterContext {
 	queryClient: QueryClient;
 
 	trpc: TRPCOptionsProxy<TRPCRouter>;
-	
+
 	user: AuthUser | null;
 }
 

@@ -8,7 +8,7 @@
 		"start": "yarn workspace @gestaomv/app start",
 		"test": "yarn workspace @gestaomv/app test",
 		"lint": "yarn workspace @gestaomv/app lint",
-		"format": "yarn workspace @gestaomv/app format",
+		"format": "yarn workspace @gestaomv/app format --write",
 		"check": "yarn workspace @gestaomv/app check",
 		"db:generate": "yarn workspace @gestaomv/app db:generate",
 		"db:migrate": "yarn workspace @gestaomv/app db:migrate",

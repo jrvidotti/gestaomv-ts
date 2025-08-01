@@ -20,4 +20,4 @@ export {
 	equipesConfig,
 	cargosConfig,
 	materiaisConfig,
-}
+};

@@ -13,13 +13,13 @@ export const getUserFromToken = (token: string): AuthUser | null => {
 			token,
 			process.env.JWT_SECRET || "your-secret-key",
 		) as {
-			id: number;
+			sub: string;
 			email: string;
 			roles: UserRoleType[];
 		};
 
 		return {
-			id: decoded.id,
+			id: Number.parseInt(decoded.sub, 10),
 			email: decoded.email,
 			roles: decoded.roles || [],
 		};

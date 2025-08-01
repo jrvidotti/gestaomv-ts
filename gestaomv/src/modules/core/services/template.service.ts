@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as Handlebars from "handlebars";
+import { fileURLToPath } from "node:url";
+import Handlebars from "handlebars";
 
 export interface WelcomeEmailData {
 	name: string;
@@ -40,6 +41,8 @@ export class TemplateService {
 	private readonly templatesPath: string;
 
 	constructor() {
+		const __filename = fileURLToPath(import.meta.url);
+		const __dirname = path.dirname(__filename);
 		this.templatesPath = path.join(__dirname, "templates");
 		this.registerHelpers();
 	}
