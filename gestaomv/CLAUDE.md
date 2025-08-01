@@ -55,6 +55,7 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
   - `dtos/` - Esquemas de validação de entrada/saída Zod
   - `types/` - Definições de tipos TypeScript
   - `services/` - Serviços de lógica de negócio
+  - `routers/` - Rotas de API tRPC em `src/integrations/trpc/` com estrutura de roteador modular
 - **Módulos**: `core`, `almoxarifado` (estoque), `rh` (recursos humanos)
 - **Banco de Dados**: Esquemas centralizados em `src/db/schemas.ts` que re-exporta todos os esquemas dos módulos
 - **Integração tRPC**: Rotas de API em `src/integrations/trpc/` com estrutura de roteador modular

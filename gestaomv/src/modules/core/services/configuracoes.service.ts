@@ -5,12 +5,8 @@ import { settings } from "../schemas";
 import type { Configuracao } from "../types";
 
 export class ConfiguracoesService {
-	private get db() {
-		return db;
-	}
-
 	async getSetting(key: string): Promise<Configuracao | undefined> {
-		const result = await this.db
+		const result = await db
 			.select()
 			.from(settings)
 			.where(eq(settings.key, key))
@@ -19,7 +15,7 @@ export class ConfiguracoesService {
 	}
 
 	async getSettingsByCategory(category: string): Promise<Configuracao[]> {
-		return await this.db
+		return await db
 			.select()
 			.from(settings)
 			.where(eq(settings.category, category));
@@ -34,7 +30,7 @@ export class ConfiguracoesService {
 
 		if (existingSetting) {
 			// Atualizar configuração existente
-			const [updated] = await this.db
+			const [updated] = await db
 				.update(settings)
 				.set({
 					value,
@@ -46,7 +42,7 @@ export class ConfiguracoesService {
 			return updated;
 		}
 		// Criar nova configuração
-		const [created] = await this.db
+		const [created] = await db
 			.insert(settings)
 			.values({
 				key,

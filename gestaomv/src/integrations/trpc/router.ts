@@ -1,17 +1,18 @@
-import { z } from "zod";
-
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "./init";
-
 import guitars from "@/data/example-guitars";
 import { env } from "@/env";
+import { authRouter } from "@/modules/core/routers/auth.router";
 import type { TRPCRouterRecord } from "@trpc/server";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "./init";
 
+// remover
 const todos = [
 	{ id: 1, name: "Get groceries" },
 	{ id: 2, name: "Buy a new phone" },
 	{ id: 3, name: "Finish the project" },
 ];
 
+// remover
 const todosRouter = {
 	list: publicProcedure.query(() => todos),
 	add: publicProcedure
@@ -23,20 +24,11 @@ const todosRouter = {
 		}),
 } satisfies TRPCRouterRecord;
 
+// remover
 const guitarsRouter = {
 	list: publicProcedure.query(() => {
 		console.log("SERVER_URL", env.SERVER_URL);
 		return guitars;
-	}),
-} satisfies TRPCRouterRecord;
-
-const authRouter = {
-	me: protectedProcedure.query(({ ctx }) => {
-		return {
-			id: ctx.user.id,
-			email: ctx.user.email,
-			roles: ctx.user.roles,
-		};
 	}),
 } satisfies TRPCRouterRecord;
 

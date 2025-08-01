@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import type {
 	AddUserRoleDto,
 	AuthResponse,
@@ -7,24 +8,22 @@ import type {
 	TagOneAuthLoginDto,
 } from "@/modules/core/dtos";
 import { EmailService } from "@/modules/core/services/email.service";
+import { NotificationsService } from "@/modules/core/services/notifications.service";
+import { TagoneService } from "@/modules/core/services/tagone.service";
 import { UsersService } from "@/modules/core/services/users.service";
 import type { User, UserRoleType } from "@/modules/core/types";
 import { TRPCError } from "@trpc/server";
 import type { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export class AuthService {
 	private usersService: UsersService;
-	private jwtService: JwtService;
 	private emailService: EmailService;
 	private tagoneService: TagoneService;
 	private notificationsService: NotificationsService;
 
 	constructor() {
 		this.usersService = new UsersService();
-		this.jwtService = new JwtService({
-			secret: config.jwt.secret,
-			signOptions: { expiresIn: config.jwt.expiresIn },
-		});
 		this.emailService = new EmailService();
 		this.tagoneService = new TagoneService();
 		this.notificationsService = new NotificationsService();
@@ -35,11 +34,22 @@ export class AuthService {
 		return emailRegex.test(email);
 	}
 
+	static generateAccessToken(user: User) {
+		const payload: JwtPayload = {
+			email: user.email,
+			sub: user.id.toString(),
+			roles: user.roles,
+		};
+		const access_token = jwt.sign(payload, env.JWT_SECRET, {
+			expiresIn: "30d",
+		});
+		return access_token;
+	}
+
 	async validateUser(email: string, password: string): Promise<User | null> {
 		const user = await this.usersService.findByEmail(email);
 		if (
-			user &&
-			user.password &&
+			user?.password &&
 			(await this.usersService.validatePassword(password, user.password))
 		) {
 			return user;
@@ -53,9 +63,7 @@ export class AuthService {
 			throw new Error("Credenciais inválidas");
 		}
 
-		const roles = await this.usersService.getUserRoles(user.id);
-		const payload: JwtPayload = { email: user.email, sub: user.id, roles };
-		const access_token = this.jwtService.sign(payload);
+		const access_token = AuthService.generateAccessToken(user);
 
 		const { password, ...userWithoutPassword } = user;
 
@@ -68,13 +76,11 @@ export class AuthService {
 	async register(registerDto: RegisterDto): Promise<AuthResponse> {
 		const existingUser = await this.usersService.findByEmail(registerDto.email);
 		if (existingUser) {
-			throw new UnauthorizedException("Email já está em uso");
+			throw new Error("Email já está em uso");
 		}
 
 		const user = await this.usersService.create(registerDto);
-		const roles = await this.usersService.getUserRoles(user.id);
-		const payload: JwtPayload = { email: user.email, sub: user.id, roles };
-		const access_token = this.jwtService.sign(payload);
+		const access_token = AuthService.generateAccessToken(user);
 
 		// Enviar e-mail de boas-vindas de forma assíncrona
 		// Não aguardar para não bloquear o registro em caso de erro
@@ -184,9 +190,7 @@ export class AuthService {
 					existingTagoneConnection.id !== existingEmailUser.id
 				) {
 					throw new Error(
-						`Já existe um usuário cadastrado com o e-mail ${tagoneEmail}. ` +
-							"Para conectar sua conta ao TagOne, faça login com seu e-mail e senha, " +
-							"depois acesse a página do Perfil para conectar ao TagOne.",
+						`Já existe um usuário cadastrado com o e-mail ${tagoneEmail}. Para conectar sua conta ao TagOne, faça login com seu e-mail e senha, depois acesse a página do Perfil para conectar ao TagOne.`,
 					);
 				}
 			}
@@ -227,9 +231,7 @@ export class AuthService {
 			});
 		}
 
-		const roles = await this.usersService.getUserRoles(user.id);
-		const payload: JwtPayload = { email: user.email, sub: user.id, roles };
-		const access_token = this.jwtService.sign(payload);
+		const access_token = AuthService.generateAccessToken(user);
 
 		const { password, ...userWithoutPassword } = user;
 

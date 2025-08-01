@@ -1,4 +1,9 @@
 import {
+	adminProcedure,
+	protectedProcedure,
+	publicProcedure,
+} from "@/integrations/trpc/init";
+import {
 	addUserRoleSchema,
 	changePasswordSchema,
 	getUserRolesSchema,
@@ -6,20 +11,15 @@ import {
 	registerSchema,
 	removeUserRoleSchema,
 	tagoneAuthLoginSchema,
-} from "@/shared";
-import { AuthService } from "../auth.service";
-import { UsersService } from "../base/users.service";
-import {
-	adminProcedure,
-	protectedProcedure,
-	publicProcedure,
-	t,
-} from "../trpc/context";
+} from "@/modules/core/dtos";
+import { AuthService } from "@/modules/core/services/auth.service";
+import { UsersService } from "@/modules/core/services/users.service";
+import type { TRPCRouterRecord } from "@trpc/server";
 
 const authService = new AuthService();
 const usersService = new UsersService();
 
-export const authRouter = t.router({
+export const authRouter = {
 	login: publicProcedure.input(loginSchema).mutation(async ({ input }) => {
 		return authService.login(input);
 	}),
@@ -75,4 +75,4 @@ export const authRouter = t.router({
 			});
 			return { message: "Senha alterada com sucesso" };
 		}),
-});
+} satisfies TRPCRouterRecord;

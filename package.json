@@ -1,26 +1,23 @@
 {
-  "name": "gestaomv-workspace",
-  "private": true,
-  "workspaces": [
-    "gestaomv",
-    "packages/*"
-  ],
-  "scripts": {
-    "dev": "yarn workspace @gestaomv/app dev",
-    "build": "yarn workspace @gestaomv/app build",
-    "start": "yarn workspace @gestaomv/app start",
-    "test": "yarn workspace @gestaomv/app test",
-    "lint": "yarn workspace @gestaomv/app lint",
-    "format": "yarn workspace @gestaomv/app format",
-    "check": "yarn workspace @gestaomv/app check",
-    "db:generate": "yarn workspace @gestaomv/app db:generate",
-    "db:migrate": "yarn workspace @gestaomv/app db:migrate",
-    "db:seed": "yarn workspace @gestaomv/app db:seed",
-    "build:packages": "yarn workspaces foreach -A run build",
-    "clean": "yarn workspaces foreach -A run clean"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.2"
-  },
-  "packageManager": "yarn@1.22.22"
+	"name": "gestaomv-workspace",
+	"private": true,
+	"workspaces": ["gestaomv", "packages/*"],
+	"scripts": {
+		"dev": "yarn workspace @gestaomv/app dev",
+		"build": "yarn workspace @gestaomv/app build",
+		"start": "yarn workspace @gestaomv/app start",
+		"test": "yarn workspace @gestaomv/app test",
+		"lint": "yarn workspace @gestaomv/app lint",
+		"format": "yarn workspace @gestaomv/app format",
+		"check": "yarn workspace @gestaomv/app check",
+		"db:generate": "yarn workspace @gestaomv/app db:generate",
+		"db:migrate": "yarn workspace @gestaomv/app db:migrate",
+		"db:seed": "yarn workspace @gestaomv/app db:seed",
+		"build:packages": "yarn workspace @movelabs/api-direct-data build && yarn workspace @movelabs/pix-sicoob build && yarn workspace @movelabs/pontoweb build && yarn workspace @movelabs/tagone build",
+		"clean": "yarn workspace @movelabs/api-direct-data clean && yarn workspace @movelabs/pix-sicoob clean && yarn workspace @movelabs/pontoweb clean && yarn workspace @movelabs/tagone clean"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.2"
+	},
+	"packageManager": "yarn@1.22.22"
 }
