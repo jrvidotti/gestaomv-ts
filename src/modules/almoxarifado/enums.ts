@@ -1,0 +1,12 @@
+export const STATUS_SOLICITACAO = {
+	PENDENTE: "PENDENTE",
+	APROVADA: "APROVADA",
+	REJEITADA: "REJEITADA",
+	CANCELADA: "CANCELADA",
+	ATENDIDA: "ATENDIDA",
+} as const;
+
+export const STATUS_SOLICITACAO_ARRAY = Object.values(STATUS_SOLICITACAO) as [
+	string,
+	...string[],
+];

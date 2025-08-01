@@ -1,0 +1,22 @@
+{
+  "projectName": "gestaomv-ts",
+  "mode": "file-router",
+  "typescript": true,
+  "tailwind": true,
+  "packageManager": "yarn",
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "biome",
+    "start",
+    "form",
+    "table",
+    "tanstack-query",
+    "tRPC",
+    "t3env",
+    "shadcn",
+    "tanchat",
+    "store"
+  ]
+}
