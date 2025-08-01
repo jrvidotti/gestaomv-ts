@@ -1,7 +1,7 @@
 import { AlertTriangle, ArrowLeft, Home } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { usePermissions } from '@/hooks/use-permissions';
 
 interface UnauthorizedProps {
@@ -21,7 +21,7 @@ export function Unauthorized({
   const { getAccessibleModules } = usePermissions();
 
   const handleBackClick = () => {
-    router.back();
+    router.history.back();
   };
 
   const handleHomeClick = () => {
@@ -31,10 +31,10 @@ export function Unauthorized({
     if (accessibleModules.length > 0) {
       // Usar o primeiro módulo acessível
       const targetModule = accessibleModules[0];
-      router.push(targetModule.url);
+      router.navigate({ to: targetModule.url });
     } else {
       // Se não tem acesso a nenhum módulo, ir para /admin
-      router.push('/admin');
+      router.navigate({ to: '/admin' });
     }
   };
 

@@ -1,7 +1,4 @@
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { setLastAccessedModule } from "@/lib/last-accessed-module";
-import { MODULES, ModuleType } from "@/shared";
 
 /**
  * Hook para rastrear automaticamente a navegação entre módulos

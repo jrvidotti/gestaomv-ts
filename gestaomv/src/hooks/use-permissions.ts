@@ -1,6 +1,6 @@
-import { useAuth } from "@/contexts/auth-context";
-import { MODULES_DATA, ModuleType, MODULES } from "@/shared";
-import { USER_ROLES } from "@/shared";
+import { useAuth } from "@/hooks/use-auth";
+import { MODULES_DATA, type ModuleType, MODULES } from "@/constants";
+import { USER_ROLES } from "@/modules/core/enums";
 
 interface UsePermissionsReturn {
 	canAccessModule: (moduleId: ModuleType) => boolean;

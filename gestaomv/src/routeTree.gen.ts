@@ -18,11 +18,22 @@ import { Route as DemoTableRouteImport } from './routes/demo.table'
 import { Route as DemoStoreRouteImport } from './routes/demo.store'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
 import { Route as ExampleGuitarsIndexRouteImport } from './routes/example.guitars/index'
+import { Route as AdminCoreIndexRouteImport } from './routes/admin/core/index'
 import { Route as ExampleGuitarsGuitarIdRouteImport } from './routes/example.guitars/$guitarId'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo.start.api-request'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo.form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
+import { Route as AdminCoreConfiguracoesRouteImport } from './routes/admin/core/configuracoes'
+import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/users/index'
+import { Route as AdminCoreUnidadesIndexRouteImport } from './routes/admin/core/unidades/index'
+import { Route as AdminCoreEmpresasIndexRouteImport } from './routes/admin/core/empresas/index'
+import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
+import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
+import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
+import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id.edit'
+import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
+import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
 import { ServerRoute as ApiDemoTqTodosServerRouteImport } from './routes/api.demo-tq-todos'
 import { ServerRoute as ApiDemoNamesServerRouteImport } from './routes/api.demo-names'
 import { ServerRoute as ApiTrpcSplatServerRouteImport } from './routes/api.trpc.$'
@@ -64,6 +75,11 @@ const ExampleGuitarsIndexRoute = ExampleGuitarsIndexRouteImport.update({
   path: '/example/guitars/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCoreIndexRoute = AdminCoreIndexRouteImport.update({
+  id: '/admin/core/',
+  path: '/admin/core/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExampleGuitarsGuitarIdRoute = ExampleGuitarsGuitarIdRouteImport.update({
   id: '/example/guitars/$guitarId',
   path: '/example/guitars/$guitarId',
@@ -89,6 +105,56 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   path: '/demo/form/address',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCoreConfiguracoesRoute = AdminCoreConfiguracoesRouteImport.update({
+  id: '/admin/core/configuracoes',
+  path: '/admin/core/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUsersIndexRoute = AdminCoreUsersIndexRouteImport.update({
+  id: '/admin/core/users/',
+  path: '/admin/core/users/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUnidadesIndexRoute = AdminCoreUnidadesIndexRouteImport.update({
+  id: '/admin/core/unidades/',
+  path: '/admin/core/unidades/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreEmpresasIndexRoute = AdminCoreEmpresasIndexRouteImport.update({
+  id: '/admin/core/empresas/',
+  path: '/admin/core/empresas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUsersNovoRoute = AdminCoreUsersNovoRouteImport.update({
+  id: '/admin/core/users/novo',
+  path: '/admin/core/users/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUnidadesNovaRoute = AdminCoreUnidadesNovaRouteImport.update({
+  id: '/admin/core/unidades/nova',
+  path: '/admin/core/unidades/nova',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreEmpresasNovaRoute = AdminCoreEmpresasNovaRouteImport.update({
+  id: '/admin/core/empresas/nova',
+  path: '/admin/core/empresas/nova',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUsersIdEditRoute = AdminCoreUsersIdEditRouteImport.update({
+  id: '/admin/core/users/$id/edit',
+  path: '/admin/core/users/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUnidadesIdEditRoute = AdminCoreUnidadesIdEditRouteImport.update({
+  id: '/admin/core/unidades/$id/edit',
+  path: '/admin/core/unidades/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreEmpresasIdEditRoute = AdminCoreEmpresasIdEditRouteImport.update({
+  id: '/admin/core/empresas/$id/edit',
+  path: '/admin/core/empresas/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDemoTqTodosServerRoute = ApiDemoTqTodosServerRouteImport.update({
   id: '/api/demo-tq-todos',
   path: '/api/demo-tq-todos',
@@ -112,12 +178,23 @@ export interface FileRoutesByFullPath {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/core': typeof AdminCoreIndexRoute
   '/example/guitars': typeof ExampleGuitarsIndexRoute
+  '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
+  '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
+  '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
+  '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
+  '/admin/core/users': typeof AdminCoreUsersIndexRoute
+  '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
+  '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
+  '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,12 +203,23 @@ export interface FileRoutesByTo {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/core': typeof AdminCoreIndexRoute
   '/example/guitars': typeof ExampleGuitarsIndexRoute
+  '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
+  '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
+  '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
+  '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
+  '/admin/core/users': typeof AdminCoreUsersIndexRoute
+  '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
+  '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
+  '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,12 +229,23 @@ export interface FileRoutesById {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
+  '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/core/': typeof AdminCoreIndexRoute
   '/example/guitars/': typeof ExampleGuitarsIndexRoute
+  '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
+  '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
+  '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/core/empresas/': typeof AdminCoreEmpresasIndexRoute
+  '/admin/core/unidades/': typeof AdminCoreUnidadesIndexRoute
+  '/admin/core/users/': typeof AdminCoreUsersIndexRoute
+  '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
+  '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
+  '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -157,12 +256,23 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/admin/core/configuracoes'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/core'
     | '/example/guitars'
+    | '/admin/core/empresas/nova'
+    | '/admin/core/unidades/nova'
+    | '/admin/core/users/novo'
+    | '/admin/core/empresas'
+    | '/admin/core/unidades'
+    | '/admin/core/users'
+    | '/admin/core/empresas/$id/edit'
+    | '/admin/core/unidades/$id/edit'
+    | '/admin/core/users/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -171,12 +281,23 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/admin/core/configuracoes'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/core'
     | '/example/guitars'
+    | '/admin/core/empresas/nova'
+    | '/admin/core/unidades/nova'
+    | '/admin/core/users/novo'
+    | '/admin/core/empresas'
+    | '/admin/core/unidades'
+    | '/admin/core/users'
+    | '/admin/core/empresas/$id/edit'
+    | '/admin/core/unidades/$id/edit'
+    | '/admin/core/users/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -185,12 +306,23 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/demo/trpc-todo'
+    | '/admin/core/configuracoes'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/core/'
     | '/example/guitars/'
+    | '/admin/core/empresas/nova'
+    | '/admin/core/unidades/nova'
+    | '/admin/core/users/novo'
+    | '/admin/core/empresas/'
+    | '/admin/core/unidades/'
+    | '/admin/core/users/'
+    | '/admin/core/empresas/$id/edit'
+    | '/admin/core/unidades/$id/edit'
+    | '/admin/core/users/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -200,12 +332,23 @@ export interface RootRouteChildren {
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   DemoTrpcTodoRoute: typeof DemoTrpcTodoRoute
+  AdminCoreConfiguracoesRoute: typeof AdminCoreConfiguracoesRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
   DemoFormSimpleRoute: typeof DemoFormSimpleRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
   ExampleGuitarsGuitarIdRoute: typeof ExampleGuitarsGuitarIdRoute
+  AdminCoreIndexRoute: typeof AdminCoreIndexRoute
   ExampleGuitarsIndexRoute: typeof ExampleGuitarsIndexRoute
+  AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
+  AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
+  AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
+  AdminCoreEmpresasIndexRoute: typeof AdminCoreEmpresasIndexRoute
+  AdminCoreUnidadesIndexRoute: typeof AdminCoreUnidadesIndexRoute
+  AdminCoreUsersIndexRoute: typeof AdminCoreUsersIndexRoute
+  AdminCoreEmpresasIdEditRoute: typeof AdminCoreEmpresasIdEditRoute
+  AdminCoreUnidadesIdEditRoute: typeof AdminCoreUnidadesIdEditRoute
+  AdminCoreUsersIdEditRoute: typeof AdminCoreUsersIdEditRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/demo-names': typeof ApiDemoNamesServerRoute
@@ -288,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleGuitarsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/core/': {
+      id: '/admin/core/'
+      path: '/admin/core'
+      fullPath: '/admin/core'
+      preLoaderRoute: typeof AdminCoreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/example/guitars/$guitarId': {
       id: '/example/guitars/$guitarId'
       path: '/example/guitars/$guitarId'
@@ -321,6 +471,76 @@ declare module '@tanstack/react-router' {
       path: '/demo/form/address'
       fullPath: '/demo/form/address'
       preLoaderRoute: typeof DemoFormAddressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/configuracoes': {
+      id: '/admin/core/configuracoes'
+      path: '/admin/core/configuracoes'
+      fullPath: '/admin/core/configuracoes'
+      preLoaderRoute: typeof AdminCoreConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/users/': {
+      id: '/admin/core/users/'
+      path: '/admin/core/users'
+      fullPath: '/admin/core/users'
+      preLoaderRoute: typeof AdminCoreUsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/unidades/': {
+      id: '/admin/core/unidades/'
+      path: '/admin/core/unidades'
+      fullPath: '/admin/core/unidades'
+      preLoaderRoute: typeof AdminCoreUnidadesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/empresas/': {
+      id: '/admin/core/empresas/'
+      path: '/admin/core/empresas'
+      fullPath: '/admin/core/empresas'
+      preLoaderRoute: typeof AdminCoreEmpresasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/users/novo': {
+      id: '/admin/core/users/novo'
+      path: '/admin/core/users/novo'
+      fullPath: '/admin/core/users/novo'
+      preLoaderRoute: typeof AdminCoreUsersNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/unidades/nova': {
+      id: '/admin/core/unidades/nova'
+      path: '/admin/core/unidades/nova'
+      fullPath: '/admin/core/unidades/nova'
+      preLoaderRoute: typeof AdminCoreUnidadesNovaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/empresas/nova': {
+      id: '/admin/core/empresas/nova'
+      path: '/admin/core/empresas/nova'
+      fullPath: '/admin/core/empresas/nova'
+      preLoaderRoute: typeof AdminCoreEmpresasNovaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/users/$id/edit': {
+      id: '/admin/core/users/$id/edit'
+      path: '/admin/core/users/$id/edit'
+      fullPath: '/admin/core/users/$id/edit'
+      preLoaderRoute: typeof AdminCoreUsersIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/unidades/$id/edit': {
+      id: '/admin/core/unidades/$id/edit'
+      path: '/admin/core/unidades/$id/edit'
+      fullPath: '/admin/core/unidades/$id/edit'
+      preLoaderRoute: typeof AdminCoreUnidadesIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/empresas/$id/edit': {
+      id: '/admin/core/empresas/$id/edit'
+      path: '/admin/core/empresas/$id/edit'
+      fullPath: '/admin/core/empresas/$id/edit'
+      preLoaderRoute: typeof AdminCoreEmpresasIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -358,12 +578,23 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   DemoTrpcTodoRoute: DemoTrpcTodoRoute,
+  AdminCoreConfiguracoesRoute: AdminCoreConfiguracoesRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
   DemoFormSimpleRoute: DemoFormSimpleRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
   ExampleGuitarsGuitarIdRoute: ExampleGuitarsGuitarIdRoute,
+  AdminCoreIndexRoute: AdminCoreIndexRoute,
   ExampleGuitarsIndexRoute: ExampleGuitarsIndexRoute,
+  AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
+  AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
+  AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
+  AdminCoreEmpresasIndexRoute: AdminCoreEmpresasIndexRoute,
+  AdminCoreUnidadesIndexRoute: AdminCoreUnidadesIndexRoute,
+  AdminCoreUsersIndexRoute: AdminCoreUsersIndexRoute,
+  AdminCoreEmpresasIdEditRoute: AdminCoreEmpresasIdEditRoute,
+  AdminCoreUnidadesIdEditRoute: AdminCoreUnidadesIdEditRoute,
+  AdminCoreUsersIdEditRoute: AdminCoreUsersIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

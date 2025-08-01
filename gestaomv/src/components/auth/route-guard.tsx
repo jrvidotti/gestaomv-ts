@@ -1,9 +1,9 @@
 'use client';
 
-import { ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
-import { UserRoleType } from '@/shared';
-import { useAuth } from '@/contexts/auth-context';
+import type { ReactNode } from 'react';
+import { useRouterState } from '@tanstack/react-router';
+import type { UserRoleType } from '@/modules/core/types';
+import { useAuth } from '@/hooks/use-auth';
 import { usePermissions } from '@/hooks/use-permissions';
 import { Unauthorized } from './unauthorized';
 
@@ -26,7 +26,8 @@ export function RouteGuard({
 }: RouteGuardProps) {
   const { isAuthenticated, hasAnyRole, isLoading } = useAuth();
   const { canAccessPage, isAdmin } = usePermissions();
-  const pathname = usePathname();
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
 
   // Ainda carregando autenticação
   if (isLoading) {
@@ -87,7 +88,8 @@ export function RouteGuard({
 export function useRouteAccess(requiredRoles: UserRoleType[] = []) {
   const { isAuthenticated, hasAnyRole } = useAuth();
   const { canAccessPage, isAdmin } = usePermissions();
-  const pathname = usePathname();
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
 
   const hasAccess = () => {
     if (!isAuthenticated) return false;

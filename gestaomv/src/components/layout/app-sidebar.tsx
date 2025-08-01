@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, useRouterState } from '@tanstack/react-router';
 import { LogOut, ChevronUp, User, Loader2, LayoutDashboard, Key } from 'lucide-react';
 import {
   Sidebar,
@@ -23,20 +23,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/hooks/use-auth';
 import { usePermissions } from '@/hooks/use-permissions';
-import Link from 'next/link';
-import { MODULES_DATA } from '@/shared';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { userInitials } from '@/lib/utils';
-import { getLastAccessedModule } from '@/lib/last-accessed-module';
+import { Link } from '@tanstack/react-router';
+import { MODULES_DATA } from '@/constants';
 import { MvLogo } from '@/components/icons/mv-logo';
 
 export function AppSidebar() {
   const { user, logout } = useAuth();
   const { getAccessibleModules, canAccessPage } = usePermissions();
   const router = useRouter();
-  const pathname = usePathname();
+  const routerState = useRouterState();
+  const pathname = routerState.location.pathname;
   const [moduloSelecionado, setModuloSelecionado] = useState<string | undefined>(undefined);
 
   // Obter apenas módulos que o usuário tem acesso
@@ -54,12 +52,8 @@ export function AppSidebar() {
       if (isValidModule) {
         setModuloSelecionado(currentModule);
       } else {
-        // Para módulos não reconhecidos (profile, páginas inexistentes, etc.)
-        // usar último módulo acessado ou primeiro módulo disponível
-        const lastModule = getLastAccessedModule();
-        if (lastModule && accessibleModules.some((m) => m.module === lastModule)) {
-          setModuloSelecionado(lastModule);
-        } else if (accessibleModules.length > 0) {
+        // Para módulos não reconhecidos, usar primeiro módulo disponível
+        if (accessibleModules.length > 0) {
           setModuloSelecionado(accessibleModules[0].module);
         }
       }
@@ -71,7 +65,7 @@ export function AppSidebar() {
 
   const handleModuleChange = (novoModulo: string) => {
     setModuloSelecionado(novoModulo);
-    router.push(`/admin/${novoModulo}`);
+    router.navigate({ to: `/admin/${novoModulo}` });
   };
 
   return (
@@ -188,7 +182,9 @@ export function AppSidebar() {
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={user?.avatar ?? undefined} alt={user?.name ?? 'Usuário'} />
-                    <AvatarFallback className="rounded-lg">{userInitials(user?.name ?? 'Usuário')}</AvatarFallback>
+                    <AvatarFallback className="rounded-lg">
+                  {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U'}
+                </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">{user?.name}</span>
