@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useModuleTracking } from "@/hooks/use-module-tracking";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { SidebarProvider } from "./sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 interface DashboardLayoutProps {
 	header?: React.ReactNode;

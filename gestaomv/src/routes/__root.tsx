@@ -6,6 +6,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import { AuthProvider } from "../hooks/use-auth";
+import { NotFound } from "@/components/not-found";
 
 import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
 
@@ -48,6 +49,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 
+	notFoundComponent: NotFound,
 	shellComponent: RootDocument,
 });
 

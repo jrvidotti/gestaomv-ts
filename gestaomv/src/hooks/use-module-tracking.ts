@@ -1,3 +1,6 @@
+import { MODULES, type ModuleType } from "@/constants";
+import { setLastAccessedModule } from "@/lib/last-accessed-module";
+import { useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 /**
@@ -5,7 +8,8 @@ import { useEffect } from "react";
  * e atualizar o localStorage com o último módulo acessado
  */
 export function useModuleTracking() {
-	const pathname = usePathname();
+	const routerState = useRouterState();
+	const pathname = routerState.location.pathname;
 
 	useEffect(() => {
 		// Verificar se está em uma página de módulo admin

@@ -63,8 +63,8 @@ function LoginPage() {
 
 		try {
 			await login(data);
-			// Navega para a rota "/admin"
-			router.navigate({ to: "/" });
+			// Navega para a rota "/admin/core"
+			router.navigate({ to: "/admin/core" });
 		} catch (err) {
 			setError("Credenciais inválidas. Tente novamente.");
 		} finally {
@@ -78,7 +78,7 @@ function LoginPage() {
 
 		try {
 			await loginWithTagOne(data);
-			router.navigate({ to: "/" });
+			router.navigate({ to: "/admin/core" });
 		} catch (err: unknown) {
 			const errorMessage =
 				err instanceof Error

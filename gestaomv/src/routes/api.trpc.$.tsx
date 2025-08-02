@@ -11,7 +11,7 @@ function handler({ request }: { request: Request }) {
 		createContext: ({ req }) => {
 			const authHeader = req.headers.get("authorization");
 			const [authType, token] = authHeader?.split(" ") || ["", ""];
-			const hasToken = authType === "Bearer" && token;
+			const hasToken = authType === "Bearer" && !!token;
 			const user = hasToken ? getUserFromToken(token) : null;
 			console.log(
 				`[TRPC] Auth: has header: ${!!authHeader}, has token: ${hasToken}, user: ${user?.email}`,
