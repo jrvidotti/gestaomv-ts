@@ -71,3 +71,102 @@ Templates Handlebars estão em `src/modules/core/services/templates/`:
 
 - `welcome.hbs` - Email de boas-vindas
 - `almoxarifado/` - Templates específicos do almoxarifado (solicitações)
+
+## Integração tRPC
+
+O projeto utiliza tRPC para comunicação type-safe entre frontend e backend. A estrutura está organizada da seguinte forma:
+
+### Estrutura tRPC
+
+```
+src/integrations/trpc/
+├── init.ts        # Configuração inicial do tRPC
+├── react.ts       # Hooks React para uso no frontend
+└── router.ts      # Router principal que combina todos os módulos
+```
+
+### Padrão de Uso no Frontend
+
+**IMPORTANTE**: Use sempre o padrão `useTRPC` hook, não um objeto `api`.
+
+#### Import Correto
+```typescript
+import { useTRPC } from '@/integrations/trpc/react'
+import { useQuery, useMutation } from '@tanstack/react-query'
+```
+
+#### Queries
+```typescript
+function Component() {
+  const trpc = useTRPC()
+  
+  const { data, isLoading, error } = useQuery(
+    trpc.moduleName.methodName.queryOptions(params)
+  )
+}
+```
+
+#### Mutations
+```typescript
+function Component() {
+  const trpc = useTRPC()
+  
+  const { mutate, isLoading } = useMutation({
+    ...trpc.moduleName.methodName.mutationOptions(),
+    onSuccess: () => {
+      // Callback de sucesso
+    },
+    onError: (error) => {
+      // Callback de erro
+    }
+  })
+  
+  // Usar a mutation
+  const handleAction = () => {
+    mutate({ id: 123, data: {...} })
+  }
+}
+```
+
+#### Exemplo Completo
+```typescript
+import { useTRPC } from '@/integrations/trpc/react'
+import { useQuery, useMutation } from '@tanstack/react-query'
+
+function UsersPage() {
+  const trpc = useTRPC()
+  
+  // Query
+  const { data: users, isLoading, refetch } = useQuery(
+    trpc.users.findAll.queryOptions()
+  )
+  
+  // Mutation
+  const { mutate: updateUser } = useMutation({
+    ...trpc.users.update.mutationOptions(),
+    onSuccess: () => {
+      refetch() // Recarregar dados após sucesso
+    }
+  })
+  
+  return (
+    // JSX aqui
+  )
+}
+```
+
+### Routers por Módulo
+
+Cada módulo define seus próprios routers em `src/modules/[module]/routers/`:
+
+- `core` - Autenticação, usuários, empresas, unidades
+- `almoxarifado` - Materiais, solicitações, estatísticas
+- `rh` - Funcionários, equipes, avaliações
+
+### Convenções
+
+- **Não** use `api.method.useQuery()` (padrão antigo)
+- **Use** `useQuery(trpc.method.queryOptions())` (padrão correto)
+- Sempre combine tRPC com TanStack Query para cache e sincronização
+- Organize métodos por módulo seguindo a estrutura de pastas
+- Use Zod schemas nos DTOs para validação automática

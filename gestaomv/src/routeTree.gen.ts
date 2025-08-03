@@ -19,19 +19,30 @@ import { Route as DemoTableRouteImport } from './routes/demo.table'
 import { Route as DemoStoreRouteImport } from './routes/demo.store'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
 import { Route as ExampleGuitarsIndexRouteImport } from './routes/example.guitars/index'
+import { Route as AdminRhIndexRouteImport } from './routes/admin/rh/index'
 import { Route as AdminCoreIndexRouteImport } from './routes/admin/core/index'
+import { Route as AdminAlmoxarifadoIndexRouteImport } from './routes/admin/almoxarifado/index'
 import { Route as ExampleGuitarsGuitarIdRouteImport } from './routes/example.guitars/$guitarId'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo.start.api-request'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo.form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
 import { Route as AdminCoreConfiguracoesRouteImport } from './routes/admin/core/configuracoes'
+import { Route as AdminRhFuncionariosIndexRouteImport } from './routes/admin/rh/funcionarios/index'
+import { Route as AdminRhEquipesIndexRouteImport } from './routes/admin/rh/equipes/index'
+import { Route as AdminRhDepartamentosIndexRouteImport } from './routes/admin/rh/departamentos/index'
+import { Route as AdminRhAvaliacoesExperienciaIndexRouteImport } from './routes/admin/rh/avaliacoes-experiencia/index'
 import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/users/index'
 import { Route as AdminCoreUnidadesIndexRouteImport } from './routes/admin/core/unidades/index'
 import { Route as AdminCoreEmpresasIndexRouteImport } from './routes/admin/core/empresas/index'
+import { Route as AdminAlmoxarifadoSolicitacoesIndexRouteImport } from './routes/admin/almoxarifado/solicitacoes/index'
+import { Route as AdminAlmoxarifadoMateriaisIndexRouteImport } from './routes/admin/almoxarifado/materiais/index'
+import { Route as AdminRhDepartamentosNovoRouteImport } from './routes/admin/rh/departamentos/novo'
+import { Route as AdminRhDepartamentosIdRouteImport } from './routes/admin/rh/departamentos/$id'
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
 import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
+import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id.edit'
 import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id.edit'
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
@@ -81,9 +92,19 @@ const ExampleGuitarsIndexRoute = ExampleGuitarsIndexRouteImport.update({
   path: '/example/guitars/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRhIndexRoute = AdminRhIndexRouteImport.update({
+  id: '/admin/rh/',
+  path: '/admin/rh/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCoreIndexRoute = AdminCoreIndexRouteImport.update({
   id: '/admin/core/',
   path: '/admin/core/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAlmoxarifadoIndexRoute = AdminAlmoxarifadoIndexRouteImport.update({
+  id: '/admin/almoxarifado/',
+  path: '/admin/almoxarifado/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExampleGuitarsGuitarIdRoute = ExampleGuitarsGuitarIdRouteImport.update({
@@ -116,6 +137,29 @@ const AdminCoreConfiguracoesRoute = AdminCoreConfiguracoesRouteImport.update({
   path: '/admin/core/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRhFuncionariosIndexRoute =
+  AdminRhFuncionariosIndexRouteImport.update({
+    id: '/admin/rh/funcionarios/',
+    path: '/admin/rh/funcionarios/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminRhEquipesIndexRoute = AdminRhEquipesIndexRouteImport.update({
+  id: '/admin/rh/equipes/',
+  path: '/admin/rh/equipes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRhDepartamentosIndexRoute =
+  AdminRhDepartamentosIndexRouteImport.update({
+    id: '/admin/rh/departamentos/',
+    path: '/admin/rh/departamentos/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminRhAvaliacoesExperienciaIndexRoute =
+  AdminRhAvaliacoesExperienciaIndexRouteImport.update({
+    id: '/admin/rh/avaliacoes-experiencia/',
+    path: '/admin/rh/avaliacoes-experiencia/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminCoreUsersIndexRoute = AdminCoreUsersIndexRouteImport.update({
   id: '/admin/core/users/',
   path: '/admin/core/users/',
@@ -129,6 +173,29 @@ const AdminCoreUnidadesIndexRoute = AdminCoreUnidadesIndexRouteImport.update({
 const AdminCoreEmpresasIndexRoute = AdminCoreEmpresasIndexRouteImport.update({
   id: '/admin/core/empresas/',
   path: '/admin/core/empresas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAlmoxarifadoSolicitacoesIndexRoute =
+  AdminAlmoxarifadoSolicitacoesIndexRouteImport.update({
+    id: '/admin/almoxarifado/solicitacoes/',
+    path: '/admin/almoxarifado/solicitacoes/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminAlmoxarifadoMateriaisIndexRoute =
+  AdminAlmoxarifadoMateriaisIndexRouteImport.update({
+    id: '/admin/almoxarifado/materiais/',
+    path: '/admin/almoxarifado/materiais/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminRhDepartamentosNovoRoute =
+  AdminRhDepartamentosNovoRouteImport.update({
+    id: '/admin/rh/departamentos/novo',
+    path: '/admin/rh/departamentos/novo',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminRhDepartamentosIdRoute = AdminRhDepartamentosIdRouteImport.update({
+  id: '/admin/rh/departamentos/$id',
+  path: '/admin/rh/departamentos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCoreUsersNovoRoute = AdminCoreUsersNovoRouteImport.update({
@@ -146,6 +213,12 @@ const AdminCoreEmpresasNovaRoute = AdminCoreEmpresasNovaRouteImport.update({
   path: '/admin/core/empresas/nova',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRhDepartamentosIdEditRoute =
+  AdminRhDepartamentosIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AdminRhDepartamentosIdRoute,
+  } as any)
 const AdminCoreUsersIdEditRoute = AdminCoreUsersIdEditRouteImport.update({
   id: '/admin/core/users/$id/edit',
   path: '/admin/core/users/$id/edit',
@@ -191,17 +264,28 @@ export interface FileRoutesByFullPath {
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
+  '/admin/rh': typeof AdminRhIndexRoute
   '/example/guitars': typeof ExampleGuitarsIndexRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
+  '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
+  '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
+  '/admin/rh/avaliacoes-experiencia': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/departamentos': typeof AdminRhDepartamentosIndexRoute
+  '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
+  '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -217,17 +301,28 @@ export interface FileRoutesByTo {
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
+  '/admin/rh': typeof AdminRhIndexRoute
   '/example/guitars': typeof ExampleGuitarsIndexRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
+  '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
+  '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
+  '/admin/rh/avaliacoes-experiencia': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/departamentos': typeof AdminRhDepartamentosIndexRoute
+  '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
+  '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -244,17 +339,28 @@ export interface FileRoutesById {
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
   '/example/guitars/$guitarId': typeof ExampleGuitarsGuitarIdRoute
+  '/admin/almoxarifado/': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core/': typeof AdminCoreIndexRoute
+  '/admin/rh/': typeof AdminRhIndexRoute
   '/example/guitars/': typeof ExampleGuitarsIndexRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
+  '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
+  '/admin/almoxarifado/materiais/': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/solicitacoes/': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas/': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades/': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users/': typeof AdminCoreUsersIndexRoute
+  '/admin/rh/avaliacoes-experiencia/': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/departamentos/': typeof AdminRhDepartamentosIndexRoute
+  '/admin/rh/equipes/': typeof AdminRhEquipesIndexRoute
+  '/admin/rh/funcionarios/': typeof AdminRhFuncionariosIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -272,17 +378,28 @@ export interface FileRouteTypes {
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/almoxarifado'
     | '/admin/core'
+    | '/admin/rh'
     | '/example/guitars'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/departamentos/$id'
+    | '/admin/rh/departamentos/novo'
+    | '/admin/almoxarifado/materiais'
+    | '/admin/almoxarifado/solicitacoes'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
     | '/admin/core/users'
+    | '/admin/rh/avaliacoes-experiencia'
+    | '/admin/rh/departamentos'
+    | '/admin/rh/equipes'
+    | '/admin/rh/funcionarios'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/departamentos/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,17 +415,28 @@ export interface FileRouteTypes {
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/almoxarifado'
     | '/admin/core'
+    | '/admin/rh'
     | '/example/guitars'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/departamentos/$id'
+    | '/admin/rh/departamentos/novo'
+    | '/admin/almoxarifado/materiais'
+    | '/admin/almoxarifado/solicitacoes'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
     | '/admin/core/users'
+    | '/admin/rh/avaliacoes-experiencia'
+    | '/admin/rh/departamentos'
+    | '/admin/rh/equipes'
+    | '/admin/rh/funcionarios'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/departamentos/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -324,17 +452,28 @@ export interface FileRouteTypes {
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
     | '/example/guitars/$guitarId'
+    | '/admin/almoxarifado/'
     | '/admin/core/'
+    | '/admin/rh/'
     | '/example/guitars/'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/departamentos/$id'
+    | '/admin/rh/departamentos/novo'
+    | '/admin/almoxarifado/materiais/'
+    | '/admin/almoxarifado/solicitacoes/'
     | '/admin/core/empresas/'
     | '/admin/core/unidades/'
     | '/admin/core/users/'
+    | '/admin/rh/avaliacoes-experiencia/'
+    | '/admin/rh/departamentos/'
+    | '/admin/rh/equipes/'
+    | '/admin/rh/funcionarios/'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/departamentos/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -351,14 +490,24 @@ export interface RootRouteChildren {
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
   ExampleGuitarsGuitarIdRoute: typeof ExampleGuitarsGuitarIdRoute
+  AdminAlmoxarifadoIndexRoute: typeof AdminAlmoxarifadoIndexRoute
   AdminCoreIndexRoute: typeof AdminCoreIndexRoute
+  AdminRhIndexRoute: typeof AdminRhIndexRoute
   ExampleGuitarsIndexRoute: typeof ExampleGuitarsIndexRoute
   AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
   AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
   AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
+  AdminRhDepartamentosIdRoute: typeof AdminRhDepartamentosIdRouteWithChildren
+  AdminRhDepartamentosNovoRoute: typeof AdminRhDepartamentosNovoRoute
+  AdminAlmoxarifadoMateriaisIndexRoute: typeof AdminAlmoxarifadoMateriaisIndexRoute
+  AdminAlmoxarifadoSolicitacoesIndexRoute: typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   AdminCoreEmpresasIndexRoute: typeof AdminCoreEmpresasIndexRoute
   AdminCoreUnidadesIndexRoute: typeof AdminCoreUnidadesIndexRoute
   AdminCoreUsersIndexRoute: typeof AdminCoreUsersIndexRoute
+  AdminRhAvaliacoesExperienciaIndexRoute: typeof AdminRhAvaliacoesExperienciaIndexRoute
+  AdminRhDepartamentosIndexRoute: typeof AdminRhDepartamentosIndexRoute
+  AdminRhEquipesIndexRoute: typeof AdminRhEquipesIndexRoute
+  AdminRhFuncionariosIndexRoute: typeof AdminRhFuncionariosIndexRoute
   AdminCoreEmpresasIdEditRoute: typeof AdminCoreEmpresasIdEditRoute
   AdminCoreUnidadesIdEditRoute: typeof AdminCoreUnidadesIdEditRoute
   AdminCoreUsersIdEditRoute: typeof AdminCoreUsersIdEditRoute
@@ -451,11 +600,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleGuitarsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/rh/': {
+      id: '/admin/rh/'
+      path: '/admin/rh'
+      fullPath: '/admin/rh'
+      preLoaderRoute: typeof AdminRhIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/core/': {
       id: '/admin/core/'
       path: '/admin/core'
       fullPath: '/admin/core'
       preLoaderRoute: typeof AdminCoreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/almoxarifado/': {
+      id: '/admin/almoxarifado/'
+      path: '/admin/almoxarifado'
+      fullPath: '/admin/almoxarifado'
+      preLoaderRoute: typeof AdminAlmoxarifadoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/guitars/$guitarId': {
@@ -500,6 +663,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/rh/funcionarios/': {
+      id: '/admin/rh/funcionarios/'
+      path: '/admin/rh/funcionarios'
+      fullPath: '/admin/rh/funcionarios'
+      preLoaderRoute: typeof AdminRhFuncionariosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/equipes/': {
+      id: '/admin/rh/equipes/'
+      path: '/admin/rh/equipes'
+      fullPath: '/admin/rh/equipes'
+      preLoaderRoute: typeof AdminRhEquipesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/departamentos/': {
+      id: '/admin/rh/departamentos/'
+      path: '/admin/rh/departamentos'
+      fullPath: '/admin/rh/departamentos'
+      preLoaderRoute: typeof AdminRhDepartamentosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/avaliacoes-experiencia/': {
+      id: '/admin/rh/avaliacoes-experiencia/'
+      path: '/admin/rh/avaliacoes-experiencia'
+      fullPath: '/admin/rh/avaliacoes-experiencia'
+      preLoaderRoute: typeof AdminRhAvaliacoesExperienciaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/core/users/': {
       id: '/admin/core/users/'
       path: '/admin/core/users'
@@ -519,6 +710,34 @@ declare module '@tanstack/react-router' {
       path: '/admin/core/empresas'
       fullPath: '/admin/core/empresas'
       preLoaderRoute: typeof AdminCoreEmpresasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/almoxarifado/solicitacoes/': {
+      id: '/admin/almoxarifado/solicitacoes/'
+      path: '/admin/almoxarifado/solicitacoes'
+      fullPath: '/admin/almoxarifado/solicitacoes'
+      preLoaderRoute: typeof AdminAlmoxarifadoSolicitacoesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/almoxarifado/materiais/': {
+      id: '/admin/almoxarifado/materiais/'
+      path: '/admin/almoxarifado/materiais'
+      fullPath: '/admin/almoxarifado/materiais'
+      preLoaderRoute: typeof AdminAlmoxarifadoMateriaisIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/departamentos/novo': {
+      id: '/admin/rh/departamentos/novo'
+      path: '/admin/rh/departamentos/novo'
+      fullPath: '/admin/rh/departamentos/novo'
+      preLoaderRoute: typeof AdminRhDepartamentosNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/departamentos/$id': {
+      id: '/admin/rh/departamentos/$id'
+      path: '/admin/rh/departamentos/$id'
+      fullPath: '/admin/rh/departamentos/$id'
+      preLoaderRoute: typeof AdminRhDepartamentosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/core/users/novo': {
@@ -541,6 +760,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/core/empresas/nova'
       preLoaderRoute: typeof AdminCoreEmpresasNovaRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/departamentos/$id/edit': {
+      id: '/admin/rh/departamentos/$id/edit'
+      path: '/edit'
+      fullPath: '/admin/rh/departamentos/$id/edit'
+      preLoaderRoute: typeof AdminRhDepartamentosIdEditRouteImport
+      parentRoute: typeof AdminRhDepartamentosIdRoute
     }
     '/admin/core/users/$id/edit': {
       id: '/admin/core/users/$id/edit'
@@ -591,6 +817,20 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AdminRhDepartamentosIdRouteChildren {
+  AdminRhDepartamentosIdEditRoute: typeof AdminRhDepartamentosIdEditRoute
+}
+
+const AdminRhDepartamentosIdRouteChildren: AdminRhDepartamentosIdRouteChildren =
+  {
+    AdminRhDepartamentosIdEditRoute: AdminRhDepartamentosIdEditRoute,
+  }
+
+const AdminRhDepartamentosIdRouteWithChildren =
+  AdminRhDepartamentosIdRoute._addFileChildren(
+    AdminRhDepartamentosIdRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthLoginRoute: AuthLoginRoute,
@@ -605,14 +845,26 @@ const rootRouteChildren: RootRouteChildren = {
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
   ExampleGuitarsGuitarIdRoute: ExampleGuitarsGuitarIdRoute,
+  AdminAlmoxarifadoIndexRoute: AdminAlmoxarifadoIndexRoute,
   AdminCoreIndexRoute: AdminCoreIndexRoute,
+  AdminRhIndexRoute: AdminRhIndexRoute,
   ExampleGuitarsIndexRoute: ExampleGuitarsIndexRoute,
   AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
   AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
   AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
+  AdminRhDepartamentosIdRoute: AdminRhDepartamentosIdRouteWithChildren,
+  AdminRhDepartamentosNovoRoute: AdminRhDepartamentosNovoRoute,
+  AdminAlmoxarifadoMateriaisIndexRoute: AdminAlmoxarifadoMateriaisIndexRoute,
+  AdminAlmoxarifadoSolicitacoesIndexRoute:
+    AdminAlmoxarifadoSolicitacoesIndexRoute,
   AdminCoreEmpresasIndexRoute: AdminCoreEmpresasIndexRoute,
   AdminCoreUnidadesIndexRoute: AdminCoreUnidadesIndexRoute,
   AdminCoreUsersIndexRoute: AdminCoreUsersIndexRoute,
+  AdminRhAvaliacoesExperienciaIndexRoute:
+    AdminRhAvaliacoesExperienciaIndexRoute,
+  AdminRhDepartamentosIndexRoute: AdminRhDepartamentosIndexRoute,
+  AdminRhEquipesIndexRoute: AdminRhEquipesIndexRoute,
+  AdminRhFuncionariosIndexRoute: AdminRhFuncionariosIndexRoute,
   AdminCoreEmpresasIdEditRoute: AdminCoreEmpresasIdEditRoute,
   AdminCoreUnidadesIdEditRoute: AdminCoreUnidadesIdEditRoute,
   AdminCoreUsersIdEditRoute: AdminCoreUsersIdEditRoute,

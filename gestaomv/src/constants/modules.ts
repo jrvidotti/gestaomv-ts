@@ -177,7 +177,7 @@ export const MODULES_DATA: ModuleData[] = [
 		description: "Gestão de materiais e solicitações",
 		url: "/admin/almoxarifado",
 		color: "bg-emerald-500",
-		status: MODULE_STATUS.DESENVOLVIMENTO,
+		status: MODULE_STATUS.ATIVO,
 		icon: Package,
 		items: [
 			{
