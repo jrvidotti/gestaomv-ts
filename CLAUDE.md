@@ -87,3 +87,7 @@ Utilize sempre que possível:
 - **TanStack Table**: construção de tabelas complexas e personalizáveis
 - **TanStack Router**: roteamento baseado em arquivos
 - **Shadcn**: componentes de UI
+
+## Avisos e Lembretes
+
+- Não tente iniciar o servidor (yarn dev) a não ser que solicitado

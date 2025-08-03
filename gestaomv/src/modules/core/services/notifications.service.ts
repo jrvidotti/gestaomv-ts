@@ -93,7 +93,7 @@ export class NotificationsService {
 	}
 
 	private getUserManagementUrl(userId: number): string {
-		return `${env.SERVER_URL}/admin/base/users/${userId}/edit`;
+		return `${env.SERVER_URL}/admin/core/users/${userId}/edit`;
 	}
 
 	private generateNewUserEmailContent(user: Omit<User, "password">): string {

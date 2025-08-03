@@ -3,11 +3,11 @@
 import { AdminMain } from "@/components/layout/admin-main";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { PageHeader } from "@/components/layout/page-header";
+import { SidebarWrapper } from "@/components/layout/sidebar-wrapper";
 import { useAuth } from "@/hooks/use-auth";
 import { useModuleTracking } from "@/hooks/use-module-tracking";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 interface DashboardLayoutProps {
 	header?: React.ReactNode;
@@ -40,11 +40,11 @@ export function AdminLayout({ header, children }: DashboardLayoutProps) {
 	}
 
 	return (
-		<SidebarProvider defaultOpen={false}>
+		<SidebarWrapper>
 			<AppSidebar />
 			<AdminMain header={header || <PageHeader title="Gestão MV" />}>
 				{children}
 			</AdminMain>
-		</SidebarProvider>
+		</SidebarWrapper>
 	);
 }
