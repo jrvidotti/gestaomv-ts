@@ -17,9 +17,13 @@ function handler({ request }: { request: Request }) {
 				const inputs = JSON.parse(url.searchParams.get("input") ?? "{}");
 				for (const [index, endpoint] of endpoints.entries()) {
 					const params = inputs[index];
-					console.log(
-						`[TRPC] ${user?.email} ${endpoint} ${JSON.stringify(params.json ?? {})}`,
-					);
+					try {
+						console.log(
+							`[TRPC] ${user?.email} ${endpoint} ${JSON.stringify(params.json ?? {})}`,
+						);
+					} catch (error) {
+						console.log(`[TRPC] ${user?.email} ${endpoint} ${params}`);
+					}
 				}
 			} catch (error) {
 				console.log(

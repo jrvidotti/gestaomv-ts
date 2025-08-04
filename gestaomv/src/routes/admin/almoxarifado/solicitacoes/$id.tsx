@@ -1,21 +1,17 @@
+import {
+	MateriaisVisualizacao,
+	type MaterialVisualizacao,
+} from "@/components/almoxarifado/materiais-visualizacao";
 import { RouteGuard } from "@/components/auth/route-guard";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/integrations/trpc/react";
-import {
-	STATUS_SOLICITACAO_DATA,
-} from "@/modules/almoxarifado/consts";
+import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import { USER_ROLES } from "@/modules/core/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -31,7 +27,6 @@ import {
 	User,
 	XCircle,
 } from "lucide-react";
-import { MateriaisVisualizacao, type MaterialVisualizacao } from "@/components/almoxarifado/materiais-visualizacao";
 
 export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/$id")({
 	component: RouteComponent,
@@ -53,7 +48,7 @@ function RouteComponent() {
 		trpc.almoxarifado.solicitacoes.buscar.queryOptions({
 			id: solicitacaoId,
 		}),
-	)
+	);
 
 	const isAdmin = user?.roles?.includes(USER_ROLES.ADMIN);
 	const isAprovador = user?.roles?.includes(USER_ROLES.APROVADOR_ALMOXARIFADO);
@@ -68,25 +63,25 @@ function RouteComponent() {
 		useMutation({
 			...trpc.almoxarifado.solicitacoes.aprovarOuRejeitar.mutationOptions(),
 			onSuccess: () => {
-				refetch()
+				refetch();
 			},
-		})
+		});
 
 	const { mutate: cancelarSolicitacao, isPending: cancelandoSolicitacao } =
 		useMutation({
 			...trpc.almoxarifado.solicitacoes.cancelar.mutationOptions(),
 			onSuccess: () => {
-				refetch()
+				refetch();
 			},
-		})
+		});
 
 	const { mutate: atenderSolicitacao, isPending: atendendoSolicitacao } =
 		useMutation({
 			...trpc.almoxarifado.solicitacoes.atender.mutationOptions(),
 			onSuccess: () => {
-				refetch()
+				refetch();
 			},
-		})
+		});
 
 	const formatDateTime = (date: string | Date) => {
 		return new Intl.DateTimeFormat("pt-BR", {
@@ -96,16 +91,16 @@ function RouteComponent() {
 			hour: "2-digit",
 			minute: "2-digit",
 		}).format(new Date(date));
-	}
+	};
 
 	const handleAprovar = async () => {
 		if (confirm("Deseja aprovar esta solicitação?")) {
 			aprovarSolicitacao({
 				id: solicitacaoId,
 				data: { status: STATUS_SOLICITACAO.APROVADA },
-			})
+			});
 		}
-	}
+	};
 
 	const handleRejeitar = async () => {
 		const motivo = prompt("Informe o motivo da rejeição (obrigatório):");
@@ -116,11 +111,11 @@ function RouteComponent() {
 					status: STATUS_SOLICITACAO.REJEITADA,
 					motivoRejeicao: motivo.trim(),
 				},
-			})
+			});
 		} else if (motivo !== null) {
 			alert("O motivo da rejeição é obrigatório.");
 		}
-	}
+	};
 
 	const handleAtender = async () => {
 		if (
@@ -130,30 +125,30 @@ function RouteComponent() {
 		) {
 			if (!solicitacao || !solicitacao.itens) {
 				alert("Solicitação não encontrada ou sem itens");
-				return
+				return;
 			}
 
 			const itensAtendimento = solicitacao.itens.map((item) => ({
 				id: item.id,
 				qtdAtendida: item.qtdSolicitada,
-			}))
+			}));
 
 			atenderSolicitacao({
 				id: solicitacaoId,
 				data: {
 					itens: itensAtendimento,
 				},
-			})
+			});
 		}
-	}
+	};
 
 	const handleCancelar = async () => {
 		if (confirm("Deseja cancelar esta solicitação?")) {
 			cancelarSolicitacao({
 				id: solicitacaoId,
-			})
+			});
 		}
-	}
+	};
 
 	const header = (
 		<PageHeader
@@ -217,7 +212,7 @@ function RouteComponent() {
 					: []),
 			]}
 		/>
-	)
+	);
 
 	if (isLoading) {
 		return (
@@ -231,11 +226,13 @@ function RouteComponent() {
 			>
 				<AdminLayout header={header}>
 					<div className="flex items-center justify-center h-32">
-						<div className="text-muted-foreground">Carregando solicitação...</div>
+						<div className="text-muted-foreground">
+							Carregando solicitação...
+						</div>
 					</div>
 				</AdminLayout>
 			</RouteGuard>
-		)
+		);
 	}
 
 	if (error || !solicitacao) {
@@ -271,20 +268,20 @@ function RouteComponent() {
 					</Card>
 				</AdminLayout>
 			</RouteGuard>
-		)
+		);
 	}
 
 	// Transformar itens da solicitação para o formato do componente MateriaisVisualizacao
 	const materiaisVisualizacao: MaterialVisualizacao[] =
 		solicitacao.itens?.map((item) => {
 			const material = item.material as {
-				id?: number
+				id?: number;
 				nome?: string;
 				foto?: string | null;
 				valorUnitario?: number;
 				tipoMaterial?: { nome: string };
 				unidadeMedida?: { nome: string };
-			}
+			};
 
 			return {
 				id: item.id, // ID do item da solicitação
@@ -300,7 +297,7 @@ function RouteComponent() {
 				valorUnitario: material?.valorUnitario || 0,
 				qtdSolicitada: item.qtdSolicitada,
 				qtdAtendida: item.qtdAtendida,
-			}
+			};
 		}) || [];
 
 	return (
@@ -327,7 +324,9 @@ function RouteComponent() {
 								<div className="flex items-center justify-between">
 									<span className="text-sm font-medium">Status Atual:</span>
 									<Badge
-										variant={STATUS_SOLICITACAO_DATA[solicitacao.status].variant}
+										variant={
+											STATUS_SOLICITACAO_DATA[solicitacao.status].variant
+										}
 										className="text-sm"
 									>
 										{STATUS_SOLICITACAO_DATA[solicitacao.status].label}
@@ -363,7 +362,9 @@ function RouteComponent() {
 										<div className="flex items-center gap-2">
 											<Package className="h-4 w-4 text-blue-600" />
 											<div>
-												<p className="text-sm font-medium">Data de Atendimento</p>
+												<p className="text-sm font-medium">
+													Data de Atendimento
+												</p>
 												<p className="text-sm text-muted-foreground">
 													{formatDateTime(solicitacao.dataAtendimento)}
 												</p>
@@ -461,5 +462,5 @@ function RouteComponent() {
 				</div>
 			</AdminLayout>
 		</RouteGuard>
-	)
+	);
 }

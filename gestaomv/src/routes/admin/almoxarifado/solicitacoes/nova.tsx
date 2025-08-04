@@ -1,3 +1,7 @@
+import {
+	type MaterialSelecionado,
+	MaterialSelector,
+} from "@/components/almoxarifado/material-selector";
 import { RouteGuard } from "@/components/auth/route-guard";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
@@ -9,7 +13,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
@@ -20,19 +23,15 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useTRPC } from "@/integrations/trpc/react";
+import { cn } from "@/lib/utils";
 import { USER_ROLES } from "@/modules/core/enums";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, AlertCircle, Save } from "lucide-react";
+import { AlertCircle, ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
-import {
-	MaterialSelector,
-	type MaterialSelecionado,
-} from "@/components/almoxarifado/material-selector";
 
 // Schema para o formulário local (sem transformações)
 const formularioSolicitacaoSchema = z.object({
@@ -49,9 +48,7 @@ const formularioSolicitacaoSchema = z.object({
 
 type FormularioSolicitacaoData = z.infer<typeof formularioSolicitacaoSchema>;
 
-export const Route = createFileRoute(
-	"/admin/almoxarifado/solicitacoes/nova",
-)({
+export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/nova")({
 	component: RouteComponent,
 });
 
@@ -68,21 +65,21 @@ function RouteComponent() {
 		setValue,
 		watch,
 	} = useForm<FormularioSolicitacaoData>({
-		resolver: zodResolver(formularioSolicitacaoSchema),
+		resolver: zodResolver(formularioSolicitacaoSchema as any),
 		defaultValues: {
 			unidadeId: "",
 			observacoes: "",
 			materiais: [],
 		},
-	})
+	});
 
 	const unidadeSelecionada = watch("unidadeId");
 	const materiais = watch("materiais");
 
 	// Buscar unidades
 	const { data: unidades, isLoading: carregandoUnidades } = useQuery(
-		trpc.core.unidades.findAll.queryOptions(),
-	)
+		trpc.unidades.findAll.queryOptions(),
+	);
 
 	const { mutate: criarSolicitacao, error: erroMutacao } = useMutation({
 		...trpc.almoxarifado.solicitacoes.criar.mutationOptions(),
@@ -91,12 +88,12 @@ function RouteComponent() {
 			navigate({
 				to: "/admin/almoxarifado/solicitacoes/$id",
 				params: { id: data.id.toString() },
-			})
+			});
 		},
 		onError: () => {
 			setSalvando(false);
 		},
-	})
+	});
 
 	const onSubmit = async (data: FormularioSolicitacaoData) => {
 		setSalvando(true);
@@ -109,29 +106,29 @@ function RouteComponent() {
 					materialId: material.materialId,
 					qtdSolicitada: material.qtdSolicitada,
 				})),
-			}
+			};
 			criarSolicitacao(dadosTransformados);
 		} catch (error) {
 			setSalvando(false);
 		}
-	}
+	};
 
 	const formatCurrency = (value: number) => {
 		return new Intl.NumberFormat("pt-BR", {
 			style: "currency",
 			currency: "BRL",
 		}).format(value);
-	}
+	};
 
 	const calcularValorTotal = () => {
 		return materiais.reduce((total: number, material: MaterialSelecionado) => {
 			return total + material.valorUnitario * material.qtdSolicitada;
-		}, 0)
-	}
+		}, 0);
+	};
 
 	const handleMateriaisChange = (novosMateriais: MaterialSelecionado[]) => {
 		setValue("materiais", novosMateriais);
-	}
+	};
 
 	const header = (
 		<PageHeader
@@ -155,7 +152,7 @@ function RouteComponent() {
 				</Button>,
 			]}
 		/>
-	)
+	);
 
 	return (
 		<RouteGuard
@@ -327,5 +324,5 @@ function RouteComponent() {
 				</div>
 			</AdminLayout>
 		</RouteGuard>
-	)
+	);
 }
