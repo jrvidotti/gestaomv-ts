@@ -24,10 +24,6 @@ function updatePackageJson(newVersion) {
 
 function createCommitAndTag(version) {
   try {
-    // Executa yarn format antes do commit
-    console.log('🔧 Executando yarn format...');
-    execSync('yarn format', { stdio: 'inherit', cwd: path.join(__dirname, '../gestaomv') });
-    
     // Stage o package.json modificado e possíveis arquivos formatados
     execSync(`git add ${PACKAGE_JSON_PATH}`, { stdio: 'inherit' });
     execSync('git add .', { stdio: 'inherit' });
@@ -39,7 +35,6 @@ function createCommitAndTag(version) {
     execSync(`git tag v${version}`, { stdio: 'inherit' });
     
     console.log(`✅ Versão atualizada para ${version}`);
-    console.log(`✅ Formatação executada`);
     console.log(`✅ Commit criado: "chore: bump version to ${version}"`);
     console.log(`✅ Tag criada: v${version}`);
   } catch (error) {

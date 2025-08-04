@@ -1,0 +1,54 @@
+name: Release Automático
+
+on:
+  push:
+    branches: [main]
+    # Evita loop infinito: ignora commits feitos pelo próprio bot
+    paths-ignore:
+      - 'gestaomv/package.json'
+
+env:
+  # Token com permissões para fazer commits
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    # Evita executar se o commit já foi feito pelo GitHub Actions
+    if: "!contains(github.event.head_commit.message, 'chore: bump version to')"
+    
+    permissions:
+      contents: write # Necessário para fazer commits e criar tags
+      actions: read
+      
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          # Necessário para fazer commits
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+          
+      - name: Instalar dependências
+        run: yarn install --frozen-lockfile
+        
+      - name: Executar formatação
+        run: yarn format
+        
+      - name: Configurar Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+      - name: Executar bump de versão
+        run: node scripts/bump-version.js
+        
+      - name: Push das mudanças e tags
+        run: |
+          git push origin main
+          git push --tags
