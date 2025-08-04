@@ -1,115 +1,115 @@
 {
-  "metadata": {
-    "exportadoEm": "2025-07-29T17:04:57.407Z",
-    "totalRegistros": 21,
-    "versao": "1.0.0",
-    "descricao": "Dados de departamentos para seed"
-  },
-  "dados": [
-    {
-      "nome": "(INATIVO) CREDIÁRIO",
-      "descricao": "(INATIVO) CREDIÁRIO",
-      "pontowebId": 9
-    },
-    {
-      "nome": "(INATIVO) SERVIÇO GERAIS",
-      "descricao": "(INATIVO) SERVIÇO GERAIS",
-      "pontowebId": 14
-    },
-    {
-      "nome": "ADMINISTRATIVO",
-      "descricao": "ADMINISTRATIVO",
-      "pontowebId": 10
-    },
-    {
-      "nome": "APOIO",
-      "descricao": "APOIO",
-      "pontowebId": 3
-    },
-    {
-      "nome": "CAIXA/CREDIARIO",
-      "descricao": "CAIXA/CREDIARIO",
-      "pontowebId": 7
-    },
-    {
-      "nome": "CENTRAL",
-      "descricao": "CENTRAL",
-      "pontowebId": 5
-    },
-    {
-      "nome": "COMPRAS",
-      "descricao": "COMPRAS",
-      "pontowebId": 2
-    },
-    {
-      "nome": "CONSTRUÇÃO",
-      "descricao": "CONSTRUÇÃO",
-      "pontowebId": 15
-    },
-    {
-      "nome": "Departamento Geral",
-      "descricao": "Departamento padrão para cargos importados do PontoWeb sem departamento específico",
-      "pontowebId": null
-    },
-    {
-      "nome": "ESTOQUE",
-      "descricao": "ESTOQUE",
-      "pontowebId": 8
-    },
-    {
-      "nome": "FISCAL",
-      "descricao": "FISCAL",
-      "pontowebId": 6
-    },
-    {
-      "nome": "Financeiro",
-      "descricao": "Departamento financeiro e contábil",
-      "pontowebId": 103
-    },
-    {
-      "nome": "GERÊNCIA",
-      "descricao": "GERÊNCIA",
-      "pontowebId": 13
-    },
-    {
-      "nome": "MARKETING ",
-      "descricao": "MARKETING ",
-      "pontowebId": 11
-    },
-    {
-      "nome": "PESSOAL",
-      "descricao": "PESSOAL",
-      "pontowebId": 1
-    },
-    {
-      "nome": "RH",
-      "descricao": "RH",
-      "pontowebId": 12
-    },
-    {
-      "nome": "Recursos Humanos",
-      "descricao": "Departamento responsável pela gestão de pessoas",
-      "pontowebId": 101
-    },
-    {
-      "nome": "T.I",
-      "descricao": "T.I",
-      "pontowebId": 16
-    },
-    {
-      "nome": "TESTE 1",
-      "descricao": "TESTE 123",
-      "pontowebId": null
-    },
-    {
-      "nome": "Tecnologia da Informação",
-      "descricao": "Departamento de TI e sistemas",
-      "pontowebId": 102
-    },
-    {
-      "nome": "VENDAS",
-      "descricao": "VENDAS",
-      "pontowebId": 4
-    }
-  ]
+	"metadata": {
+		"exportadoEm": "2025-07-29T17:04:57.407Z",
+		"totalRegistros": 21,
+		"versao": "1.0.0",
+		"descricao": "Dados de departamentos para seed"
+	},
+	"dados": [
+		{
+			"nome": "(INATIVO) CREDIÁRIO",
+			"descricao": "(INATIVO) CREDIÁRIO",
+			"pontowebId": 9
+		},
+		{
+			"nome": "(INATIVO) SERVIÇO GERAIS",
+			"descricao": "(INATIVO) SERVIÇO GERAIS",
+			"pontowebId": 14
+		},
+		{
+			"nome": "ADMINISTRATIVO",
+			"descricao": "ADMINISTRATIVO",
+			"pontowebId": 10
+		},
+		{
+			"nome": "APOIO",
+			"descricao": "APOIO",
+			"pontowebId": 3
+		},
+		{
+			"nome": "CAIXA/CREDIARIO",
+			"descricao": "CAIXA/CREDIARIO",
+			"pontowebId": 7
+		},
+		{
+			"nome": "CENTRAL",
+			"descricao": "CENTRAL",
+			"pontowebId": 5
+		},
+		{
+			"nome": "COMPRAS",
+			"descricao": "COMPRAS",
+			"pontowebId": 2
+		},
+		{
+			"nome": "CONSTRUÇÃO",
+			"descricao": "CONSTRUÇÃO",
+			"pontowebId": 15
+		},
+		{
+			"nome": "Departamento Geral",
+			"descricao": "Departamento padrão para cargos importados do PontoWeb sem departamento específico",
+			"pontowebId": null
+		},
+		{
+			"nome": "ESTOQUE",
+			"descricao": "ESTOQUE",
+			"pontowebId": 8
+		},
+		{
+			"nome": "FISCAL",
+			"descricao": "FISCAL",
+			"pontowebId": 6
+		},
+		{
+			"nome": "Financeiro",
+			"descricao": "Departamento financeiro e contábil",
+			"pontowebId": 103
+		},
+		{
+			"nome": "GERÊNCIA",
+			"descricao": "GERÊNCIA",
+			"pontowebId": 13
+		},
+		{
+			"nome": "MARKETING ",
+			"descricao": "MARKETING ",
+			"pontowebId": 11
+		},
+		{
+			"nome": "PESSOAL",
+			"descricao": "PESSOAL",
+			"pontowebId": 1
+		},
+		{
+			"nome": "RH",
+			"descricao": "RH",
+			"pontowebId": 12
+		},
+		{
+			"nome": "Recursos Humanos",
+			"descricao": "Departamento responsável pela gestão de pessoas",
+			"pontowebId": 101
+		},
+		{
+			"nome": "T.I",
+			"descricao": "T.I",
+			"pontowebId": 16
+		},
+		{
+			"nome": "TESTE 1",
+			"descricao": "TESTE 123",
+			"pontowebId": null
+		},
+		{
+			"nome": "Tecnologia da Informação",
+			"descricao": "Departamento de TI e sistemas",
+			"pontowebId": 102
+		},
+		{
+			"nome": "VENDAS",
+			"descricao": "VENDAS",
+			"pontowebId": 4
+		}
+	]
 }

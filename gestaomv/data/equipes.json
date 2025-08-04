@@ -1,14 +1,14 @@
 {
-  "metadata": {
-    "exportadoEm": "2025-07-29T17:04:57.407Z",
-    "totalRegistros": 1,
-    "versao": "1.0.0",
-    "descricao": "Dados de equipes para seed"
-  },
-  "dados": [
-    {
-      "nome": "TESTE",
-      "codigo": "EQ001"
-    }
-  ]
+	"metadata": {
+		"exportadoEm": "2025-07-29T17:04:57.407Z",
+		"totalRegistros": 1,
+		"versao": "1.0.0",
+		"descricao": "Dados de equipes para seed"
+	},
+	"dados": [
+		{
+			"nome": "TESTE",
+			"codigo": "EQ001"
+		}
+	]
 }

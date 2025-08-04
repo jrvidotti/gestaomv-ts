@@ -1,17 +1,17 @@
 {
-  "metadata": {
-    "exportadoEm": "2025-07-29T17:04:57.402Z",
-    "totalRegistros": 1,
-    "versao": "1.0.0",
-    "descricao": "Dados de usuários para seed"
-  },
-  "dados": [
-    {
-      "email": "jrvidotti@gmail.com",
-      "name": "Junior",
-      "password": "junior123",
-      "isActive": true,
-      "roles": ["admin"]
-    }
-  ]
+	"metadata": {
+		"exportadoEm": "2025-07-29T17:04:57.402Z",
+		"totalRegistros": 1,
+		"versao": "1.0.0",
+		"descricao": "Dados de usuários para seed"
+	},
+	"dados": [
+		{
+			"email": "jrvidotti@gmail.com",
+			"name": "Junior",
+			"password": "junior123",
+			"isActive": true,
+			"roles": ["admin"]
+		}
+	]
 }

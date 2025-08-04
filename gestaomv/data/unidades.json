@@ -1,190 +1,190 @@
 {
-  "metadata": {
-    "exportadoEm": "2025-07-29T17:04:57.407Z",
-    "totalRegistros": 18,
-    "versao": "1.0.0",
-    "descricao": "Dados de unidades para seed"
-  },
-  "dados": [
-    {
-      "nome": "ADMINISTRAÇÃO",
-      "codigo": 1,
-      "empresaCnpj": "01.901.270/0001-36",
-      "endereco": "",
-      "cidade": "",
-      "estado": "",
-      "telefone": "",
-      "pontowebId": 1
-    },
-    {
-      "nome": "LOJA 01",
-      "codigo": 2,
-      "empresaCnpj": "37.438.157/0001-03",
-      "endereco": "",
-      "cidade": "",
-      "estado": "",
-      "telefone": "",
-      "pontowebId": 2
-    },
-    {
-      "nome": "LOJA 02",
-      "codigo": 6,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 6
-    },
-    {
-      "nome": "LOJA 04",
-      "codigo": 7,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 7
-    },
-    {
-      "nome": "LOJA 03",
-      "codigo": 8,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 8
-    },
-    {
-      "nome": "LOJA 05",
-      "codigo": 9,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 9
-    },
-    {
-      "nome": "LOJA 06",
-      "codigo": 10,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 10
-    },
-    {
-      "nome": "LOJA 07",
-      "codigo": 11,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 11
-    },
-    {
-      "nome": "LOJA 08",
-      "codigo": 12,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 12
-    },
-    {
-      "nome": "LOJA 09",
-      "codigo": 13,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 13
-    },
-    {
-      "nome": "LOJA 13",
-      "codigo": 14,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 14
-    },
-    {
-      "nome": "LOJA 14",
-      "codigo": 15,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 15
-    },
-    {
-      "nome": "LOJA 15",
-      "codigo": 16,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 16
-    },
-    {
-      "nome": "LOJA 16",
-      "codigo": 17,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 17
-    },
-    {
-      "nome": "LOJA 18",
-      "codigo": 26,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 26
-    },
-    {
-      "nome": "LOJA SALDÃO ",
-      "codigo": 27,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 27
-    },
-    {
-      "nome": "LOJA 21",
-      "codigo": 28,
-      "empresaCnpj": null,
-      "endereco": null,
-      "cidade": null,
-      "estado": null,
-      "telefone": null,
-      "pontowebId": 28
-    },
-    {
-      "nome": "TESTE",
-      "codigo": 123,
-      "empresaCnpj": null,
-      "endereco": "",
-      "cidade": "",
-      "estado": "",
-      "telefone": "",
-      "pontowebId": null
-    }
-  ]
+	"metadata": {
+		"exportadoEm": "2025-07-29T17:04:57.407Z",
+		"totalRegistros": 18,
+		"versao": "1.0.0",
+		"descricao": "Dados de unidades para seed"
+	},
+	"dados": [
+		{
+			"nome": "ADMINISTRAÇÃO",
+			"codigo": 1,
+			"empresaCnpj": "01.901.270/0001-36",
+			"endereco": "",
+			"cidade": "",
+			"estado": "",
+			"telefone": "",
+			"pontowebId": 1
+		},
+		{
+			"nome": "LOJA 01",
+			"codigo": 2,
+			"empresaCnpj": "37.438.157/0001-03",
+			"endereco": "",
+			"cidade": "",
+			"estado": "",
+			"telefone": "",
+			"pontowebId": 2
+		},
+		{
+			"nome": "LOJA 02",
+			"codigo": 6,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 6
+		},
+		{
+			"nome": "LOJA 04",
+			"codigo": 7,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 7
+		},
+		{
+			"nome": "LOJA 03",
+			"codigo": 8,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 8
+		},
+		{
+			"nome": "LOJA 05",
+			"codigo": 9,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 9
+		},
+		{
+			"nome": "LOJA 06",
+			"codigo": 10,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 10
+		},
+		{
+			"nome": "LOJA 07",
+			"codigo": 11,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 11
+		},
+		{
+			"nome": "LOJA 08",
+			"codigo": 12,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 12
+		},
+		{
+			"nome": "LOJA 09",
+			"codigo": 13,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 13
+		},
+		{
+			"nome": "LOJA 13",
+			"codigo": 14,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 14
+		},
+		{
+			"nome": "LOJA 14",
+			"codigo": 15,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 15
+		},
+		{
+			"nome": "LOJA 15",
+			"codigo": 16,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 16
+		},
+		{
+			"nome": "LOJA 16",
+			"codigo": 17,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 17
+		},
+		{
+			"nome": "LOJA 18",
+			"codigo": 26,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 26
+		},
+		{
+			"nome": "LOJA SALDÃO ",
+			"codigo": 27,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 27
+		},
+		{
+			"nome": "LOJA 21",
+			"codigo": 28,
+			"empresaCnpj": null,
+			"endereco": null,
+			"cidade": null,
+			"estado": null,
+			"telefone": null,
+			"pontowebId": 28
+		},
+		{
+			"nome": "TESTE",
+			"codigo": 123,
+			"empresaCnpj": null,
+			"endereco": "",
+			"cidade": "",
+			"estado": "",
+			"telefone": "",
+			"pontowebId": null
+		}
+	]
 }
