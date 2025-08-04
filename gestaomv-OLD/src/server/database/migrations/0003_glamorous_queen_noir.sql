@@ -1,0 +1,1 @@
+ALTER TABLE `empresas` ADD `unidade_padrao_id` integer REFERENCES unidades(id);
