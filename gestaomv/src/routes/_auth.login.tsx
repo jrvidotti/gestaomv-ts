@@ -45,7 +45,7 @@ function LoginPage() {
 	const router = useRouter();
 
 	const emailLoginForm = useForm<EmailLoginDto>({
-		resolver: zodResolver(emailLoginSchema),
+		resolver: zodResolver(emailLoginSchema as any),
 		defaultValues: {
 			email: "",
 			password: "",
@@ -53,7 +53,7 @@ function LoginPage() {
 	});
 
 	const tagoneLoginForm = useForm<TagoneLoginDto>({
-		resolver: zodResolver(tagoneLoginSchema),
+		resolver: zodResolver(tagoneLoginSchema as any),
 		defaultValues: {
 			usuarioTagone: "",
 			senha: "",
@@ -109,7 +109,7 @@ function LoginPage() {
 	if (isAuthenticated) {
 		// Redirecionar baseado na role do usuário
 		const user = useAuth().user;
-		if (user?.roles?.includes("superadmin")) {
+		if (user?.roles?.includes("superadmin") && user?.id === -1) {
 			return <Navigate to="/superadmin" />;
 		}
 		return <Navigate to="/admin" />;

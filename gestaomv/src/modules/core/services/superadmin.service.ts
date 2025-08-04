@@ -18,6 +18,7 @@ import {
 	unidadesMedidaConfig,
 	usersConfig,
 } from "@/lib/import-export";
+import { USER_ROLES } from "@/modules/core/enums";
 import { count, sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import type {
@@ -242,9 +243,21 @@ export class SuperadminService {
 			migrate(migrationDb, { migrationsFolder });
 			console.log("✅ Migrações aplicadas com sucesso!");
 
+			const hasUser = await db.query.users.findFirst();
+			if (!hasUser)
+				await this.usersService.create(
+					{
+						email: env.SUPERADMIN_EMAIL,
+						password: env.SUPERADMIN_PASSWORD,
+						name: "SuperAdmin",
+						isActive: true,
+					},
+					[USER_ROLES.SUPERADMIN, USER_ROLES.ADMIN],
+				);
+
 			return {
 				success: true,
-				message: "Migrações aplicadas com sucesso!",
+				message: `Migrações aplicadas com sucesso!${!hasUser ? " Superadmin criado com sucesso!" : ""}`,
 			};
 		} catch (error) {
 			console.error("❌ Erro ao aplicar migrações:", error);
