@@ -151,7 +151,7 @@ function RouteComponent() {
 
 	const handleRejeitar = async (id: number) => {
 		const motivo = prompt("Informe o motivo da rejeição (obrigatório):");
-		if (motivo && motivo.trim()) {
+		if (motivo?.trim()) {
 			aprovarSolicitacao({
 				id,
 				data: {

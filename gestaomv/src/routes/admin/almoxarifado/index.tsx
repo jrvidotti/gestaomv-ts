@@ -501,7 +501,10 @@ function RouteComponent() {
 													label={({ name, value }) => `${name}: ${value}`}
 												>
 													{dadosStatus.map((entry, index) => (
-														<Cell key={`cell-${index}`} fill={entry.color} />
+														<Cell
+															key={`cell-${entry.name}-${index}`}
+															fill={entry.color}
+														/>
 													))}
 												</Pie>
 												<Tooltip />

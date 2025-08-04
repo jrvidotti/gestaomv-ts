@@ -186,10 +186,9 @@ function RouteComponent() {
 									</div>
 								</div>
 								<div>
-									{/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
-									<label className="text-sm font-medium mb-2 block">
+									<div className="text-sm font-medium mb-2 block">
 										Departamento
-									</label>
+									</div>
 									<LookupSelect
 										className="w-64"
 										value={departamentoSelecionado ?? "all"}

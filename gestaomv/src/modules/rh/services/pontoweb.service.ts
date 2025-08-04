@@ -272,7 +272,6 @@ export class PontowebService {
 			const cargosUnicos = new Map();
 
 			for (const funcionario of funcionarios) {
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 				const func = funcionario as any;
 
 				if (func.Empresa && !empresasUnicas.has(func.Empresa.Id)) {
@@ -590,7 +589,6 @@ export class PontowebService {
 			console.log("📋 Buscando motivos de demissão...");
 			const motivos = await client.listMotivosDemissao();
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			resultado.motivos = motivos.map((motivo: any) => ({
 				id: motivo.Id,
 				descricao: motivo.Descricao,

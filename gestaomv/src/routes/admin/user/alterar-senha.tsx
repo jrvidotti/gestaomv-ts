@@ -92,9 +92,8 @@ function AlterarSenhaPage() {
 							className="space-y-4"
 						>
 							{/* Senha Atual */}
-							<form.Field
-								name="currentPassword"
-								children={(field) => (
+							<form.Field name="currentPassword">
+								{(field) => (
 									<div className="space-y-2">
 										<Label htmlFor="currentPassword">Senha Atual</Label>
 										<div className="relative">
@@ -131,12 +130,11 @@ function AlterarSenhaPage() {
 										)}
 									</div>
 								)}
-							/>
+							</form.Field>
 
 							{/* Nova Senha */}
-							<form.Field
-								name="newPassword"
-								children={(field) => (
+							<form.Field name="newPassword">
+								{(field) => (
 									<div className="space-y-2">
 										<Label htmlFor="newPassword">Nova Senha</Label>
 										<div className="relative">
@@ -181,12 +179,11 @@ function AlterarSenhaPage() {
 											)}
 									</div>
 								)}
-							/>
+							</form.Field>
 
 							{/* Confirmar Nova Senha */}
-							<form.Field
-								name="confirmPassword"
-								children={(field) => (
+							<form.Field name="confirmPassword">
+								{(field) => (
 									<div className="space-y-2">
 										<Label htmlFor="confirmPassword">
 											Confirmar Nova Senha
@@ -228,7 +225,8 @@ function AlterarSenhaPage() {
 												state.values.newPassword,
 												state.values.confirmPassword,
 											]}
-											children={([newPassword, confirmPassword]) => {
+										>
+											{([newPassword, confirmPassword]) => {
 												if (
 													confirmPassword &&
 													newPassword === confirmPassword &&
@@ -243,10 +241,10 @@ function AlterarSenhaPage() {
 												}
 												return null;
 											}}
-										/>
+										</form.Subscribe>
 									</div>
 								)}
-							/>
+							</form.Field>
 
 							{/* Botões de Ação */}
 							<div className="flex gap-3 pt-4">

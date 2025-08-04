@@ -31,13 +31,16 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 		const [isFocused, setIsFocused] = React.useState(false);
 
 		// Formatar número para exibição com símbolo de moeda
-		const formatCurrency = (num: number): string => {
-			return new Intl.NumberFormat(locale, {
-				style: "currency",
-				currency,
-				minimumFractionDigits: 2,
-			}).format(num);
-		};
+		const formatCurrency = React.useCallback(
+			(num: number): string => {
+				return new Intl.NumberFormat(locale, {
+					style: "currency",
+					currency,
+					minimumFractionDigits: 2,
+				}).format(num);
+			},
+			[locale, currency],
+		);
 
 		// Formatar número para input (sem símbolos, apenas vírgula decimal)
 		const formatForInput = (num: number): string => {
@@ -71,7 +74,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 					// Uma vírgula - sempre tratar como decimal brasileiro
 					// Limitar a 2 casas decimais se necessário
 					const decimalPart = parts[1].substring(0, 2);
-					cleanStr = parts[0] + "." + decimalPart;
+					cleanStr = `${parts[0]}.${decimalPart}`;
 				} else {
 					// Múltiplas vírgulas - separador de milhares
 					cleanStr = cleanStr.replace(/,/g, "");
@@ -87,7 +90,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 			if (!isFocused) {
 				setDisplayValue(formatCurrency(value));
 			}
-		}, [value, isFocused, locale, currency]);
+		}, [value, isFocused, formatCurrency]);
 
 		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const newValue = e.target.value;
