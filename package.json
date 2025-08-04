@@ -1,6 +1,7 @@
 {
 	"name": "gestaomv-workspace",
 	"private": true,
+	"type": "module",
 	"workspaces": ["gestaomv", "packages/*"],
 	"scripts": {
 		"dev": "yarn workspace @gestaomv/app dev",
