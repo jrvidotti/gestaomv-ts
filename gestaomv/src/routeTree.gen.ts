@@ -36,6 +36,8 @@ import { Route as AdminRhCargosNovoRouteImport } from './routes/admin/rh/cargos/
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
 import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
+import { Route as AdminAlmoxarifadoSolicitacoesNovaRouteImport } from './routes/admin/almoxarifado/solicitacoes/nova'
+import { Route as AdminAlmoxarifadoSolicitacoesIdRouteImport } from './routes/admin/almoxarifado/solicitacoes/$id'
 import { Route as AdminAlmoxarifadoMateriaisNovoRouteImport } from './routes/admin/almoxarifado/materiais/novo'
 import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/rh/departamentos/$id/index'
 import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id/edit'
@@ -182,6 +184,18 @@ const AdminCoreEmpresasNovaRoute = AdminCoreEmpresasNovaRouteImport.update({
   path: '/admin/core/empresas/nova',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAlmoxarifadoSolicitacoesNovaRoute =
+  AdminAlmoxarifadoSolicitacoesNovaRouteImport.update({
+    id: '/admin/almoxarifado/solicitacoes/nova',
+    path: '/admin/almoxarifado/solicitacoes/nova',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminAlmoxarifadoSolicitacoesIdRoute =
+  AdminAlmoxarifadoSolicitacoesIdRouteImport.update({
+    id: '/admin/almoxarifado/solicitacoes/$id',
+    path: '/admin/almoxarifado/solicitacoes/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminAlmoxarifadoMateriaisNovoRoute =
   AdminAlmoxarifadoMateriaisNovoRouteImport.update({
     id: '/admin/almoxarifado/materiais/novo',
@@ -253,6 +267,8 @@ export interface FileRoutesByFullPath {
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
+  '/admin/almoxarifado/solicitacoes/$id': typeof AdminAlmoxarifadoSolicitacoesIdRoute
+  '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -288,6 +304,8 @@ export interface FileRoutesByTo {
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
+  '/admin/almoxarifado/solicitacoes/$id': typeof AdminAlmoxarifadoSolicitacoesIdRoute
+  '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -324,6 +342,8 @@ export interface FileRoutesById {
   '/admin/core/': typeof AdminCoreIndexRoute
   '/admin/rh/': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
+  '/admin/almoxarifado/solicitacoes/$id': typeof AdminAlmoxarifadoSolicitacoesIdRoute
+  '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -361,6 +381,8 @@ export interface FileRouteTypes {
     | '/admin/core'
     | '/admin/rh'
     | '/admin/almoxarifado/materiais/novo'
+    | '/admin/almoxarifado/solicitacoes/$id'
+    | '/admin/almoxarifado/solicitacoes/nova'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -396,6 +418,8 @@ export interface FileRouteTypes {
     | '/admin/core'
     | '/admin/rh'
     | '/admin/almoxarifado/materiais/novo'
+    | '/admin/almoxarifado/solicitacoes/$id'
+    | '/admin/almoxarifado/solicitacoes/nova'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -431,6 +455,8 @@ export interface FileRouteTypes {
     | '/admin/core/'
     | '/admin/rh/'
     | '/admin/almoxarifado/materiais/novo'
+    | '/admin/almoxarifado/solicitacoes/$id'
+    | '/admin/almoxarifado/solicitacoes/nova'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -467,6 +493,8 @@ export interface RootRouteChildren {
   AdminCoreIndexRoute: typeof AdminCoreIndexRoute
   AdminRhIndexRoute: typeof AdminRhIndexRoute
   AdminAlmoxarifadoMateriaisNovoRoute: typeof AdminAlmoxarifadoMateriaisNovoRoute
+  AdminAlmoxarifadoSolicitacoesIdRoute: typeof AdminAlmoxarifadoSolicitacoesIdRoute
+  AdminAlmoxarifadoSolicitacoesNovaRoute: typeof AdminAlmoxarifadoSolicitacoesNovaRoute
   AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
   AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
   AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
@@ -698,6 +726,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreEmpresasNovaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/almoxarifado/solicitacoes/nova': {
+      id: '/admin/almoxarifado/solicitacoes/nova'
+      path: '/admin/almoxarifado/solicitacoes/nova'
+      fullPath: '/admin/almoxarifado/solicitacoes/nova'
+      preLoaderRoute: typeof AdminAlmoxarifadoSolicitacoesNovaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/almoxarifado/solicitacoes/$id': {
+      id: '/admin/almoxarifado/solicitacoes/$id'
+      path: '/admin/almoxarifado/solicitacoes/$id'
+      fullPath: '/admin/almoxarifado/solicitacoes/$id'
+      preLoaderRoute: typeof AdminAlmoxarifadoSolicitacoesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/almoxarifado/materiais/novo': {
       id: '/admin/almoxarifado/materiais/novo'
       path: '/admin/almoxarifado/materiais/novo'
@@ -793,6 +835,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCoreIndexRoute: AdminCoreIndexRoute,
   AdminRhIndexRoute: AdminRhIndexRoute,
   AdminAlmoxarifadoMateriaisNovoRoute: AdminAlmoxarifadoMateriaisNovoRoute,
+  AdminAlmoxarifadoSolicitacoesIdRoute: AdminAlmoxarifadoSolicitacoesIdRoute,
+  AdminAlmoxarifadoSolicitacoesNovaRoute:
+    AdminAlmoxarifadoSolicitacoesNovaRoute,
   AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
   AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
   AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
