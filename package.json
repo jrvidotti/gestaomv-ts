@@ -9,7 +9,7 @@
 		"test": "yarn workspace @gestaomv/app test",
 		"lint": "yarn workspace @gestaomv/app lint",
 		"format": "yarn workspace @gestaomv/app format --write",
-		"check": "yarn workspace @gestaomv/app check",
+		"typecheck": "yarn workspace @gestaomv/app typecheck",
 		"db:generate": "yarn workspace @gestaomv/app db:generate",
 		"db:migrate": "yarn workspace @gestaomv/app db:migrate",
 		"db:seed": "yarn workspace @gestaomv/app db:seed",

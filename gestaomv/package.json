@@ -11,7 +11,7 @@
 		"test": "vitest run",
 		"format": "biome format",
 		"lint": "biome lint",
-		"check": "biome check",
+		"typecheck": "biome check",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:seed": "yarn db:migrate && tsx --env-file=.env scripts/seed.ts"
@@ -72,7 +72,7 @@
 		"lucide-react": "^0.536.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"react-hook-form": "^7.61.1",
+		"react-hook-form": "^7.62.0",
 		"react-markdown": "^9.0.1",
 		"recharts": "^3.1.0",
 		"rehype-highlight": "^7.0.0",
