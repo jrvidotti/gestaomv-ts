@@ -17,7 +17,7 @@ import {
 	emailLoginSchema,
 	tagoneLoginSchema,
 } from "@/modules/core/dtos";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter, Navigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -29,7 +29,7 @@ function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [loginType, setLoginType] = useState<"local" | "tagone">("local");
-	const { login, loginWithTagOne } = useAuth();
+	const { login, loginWithTagOne, isAuthenticated, isLoading: authLoading } = useAuth();
 	const router = useRouter();
 
 	const emailLoginForm = useForm({
@@ -63,8 +63,8 @@ function LoginPage() {
 
 		try {
 			await login(data);
-			// Navega para a rota "/admin/core"
-			router.navigate({ to: "/admin/core" });
+			// Remover navegação manual - deixar o sistema de redirecionamento automático funcionar
+			// O usuário autenticado será redirecionado automaticamente pela lógica de proteção de rotas
 		} catch (err) {
 			setError("Credenciais inválidas. Tente novamente.");
 		} finally {
@@ -78,7 +78,8 @@ function LoginPage() {
 
 		try {
 			await loginWithTagOne(data);
-			router.navigate({ to: "/admin/core" });
+			// Remover navegação manual - deixar o sistema de redirecionamento automático funcionar
+			// O usuário autenticado será redirecionado automaticamente pela lógica de proteção de rotas
 		} catch (err: unknown) {
 			const errorMessage =
 				err instanceof Error
@@ -89,6 +90,19 @@ function LoginPage() {
 			setIsLoading(false);
 		}
 	};
+
+	// Redirecionar se já estiver autenticado
+	if (authLoading) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<Loader2 className="h-8 w-8 animate-spin" />
+			</div>
+		);
+	}
+
+	if (isAuthenticated) {
+		return <Navigate to="/admin" />;
+	}
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-900 dark:to-gray-800 p-4">

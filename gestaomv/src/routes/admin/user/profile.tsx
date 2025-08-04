@@ -228,14 +228,26 @@ function ProfilePage() {
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground">Funções e Permissões</h4>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    {user.roles.map((role) => {
-                      const roleData = USER_ROLES_DATA[role]
-                      return (
-                        <Badge key={role} variant={roleData?.color || 'default'}>
-                          {roleData?.label || role}
+                    {user.roles.length > 0 ? (
+                      user.roles.map((role) => {
+                        const roleData = USER_ROLES_DATA[role]
+                        return (
+                          <Badge key={role} variant={roleData?.color || 'default'}>
+                            {roleData?.label || role}
+                          </Badge>
+                        )
+                      })
+                    ) : (
+                      <div className="w-full">
+                        <Badge variant="outline" className="text-amber-600 border-amber-600 mb-2">
+                          Nenhuma permissão atribuída
                         </Badge>
-                      )
-                    })}
+                        <p className="text-xs text-muted-foreground">
+                          Você ainda não possui permissões para acessar os módulos do sistema. 
+                          Entre em contato com um administrador para solicitar as permissões necessárias.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -13,24 +13,32 @@ function AdminRedirect() {
   const { getAccessibleModules } = usePermissions()
 
   useEffect(() => {
+    // Aguardar carregamento completo antes de qualquer redirecionamento
     if (isLoading) return
 
+    // Só redirecionar para login se realmente não estiver autenticado
     if (!isAuthenticated) {
       router.navigate({ to: '/login' })
       return
     }
 
-    // Obter módulos acessíveis para o usuário
-    const accessibleModules = getAccessibleModules()
+    // Aguardar um tick para garantir que o estado de autenticação está estável
+    const timeoutId = setTimeout(() => {
+      // Obter módulos acessíveis para o usuário
+      const accessibleModules = getAccessibleModules()
 
-    if (accessibleModules.length > 0) {
-      // Redirecionar para o primeiro módulo acessível
-      const targetModule = accessibleModules[0]
-      router.navigate({ to: targetModule.url })
-    } else {
-      // Se não tem acesso a nenhum módulo, redirecionar para login
-      router.navigate({ to: '/login' })
-    }
+      if (accessibleModules.length > 0) {
+        // Redirecionar para o primeiro módulo acessível
+        const targetModule = accessibleModules[0]
+        router.navigate({ to: targetModule.url })
+      } else {
+        // Se não tem acesso a nenhum módulo, redirecionar para perfil
+        // onde o usuário pode ver que precisa de permissões
+        router.navigate({ to: '/admin/user/profile' })
+      }
+    }, 100)
+
+    return () => clearTimeout(timeoutId)
   }, [isAuthenticated, isLoading, router, getAccessibleModules])
 
   // Mostrar loading enquanto determina para onde redirecionar
