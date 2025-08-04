@@ -3,9 +3,6 @@ name: Release Automático
 on:
   push:
     branches: [main]
-    # Evita loop infinito: ignora commits feitos pelo próprio bot
-    paths-ignore:
-      - 'gestaomv/package.json'
 
 env:
   # Token com permissões para fazer commits
