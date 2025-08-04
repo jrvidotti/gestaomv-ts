@@ -6,16 +6,26 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useTRPC } from "@/integrations/trpc/react";
-import { changePasswordSchema } from "@/modules/core/dtos/users";
-import { useForm } from "@tanstack/react-form";
+import {
+	type ChangePasswordDto,
+	changePasswordSchema,
+} from "@/modules/core/dtos/users";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { AlertCircle, CheckCircle, Eye, EyeOff, Key } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/user/alterar-senha")({
@@ -42,20 +52,18 @@ function AlterarSenhaPage() {
 		},
 	});
 
-	const form = useForm({
+	const form = useForm<ChangePasswordDto>({
+		resolver: zodResolver(changePasswordSchema),
 		defaultValues: {
 			currentPassword: "",
 			newPassword: "",
 			confirmPassword: "",
 		},
-		onSubmit: async ({ value }) => {
-			changePasswordMutation.mutate(value);
-		},
-		validatorAdapter: zodValidator(),
-		validators: {
-			onChange: changePasswordSchema,
-		},
 	});
+
+	const onSubmit = (data: ChangePasswordDto) => {
+		changePasswordMutation.mutate(data);
+	};
 
 	const toggleShowPassword = (field: keyof typeof showPasswords) => {
 		setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }));
@@ -84,191 +92,154 @@ function AlterarSenhaPage() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<form
-							onSubmit={(e) => {
-								e.preventDefault();
-								form.handleSubmit();
-							}}
-							className="space-y-4"
-						>
-							{/* Senha Atual */}
-							<form.Field name="currentPassword">
-								{(field) => (
-									<div className="space-y-2">
-										<Label htmlFor="currentPassword">Senha Atual</Label>
-										<div className="relative">
-											<Input
-												id="currentPassword"
-												type={showPasswords.current ? "text" : "password"}
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												onBlur={field.handleBlur}
-												placeholder="Digite sua senha atual"
-												className={
-													field.state.meta.errors.length ? "border-red-500" : ""
-												}
-											/>
-											<Button
-												type="button"
-												variant="ghost"
-												size="sm"
-												className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-												onClick={() => toggleShowPassword("current")}
-											>
-												{showPasswords.current ? (
-													<EyeOff className="h-4 w-4" />
-												) : (
-													<Eye className="h-4 w-4" />
-												)}
-											</Button>
-										</div>
-										{field.state.meta.errors.length > 0 && (
-											<div className="flex items-center gap-1 text-sm text-red-500">
-												<AlertCircle className="h-4 w-4" />
-												{field.state.meta.errors[0]}
-											</div>
-										)}
-									</div>
-								)}
-							</form.Field>
-
-							{/* Nova Senha */}
-							<form.Field name="newPassword">
-								{(field) => (
-									<div className="space-y-2">
-										<Label htmlFor="newPassword">Nova Senha</Label>
-										<div className="relative">
-											<Input
-												id="newPassword"
-												type={showPasswords.new ? "text" : "password"}
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												onBlur={field.handleBlur}
-												placeholder="Digite sua nova senha"
-												className={
-													field.state.meta.errors.length ? "border-red-500" : ""
-												}
-											/>
-											<Button
-												type="button"
-												variant="ghost"
-												size="sm"
-												className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-												onClick={() => toggleShowPassword("new")}
-											>
-												{showPasswords.new ? (
-													<EyeOff className="h-4 w-4" />
-												) : (
-													<Eye className="h-4 w-4" />
-												)}
-											</Button>
-										</div>
-										{field.state.meta.errors.length > 0 && (
-											<div className="flex items-center gap-1 text-sm text-red-500">
-												<AlertCircle className="h-4 w-4" />
-												{field.state.meta.errors[0]}
-											</div>
-										)}
-										{field.state.value &&
-											field.state.value.length >= 6 &&
-											!field.state.meta.errors.length && (
-												<div className="flex items-center gap-1 text-sm text-green-600">
-													<CheckCircle className="h-4 w-4" />
-													Senha forte
+						<Form {...form}>
+							<form
+								onSubmit={form.handleSubmit(onSubmit)}
+								className="space-y-4"
+							>
+								{/* Senha Atual */}
+								<FormField
+									control={form.control}
+									name="currentPassword"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Senha Atual</FormLabel>
+											<FormControl>
+												<div className="relative">
+													<Input
+														type={showPasswords.current ? "text" : "password"}
+														placeholder="Digite sua senha atual"
+														{...field}
+													/>
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+														onClick={() => toggleShowPassword("current")}
+													>
+														{showPasswords.current ? (
+															<EyeOff className="h-4 w-4" />
+														) : (
+															<Eye className="h-4 w-4" />
+														)}
+													</Button>
 												</div>
-											)}
-									</div>
-								)}
-							</form.Field>
+											</FormControl>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 
-							{/* Confirmar Nova Senha */}
-							<form.Field name="confirmPassword">
-								{(field) => (
-									<div className="space-y-2">
-										<Label htmlFor="confirmPassword">
-											Confirmar Nova Senha
-										</Label>
-										<div className="relative">
-											<Input
-												id="confirmPassword"
-												type={showPasswords.confirm ? "text" : "password"}
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												onBlur={field.handleBlur}
-												placeholder="Confirme sua nova senha"
-												className={
-													field.state.meta.errors.length ? "border-red-500" : ""
-												}
-											/>
-											<Button
-												type="button"
-												variant="ghost"
-												size="sm"
-												className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-												onClick={() => toggleShowPassword("confirm")}
-											>
-												{showPasswords.confirm ? (
-													<EyeOff className="h-4 w-4" />
-												) : (
-													<Eye className="h-4 w-4" />
+								{/* Nova Senha */}
+								<FormField
+									control={form.control}
+									name="newPassword"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Nova Senha</FormLabel>
+											<FormControl>
+												<div className="relative">
+													<Input
+														type={showPasswords.new ? "text" : "password"}
+														placeholder="Digite sua nova senha"
+														{...field}
+													/>
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+														onClick={() => toggleShowPassword("new")}
+													>
+														{showPasswords.new ? (
+															<EyeOff className="h-4 w-4" />
+														) : (
+															<Eye className="h-4 w-4" />
+														)}
+													</Button>
+												</div>
+											</FormControl>
+											<FormMessage />
+											{field.value &&
+												field.value.length >= 6 &&
+												!form.formState.errors.newPassword && (
+													<div className="flex items-center gap-1 text-sm text-green-600">
+														<CheckCircle className="h-4 w-4" />
+														Senha forte
+													</div>
 												)}
-											</Button>
-										</div>
-										{field.state.meta.errors.length > 0 && (
-											<div className="flex items-center gap-1 text-sm text-red-500">
-												<AlertCircle className="h-4 w-4" />
-												{field.state.meta.errors[0]}
-											</div>
-										)}
-										<form.Subscribe
-											selector={(state) => [
-												state.values.newPassword,
-												state.values.confirmPassword,
-											]}
-										>
-											{([newPassword, confirmPassword]) => {
-												if (
-													confirmPassword &&
-													newPassword === confirmPassword &&
-													!field.state.meta.errors.length
-												) {
-													return (
-														<div className="flex items-center gap-1 text-sm text-green-600">
-															<CheckCircle className="h-4 w-4" />
-															Senhas coincidem
-														</div>
-													);
-												}
-												return null;
-											}}
-										</form.Subscribe>
-									</div>
-								)}
-							</form.Field>
+										</FormItem>
+									)}
+								/>
 
-							{/* Botões de Ação */}
-							<div className="flex gap-3 pt-4">
-								<Button
-									type="submit"
-									disabled={
-										changePasswordMutation.isPending || !form.state.canSubmit
-									}
-									className="flex-1"
-								>
-									{changePasswordMutation.isPending
-										? "Alterando..."
-										: "Alterar Senha"}
-								</Button>
-								<Button
-									type="button"
-									variant="outline"
-									onClick={() => router.history.back()}
-									disabled={changePasswordMutation.isPending}
-								>
-									Cancelar
-								</Button>
-							</div>
-						</form>
+								{/* Confirmar Nova Senha */}
+								<FormField
+									control={form.control}
+									name="confirmPassword"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Confirmar Nova Senha</FormLabel>
+											<FormControl>
+												<div className="relative">
+													<Input
+														type={showPasswords.confirm ? "text" : "password"}
+														placeholder="Confirme sua nova senha"
+														{...field}
+													/>
+													<Button
+														type="button"
+														variant="ghost"
+														size="sm"
+														className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+														onClick={() => toggleShowPassword("confirm")}
+													>
+														{showPasswords.confirm ? (
+															<EyeOff className="h-4 w-4" />
+														) : (
+															<Eye className="h-4 w-4" />
+														)}
+													</Button>
+												</div>
+											</FormControl>
+											<FormMessage />
+											{field.value &&
+												form.watch("newPassword") === field.value &&
+												!form.formState.errors.confirmPassword && (
+													<div className="flex items-center gap-1 text-sm text-green-600">
+														<CheckCircle className="h-4 w-4" />
+														Senhas coincidem
+													</div>
+												)}
+										</FormItem>
+									)}
+								/>
+
+								{/* Botões de Ação */}
+								<div className="flex gap-3 pt-4">
+									<Button
+										type="submit"
+										disabled={
+											changePasswordMutation.isPending ||
+											!form.formState.isValid
+										}
+										className="flex-1"
+									>
+										{changePasswordMutation.isPending
+											? "Alterando..."
+											: "Alterar Senha"}
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => router.history.back()}
+										disabled={changePasswordMutation.isPending}
+									>
+										Cancelar
+									</Button>
+								</div>
+							</form>
+						</Form>
 					</CardContent>
 				</Card>
 			</div>

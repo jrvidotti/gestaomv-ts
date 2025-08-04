@@ -9,8 +9,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
@@ -21,10 +28,15 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
-import { useForm } from "@tanstack/react-form";
+import {
+	type CriarCargoData,
+	criarCargoSchema,
+} from "@/modules/rh/dtos/cargos";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Building2, Save } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/rh/cargos/novo")({
@@ -53,28 +65,21 @@ function RouteComponent() {
 		},
 	});
 
-	const form = useForm({
+	const form = useForm<CriarCargoData>({
+		resolver: zodResolver(criarCargoSchema),
 		defaultValues: {
 			nome: "",
-			departamentoId: "",
+			departamentoId: 0,
 			descricao: "",
 		},
-		onSubmit: async ({ value }) => {
-			if (!value.nome.trim()) {
-				toast.error("Nome é obrigatório");
-				return;
-			}
-			if (!value.departamentoId) {
-				toast.error("Departamento é obrigatório");
-				return;
-			}
-			criarCargo({
-				nome: value.nome.trim(),
-				departamentoId: Number(value.departamentoId),
-				descricao: value.descricao.trim() || undefined,
-			});
-		},
 	});
+
+	const onSubmit = (data: CriarCargoData) => {
+		criarCargo({
+			...data,
+			descricao: data.descricao || undefined,
+		});
+	};
 
 	const header = (
 		<PageHeader
@@ -108,124 +113,117 @@ function RouteComponent() {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<form
-								onSubmit={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									form.handleSubmit();
-								}}
-								className="space-y-6"
-							>
-								{/* Nome */}
-								<form.Field name="nome">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Nome *</Label>
-											<Input
-												id={field.name}
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder="Ex: Analista de Sistemas"
-											/>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
-												</p>
-											)}
-										</div>
-									)}
-								</form.Field>
+							<Form {...form}>
+								<form
+									onSubmit={form.handleSubmit(onSubmit)}
+									className="space-y-6"
+								>
+									{/* Nome */}
+									<FormField
+										control={form.control}
+										name="nome"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Nome *</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="Ex: Analista de Sistemas"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-								{/* Departamento */}
-								<form.Field name="departamentoId">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Departamento *</Label>
-											<Select
-												value={field.state.value}
-												onValueChange={(value) => field.handleChange(value)}
-											>
-												<SelectTrigger>
-													<SelectValue placeholder="Selecione um departamento" />
-												</SelectTrigger>
-												<SelectContent>
-													{departamentos.map((dept) => (
-														<SelectItem
-															key={dept.id}
-															value={dept.id.toString()}
-														>
-															{dept.nome}
-														</SelectItem>
-													))}
-												</SelectContent>
-											</Select>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
-												</p>
-											)}
-										</div>
-									)}
-								</form.Field>
+									{/* Departamento */}
+									<FormField
+										control={form.control}
+										name="departamentoId"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Departamento *</FormLabel>
+												<Select
+													value={field.value?.toString()}
+													onValueChange={(value) =>
+														field.onChange(Number(value))
+													}
+												>
+													<FormControl>
+														<SelectTrigger>
+															<SelectValue placeholder="Selecione um departamento" />
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														{departamentos.map((dept) => (
+															<SelectItem
+																key={dept.id}
+																value={dept.id.toString()}
+															>
+																{dept.nome}
+															</SelectItem>
+														))}
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-								{/* Descrição */}
-								<form.Field name="descricao">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Descrição</Label>
-											<Textarea
-												id={field.name}
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder="Descreva as responsabilidades e requisitos do cargo..."
-												rows={4}
-											/>
-											<p className="text-sm text-muted-foreground">
-												Descrição detalhada das responsabilidades do cargo
-												(opcional)
+									{/* Descrição */}
+									<FormField
+										control={form.control}
+										name="descricao"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Descrição</FormLabel>
+												<FormControl>
+													<Textarea
+														placeholder="Descreva as responsabilidades e requisitos do cargo..."
+														rows={4}
+														{...field}
+													/>
+												</FormControl>
+												<p className="text-sm text-muted-foreground">
+													Descrição detalhada das responsabilidades do cargo
+													(opcional)
+												</p>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									{/* Informações adicionais */}
+									<div className="pt-4 border-t">
+										<h3 className="text-sm font-medium mb-3">Informações</h3>
+										<div className="text-sm text-muted-foreground space-y-2">
+											<p>• O nome do cargo deve ser único na organização</p>
+											<p>
+												• O departamento será usado para organizar funcionários
 											</p>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
-												</p>
-											)}
+											<p>
+												• A descrição ajuda no processo de recrutamento e
+												seleção
+											</p>
 										</div>
-									)}
-								</form.Field>
-
-								{/* Informações adicionais */}
-								<div className="pt-4 border-t">
-									<h3 className="text-sm font-medium mb-3">Informações</h3>
-									<div className="text-sm text-muted-foreground space-y-2">
-										<p>• O nome do cargo deve ser único na organização</p>
-										<p>
-											• O departamento será usado para organizar funcionários
-										</p>
-										<p>
-											• A descrição ajuda no processo de recrutamento e seleção
-										</p>
 									</div>
-								</div>
 
-								{/* Botões */}
-								<div className="flex gap-4 pt-4">
-									<Button
-										type="button"
-										variant="outline"
-										onClick={() => navigate({ to: "/admin/rh/cargos" })}
-									>
-										Cancelar
-									</Button>
-									<Button type="submit" disabled={isPending}>
-										<Save className="h-4 w-4 mr-2" />
-										{isPending ? "Criando..." : "Criar Cargo"}
-									</Button>
-								</div>
-							</form>
+									{/* Botões */}
+									<div className="flex gap-4 pt-4">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() => navigate({ to: "/admin/rh/cargos" })}
+										>
+											Cancelar
+										</Button>
+										<Button type="submit" disabled={isPending}>
+											<Save className="h-4 w-4 mr-2" />
+											{isPending ? "Criando..." : "Criar Cargo"}
+										</Button>
+									</div>
+								</form>
+							</Form>
 						</CardContent>
 					</Card>
 				</div>

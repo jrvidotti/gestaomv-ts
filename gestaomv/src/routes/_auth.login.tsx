@@ -7,14 +7,26 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
-import type { EmailLoginDto, TagoneLoginDto } from "@/modules/core/dtos";
-import { useForm } from "@tanstack/react-form";
+import { type EmailLoginDto, emailLoginSchema } from "@/modules/core/dtos/auth";
+import {
+	type TagoneLoginDto,
+	tagoneLoginSchema,
+} from "@/modules/core/dtos/tagone";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/_auth/login")({
 	component: LoginPage,
@@ -32,23 +44,19 @@ function LoginPage() {
 	} = useAuth();
 	const router = useRouter();
 
-	const emailLoginForm = useForm({
+	const emailLoginForm = useForm<EmailLoginDto>({
+		resolver: zodResolver(emailLoginSchema),
 		defaultValues: {
 			email: "",
 			password: "",
 		},
-		onSubmit: async ({ value }) => {
-			await onSubmit(value);
-		},
 	});
 
-	const tagoneLoginForm = useForm({
+	const tagoneLoginForm = useForm<TagoneLoginDto>({
+		resolver: zodResolver(tagoneLoginSchema),
 		defaultValues: {
 			usuarioTagone: "",
 			senha: "",
-		},
-		onSubmit: async ({ value }) => {
-			await onTagOneSubmit(value);
 		},
 	});
 
@@ -57,7 +65,7 @@ function LoginPage() {
 		setError("");
 	}, []);
 
-	const onSubmit = async (data: EmailLoginDto) => {
+	const onEmailSubmit = async (data: EmailLoginDto) => {
 		setIsLoading(true);
 		setError("");
 
@@ -152,144 +160,126 @@ function LoginPage() {
 						</div>
 
 						{loginType === "local" ? (
-							<form
-								onSubmit={(e) => {
-									e.preventDefault();
-									emailLoginForm.handleSubmit();
-								}}
-								className="space-y-4"
-							>
-								<emailLoginForm.Field name="email">
-									{(field) => (
-										<div>
-											<Label htmlFor={field.name}>Email</Label>
-											<Input
-												id={field.name}
-												type="email"
-												placeholder="seu@email.com"
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												disabled={isLoading}
-												className="mt-2"
-											/>
-											{field.state.meta.errors.length > 0 && (
-												<div className="text-sm text-red-600 dark:text-red-400 mt-1">
-													{field.state.meta.errors.join(", ")}
-												</div>
-											)}
+							<Form {...emailLoginForm}>
+								<form
+									onSubmit={emailLoginForm.handleSubmit(onEmailSubmit)}
+									className="space-y-4"
+								>
+									<FormField
+										control={emailLoginForm.control}
+										name="email"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Email</FormLabel>
+												<FormControl>
+													<Input
+														type="email"
+														placeholder="seu@email.com"
+														disabled={isLoading}
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={emailLoginForm.control}
+										name="password"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Senha</FormLabel>
+												<FormControl>
+													<Input
+														type="password"
+														placeholder="••••••••"
+														disabled={isLoading}
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									{error && (
+										<div className="text-sm text-red-600 dark:text-red-400 text-center">
+											{error}
 										</div>
 									)}
-								</emailLoginForm.Field>
-								<emailLoginForm.Field name="password">
-									{(field) => (
-										<div>
-											<Label htmlFor={field.name}>Senha</Label>
-											<Input
-												id={field.name}
-												type="password"
-												placeholder="••••••••"
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												disabled={isLoading}
-												className="mt-2"
-											/>
-											{field.state.meta.errors.length > 0 && (
-												<div className="text-sm text-red-600 dark:text-red-400 mt-1">
-													{field.state.meta.errors.join(", ")}
-												</div>
-											)}
-										</div>
-									)}
-								</emailLoginForm.Field>
 
-								{error && (
-									<div className="text-sm text-red-600 dark:text-red-400 text-center">
-										{error}
-									</div>
-								)}
-
-								<Button type="submit" className="w-full" disabled={isLoading}>
-									{isLoading ? (
-										<>
-											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-											Entrando...
-										</>
-									) : (
-										"Entrar"
-									)}
-								</Button>
-							</form>
+									<Button type="submit" className="w-full" disabled={isLoading}>
+										{isLoading ? (
+											<>
+												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+												Entrando...
+											</>
+										) : (
+											"Entrar"
+										)}
+									</Button>
+								</form>
+							</Form>
 						) : (
-							<form
-								onSubmit={(e) => {
-									e.preventDefault();
-									tagoneLoginForm.handleSubmit();
-								}}
-								className="space-y-4"
-							>
-								<tagoneLoginForm.Field name="usuarioTagone">
-									{(field) => (
-										<div>
-											<Label htmlFor={field.name}>Usuário TagOne</Label>
-											<Input
-												id={field.name}
-												placeholder="seu.usuario.tagone"
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												disabled={isLoading}
-												className="mt-2"
-											/>
-											{field.state.meta.errors.length > 0 && (
-												<div className="text-sm text-red-600 dark:text-red-400 mt-1">
-													{field.state.meta.errors.join(", ")}
-												</div>
-											)}
+							<Form {...tagoneLoginForm}>
+								<form
+									onSubmit={tagoneLoginForm.handleSubmit(onTagOneSubmit)}
+									className="space-y-4"
+								>
+									<FormField
+										control={tagoneLoginForm.control}
+										name="usuarioTagone"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Usuário TagOne</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="seu.usuario.tagone"
+														disabled={isLoading}
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={tagoneLoginForm.control}
+										name="senha"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Senha TagOne</FormLabel>
+												<FormControl>
+													<Input
+														type="password"
+														placeholder="••••••••"
+														disabled={isLoading}
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									{error && (
+										<div className="text-sm text-red-600 dark:text-red-400 text-center">
+											{error}
 										</div>
 									)}
-								</tagoneLoginForm.Field>
-								<tagoneLoginForm.Field name="senha">
-									{(field) => (
-										<div>
-											<Label htmlFor={field.name}>Senha TagOne</Label>
-											<Input
-												id={field.name}
-												type="password"
-												placeholder="••••••••"
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												disabled={isLoading}
-												className="mt-2"
-											/>
-											{field.state.meta.errors.length > 0 && (
-												<div className="text-sm text-red-600 dark:text-red-400 mt-1">
-													{field.state.meta.errors.join(", ")}
-												</div>
-											)}
-										</div>
-									)}
-								</tagoneLoginForm.Field>
 
-								{error && (
-									<div className="text-sm text-red-600 dark:text-red-400 text-center">
-										{error}
-									</div>
-								)}
-
-								<Button type="submit" className="w-full" disabled={isLoading}>
-									{isLoading ? (
-										<>
-											<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-											Entrando...
-										</>
-									) : (
-										"Entrar com TagOne"
-									)}
-								</Button>
-							</form>
+									<Button type="submit" className="w-full" disabled={isLoading}>
+										{isLoading ? (
+											<>
+												<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+												Entrando...
+											</>
+										) : (
+											"Entrar com TagOne"
+										)}
+									</Button>
+								</form>
+							</Form>
 						)}
 
 						{loginType === "local" && (

@@ -9,15 +9,27 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
-import { useForm } from "@tanstack/react-form";
+import {
+	type CriarDepartamentoData,
+	criarDepartamentoSchema,
+} from "@/modules/rh/dtos/departamentos";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Save } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/rh/departamentos/novo")({
@@ -39,20 +51,20 @@ function RouteComponent() {
 		},
 	});
 
-	const form = useForm({
+	const form = useForm<CriarDepartamentoData>({
+		resolver: zodResolver(criarDepartamentoSchema),
 		defaultValues: {
 			nome: "",
-			codigo: "",
 			descricao: "",
 		},
-		onSubmit: async ({ value }) => {
-			if (!value.nome.trim()) {
-				toast.error("Nome é obrigatório");
-				return;
-			}
-			criarDepartamento(value);
-		},
 	});
+
+	const onSubmit = (data: CriarDepartamentoData) => {
+		criarDepartamento({
+			...data,
+			descricao: data.descricao || undefined,
+		});
+	};
 
 	const header = (
 		<PageHeader
@@ -83,103 +95,69 @@ function RouteComponent() {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<form
-								onSubmit={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									form.handleSubmit();
-								}}
-								className="space-y-6"
-							>
-								{/* Nome */}
-								<form.Field name="nome">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Nome *</Label>
-											<Input
-												id={field.name}
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder="Ex: Recursos Humanos"
-											/>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
-												</p>
-											)}
-										</div>
-									)}
-								</form.Field>
+							<Form {...form}>
+								<form
+									onSubmit={form.handleSubmit(onSubmit)}
+									className="space-y-6"
+								>
+									{/* Nome */}
+									<FormField
+										control={form.control}
+										name="nome"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Nome *</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="Ex: Recursos Humanos"
+														{...field}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-								{/* Código */}
-								<form.Field name="codigo">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Código</Label>
-											<Input
-												id={field.name}
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder="Ex: RH"
-												className="font-mono"
-											/>
-											<p className="text-sm text-muted-foreground">
-												Código identificador do departamento (opcional)
-											</p>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
+									{/* Descrição */}
+									<FormField
+										control={form.control}
+										name="descricao"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Descrição</FormLabel>
+												<FormControl>
+													<Textarea
+														placeholder="Descreva as responsabilidades e objetivos do departamento..."
+														rows={3}
+														{...field}
+													/>
+												</FormControl>
+												<p className="text-sm text-muted-foreground">
+													Descrição detalhada do departamento (opcional)
 												</p>
-											)}
-										</div>
-									)}
-								</form.Field>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 
-								{/* Descrição */}
-								<form.Field name="descricao">
-									{(field) => (
-										<div className="space-y-2">
-											<Label htmlFor={field.name}>Descrição</Label>
-											<Textarea
-												id={field.name}
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder="Descreva as responsabilidades e objetivos do departamento..."
-												rows={3}
-											/>
-											<p className="text-sm text-muted-foreground">
-												Descrição detalhada do departamento (opcional)
-											</p>
-											{field.state.meta.errors && (
-												<p className="text-sm text-destructive">
-													{field.state.meta.errors[0]}
-												</p>
-											)}
-										</div>
-									)}
-								</form.Field>
-
-								{/* Botões */}
-								<div className="flex gap-4 pt-4">
-									<Button
-										type="button"
-										variant="outline"
-										onClick={() => navigate({ to: "/admin/rh/departamentos" })}
-									>
-										Cancelar
-									</Button>
-									<Button type="submit" disabled={isPending}>
-										<Save className="h-4 w-4 mr-2" />
-										{isPending ? "Salvando..." : "Salvar Departamento"}
-									</Button>
-								</div>
-							</form>
+									{/* Botões */}
+									<div className="flex gap-4 pt-4">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() =>
+												navigate({ to: "/admin/rh/departamentos" })
+											}
+										>
+											Cancelar
+										</Button>
+										<Button type="submit" disabled={isPending}>
+											<Save className="h-4 w-4 mr-2" />
+											{isPending ? "Salvando..." : "Salvar Departamento"}
+										</Button>
+									</div>
+								</form>
+							</Form>
 						</CardContent>
 					</Card>
 				</div>
