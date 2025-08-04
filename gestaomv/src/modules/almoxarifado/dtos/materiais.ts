@@ -20,6 +20,26 @@ export const formMaterialSchema = z.object({
 	ativo: z.boolean().optional(),
 });
 
+export const atualizarMaterialSchema = z.object({
+	nome: z
+		.string()
+		.min(1, "Nome é obrigatório")
+		.max(100, "Nome deve ter no máximo 100 caracteres")
+		.optional(),
+	descricao: z.string().optional(),
+	tipoMaterialId: z.string().optional(),
+	valorUnitario: z
+		.number()
+		.min(0, "Valor unitário deve ser maior ou igual a zero")
+		.optional(),
+	foto: z.string().optional().or(z.literal("")),
+	unidadeMedidaId: z
+		.string()
+		.min(1, "Unidade de medida é obrigatória")
+		.optional(),
+	ativo: z.boolean().optional(),
+});
+
 export const filtroMateriaisSchema = z.object({
 	busca: z.string().optional(),
 	tipoMaterialId: z.string().optional(),

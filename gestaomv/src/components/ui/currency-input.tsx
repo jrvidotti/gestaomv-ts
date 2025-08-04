@@ -28,8 +28,9 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 		ref,
 	) => {
 		const [displayValue, setDisplayValue] = React.useState("");
+		const [isFocused, setIsFocused] = React.useState(false);
 
-		// Formatar valor para exibição
+		// Formatar número para exibição com símbolo de moeda
 		const formatCurrency = (num: number): string => {
 			return new Intl.NumberFormat(locale, {
 				style: "currency",
@@ -38,76 +39,100 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 			}).format(num);
 		};
 
+		// Formatar número para input (sem símbolos, apenas vírgula decimal)
+		const formatForInput = (num: number): string => {
+			return num.toFixed(2).replace(".", ",");
+		};
+
 		// Converter string para número
 		const parseStringToNumber = (str: string): number => {
-			// Remove todos os caracteres exceto dígitos e vírgula/ponto
-			const cleanStr = str.replace(/[^\d,.-]/g, "");
+			if (!str || str.trim() === "") return 0;
 
-			// Se estiver vazio, retorna 0
-			if (!cleanStr) return 0;
+			// Remove tudo exceto dígitos, vírgula e ponto
+			let cleanStr = str.replace(/[^\d,.]/g, "");
 
-			// Substitui vírgula por ponto para conversão
-			const normalizedStr = cleanStr.replace(",", ".");
+			if (!/\d/.test(cleanStr)) return 0;
 
-			// Converte para número
-			const num = Number.parseFloat(normalizedStr);
+			// Lógica de parsing para formato brasileiro
+			if (cleanStr.includes(",") && cleanStr.includes(".")) {
+				const lastCommaIndex = cleanStr.lastIndexOf(",");
+				const lastDotIndex = cleanStr.lastIndexOf(".");
 
-			// Se não for um número válido, retorna 0
-			return isNaN(num) ? 0 : num;
+				if (lastCommaIndex > lastDotIndex) {
+					// Formato brasileiro: 123.456,01
+					cleanStr = cleanStr.replace(/\./g, "").replace(",", ".");
+				} else {
+					// Formato internacional: 123,456.01
+					cleanStr = cleanStr.replace(/,/g, "");
+				}
+			} else if (cleanStr.includes(",")) {
+				const parts = cleanStr.split(",");
+				if (parts.length === 2) {
+					// Uma vírgula - sempre tratar como decimal brasileiro
+					// Limitar a 2 casas decimais se necessário
+					const decimalPart = parts[1].substring(0, 2);
+					cleanStr = parts[0] + "." + decimalPart;
+				} else {
+					// Múltiplas vírgulas - separador de milhares
+					cleanStr = cleanStr.replace(/,/g, "");
+				}
+			}
+
+			const num = Number.parseFloat(cleanStr);
+			return Number.isNaN(num) ? 0 : num;
 		};
 
-		// Atualizar display quando o valor prop mudar
+		// Sincronizar displayValue com value prop apenas quando não focado
 		React.useEffect(() => {
-			setDisplayValue(formatCurrency(value));
-		}, [value, currency, locale]);
+			if (!isFocused) {
+				setDisplayValue(formatCurrency(value));
+			}
+		}, [value, isFocused, locale, currency]);
 
 		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const inputValue = e.target.value;
+			const newValue = e.target.value;
+			setDisplayValue(newValue);
 
-			// Permitir edição livre durante a digitação
-			setDisplayValue(inputValue);
-
-			// Converter para número e chamar onChange
-			const numericValue = parseStringToNumber(inputValue);
-
-			// Aplicar limites
-			let finalValue = numericValue;
-			if (min !== undefined && finalValue < min) {
-				finalValue = min;
-			}
-			if (max !== undefined && finalValue > max) {
-				finalValue = max;
-			}
-
-			onChange(finalValue);
-		};
-
-		const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-			// Ao perder o foco, formatar o valor
-			const numericValue = parseStringToNumber(e.target.value);
-			let finalValue = numericValue;
-
-			// Aplicar limites
-			if (min !== undefined && finalValue < min) {
-				finalValue = min;
-			}
-			if (max !== undefined && finalValue > max) {
-				finalValue = max;
-			}
-
-			setDisplayValue(formatCurrency(finalValue));
-			onChange(finalValue);
-
-			// Chamar onBlur se fornecido
-			props.onBlur?.(e);
+			// Parse e propagar valor
+			const numericValue = parseStringToNumber(newValue);
+			onChange(numericValue);
 		};
 
 		const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-			// Ao focar, mostrar apenas o número para facilitar edição
-			setDisplayValue(value.toString().replace(".", ","));
+			setIsFocused(true);
 
-			// Chamar onFocus se fornecido
+			// Mostrar valor limpo para digitação
+			const cleanValue = formatForInput(value);
+			setDisplayValue(cleanValue);
+
+			// Selecionar tudo após um tick
+			setTimeout(() => e.target.select(), 0);
+
 			props.onFocus?.(e);
+		};
+
+		const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+			setIsFocused(false);
+
+			// Parse do valor digitado
+			const numericValue = parseStringToNumber(displayValue);
+			let finalValue = numericValue;
+
+			// Aplicar limites
+			if (min !== undefined && finalValue < min) {
+				finalValue = min;
+			}
+			if (max !== undefined && finalValue > max) {
+				finalValue = max;
+			}
+
+			// Propagar valor final
+			onChange(finalValue);
+
+			// Formatar para exibição
+			setDisplayValue(formatCurrency(finalValue));
+
+			props.onBlur?.(e);
 		};
 
 		return (

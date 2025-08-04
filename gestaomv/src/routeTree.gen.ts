@@ -36,12 +36,14 @@ import { Route as AdminRhCargosNovoRouteImport } from './routes/admin/rh/cargos/
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
 import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
+import { Route as AdminAlmoxarifadoMateriaisNovoRouteImport } from './routes/admin/almoxarifado/materiais/novo'
 import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/rh/departamentos/$id/index'
 import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id/edit'
 import { Route as AdminRhCargosIdEditRouteImport } from './routes/admin/rh/cargos/$id.edit'
 import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id.edit'
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
+import { Route as AdminAlmoxarifadoMateriaisIdEditRouteImport } from './routes/admin/almoxarifado/materiais/$id.edit'
 import { ServerRoute as ApiTrpcSplatServerRouteImport } from './routes/api.trpc.$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -178,6 +180,12 @@ const AdminCoreEmpresasNovaRoute = AdminCoreEmpresasNovaRouteImport.update({
   path: '/admin/core/empresas/nova',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAlmoxarifadoMateriaisNovoRoute =
+  AdminAlmoxarifadoMateriaisNovoRouteImport.update({
+    id: '/admin/almoxarifado/materiais/novo',
+    path: '/admin/almoxarifado/materiais/novo',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminRhDepartamentosIdIndexRoute =
   AdminRhDepartamentosIdIndexRouteImport.update({
     id: '/admin/rh/departamentos/$id/',
@@ -210,6 +218,12 @@ const AdminCoreEmpresasIdEditRoute = AdminCoreEmpresasIdEditRouteImport.update({
   path: '/admin/core/empresas/$id/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAlmoxarifadoMateriaisIdEditRoute =
+  AdminAlmoxarifadoMateriaisIdEditRouteImport.update({
+    id: '/admin/almoxarifado/materiais/$id/edit',
+    path: '/admin/almoxarifado/materiais/$id/edit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiTrpcSplatServerRoute = ApiTrpcSplatServerRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
@@ -226,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
+  '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -242,6 +257,7 @@ export interface FileRoutesByFullPath {
   '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
   '/admin/rh/importacao-pontoweb': typeof AdminRhImportacaoPontowebIndexRoute
+  '/admin/almoxarifado/materiais/$id/edit': typeof AdminAlmoxarifadoMateriaisIdEditRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
@@ -259,6 +275,7 @@ export interface FileRoutesByTo {
   '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
+  '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -275,6 +292,7 @@ export interface FileRoutesByTo {
   '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
   '/admin/rh/importacao-pontoweb': typeof AdminRhImportacaoPontowebIndexRoute
+  '/admin/almoxarifado/materiais/$id/edit': typeof AdminAlmoxarifadoMateriaisIdEditRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
@@ -293,6 +311,7 @@ export interface FileRoutesById {
   '/admin/almoxarifado/': typeof AdminAlmoxarifadoIndexRoute
   '/admin/core/': typeof AdminCoreIndexRoute
   '/admin/rh/': typeof AdminRhIndexRoute
+  '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -309,6 +328,7 @@ export interface FileRoutesById {
   '/admin/rh/equipes/': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios/': typeof AdminRhFuncionariosIndexRoute
   '/admin/rh/importacao-pontoweb/': typeof AdminRhImportacaoPontowebIndexRoute
+  '/admin/almoxarifado/materiais/$id/edit': typeof AdminAlmoxarifadoMateriaisIdEditRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
@@ -328,6 +348,7 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado'
     | '/admin/core'
     | '/admin/rh'
+    | '/admin/almoxarifado/materiais/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -344,6 +365,7 @@ export interface FileRouteTypes {
     | '/admin/rh/equipes'
     | '/admin/rh/funcionarios'
     | '/admin/rh/importacao-pontoweb'
+    | '/admin/almoxarifado/materiais/$id/edit'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
@@ -361,6 +383,7 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado'
     | '/admin/core'
     | '/admin/rh'
+    | '/admin/almoxarifado/materiais/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -377,6 +400,7 @@ export interface FileRouteTypes {
     | '/admin/rh/equipes'
     | '/admin/rh/funcionarios'
     | '/admin/rh/importacao-pontoweb'
+    | '/admin/almoxarifado/materiais/$id/edit'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
@@ -394,6 +418,7 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado/'
     | '/admin/core/'
     | '/admin/rh/'
+    | '/admin/almoxarifado/materiais/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -410,6 +435,7 @@ export interface FileRouteTypes {
     | '/admin/rh/equipes/'
     | '/admin/rh/funcionarios/'
     | '/admin/rh/importacao-pontoweb/'
+    | '/admin/almoxarifado/materiais/$id/edit'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
@@ -428,6 +454,7 @@ export interface RootRouteChildren {
   AdminAlmoxarifadoIndexRoute: typeof AdminAlmoxarifadoIndexRoute
   AdminCoreIndexRoute: typeof AdminCoreIndexRoute
   AdminRhIndexRoute: typeof AdminRhIndexRoute
+  AdminAlmoxarifadoMateriaisNovoRoute: typeof AdminAlmoxarifadoMateriaisNovoRoute
   AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
   AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
   AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
@@ -444,6 +471,7 @@ export interface RootRouteChildren {
   AdminRhEquipesIndexRoute: typeof AdminRhEquipesIndexRoute
   AdminRhFuncionariosIndexRoute: typeof AdminRhFuncionariosIndexRoute
   AdminRhImportacaoPontowebIndexRoute: typeof AdminRhImportacaoPontowebIndexRoute
+  AdminAlmoxarifadoMateriaisIdEditRoute: typeof AdminAlmoxarifadoMateriaisIdEditRoute
   AdminCoreEmpresasIdEditRoute: typeof AdminCoreEmpresasIdEditRoute
   AdminCoreUnidadesIdEditRoute: typeof AdminCoreUnidadesIdEditRoute
   AdminCoreUsersIdEditRoute: typeof AdminCoreUsersIdEditRoute
@@ -650,6 +678,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreEmpresasNovaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/almoxarifado/materiais/novo': {
+      id: '/admin/almoxarifado/materiais/novo'
+      path: '/admin/almoxarifado/materiais/novo'
+      fullPath: '/admin/almoxarifado/materiais/novo'
+      preLoaderRoute: typeof AdminAlmoxarifadoMateriaisNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/rh/departamentos/$id/': {
       id: '/admin/rh/departamentos/$id/'
       path: '/admin/rh/departamentos/$id'
@@ -692,6 +727,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreEmpresasIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/almoxarifado/materiais/$id/edit': {
+      id: '/admin/almoxarifado/materiais/$id/edit'
+      path: '/admin/almoxarifado/materiais/$id/edit'
+      fullPath: '/admin/almoxarifado/materiais/$id/edit'
+      preLoaderRoute: typeof AdminAlmoxarifadoMateriaisIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -716,6 +758,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAlmoxarifadoIndexRoute: AdminAlmoxarifadoIndexRoute,
   AdminCoreIndexRoute: AdminCoreIndexRoute,
   AdminRhIndexRoute: AdminRhIndexRoute,
+  AdminAlmoxarifadoMateriaisNovoRoute: AdminAlmoxarifadoMateriaisNovoRoute,
   AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
   AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
   AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
@@ -734,6 +777,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRhEquipesIndexRoute: AdminRhEquipesIndexRoute,
   AdminRhFuncionariosIndexRoute: AdminRhFuncionariosIndexRoute,
   AdminRhImportacaoPontowebIndexRoute: AdminRhImportacaoPontowebIndexRoute,
+  AdminAlmoxarifadoMateriaisIdEditRoute: AdminAlmoxarifadoMateriaisIdEditRoute,
   AdminCoreEmpresasIdEditRoute: AdminCoreEmpresasIdEditRoute,
   AdminCoreUnidadesIdEditRoute: AdminCoreUnidadesIdEditRoute,
   AdminCoreUsersIdEditRoute: AdminCoreUsersIdEditRoute,

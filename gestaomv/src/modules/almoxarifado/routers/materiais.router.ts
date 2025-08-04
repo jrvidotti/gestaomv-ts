@@ -14,7 +14,11 @@ export const materiaisRouter = {
 	criar: adminProcedure
 		.input(formMaterialSchema)
 		.mutation(async ({ input }) => {
-			return await materiaisService.criarMaterial(input);
+			const material = await materiaisService.criarMaterial(input);
+			if (!material) {
+				throw new Error("Erro ao criar material");
+			}
+			return material;
 		}),
 
 	listar: protectedProcedure
