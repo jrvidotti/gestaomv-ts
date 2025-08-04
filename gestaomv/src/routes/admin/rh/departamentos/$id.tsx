@@ -23,7 +23,7 @@ function RouteComponent() {
   const trpc = useTRPC()
 
   const { data: departamento, isLoading } = useQuery(
-    trpc.rh.obterDepartamentoCompleto.queryOptions({ id: Number(id) })
+    trpc.rh.departamentos.buscar.queryOptions({ id: Number(id) })
   )
 
   const header = (
@@ -103,183 +103,44 @@ function RouteComponent() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Estatísticas</CardTitle>
+                <CardTitle>Status</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 border rounded-lg">
-                    <Users className="h-8 w-8 mx-auto mb-2 text-blue-500" />
-                    <p className="text-2xl font-bold">{departamento._count?.funcionarios || 0}</p>
-                    <p className="text-sm text-muted-foreground">Funcionários</p>
-                  </div>
-                  <div className="text-center p-4 border rounded-lg">
-                    <Building2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
-                    <p className="text-2xl font-bold">{departamento._count?.equipes || 0}</p>
-                    <p className="text-sm text-muted-foreground">Equipes</p>
-                  </div>
+                <div className="text-center p-4 border rounded-lg">
+                  <Building2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
+                  <p className="text-lg font-medium">Departamento Ativo</p>
+                  <p className="text-sm text-muted-foreground">Pronto para receber funcionários e equipes</p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Funcionários do Departamento */}
-          {departamento.funcionarios && departamento.funcionarios.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Funcionários do Departamento</CardTitle>
-                <CardDescription>
-                  Lista de funcionários vinculados a este departamento
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Funcionário</TableHead>
-                      <TableHead>Cargo</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Data Admissão</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {departamento.funcionarios.map((funcionario) => (
-                      <TableRow key={funcionario.id}>
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage src={funcionario.foto || undefined} />
-                              <AvatarFallback>
-                                {funcionario.nome.split(' ').map(n => n[0]).join('').toUpperCase()}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <Link
-                                to="/admin/rh/funcionarios/$id"
-                                params={{ id: funcionario.id.toString() }}
-                                className="font-medium hover:underline"
-                              >
-                                {funcionario.nome}
-                              </Link>
-                              {funcionario.email && (
-                                <p className="text-sm text-muted-foreground">{funcionario.email}</p>
-                              )}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{funcionario.cargo?.nome || 'N/A'}</Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={STATUS_FUNCIONARIO_DATA[funcionario.status].variant}>
-                            {STATUS_FUNCIONARIO_DATA[funcionario.status].label}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {funcionario.dataAdmissao 
-                            ? new Date(funcionario.dataAdmissao).toLocaleDateString('pt-BR')
-                            : 'N/A'
-                          }
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Equipes do Departamento */}
-          {departamento.equipes && departamento.equipes.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Equipes do Departamento</CardTitle>
-                <CardDescription>
-                  Lista de equipes vinculadas a este departamento
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Equipe</TableHead>
-                      <TableHead>Líder</TableHead>
-                      <TableHead>Membros</TableHead>
-                      <TableHead>Descrição</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {departamento.equipes.map((equipe) => (
-                      <TableRow key={equipe.id}>
-                        <TableCell>
-                          <Link
-                            to="/admin/rh/equipes/$id"
-                            params={{ id: equipe.id.toString() }}
-                            className="font-medium hover:underline"
-                          >
-                            {equipe.nome}
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          {equipe.lider ? (
-                            <div className="flex items-center gap-2">
-                              <Avatar className="h-6 w-6">
-                                <AvatarImage src={equipe.lider.foto || undefined} />
-                                <AvatarFallback className="text-xs">
-                                  {equipe.lider.nome.split(' ').map(n => n[0]).join('').toUpperCase()}
-                                </AvatarFallback>
-                              </Avatar>
-                              <span className="text-sm">{equipe.lider.nome}</span>
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground text-sm">Sem líder</span>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{equipe._count?.membros || 0} membros</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <p className="text-sm text-muted-foreground max-w-xs truncate">
-                            {equipe.descricao || 'Sem descrição'}
-                          </p>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Estado vazio para funcionários e equipes */}
-          {(!departamento.funcionarios || departamento.funcionarios.length === 0) && 
-           (!departamento.equipes || departamento.equipes.length === 0) && (
-            <Card>
-              <CardContent className="py-8">
-                <div className="text-center">
-                  <Building2 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">Departamento sem funcionários ou equipes</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Este departamento ainda não possui funcionários ou equipes vinculadas.
-                  </p>
-                  <div className="flex gap-4 justify-center">
-                    <Link to="/admin/rh/funcionarios/novo">
-                      <Button variant="outline">
-                        Adicionar Funcionário
-                      </Button>
-                    </Link>
-                    <Link to="/admin/rh/equipes/nova">
-                      <Button variant="outline">
-                        Criar Equipe
-                      </Button>
-                    </Link>
-                  </div>
+          {/* Links de ação */}
+          <Card>
+            <CardContent className="py-8">
+              <div className="text-center">
+                <Building2 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Ações Relacionadas</h3>
+                <p className="text-muted-foreground mb-4">
+                  Gerencie funcionários e equipes relacionados a este departamento.
+                </p>
+                <div className="flex gap-4 justify-center">
+                  <Link to="/admin/rh/funcionarios">
+                    <Button variant="outline">
+                      <Users className="h-4 w-4 mr-2" />
+                      Ver Funcionários
+                    </Button>
+                  </Link>
+                  <Link to="/admin/rh/equipes">
+                    <Button variant="outline">
+                      <Building2 className="h-4 w-4 mr-2" />
+                      Ver Equipes
+                    </Button>
+                  </Link>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </AdminLayout>
     </RouteGuard>

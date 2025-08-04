@@ -27,10 +27,14 @@ import { Route as DemoStartServerFuncsRouteImport } from './routes/demo.start.se
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo.start.api-request'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo.form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
+import { Route as AdminUserProfileRouteImport } from './routes/admin/user/profile'
+import { Route as AdminUserAlterarSenhaRouteImport } from './routes/admin/user/alterar-senha'
 import { Route as AdminCoreConfiguracoesRouteImport } from './routes/admin/core/configuracoes'
+import { Route as AdminRhImportacaoPontowebIndexRouteImport } from './routes/admin/rh/importacao-pontoweb/index'
 import { Route as AdminRhFuncionariosIndexRouteImport } from './routes/admin/rh/funcionarios/index'
 import { Route as AdminRhEquipesIndexRouteImport } from './routes/admin/rh/equipes/index'
 import { Route as AdminRhDepartamentosIndexRouteImport } from './routes/admin/rh/departamentos/index'
+import { Route as AdminRhCargosIndexRouteImport } from './routes/admin/rh/cargos/index'
 import { Route as AdminRhAvaliacoesExperienciaIndexRouteImport } from './routes/admin/rh/avaliacoes-experiencia/index'
 import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/users/index'
 import { Route as AdminCoreUnidadesIndexRouteImport } from './routes/admin/core/unidades/index'
@@ -39,10 +43,12 @@ import { Route as AdminAlmoxarifadoSolicitacoesIndexRouteImport } from './routes
 import { Route as AdminAlmoxarifadoMateriaisIndexRouteImport } from './routes/admin/almoxarifado/materiais/index'
 import { Route as AdminRhDepartamentosNovoRouteImport } from './routes/admin/rh/departamentos/novo'
 import { Route as AdminRhDepartamentosIdRouteImport } from './routes/admin/rh/departamentos/$id'
+import { Route as AdminRhCargosNovoRouteImport } from './routes/admin/rh/cargos/novo'
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
 import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
 import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id.edit'
+import { Route as AdminRhCargosIdEditRouteImport } from './routes/admin/rh/cargos/$id.edit'
 import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id.edit'
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
@@ -132,11 +138,27 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   path: '/demo/form/address',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUserProfileRoute = AdminUserProfileRouteImport.update({
+  id: '/admin/user/profile',
+  path: '/admin/user/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUserAlterarSenhaRoute = AdminUserAlterarSenhaRouteImport.update({
+  id: '/admin/user/alterar-senha',
+  path: '/admin/user/alterar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCoreConfiguracoesRoute = AdminCoreConfiguracoesRouteImport.update({
   id: '/admin/core/configuracoes',
   path: '/admin/core/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRhImportacaoPontowebIndexRoute =
+  AdminRhImportacaoPontowebIndexRouteImport.update({
+    id: '/admin/rh/importacao-pontoweb/',
+    path: '/admin/rh/importacao-pontoweb/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminRhFuncionariosIndexRoute =
   AdminRhFuncionariosIndexRouteImport.update({
     id: '/admin/rh/funcionarios/',
@@ -154,6 +176,11 @@ const AdminRhDepartamentosIndexRoute =
     path: '/admin/rh/departamentos/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminRhCargosIndexRoute = AdminRhCargosIndexRouteImport.update({
+  id: '/admin/rh/cargos/',
+  path: '/admin/rh/cargos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRhAvaliacoesExperienciaIndexRoute =
   AdminRhAvaliacoesExperienciaIndexRouteImport.update({
     id: '/admin/rh/avaliacoes-experiencia/',
@@ -198,6 +225,11 @@ const AdminRhDepartamentosIdRoute = AdminRhDepartamentosIdRouteImport.update({
   path: '/admin/rh/departamentos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRhCargosNovoRoute = AdminRhCargosNovoRouteImport.update({
+  id: '/admin/rh/cargos/novo',
+  path: '/admin/rh/cargos/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCoreUsersNovoRoute = AdminCoreUsersNovoRouteImport.update({
   id: '/admin/core/users/novo',
   path: '/admin/core/users/novo',
@@ -219,6 +251,11 @@ const AdminRhDepartamentosIdEditRoute =
     path: '/edit',
     getParentRoute: () => AdminRhDepartamentosIdRoute,
   } as any)
+const AdminRhCargosIdEditRoute = AdminRhCargosIdEditRouteImport.update({
+  id: '/admin/rh/cargos/$id/edit',
+  path: '/admin/rh/cargos/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCoreUsersIdEditRoute = AdminCoreUsersIdEditRouteImport.update({
   id: '/admin/core/users/$id/edit',
   path: '/admin/core/users/$id/edit',
@@ -259,6 +296,8 @@ export interface FileRoutesByFullPath {
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
   '/admin': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
+  '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
+  '/admin/user/profile': typeof AdminUserProfileRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -271,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
@@ -279,12 +319,15 @@ export interface FileRoutesByFullPath {
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
   '/admin/rh/avaliacoes-experiencia': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/cargos': typeof AdminRhCargosIndexRoute
   '/admin/rh/departamentos': typeof AdminRhDepartamentosIndexRoute
   '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
+  '/admin/rh/importacao-pontoweb': typeof AdminRhImportacaoPontowebIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/cargos/$id/edit': typeof AdminRhCargosIdEditRoute
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRoutesByTo {
@@ -296,6 +339,8 @@ export interface FileRoutesByTo {
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
   '/admin': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
+  '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
+  '/admin/user/profile': typeof AdminUserProfileRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -308,6 +353,7 @@ export interface FileRoutesByTo {
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
@@ -316,12 +362,15 @@ export interface FileRoutesByTo {
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
   '/admin/rh/avaliacoes-experiencia': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/cargos': typeof AdminRhCargosIndexRoute
   '/admin/rh/departamentos': typeof AdminRhDepartamentosIndexRoute
   '/admin/rh/equipes': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios': typeof AdminRhFuncionariosIndexRoute
+  '/admin/rh/importacao-pontoweb': typeof AdminRhImportacaoPontowebIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/cargos/$id/edit': typeof AdminRhCargosIdEditRoute
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRoutesById {
@@ -334,6 +383,8 @@ export interface FileRoutesById {
   '/demo/trpc-todo': typeof DemoTrpcTodoRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
+  '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
+  '/admin/user/profile': typeof AdminUserProfileRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
@@ -346,6 +397,7 @@ export interface FileRoutesById {
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
+  '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdRouteWithChildren
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais/': typeof AdminAlmoxarifadoMateriaisIndexRoute
@@ -354,12 +406,15 @@ export interface FileRoutesById {
   '/admin/core/unidades/': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users/': typeof AdminCoreUsersIndexRoute
   '/admin/rh/avaliacoes-experiencia/': typeof AdminRhAvaliacoesExperienciaIndexRoute
+  '/admin/rh/cargos/': typeof AdminRhCargosIndexRoute
   '/admin/rh/departamentos/': typeof AdminRhDepartamentosIndexRoute
   '/admin/rh/equipes/': typeof AdminRhEquipesIndexRoute
   '/admin/rh/funcionarios/': typeof AdminRhFuncionariosIndexRoute
+  '/admin/rh/importacao-pontoweb/': typeof AdminRhImportacaoPontowebIndexRoute
   '/admin/core/empresas/$id/edit': typeof AdminCoreEmpresasIdEditRoute
   '/admin/core/unidades/$id/edit': typeof AdminCoreUnidadesIdEditRoute
   '/admin/core/users/$id/edit': typeof AdminCoreUsersIdEditRoute
+  '/admin/rh/cargos/$id/edit': typeof AdminRhCargosIdEditRoute
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
 }
 export interface FileRouteTypes {
@@ -373,6 +428,8 @@ export interface FileRouteTypes {
     | '/demo/trpc-todo'
     | '/admin'
     | '/admin/core/configuracoes'
+    | '/admin/user/alterar-senha'
+    | '/admin/user/profile'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
@@ -385,6 +442,7 @@ export interface FileRouteTypes {
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/$id'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais'
@@ -393,12 +451,15 @@ export interface FileRouteTypes {
     | '/admin/core/unidades'
     | '/admin/core/users'
     | '/admin/rh/avaliacoes-experiencia'
+    | '/admin/rh/cargos'
     | '/admin/rh/departamentos'
     | '/admin/rh/equipes'
     | '/admin/rh/funcionarios'
+    | '/admin/rh/importacao-pontoweb'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/cargos/$id/edit'
     | '/admin/rh/departamentos/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -410,6 +471,8 @@ export interface FileRouteTypes {
     | '/demo/trpc-todo'
     | '/admin'
     | '/admin/core/configuracoes'
+    | '/admin/user/alterar-senha'
+    | '/admin/user/profile'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
@@ -422,6 +485,7 @@ export interface FileRouteTypes {
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/$id'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais'
@@ -430,12 +494,15 @@ export interface FileRouteTypes {
     | '/admin/core/unidades'
     | '/admin/core/users'
     | '/admin/rh/avaliacoes-experiencia'
+    | '/admin/rh/cargos'
     | '/admin/rh/departamentos'
     | '/admin/rh/equipes'
     | '/admin/rh/funcionarios'
+    | '/admin/rh/importacao-pontoweb'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/cargos/$id/edit'
     | '/admin/rh/departamentos/$id/edit'
   id:
     | '__root__'
@@ -447,6 +514,8 @@ export interface FileRouteTypes {
     | '/demo/trpc-todo'
     | '/admin/'
     | '/admin/core/configuracoes'
+    | '/admin/user/alterar-senha'
+    | '/admin/user/profile'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/start/api-request'
@@ -459,6 +528,7 @@ export interface FileRouteTypes {
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
+    | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/$id'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais/'
@@ -467,12 +537,15 @@ export interface FileRouteTypes {
     | '/admin/core/unidades/'
     | '/admin/core/users/'
     | '/admin/rh/avaliacoes-experiencia/'
+    | '/admin/rh/cargos/'
     | '/admin/rh/departamentos/'
     | '/admin/rh/equipes/'
     | '/admin/rh/funcionarios/'
+    | '/admin/rh/importacao-pontoweb/'
     | '/admin/core/empresas/$id/edit'
     | '/admin/core/unidades/$id/edit'
     | '/admin/core/users/$id/edit'
+    | '/admin/rh/cargos/$id/edit'
     | '/admin/rh/departamentos/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -485,6 +558,8 @@ export interface RootRouteChildren {
   DemoTrpcTodoRoute: typeof DemoTrpcTodoRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCoreConfiguracoesRoute: typeof AdminCoreConfiguracoesRoute
+  AdminUserAlterarSenhaRoute: typeof AdminUserAlterarSenhaRoute
+  AdminUserProfileRoute: typeof AdminUserProfileRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
   DemoFormSimpleRoute: typeof DemoFormSimpleRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -497,6 +572,7 @@ export interface RootRouteChildren {
   AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
   AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
   AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
+  AdminRhCargosNovoRoute: typeof AdminRhCargosNovoRoute
   AdminRhDepartamentosIdRoute: typeof AdminRhDepartamentosIdRouteWithChildren
   AdminRhDepartamentosNovoRoute: typeof AdminRhDepartamentosNovoRoute
   AdminAlmoxarifadoMateriaisIndexRoute: typeof AdminAlmoxarifadoMateriaisIndexRoute
@@ -505,12 +581,15 @@ export interface RootRouteChildren {
   AdminCoreUnidadesIndexRoute: typeof AdminCoreUnidadesIndexRoute
   AdminCoreUsersIndexRoute: typeof AdminCoreUsersIndexRoute
   AdminRhAvaliacoesExperienciaIndexRoute: typeof AdminRhAvaliacoesExperienciaIndexRoute
+  AdminRhCargosIndexRoute: typeof AdminRhCargosIndexRoute
   AdminRhDepartamentosIndexRoute: typeof AdminRhDepartamentosIndexRoute
   AdminRhEquipesIndexRoute: typeof AdminRhEquipesIndexRoute
   AdminRhFuncionariosIndexRoute: typeof AdminRhFuncionariosIndexRoute
+  AdminRhImportacaoPontowebIndexRoute: typeof AdminRhImportacaoPontowebIndexRoute
   AdminCoreEmpresasIdEditRoute: typeof AdminCoreEmpresasIdEditRoute
   AdminCoreUnidadesIdEditRoute: typeof AdminCoreUnidadesIdEditRoute
   AdminCoreUsersIdEditRoute: typeof AdminCoreUsersIdEditRoute
+  AdminRhCargosIdEditRoute: typeof AdminRhCargosIdEditRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/demo-names': typeof ApiDemoNamesServerRoute
@@ -656,11 +735,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormAddressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/user/profile': {
+      id: '/admin/user/profile'
+      path: '/admin/user/profile'
+      fullPath: '/admin/user/profile'
+      preLoaderRoute: typeof AdminUserProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/user/alterar-senha': {
+      id: '/admin/user/alterar-senha'
+      path: '/admin/user/alterar-senha'
+      fullPath: '/admin/user/alterar-senha'
+      preLoaderRoute: typeof AdminUserAlterarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/core/configuracoes': {
       id: '/admin/core/configuracoes'
       path: '/admin/core/configuracoes'
       fullPath: '/admin/core/configuracoes'
       preLoaderRoute: typeof AdminCoreConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/importacao-pontoweb/': {
+      id: '/admin/rh/importacao-pontoweb/'
+      path: '/admin/rh/importacao-pontoweb'
+      fullPath: '/admin/rh/importacao-pontoweb'
+      preLoaderRoute: typeof AdminRhImportacaoPontowebIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/rh/funcionarios/': {
@@ -682,6 +782,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/rh/departamentos'
       fullPath: '/admin/rh/departamentos'
       preLoaderRoute: typeof AdminRhDepartamentosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rh/cargos/': {
+      id: '/admin/rh/cargos/'
+      path: '/admin/rh/cargos'
+      fullPath: '/admin/rh/cargos'
+      preLoaderRoute: typeof AdminRhCargosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/rh/avaliacoes-experiencia/': {
@@ -740,6 +847,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRhDepartamentosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/rh/cargos/novo': {
+      id: '/admin/rh/cargos/novo'
+      path: '/admin/rh/cargos/novo'
+      fullPath: '/admin/rh/cargos/novo'
+      preLoaderRoute: typeof AdminRhCargosNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/core/users/novo': {
       id: '/admin/core/users/novo'
       path: '/admin/core/users/novo'
@@ -767,6 +881,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/rh/departamentos/$id/edit'
       preLoaderRoute: typeof AdminRhDepartamentosIdEditRouteImport
       parentRoute: typeof AdminRhDepartamentosIdRoute
+    }
+    '/admin/rh/cargos/$id/edit': {
+      id: '/admin/rh/cargos/$id/edit'
+      path: '/admin/rh/cargos/$id/edit'
+      fullPath: '/admin/rh/cargos/$id/edit'
+      preLoaderRoute: typeof AdminRhCargosIdEditRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/core/users/$id/edit': {
       id: '/admin/core/users/$id/edit'
@@ -840,6 +961,8 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTrpcTodoRoute: DemoTrpcTodoRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCoreConfiguracoesRoute: AdminCoreConfiguracoesRoute,
+  AdminUserAlterarSenhaRoute: AdminUserAlterarSenhaRoute,
+  AdminUserProfileRoute: AdminUserProfileRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
   DemoFormSimpleRoute: DemoFormSimpleRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
@@ -852,6 +975,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
   AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
   AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
+  AdminRhCargosNovoRoute: AdminRhCargosNovoRoute,
   AdminRhDepartamentosIdRoute: AdminRhDepartamentosIdRouteWithChildren,
   AdminRhDepartamentosNovoRoute: AdminRhDepartamentosNovoRoute,
   AdminAlmoxarifadoMateriaisIndexRoute: AdminAlmoxarifadoMateriaisIndexRoute,
@@ -862,12 +986,15 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCoreUsersIndexRoute: AdminCoreUsersIndexRoute,
   AdminRhAvaliacoesExperienciaIndexRoute:
     AdminRhAvaliacoesExperienciaIndexRoute,
+  AdminRhCargosIndexRoute: AdminRhCargosIndexRoute,
   AdminRhDepartamentosIndexRoute: AdminRhDepartamentosIndexRoute,
   AdminRhEquipesIndexRoute: AdminRhEquipesIndexRoute,
   AdminRhFuncionariosIndexRoute: AdminRhFuncionariosIndexRoute,
+  AdminRhImportacaoPontowebIndexRoute: AdminRhImportacaoPontowebIndexRoute,
   AdminCoreEmpresasIdEditRoute: AdminCoreEmpresasIdEditRoute,
   AdminCoreUnidadesIdEditRoute: AdminCoreUnidadesIdEditRoute,
   AdminCoreUsersIdEditRoute: AdminCoreUsersIdEditRoute,
+  AdminRhCargosIdEditRoute: AdminRhCargosIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

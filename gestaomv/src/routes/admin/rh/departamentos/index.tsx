@@ -50,10 +50,10 @@ function RouteComponent() {
     limite: 20,
   }
 
-  const { data, isLoading, refetch } = useQuery(trpc.rh.listarDepartamentos.queryOptions(filtros))
+  const { data, isLoading, refetch } = useQuery(trpc.rh.departamentos.listar.queryOptions(filtros))
 
   const { mutate: removerDepartamento } = useMutation({
-    ...trpc.rh.removerDepartamento.mutationOptions(),
+    ...trpc.rh.departamentos.deletar.mutationOptions(),
     onSuccess: () => {
       refetch()
     },
@@ -190,15 +190,13 @@ function RouteComponent() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <div className="text-sm">
-                              <span className="font-medium">{departamento._count?.funcionarios || 0}</span>
-                              <span className="text-muted-foreground"> funcionários</span>
+                            <div className="text-sm text-muted-foreground">
+                              Dados não disponíveis
                             </div>
                           </TableCell>
                           <TableCell>
-                            <div className="text-sm">
-                              <span className="font-medium">{departamento._count?.equipes || 0}</span>
-                              <span className="text-muted-foreground"> equipes</span>
+                            <div className="text-sm text-muted-foreground">
+                              Dados não disponíveis
                             </div>
                           </TableCell>
                           <TableCell>

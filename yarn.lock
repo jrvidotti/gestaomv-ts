@@ -3562,6 +3562,13 @@
     babel-dead-code-elimination "^1.0.10"
     tiny-invariant "^1.3.3"
 
+"@tanstack/form-core@0.42.1":
+  version "0.42.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-0.42.1.tgz#9b13dda654f2470d840f563ec0e1d106e30a551e"
+  integrity sha512-jTU0jyHqFceujdtPNv3jPVej1dTqBwa8TYdIyWB5BCwRVUBZEp1PiYEBkC9r92xu5fMpBiKc+JKud3eeVjuMiA==
+  dependencies:
+    "@tanstack/store" "^0.7.0"
+
 "@tanstack/form-core@1.15.1":
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.15.1.tgz#cef05032c299a764e347443fdffff7a2d0f98a52"
@@ -3880,6 +3887,13 @@
   version "1.129.7"
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-file-routes/-/virtual-file-routes-1.129.7.tgz#80551059bb653199f1230531f3bf4a2a5114dd2c"
   integrity sha512-a+MxoAXG+Sq94Jp67OtveKOp2vQq75AWdVI8DRt6w19B0NEqpfm784FTLbVp/qdR1wmxCOmKAvElGSIiBOx5OQ==
+
+"@tanstack/zod-form-adapter@^0.42.1":
+  version "0.42.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/zod-form-adapter/-/zod-form-adapter-0.42.1.tgz#92ebedad52492026a4a0da588eeaa18020024110"
+  integrity sha512-hPRM0lawVKP64yurW4c6KHZH6altMo2MQN14hfi+GMBTKjO9S7bW1x5LPZ5cayoJE3mBvdlahpSGT5rYZtSbXQ==
+  dependencies:
+    "@tanstack/form-core" "0.42.1"
 
 "@testing-library/dom@^10.4.0":
   version "10.4.1"

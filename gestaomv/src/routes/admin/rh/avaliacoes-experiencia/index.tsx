@@ -70,9 +70,12 @@ function RouteComponent() {
   const { data: funcionariosPendentes, isLoading: isLoadingPendentes } = useQuery(
     trpc.rh.listarFuncionariosPendentesAvaliacaoExperiencia.queryOptions()
   )
-  const { data: departamentosData, isLoading: isLoadingDepartamentos } = useQuery(
-    trpc.rh.listarDepartamentos.queryOptions()
+  const { data: departamentosResponse, isLoading: isLoadingDepartamentos } = useQuery(
+    trpc.rh.departamentos.listar.queryOptions({})
   )
+  
+  // Extrair departamentos do objeto retornado pela query
+  const departamentosData = departamentosResponse?.departamentos || []
 
   const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString('pt-BR')

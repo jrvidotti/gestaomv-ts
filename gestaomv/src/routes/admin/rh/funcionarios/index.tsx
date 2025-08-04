@@ -68,12 +68,16 @@ function RouteComponent() {
   }
 
   const { data, isLoading, refetch } = useQuery(trpc.rh.listarFuncionarios.queryOptions(filtros))
-  const { data: departamentosData, isLoading: isLoadingDepartamentos } = useQuery(
-    trpc.rh.listarDepartamentos.queryOptions()
+  const { data: departamentosResponse, isLoading: isLoadingDepartamentos } = useQuery(
+    trpc.rh.departamentos.listar.queryOptions({})
   )
-  const { data: cargosData, isLoading: isLoadingCargos } = useQuery(
-    trpc.rh.listarCargos.queryOptions()
+  const { data: cargosResponse, isLoading: isLoadingCargos } = useQuery(
+    trpc.rh.cargos.listar.queryOptions({})
   )
+  
+  // Extrair dados dos objetos retornados pelas queries
+  const departamentosData = departamentosResponse?.departamentos || []
+  const cargosData = cargosResponse || []
 
   const { mutate: alterarStatusFuncionario } = useMutation({
     ...trpc.rh.alterarStatusFuncionario.mutationOptions(),

@@ -32,7 +32,7 @@ import { MODULE_STATUS, type ModuleStatus } from "./modules-status";
 
 // System Modules Constants
 export const MODULES = {
-	BASE: "base",
+	CORE: "core",
 	RH: "rh",
 	ALMOXARIFADO: "almoxarifado",
 	FINANCEIRO: "financeiro",
@@ -68,7 +68,7 @@ export interface ModuleData extends ModuleItem {
  */
 export const MODULES_DATA: ModuleData[] = [
 	{
-		module: MODULES.BASE,
+		module: MODULES.CORE,
 		title: "Administração",
 		description: "Configurações e usuários do sistema",
 		url: "/admin/core",

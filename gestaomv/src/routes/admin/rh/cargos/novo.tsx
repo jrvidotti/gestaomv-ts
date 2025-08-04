@@ -5,16 +5,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { ArrowLeft, Save } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { ArrowLeft, Save, Building2 } from 'lucide-react'
 import { AdminLayout } from '@/components/layout/admin-layout'
 import { PageHeader } from '@/components/layout/page-header'
 import { RouteGuard } from '@/components/auth/route-guard'
 import { useTRPC } from '@/integrations/trpc/react'
-import { useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { USER_ROLES } from '@/modules/core/enums'
 import { toast } from 'sonner'
 
-export const Route = createFileRoute('/admin/rh/departamentos/novo')({
+export const Route = createFileRoute('/admin/rh/cargos/novo')({
   component: RouteComponent,
 })
 
@@ -22,21 +23,28 @@ function RouteComponent() {
   const navigate = useNavigate()
   const trpc = useTRPC()
 
-  const { mutate: criarDepartamento, isPending } = useMutation({
-    ...trpc.rh.departamentos.criar.mutationOptions(),
+  const { data: departamentosData } = useQuery(
+    trpc.rh.departamentos.listar.queryOptions({})
+  )
+  
+  // Extrair departamentos do objeto retornado pela query
+  const departamentos = departamentosData?.departamentos || []
+
+  const { mutate: criarCargo, isPending } = useMutation({
+    ...trpc.rh.cargos.criar.mutationOptions(),
     onSuccess: () => {
-      toast.success('Departamento criado com sucesso!')
-      navigate({ to: '/admin/rh/departamentos' })
+      toast.success('Cargo criado com sucesso!')
+      navigate({ to: '/admin/rh/cargos' })
     },
     onError: (error) => {
-      toast.error(`Erro ao criar departamento: ${error.message}`)
+      toast.error(`Erro ao criar cargo: ${error.message}`)
     },
   })
 
   const form = useForm({
     defaultValues: {
       nome: '',
-      codigo: '',
+      departamentoId: '',
       descricao: '',
     },
     onSubmit: async ({ value }) => {
@@ -44,16 +52,24 @@ function RouteComponent() {
         toast.error('Nome é obrigatório')
         return
       }
-      criarDepartamento(value)
+      if (!value.departamentoId) {
+        toast.error('Departamento é obrigatório')
+        return
+      }
+      criarCargo({
+        nome: value.nome.trim(),
+        departamentoId: Number(value.departamentoId),
+        descricao: value.descricao.trim() || undefined,
+      })
     },
   })
 
   const header = (
     <PageHeader
-      title="Novo Departamento"
-      subtitle="Cadastre um novo departamento na empresa"
+      title="Novo Cargo"
+      subtitle="Cadastre um novo cargo na organização"
       actions={[
-        <Button key="voltar" variant="outline" onClick={() => navigate({ to: '/admin/rh/departamentos' })}>
+        <Button key="voltar" variant="outline" onClick={() => navigate({ to: '/admin/rh/cargos' })}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Voltar
         </Button>,
@@ -67,9 +83,12 @@ function RouteComponent() {
         <div className="max-w-2xl mx-auto">
           <Card>
             <CardHeader>
-              <CardTitle>Informações do Departamento</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Building2 className="h-5 w-5" />
+                Informações do Cargo
+              </CardTitle>
               <CardDescription>
-                Preencha as informações básicas do novo departamento
+                Preencha as informações básicas do novo cargo
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -92,7 +111,7 @@ function RouteComponent() {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Ex: Recursos Humanos"
+                        placeholder="Ex: Analista de Sistemas"
                       />
                       {field.state.meta.errors && (
                         <p className="text-sm text-destructive">
@@ -103,23 +122,26 @@ function RouteComponent() {
                   )}
                 </form.Field>
 
-                {/* Código */}
-                <form.Field name="codigo">
+                {/* Departamento */}
+                <form.Field name="departamentoId">
                   {(field) => (
                     <div className="space-y-2">
-                      <Label htmlFor={field.name}>Código</Label>
-                      <Input
-                        id={field.name}
-                        name={field.name}
+                      <Label htmlFor={field.name}>Departamento *</Label>
+                      <Select
                         value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Ex: RH"
-                        className="font-mono"
-                      />
-                      <p className="text-sm text-muted-foreground">
-                        Código identificador do departamento (opcional)
-                      </p>
+                        onValueChange={(value) => field.handleChange(value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um departamento" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {departamentos.map((dept) => (
+                            <SelectItem key={dept.id} value={dept.id.toString()}>
+                              {dept.nome}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       {field.state.meta.errors && (
                         <p className="text-sm text-destructive">
                           {field.state.meta.errors[0]}
@@ -140,11 +162,11 @@ function RouteComponent() {
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Descreva as responsabilidades e objetivos do departamento..."
-                        rows={3}
+                        placeholder="Descreva as responsabilidades e requisitos do cargo..."
+                        rows={4}
                       />
                       <p className="text-sm text-muted-foreground">
-                        Descrição detalhada do departamento (opcional)
+                        Descrição detalhada das responsabilidades do cargo (opcional)
                       </p>
                       {field.state.meta.errors && (
                         <p className="text-sm text-destructive">
@@ -155,18 +177,28 @@ function RouteComponent() {
                   )}
                 </form.Field>
 
+                {/* Informações adicionais */}
+                <div className="pt-4 border-t">
+                  <h3 className="text-sm font-medium mb-3">Informações</h3>
+                  <div className="text-sm text-muted-foreground space-y-2">
+                    <p>• O nome do cargo deve ser único na organização</p>
+                    <p>• O departamento será usado para organizar funcionários</p>
+                    <p>• A descrição ajuda no processo de recrutamento e seleção</p>
+                  </div>
+                </div>
+
                 {/* Botões */}
                 <div className="flex gap-4 pt-4">
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => navigate({ to: '/admin/rh/departamentos' })}
+                    onClick={() => navigate({ to: '/admin/rh/cargos' })}
                   >
                     Cancelar
                   </Button>
                   <Button type="submit" disabled={isPending}>
                     <Save className="h-4 w-4 mr-2" />
-                    {isPending ? 'Salvando...' : 'Salvar Departamento'}
+                    {isPending ? 'Criando...' : 'Criar Cargo'}
                   </Button>
                 </div>
               </form>
