@@ -1,8 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useTRPC } from "@/integrations/trpc/react";
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -10,13 +6,17 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertCircle, CheckCircle, Eye, EyeOff, Key } from "lucide-react";
+import { useTRPC } from "@/integrations/trpc/react";
 import { changePasswordSchema } from "@/modules/core/dtos/users";
-import { toast } from "sonner";
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { AlertCircle, CheckCircle, Eye, EyeOff, Key } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/user/alterar-senha")({
 	component: AlterarSenhaPage,

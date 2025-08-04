@@ -1,22 +1,22 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
 import { RouteGuard } from "@/components/auth/route-guard";
 import { UserBasicForm } from "@/components/forms/user-basic-form";
-import { UserRolesManager } from "@/components/user-roles-manager";
-import { USER_ROLES } from "@/modules/core/enums";
-import { User } from "lucide-react";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { UserRolesManager } from "@/components/user-roles-manager";
 import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import type { updateUserSchema } from "@/modules/core/dtos";
+import { USER_ROLES } from "@/modules/core/enums";
+import type { UserRoleType } from "@/modules/core/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
-import type { updateUserSchema } from "@/modules/core/dtos";
-import type { UserRoleType } from "@/modules/core/types";
-import { useState, useEffect } from "react";
 
 type UpdateUserData = z.infer<typeof updateUserSchema>;
 

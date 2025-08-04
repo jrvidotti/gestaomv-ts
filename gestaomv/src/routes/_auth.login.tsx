@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@tanstack/react-form";
 import { useAuth } from "@/hooks/use-auth";
 import {
 	type EmailLoginDto,
@@ -17,7 +16,8 @@ import {
 	emailLoginSchema,
 	tagoneLoginSchema,
 } from "@/modules/core/dtos";
-import { createFileRoute, useRouter, Navigate } from "@tanstack/react-router";
+import { useForm } from "@tanstack/react-form";
+import { Navigate, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 

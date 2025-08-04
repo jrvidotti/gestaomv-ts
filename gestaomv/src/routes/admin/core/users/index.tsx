@@ -1,20 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { RouteGuard } from "@/components/auth/route-guard";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
 import { MultipleRoleBadges } from "@/components/role-badge";
-import { USER_ROLES } from "@/modules/core/enums";
-import {
-	Users,
-	Plus,
-	Search,
-	MoreHorizontal,
-	Edit,
-	Trash2,
-	UserCheck,
-	UserX,
-} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
 	Table,
@@ -24,18 +21,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Card, CardContent } from "@/components/ui/card";
 import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { USER_ROLES } from "@/modules/core/enums";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { Link, useNavigate } from "@tanstack/react-router";
+import {
+	Edit,
+	MoreHorizontal,
+	Plus,
+	Search,
+	Trash2,
+	UserCheck,
+	UserX,
+	Users,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 

@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowLeft, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -6,9 +6,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "@tanstack/react-router";
 import { usePermissions } from "@/hooks/use-permissions";
+import { useRouter } from "@tanstack/react-router";
+import { AlertTriangle, ArrowLeft, Home } from "lucide-react";
 
 interface UnauthorizedProps {
 	title?: string;

@@ -1,7 +1,7 @@
 import { getDatabase, schema } from "@/db";
 import { cargos } from "@/db/schemas";
-import { eq } from "drizzle-orm";
 import type { ImportExportOptions } from "@/lib/import-export";
+import { eq } from "drizzle-orm";
 
 export interface CargoImport {
 	nome: string;

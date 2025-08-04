@@ -1,5 +1,5 @@
-import { text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
+import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const idCuid = () =>
 	text("id")

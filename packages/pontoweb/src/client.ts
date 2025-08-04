@@ -1,7 +1,7 @@
 import { addDays } from "date-fns";
-import { type Afastamento } from "./dto/afastamento.dto";
-import { type Funcionario } from "./dto/funcionario.dto";
-import { type MotivoDemissao } from "./dto/motivo-demissao.dto";
+import type { Afastamento } from "./dto/afastamento.dto";
+import type { Funcionario } from "./dto/funcionario.dto";
+import type { MotivoDemissao } from "./dto/motivo-demissao.dto";
 
 export class PontoWebClient {
 	private token: string;

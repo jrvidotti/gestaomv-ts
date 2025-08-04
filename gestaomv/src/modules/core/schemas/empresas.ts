@@ -1,8 +1,8 @@
-import { relations, sql } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { idAutoIncrement } from "@/db/helpers";
-import { unidades } from "./unidades";
 import { funcionarios } from "@/modules/rh/schemas";
+import { relations, sql } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { unidades } from "./unidades";
 
 export const empresas = sqliteTable("empresas", {
 	id: idAutoIncrement(),

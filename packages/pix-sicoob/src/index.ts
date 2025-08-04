@@ -1,16 +1,16 @@
-import axios, { AxiosInstance, isAxiosError } from "axios";
 import https from "https";
+import axios, { type AxiosInstance, isAxiosError } from "axios";
 import qs from "qs";
 import { z } from "zod";
 import {
-	CobPayload,
+	type CobPayload,
+	type CobResponse,
+	type ListPixQuery,
+	type ListPixResponse,
+	type Logger,
+	type SicoobAuthConfig,
+	type SicoobAuthResponse,
 	cobPayloadSchema,
-	CobResponse,
-	ListPixQuery,
-	ListPixResponse,
-	SicoobAuthConfig,
-	SicoobAuthResponse,
-	Logger,
 } from "./types";
 
 /**

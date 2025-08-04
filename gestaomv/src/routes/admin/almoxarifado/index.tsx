@@ -1,5 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { RouteGuard } from "@/components/auth/route-guard";
+import { CardStats } from "@/components/card-stats";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -7,8 +10,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { CardStats } from "@/components/card-stats";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -16,40 +18,38 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { useTRPC } from "@/integrations/trpc/react";
+import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
+import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
+import { USER_ROLES } from "@/modules/core/enums";
+import { useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
+	Boxes,
+	Building2,
+	CheckCircle,
+	ClipboardList,
+	Clock,
+	DollarSign,
+	FileText,
+	Filter,
 	Package,
 	Plus,
 	TrendingUp,
-	ClipboardList,
-	Boxes,
-	FileText,
-	Clock,
-	CheckCircle,
-	Building2,
-	DollarSign,
-	Filter,
 } from "lucide-react";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
+import { useMemo, useState } from "react";
 import {
-	PieChart,
-	Pie,
-	Cell,
-	ResponsiveContainer,
-	BarChart,
 	Bar,
+	BarChart,
+	Cell,
+	Legend,
+	Pie,
+	PieChart,
+	ResponsiveContainer,
+	Tooltip,
 	XAxis,
 	YAxis,
-	Tooltip,
-	Legend,
 } from "recharts";
-import { USER_ROLES } from "@/modules/core/enums";
-import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
-import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
-import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery } from "@tanstack/react-query";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 

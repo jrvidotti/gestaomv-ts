@@ -1,4 +1,9 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { RouteGuard } from "@/components/auth/route-guard";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -6,8 +11,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
 	Table,
 	TableBody,
@@ -16,15 +19,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { ArrowLeft, Pencil, Users, Building2 } from "lucide-react";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery } from "@tanstack/react-query";
 import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO_DATA } from "@/modules/rh/consts";
+import { useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, Building2, Pencil, Users } from "lucide-react";
 
 export const Route = createFileRoute("/admin/rh/departamentos/$id/")({
 	component: RouteComponent,

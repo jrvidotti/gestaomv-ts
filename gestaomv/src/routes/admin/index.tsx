@@ -1,7 +1,7 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePermissions } from "@/hooks/use-permissions";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/admin/")({
 	component: AdminRedirect,

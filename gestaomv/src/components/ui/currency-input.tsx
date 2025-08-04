@@ -1,6 +1,6 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Input, type InputProps } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import * as React from "react";
 
 interface CurrencyInputProps
 	extends Omit<InputProps, "value" | "onChange" | "type"> {
@@ -50,7 +50,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
 			const normalizedStr = cleanStr.replace(",", ".");
 
 			// Converte para número
-			const num = parseFloat(normalizedStr);
+			const num = Number.parseFloat(normalizedStr);
 
 			// Se não for um número válido, retorna 0
 			return isNaN(num) ? 0 : num;

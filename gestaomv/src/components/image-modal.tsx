@@ -1,9 +1,9 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
-import { AuthenticatedImage } from "./authenticated-image";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { AuthenticatedImage } from "./authenticated-image";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./dialog";
 
 interface ImageModalProps {
 	src: string;

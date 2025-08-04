@@ -1,5 +1,5 @@
-import { SicoobPixClient } from "./src/index";
 import fs from "fs";
+import { SicoobPixClient } from "./src/index";
 
 // Exemplo de uso do cliente PIX Sicoob
 async function exemploUso() {

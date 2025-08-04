@@ -15,8 +15,8 @@ import { Switch } from "@/components/ui/switch";
 import { createUserSchema, updateUserSchema } from "@/modules/core/dtos";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "lucide-react";
-import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 type CreateUserData = z.infer<typeof createUserSchema>;

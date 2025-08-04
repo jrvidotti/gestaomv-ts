@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 import "dotenv/config";
-import { OdataQuery } from "../types";
 import { mountOdataQuery } from "../helpers";
+import type { OdataQuery } from "../types";
 
 const nro_telefone = "65991234567";
 const cpf = "11122233344";

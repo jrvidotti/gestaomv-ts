@@ -1,6 +1,6 @@
+import { expect, test } from "vitest";
 import { TagoneClient } from "../client";
 import { LoginFailedError, TagoneError } from "../errors";
-import { expect, test } from "vitest";
 import "dotenv/config";
 
 const baseUrl = process.env.TAGONE_BASE_URL!;

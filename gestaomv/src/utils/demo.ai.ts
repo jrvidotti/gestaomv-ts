@@ -1,5 +1,5 @@
-import { createServerFn } from "@tanstack/react-start";
 import { anthropic } from "@ai-sdk/anthropic";
+import { createServerFn } from "@tanstack/react-start";
 import { streamText } from "ai";
 
 import getTools from "./demo.tools";

@@ -3,9 +3,9 @@ import { z } from "zod";
 import {
 	type ApiDirectDataConfig,
 	type CadastroPessoaFisicaQuery,
-	cadastroPessoaFisicaQuerySchema,
 	type CadastroPessoaFisicaResponse,
 	type Logger,
+	cadastroPessoaFisicaQuerySchema,
 } from "./types";
 
 export class ApiDirectDataClient {

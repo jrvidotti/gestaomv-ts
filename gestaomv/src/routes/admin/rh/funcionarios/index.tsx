@@ -1,5 +1,10 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { RouteGuard } from "@/components/auth/route-guard";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { LookupSelect } from "@/components/lookup-select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -7,8 +12,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
 	Select,
@@ -25,41 +34,32 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-	Users,
-	Plus,
-	Search,
-	MoreHorizontal,
-	Pencil,
-	Eye,
-	UserCheck,
-	UserX,
-	Filter,
-} from "lucide-react";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/use-debounce";
-import { LookupSelect } from "@/components/lookup-select";
+import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
 import {
-	STATUS_FUNCIONARIO_OPTIONS,
 	STATUS_FUNCIONARIO_DATA,
+	STATUS_FUNCIONARIO_OPTIONS,
 } from "@/modules/rh/consts";
 import type {
-	StatusFuncionarioType,
 	FiltrosFuncionarios,
+	StatusFuncionarioType,
 } from "@/modules/rh/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+	Eye,
+	Filter,
+	MoreHorizontal,
+	Pencil,
+	Plus,
+	Search,
+	UserCheck,
+	UserX,
+	Users,
+} from "lucide-react";
+import { useState } from "react";
 
 type FuncionariosSearch = {
 	busca?: string;

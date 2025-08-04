@@ -1,5 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
+import { RouteGuard } from "@/components/auth/route-guard";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -7,17 +9,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Save } from "lucide-react";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
+import { Textarea } from "@/components/ui/textarea";
 import { useTRPC } from "@/integrations/trpc/react";
-import { useMutation } from "@tanstack/react-query";
 import { USER_ROLES } from "@/modules/core/enums";
+import { useForm } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft, Save } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/rh/departamentos/novo")({

@@ -1,9 +1,9 @@
-import type { ReactNode } from "react";
-import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "../ui/button";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { ArrowLeft } from "lucide-react";
+import type { ReactNode } from "react";
+import { Button } from "../ui/button";
 
 interface PageHeaderProps {
 	title: string;

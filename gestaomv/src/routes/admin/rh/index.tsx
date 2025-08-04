@@ -1,5 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { RouteGuard } from "@/components/auth/route-guard";
+import { CardStats } from "@/components/card-stats";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -7,8 +10,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { CardStats } from "@/components/card-stats";
-import { Button } from "@/components/ui/button";
 import {
 	Select,
 	SelectContent,
@@ -16,38 +17,37 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import {
-	Users,
-	Plus,
-	TrendingUp,
-	Building2,
-	Briefcase,
-	UserCheck,
-	Clock,
-	UserX,
-	ClipboardCheck,
-	Target,
-	Filter,
-} from "lucide-react";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
-import { RouteGuard } from "@/components/auth/route-guard";
-import {
-	PieChart,
-	Pie,
-	Cell,
-	ResponsiveContainer,
-	BarChart,
-	Bar,
-	XAxis,
-	YAxis,
-	Tooltip,
-	Legend,
-} from "recharts";
+import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
-import { useTRPC } from "@/integrations/trpc/react";
 import { useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import {
+	Briefcase,
+	Building2,
+	ClipboardCheck,
+	Clock,
+	Filter,
+	Plus,
+	Target,
+	TrendingUp,
+	UserCheck,
+	UserX,
+	Users,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+	Bar,
+	BarChart,
+	Cell,
+	Legend,
+	Pie,
+	PieChart,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 

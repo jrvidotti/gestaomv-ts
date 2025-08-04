@@ -1,17 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AdminLayout } from "@/components/layout/admin-layout";
-import { PageHeader } from "@/components/layout/page-header";
 import { RouteGuard } from "@/components/auth/route-guard";
 import { CardStats } from "@/components/card-stats";
-import { USER_ROLES } from "@/modules/core/enums";
-import {
-	Users,
-	UserCheck,
-	UserPlus,
-	Shield,
-	Plus,
-	Settings,
-} from "lucide-react";
+import { AdminLayout } from "@/components/layout/admin-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -22,11 +14,19 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { useTRPC } from "@/integrations/trpc/react";
+import { USER_ROLES } from "@/modules/core/enums";
 import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
+import {
+	Plus,
+	Settings,
+	Shield,
+	UserCheck,
+	UserPlus,
+	Users,
+} from "lucide-react";
 
 export const Route = createFileRoute("/admin/core/")({
 	component: AdminCoreDashboard,

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, ArrowLeft } from "lucide-react";
 import { Link, useRouter } from "@tanstack/react-router";
+import { ArrowLeft, Home } from "lucide-react";
 
 export function NotFound() {
 	const router = useRouter();

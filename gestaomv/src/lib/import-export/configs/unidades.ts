@@ -1,7 +1,7 @@
 import { getDatabase, schema } from "@/db";
 import { unidades } from "@/db/schemas";
-import { eq } from "drizzle-orm";
 import type { ImportExportOptions } from "@/lib/import-export";
+import { eq } from "drizzle-orm";
 
 export interface UnidadeImport {
 	nome: string;

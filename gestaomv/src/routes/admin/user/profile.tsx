@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useTRPC } from "@/integrations/trpc/react";
-import { useQuery } from "@tanstack/react-query";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -8,13 +8,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { User, Mail, Calendar, Activity, Key, LogOut } from "lucide-react";
 import { USER_ROLES_DATA } from "@/constants/user-roles";
 import { useAuth } from "@/hooks/use-auth";
+import { useTRPC } from "@/integrations/trpc/react";
+import { useQuery } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { Activity, Calendar, Key, LogOut, Mail, User } from "lucide-react";
 
 export const Route = createFileRoute("/admin/user/profile")({
 	component: ProfilePage,

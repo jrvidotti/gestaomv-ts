@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-import { AuthProvider } from "../hooks/use-auth";
 import { NotFound } from "@/components/not-found";
+import { AuthProvider } from "../hooks/use-auth";
 
 import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
 

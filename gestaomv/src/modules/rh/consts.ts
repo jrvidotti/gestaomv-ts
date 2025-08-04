@@ -1,7 +1,7 @@
 import {
-	statusFuncionarioEnum,
-	recomendacaoAvaliacaoEnum,
 	classificacaoAvaliacaoPeriodicaEnum,
+	recomendacaoAvaliacaoEnum,
+	statusFuncionarioEnum,
 	tipoAvaliacaoExperienciaEnum,
 } from "./enums";
 

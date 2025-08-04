@@ -1,6 +1,6 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
 import { idAutoIncrement } from "@/db/helpers";
+import { sql } from "drizzle-orm";
+import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const consultasCpf = sqliteTable("consultas_cpf", {
 	id: idAutoIncrement(),

@@ -1,6 +1,11 @@
 import { LoginFailedError, TagoneError } from "./errors";
 import { mountOdataQuery } from "./helpers";
-import { LoggedClaims, OdataFilter, OdataOrderBy, OdataQuery } from "./types";
+import type {
+	LoggedClaims,
+	OdataFilter,
+	OdataOrderBy,
+	OdataQuery,
+} from "./types";
 
 export type PaginatedResult<T> = {
 	data: T[];
