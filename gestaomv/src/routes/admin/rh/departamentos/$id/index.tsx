@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 import { USER_ROLES } from '@/modules/core/enums'
 import { STATUS_FUNCIONARIO_DATA } from '@/modules/rh/consts'
 
-export const Route = createFileRoute('/admin/rh/departamentos/$id')({
+export const Route = createFileRoute('/admin/rh/departamentos/$id/')({
   component: RouteComponent,
 })
 
