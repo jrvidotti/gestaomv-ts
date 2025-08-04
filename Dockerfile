@@ -65,8 +65,14 @@ RUN mkdir -p /app/data && \
 # Mudar para usuário não-privilegiado
 USER nextjs
 
+ENV DATABASE_PATH="/app/data/database.sqlite"
+ENV DATAFILES_PATH="/app/data"
+ENV HOSTNAME="localhost"
+ENV PORT=3001
+ENV NODE_ENV="production"
+
 # Expor porta
-EXPOSE 3000
+EXPOSE 3001
 
 # Definir diretório de trabalho da aplicação
 WORKDIR /app
