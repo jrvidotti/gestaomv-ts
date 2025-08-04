@@ -1,5 +1,5 @@
 import { RouteGuard } from "@/components/auth/route-guard";
-import { EmpresaForm } from "@/components/forms/empresa-form";
+import { EmpresaForm } from "@/components/core/empresa-form";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";

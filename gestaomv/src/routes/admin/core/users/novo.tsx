@@ -1,5 +1,5 @@
 import { RouteGuard } from "@/components/auth/route-guard";
-import { UserBasicForm } from "@/components/forms/user-basic-form";
+import { UserBasicForm } from "@/components/core/user-basic-form";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";

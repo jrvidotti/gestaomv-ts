@@ -1,8 +1,8 @@
 import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	atualizarMaterialSchema,
-	criarMaterialSchema,
 	filtroMateriaisSchema,
+	formMaterialSchema,
 } from "@/modules/almoxarifado/dtos";
 import { MateriaisService } from "@/modules/almoxarifado/services/materiais.service";
 import type { TRPCRouterRecord } from "@trpc/server";
@@ -12,7 +12,7 @@ const materiaisService = new MateriaisService();
 
 export const materiaisRouter = {
 	criar: adminProcedure
-		.input(criarMaterialSchema)
+		.input(formMaterialSchema)
 		.mutation(async ({ input }) => {
 			return await materiaisService.criarMaterial(input);
 		}),

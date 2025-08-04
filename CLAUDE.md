@@ -22,7 +22,7 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
 
 - `yarn lint` - Executa lint do código com Biome
 - `yarn format` - Formata código com Biome
-- `yarn check` - Executa verificações de lint e formatação
+- `yarn typecheck` - Executa verificações de lint e formatação
 
 ### Banco de Dados
 
@@ -82,7 +82,7 @@ Cada pacote em `/packages/` é uma biblioteca independente com:
 Utilize sempre que possível:
 
 - **TanStack Query**: gerenciamento e sincronização de estado do servidor
-- **TanStack Form** com **Zod**: construção e validação de formulários. Não utilize react-hook-form.
+- **React Hook Form** com **Zod**: construção e validação de formulários.
 - **TanStack Store**: gerenciamento de estado
 - **TanStack Table**: construção de tabelas complexas e personalizáveis
 - **TanStack Router**: roteamento baseado em arquivos

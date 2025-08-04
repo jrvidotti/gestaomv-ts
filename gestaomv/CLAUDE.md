@@ -15,7 +15,7 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
 
 - `yarn lint` - Faz lint do código com Biome
 - `yarn format` - Formata código com Biome
-- `yarn check` - Executa verificações de lint e formatação
+- `yarn typecheck` - Executa verificações de lint e formatação
 
 ### Banco de Dados
 

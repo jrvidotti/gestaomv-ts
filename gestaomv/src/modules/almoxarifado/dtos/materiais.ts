@@ -2,7 +2,7 @@ import z from "zod";
 
 // ============ SCHEMAS DE MATERIAIS ============
 
-export const criarMaterialSchema = z.object({
+export const formMaterialSchema = z.object({
 	nome: z
 		.string()
 		.min(1, "Nome é obrigatório")
@@ -17,9 +17,6 @@ export const criarMaterialSchema = z.object({
 		.string()
 		.min(1, "Unidade de medida é obrigatória")
 		.default("UN"),
-});
-
-export const atualizarMaterialSchema = criarMaterialSchema.partial().extend({
 	ativo: z.boolean().optional(),
 });
 
@@ -69,7 +66,7 @@ export const formCriarMaterialSchema = z.object({
 
 // ============ TIPOS DERIVADOS ============
 
-export type CriarMaterialData = z.infer<typeof criarMaterialSchema>;
+export type CriarMaterialData = z.infer<typeof formMaterialSchema>;
 export type AtualizarMaterialData = z.infer<typeof atualizarMaterialSchema>;
 export type FiltrosMateriais = z.infer<typeof filtroMateriaisSchema>;
 

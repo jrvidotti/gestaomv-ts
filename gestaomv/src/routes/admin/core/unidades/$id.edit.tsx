@@ -1,5 +1,5 @@
 import { RouteGuard } from "@/components/auth/route-guard";
-import { UnidadeForm } from "@/components/forms/unidade-form";
+import { UnidadeForm } from "@/components/core/unidade-form";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
