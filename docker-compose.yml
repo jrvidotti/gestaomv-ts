@@ -1,0 +1,26 @@
+services:
+  gestaomv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gestaomv-app
+    restart: unless-stopped
+    env_file:
+      - ./gestaomv/.env.docker
+    ports:
+      - "3000:3000"
+
+    volumes:
+      # Volume persistente para banco SQLite e arquivos
+      - gestaomv_data:/app/gestaomv/data
+
+    networks:
+      - gestaomv_network
+
+volumes:
+  gestaomv_data:
+    driver: local
+
+networks:
+  gestaomv_network:
+    driver: bridge
