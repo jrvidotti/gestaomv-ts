@@ -185,7 +185,9 @@ export class SuperadminService {
 
 	async getMigrationInfo(): Promise<MigrationInfoDTO> {
 		try {
-			const migrationsFolder = path.join(process.cwd(), "src/db/migrations");
+			const migrationsFolder = env.MIGRATIONS_PATH.startsWith(".")
+				? path.join(process.cwd(), env.MIGRATIONS_PATH)
+				: env.MIGRATIONS_PATH;
 
 			const journal = this.loadJournal(migrationsFolder);
 			if (!journal) {
@@ -236,7 +238,10 @@ export class SuperadminService {
 
 	async runMigrations(): Promise<{ success: boolean; message: string }> {
 		try {
-			const migrationsFolder = path.join(process.cwd(), "src/db/migrations");
+			const migrationsFolder = env.MIGRATIONS_PATH.startsWith(".")
+				? path.join(process.cwd(), env.MIGRATIONS_PATH)
+				: env.MIGRATIONS_PATH;
+
 			const migrationDb = getDatabaseMigrations();
 
 			console.log("🔄 Aplicando migrações do Drizzle...");

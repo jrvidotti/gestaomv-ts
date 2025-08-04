@@ -7,6 +7,7 @@ export const env = createEnv({
 		DATABASE_PATH: z.string().optional().default("./data/database.sqlite"),
 		NODE_ENV: z.string().optional().default("production"),
 		DATAFILES_PATH: z.string().optional().default("./data"),
+		MIGRATIONS_PATH: z.string().optional().default("./src/db/migrations"),
 		JWT_SECRET: z.string(),
 		TAGONE_BASE_URL: z.string(),
 		SUPERADMIN_EMAIL: z.string(),
