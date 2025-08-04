@@ -10,12 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
-import {
-	type EmailLoginDto,
-	type TagoneLoginDto,
-	emailLoginSchema,
-	tagoneLoginSchema,
-} from "@/modules/core/dtos";
+import type { EmailLoginDto, TagoneLoginDto } from "@/modules/core/dtos";
 import { useForm } from "@tanstack/react-form";
 import { Navigate, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
