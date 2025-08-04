@@ -7,6 +7,13 @@ export interface AuthUser {
 	roles: UserRoleType[];
 }
 
+export const authenticateRequest = (req: Request): AuthUser | null => {
+	const authHeader = req.headers.get("authorization");
+	const [authType, token] = authHeader?.split(" ") || ["", ""];
+	const hasToken = authType === "Bearer" && !!token;
+	return hasToken ? getUserFromToken(token) : null;
+};
+
 export const getUserFromToken = (token: string): AuthUser | null => {
 	try {
 		const decoded = jwt.verify(

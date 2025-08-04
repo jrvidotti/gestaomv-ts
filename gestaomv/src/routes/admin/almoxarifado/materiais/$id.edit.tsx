@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import type { z } from "zod";
 
@@ -8,9 +8,7 @@ import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/integrations/trpc/react";
-import { atualizarMaterialSchema } from "@/modules/almoxarifado/dtos";
-
-type AtualizarMaterialData = z.infer<typeof atualizarMaterialSchema>;
+import type { atualizarMaterialSchema } from "@/modules/almoxarifado/dtos";
 
 export const Route = createFileRoute("/admin/almoxarifado/materiais/$id/edit")({
 	component: EditMaterialPage,
@@ -22,7 +20,7 @@ function EditMaterialPage() {
 	const trpc = useTRPC();
 	const queryClient = useQueryClient();
 
-	const materialId = parseInt(id);
+	const materialId = Number.parseInt(id, 10);
 
 	const { data: material, isLoading: isLoadingMaterial } = useQuery(
 		trpc.almoxarifado.materiais.buscar.queryOptions({ id: materialId }),
@@ -47,7 +45,7 @@ function EditMaterialPage() {
 		},
 	});
 
-	const onSubmit = (values: AtualizarMaterialData) => {
+	const onSubmit = (values: z.infer<typeof atualizarMaterialSchema>) => {
 		atualizarMaterial({
 			id: materialId,
 			data: values,
@@ -86,7 +84,9 @@ function EditMaterialPage() {
 		return (
 			<AdminLayout header={header}>
 				<div className="flex items-center justify-center h-32">
-					<div className="text-muted-foreground">Carregando dados do material...</div>
+					<div className="text-muted-foreground">
+						Carregando dados do material...
+					</div>
 				</div>
 			</AdminLayout>
 		);

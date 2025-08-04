@@ -44,7 +44,9 @@ import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/us
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
 import { Route as AdminAlmoxarifadoMateriaisIdEditRouteImport } from './routes/admin/almoxarifado/materiais/$id.edit'
+import { ServerRoute as ApiUploadServerRouteImport } from './routes/api.upload'
 import { ServerRoute as ApiTrpcSplatServerRouteImport } from './routes/api.trpc.$'
+import { ServerRoute as ApiImagesSplatServerRouteImport } from './routes/api.images.$'
 
 const rootServerRouteImport = createServerRootRoute()
 
@@ -224,9 +226,19 @@ const AdminAlmoxarifadoMateriaisIdEditRoute =
     path: '/admin/almoxarifado/materiais/$id/edit',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiUploadServerRoute = ApiUploadServerRouteImport.update({
+  id: '/api/upload',
+  path: '/api/upload',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 const ApiTrpcSplatServerRoute = ApiTrpcSplatServerRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
+const ApiImagesSplatServerRoute = ApiImagesSplatServerRouteImport.update({
+  id: '/api/images/$',
+  path: '/api/images/$',
   getParentRoute: () => rootServerRouteImport,
 } as any)
 
@@ -480,24 +492,32 @@ export interface RootRouteChildren {
   AdminRhDepartamentosIdIndexRoute: typeof AdminRhDepartamentosIdIndexRoute
 }
 export interface FileServerRoutesByFullPath {
+  '/api/upload': typeof ApiUploadServerRoute
+  '/api/images/$': typeof ApiImagesSplatServerRoute
   '/api/trpc/$': typeof ApiTrpcSplatServerRoute
 }
 export interface FileServerRoutesByTo {
+  '/api/upload': typeof ApiUploadServerRoute
+  '/api/images/$': typeof ApiImagesSplatServerRoute
   '/api/trpc/$': typeof ApiTrpcSplatServerRoute
 }
 export interface FileServerRoutesById {
   __root__: typeof rootServerRouteImport
+  '/api/upload': typeof ApiUploadServerRoute
+  '/api/images/$': typeof ApiImagesSplatServerRoute
   '/api/trpc/$': typeof ApiTrpcSplatServerRoute
 }
 export interface FileServerRouteTypes {
   fileServerRoutesByFullPath: FileServerRoutesByFullPath
-  fullPaths: '/api/trpc/$'
+  fullPaths: '/api/upload' | '/api/images/$' | '/api/trpc/$'
   fileServerRoutesByTo: FileServerRoutesByTo
-  to: '/api/trpc/$'
-  id: '__root__' | '/api/trpc/$'
+  to: '/api/upload' | '/api/images/$' | '/api/trpc/$'
+  id: '__root__' | '/api/upload' | '/api/images/$' | '/api/trpc/$'
   fileServerRoutesById: FileServerRoutesById
 }
 export interface RootServerRouteChildren {
+  ApiUploadServerRoute: typeof ApiUploadServerRoute
+  ApiImagesSplatServerRoute: typeof ApiImagesSplatServerRoute
   ApiTrpcSplatServerRoute: typeof ApiTrpcSplatServerRoute
 }
 
@@ -738,11 +758,25 @@ declare module '@tanstack/react-router' {
 }
 declare module '@tanstack/react-start/server' {
   interface ServerFileRoutesByPath {
+    '/api/upload': {
+      id: '/api/upload'
+      path: '/api/upload'
+      fullPath: '/api/upload'
+      preLoaderRoute: typeof ApiUploadServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
     '/api/trpc/$': {
       id: '/api/trpc/$'
       path: '/api/trpc/$'
       fullPath: '/api/trpc/$'
       preLoaderRoute: typeof ApiTrpcSplatServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+    '/api/images/$': {
+      id: '/api/images/$'
+      path: '/api/images/$'
+      fullPath: '/api/images/$'
+      preLoaderRoute: typeof ApiImagesSplatServerRouteImport
       parentRoute: typeof rootServerRouteImport
     }
   }
@@ -789,6 +823,8 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiUploadServerRoute: ApiUploadServerRoute,
+  ApiImagesSplatServerRoute: ApiImagesSplatServerRoute,
   ApiTrpcSplatServerRoute: ApiTrpcSplatServerRoute,
 }
 export const serverRouteTree = rootServerRouteImport
