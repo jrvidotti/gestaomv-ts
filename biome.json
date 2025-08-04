@@ -7,13 +7,14 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["src/routeTree.gen.ts"],
+		"ignore": ["gestaomv/src/routeTree.gen.ts", "packages/*/node_modules/"],
 		"include": [
-			"src/*",
-			".vscode/*",
-			"index.html",
-			"vite.config.js",
-			"scripts/*"
+			"gestaomv/src/*",
+			"gestaomv/.vscode/*",
+			"gestaomv/index.html",
+			"gestaomv/vite.config.js",
+			"gestaomv/scripts/*",
+			"packages/"
 		]
 	},
 	"formatter": {

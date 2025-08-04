@@ -65,7 +65,9 @@ export class AuthService {
 
 		// Verificar se o usuário possui roles atribuídas
 		if (!user.roles || user.roles.length === 0) {
-			throw new Error("Aguardando um administrador atribuir seu perfil de acesso");
+			throw new Error(
+				"Aguardando um administrador atribuir seu perfil de acesso",
+			);
 		}
 
 		const access_token = AuthService.generateAccessToken(user);
@@ -239,7 +241,9 @@ export class AuthService {
 
 		// Verificar se o usuário possui roles atribuídas
 		if (!user.roles || user.roles.length === 0) {
-			throw new Error("Aguardando um administrador atribuir seu perfil de acesso");
+			throw new Error(
+				"Aguardando um administrador atribuir seu perfil de acesso",
+			);
 		}
 
 		const access_token = AuthService.generateAccessToken(user);

@@ -1,8 +1,8 @@
 import guitars from "@/data/example-guitars";
 import { env } from "@/env";
-import { almoxarifadoRouter } from "@/modules/almoxarifado/routers/almoxarifado.router";
+import { almoxarifadoRouter } from "@/modules/almoxarifado/routers";
 import { coreRouter } from "@/modules/core/routers/core.router";
-import { rhRouter } from "@/modules/rh/routers/rh.router";
+import { rhRouter } from "@/modules/rh/routers";
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "./init";

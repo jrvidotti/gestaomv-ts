@@ -1,43 +1,35 @@
 {
-  "name": "@movelabs/tagone",
-  "version": "1.0.1",
-  "description": "Cliente para integração com a API do ERP TagOne",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "clean": "rm -rf dist",
-    "test": "vitest",
-    "prepublishOnly": "npm run clean && npm run build"
-  },
-  "keywords": [
-    "tagone",
-    "erp",
-    "api",
-    "client",
-    "typescript"
-  ],
-  "author": "Junior Vidotti",
-  "license": "MIT",
-  "dependencies": {
-    "date-fns": "^4.1.0",
-    "dotenv": "^17.1.0"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.3",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
-  },
-  "files": [
-    "dist"
-  ],
-  "engines": {
-    "node": ">=18"
-  },
-  "bugs": {
-    "url": "https://github.com/jrvidotti/packages/issues"
-  },
-  "homepage": "https://github.com/jrvidotti/packages#readme"
+	"name": "@movelabs/tagone",
+	"version": "1.0.1",
+	"description": "Cliente para integração com a API do ERP TagOne",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"clean": "rm -rf dist",
+		"test": "vitest",
+		"prepublishOnly": "npm run clean && npm run build"
+	},
+	"keywords": ["tagone", "erp", "api", "client", "typescript"],
+	"author": "Junior Vidotti",
+	"license": "MIT",
+	"dependencies": {
+		"date-fns": "^4.1.0",
+		"dotenv": "^17.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.15.3",
+		"typescript": "^5.8.3",
+		"vitest": "^3.2.4"
+	},
+	"files": ["dist"],
+	"engines": {
+		"node": ">=18"
+	},
+	"bugs": {
+		"url": "https://github.com/jrvidotti/packages/issues"
+	},
+	"homepage": "https://github.com/jrvidotti/packages#readme"
 }

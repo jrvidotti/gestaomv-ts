@@ -29,7 +29,12 @@ function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [loginType, setLoginType] = useState<"local" | "tagone">("local");
-	const { login, loginWithTagOne, isAuthenticated, isLoading: authLoading } = useAuth();
+	const {
+		login,
+		loginWithTagOne,
+		isAuthenticated,
+		isLoading: authLoading,
+	} = useAuth();
 	const router = useRouter();
 
 	const emailLoginForm = useForm({

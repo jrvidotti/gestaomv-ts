@@ -90,27 +90,30 @@ src/integrations/trpc/
 **IMPORTANTE**: Use sempre o padrão `useTRPC` hook, não um objeto `api`.
 
 #### Import Correto
+
 ```typescript
-import { useTRPC } from '@/integrations/trpc/react'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useTRPC } from "@/integrations/trpc/react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 ```
 
 #### Queries
+
 ```typescript
 function Component() {
-  const trpc = useTRPC()
-  
+  const trpc = useTRPC();
+
   const { data, isLoading, error } = useQuery(
     trpc.moduleName.methodName.queryOptions(params)
-  )
+  );
 }
 ```
 
 #### Mutations
+
 ```typescript
 function Component() {
   const trpc = useTRPC()
-  
+
   const { mutate, isLoading } = useMutation({
     ...trpc.moduleName.methodName.mutationOptions(),
     onSuccess: () => {
@@ -120,7 +123,7 @@ function Component() {
       // Callback de erro
     }
   })
-  
+
   // Usar a mutation
   const handleAction = () => {
     mutate({ id: 123, data: {...} })
@@ -129,18 +132,19 @@ function Component() {
 ```
 
 #### Exemplo Completo
+
 ```typescript
 import { useTRPC } from '@/integrations/trpc/react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
 function UsersPage() {
   const trpc = useTRPC()
-  
+
   // Query
   const { data: users, isLoading, refetch } = useQuery(
     trpc.users.findAll.queryOptions()
   )
-  
+
   // Mutation
   const { mutate: updateUser } = useMutation({
     ...trpc.users.update.mutationOptions(),
@@ -148,7 +152,7 @@ function UsersPage() {
       refetch() // Recarregar dados após sucesso
     }
   })
-  
+
   return (
     // JSX aqui
   )

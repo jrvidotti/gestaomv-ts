@@ -1,50 +1,46 @@
 {
-  "name": "@movelabs/pix-sicoob",
-  "version": "1.0.1",
-  "description": "Cliente PIX para integração com API do Sicoob - Sistema de Cobranças e Pagamentos Instantâneos",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "jest",
-    "lint": "eslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts",
-    "prepublishOnly": "npm run build"
-  },
-  "keywords": [
-    "pix",
-    "sicoob",
-    "pagamentos",
-    "cobranca",
-    "qrcode",
-    "api",
-    "banking",
-    "fintech"
-  ],
-  "author": "Junior Vidotti",
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^1.6.0",
-    "zod": "^3.25.0",
-    "qs": "^6.11.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/qs": "^6.9.0",
-    "typescript": "^5.0.0",
-    "jest": "^29.0.0",
-    "@types/jest": "^29.0.0",
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0"
-  },
-  "files": [
-    "dist/**/*",
-    "README.md",
-    "LICENSE"
-  ],
-  "bugs": {
-    "url": "https://github.com/jrvidotti/packages/issues"
-  },
-  "homepage": "https://github.com/jrvidotti/packages#readme"
+	"name": "@movelabs/pix-sicoob",
+	"version": "1.0.1",
+	"description": "Cliente PIX para integração com API do Sicoob - Sistema de Cobranças e Pagamentos Instantâneos",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"test": "jest",
+		"lint": "eslint src/**/*.ts",
+		"format": "prettier --write src/**/*.ts",
+		"prepublishOnly": "npm run build"
+	},
+	"keywords": [
+		"pix",
+		"sicoob",
+		"pagamentos",
+		"cobranca",
+		"qrcode",
+		"api",
+		"banking",
+		"fintech"
+	],
+	"author": "Junior Vidotti",
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^1.6.0",
+		"zod": "^3.25.0",
+		"qs": "^6.11.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"@types/qs": "^6.9.0",
+		"typescript": "^5.0.0",
+		"jest": "^29.0.0",
+		"@types/jest": "^29.0.0",
+		"eslint": "^8.0.0",
+		"prettier": "^3.0.0"
+	},
+	"files": ["dist/**/*", "README.md", "LICENSE"],
+	"bugs": {
+		"url": "https://github.com/jrvidotti/packages/issues"
+	},
+	"homepage": "https://github.com/jrvidotti/packages#readme"
 }

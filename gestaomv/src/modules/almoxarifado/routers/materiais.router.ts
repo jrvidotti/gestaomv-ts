@@ -11,21 +11,13 @@ import z from "zod";
 const materiaisService = new MateriaisService();
 
 export const materiaisRouter = {
-	listarTiposMaterial: protectedProcedure.query(async () => {
-		return await materiaisService.listarTiposMaterial();
-	}),
-
-	listarUnidadesMedida: protectedProcedure.query(async () => {
-		return await materiaisService.listarUnidadesMedida();
-	}),
-
-	criarMaterial: adminProcedure
+	criar: adminProcedure
 		.input(criarMaterialSchema)
 		.mutation(async ({ input }) => {
 			return await materiaisService.criarMaterial(input);
 		}),
 
-	listarMateriais: protectedProcedure
+	listar: protectedProcedure
 		.input(filtroMateriaisSchema)
 		.query(async ({ input }) => {
 			const filtros = {
@@ -36,7 +28,7 @@ export const materiaisRouter = {
 			return await materiaisService.listarMateriais(filtros);
 		}),
 
-	buscarMaterial: protectedProcedure
+	buscar: protectedProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
 			const material = await materiaisService.buscarMaterialPorId(input.id);
@@ -46,7 +38,7 @@ export const materiaisRouter = {
 			return material;
 		}),
 
-	atualizarMaterial: adminProcedure
+	atualizar: adminProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -64,18 +56,26 @@ export const materiaisRouter = {
 			return material;
 		}),
 
-	inativarMaterial: adminProcedure
+	inativar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ input }) => {
 			await materiaisService.inativarMaterial(input.id);
 			return { message: "Material inativado com sucesso" };
 		}),
 
-	deletarFotoMaterial: adminProcedure
+	listarTiposMaterial: protectedProcedure.query(async () => {
+		return await materiaisService.listarTiposMaterial();
+	}),
+
+	listarUnidadesMedida: protectedProcedure.query(async () => {
+		return await materiaisService.listarUnidadesMedida();
+	}),
+
+	deletarFoto: adminProcedure
 		.input(
 			z.object({
 				materialId: z.number(),
-				urlFoto: z.string().url(),
+				urlFoto: z.url(),
 			}),
 		)
 		.mutation(async ({ input }) => {

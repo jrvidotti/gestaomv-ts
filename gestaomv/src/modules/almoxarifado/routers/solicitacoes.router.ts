@@ -30,7 +30,7 @@ const gerenteAlmoxarifadoProcedure = createRoleProcedure([
 ]);
 
 export const solicitacoesRouter = {
-	criarSolicitacao: protectedProcedure
+	criar: protectedProcedure
 		.input(criarSolicitacaoMaterialSchema)
 		.mutation(async ({ input, ctx }) => {
 			const userId = ctx.user?.id;
@@ -40,7 +40,7 @@ export const solicitacoesRouter = {
 			return await solicitacoesService.criarSolicitacaoMaterial(userId, input);
 		}),
 
-	listarSolicitacoes: protectedProcedure
+	listar: protectedProcedure
 		.input(filtroSolicitacoesSchema)
 		.query(async ({ input, ctx }) => {
 			// Usuários podem ver apenas suas próprias solicitações, admins podem ver todas
@@ -61,7 +61,7 @@ export const solicitacoesRouter = {
 			return await solicitacoesService.listarSolicitacoesMaterial(filtros);
 		}),
 
-	buscarSolicitacao: protectedProcedure
+	buscar: protectedProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input, ctx }) => {
 			const solicitacao =
@@ -83,7 +83,7 @@ export const solicitacoesRouter = {
 			return solicitacao;
 		}),
 
-	aprovarOuRejeitarSolicitacao: aprovadorProcedure
+	aprovarOuRejeitar: aprovadorProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -113,7 +113,7 @@ export const solicitacoesRouter = {
 			return solicitacao;
 		}),
 
-	atenderSolicitacao: gestorAlmoxarifadoProcedure
+	atender: gestorAlmoxarifadoProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -142,7 +142,7 @@ export const solicitacoesRouter = {
 			return solicitacao;
 		}),
 
-	cancelarSolicitacao: protectedProcedure
+	cancelar: protectedProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ input, ctx }) => {
 			const userId = ctx.user?.id;

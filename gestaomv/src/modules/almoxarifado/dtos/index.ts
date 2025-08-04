@@ -1,3 +1,3 @@
 export * from "./materiais";
-export * from "./solicitacoes_material";
+export * from "./solicitacoes";
 export * from "./relatorios";

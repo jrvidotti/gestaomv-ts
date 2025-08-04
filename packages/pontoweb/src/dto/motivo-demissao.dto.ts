@@ -1,6 +1,6 @@
 export interface MotivoDemissao {
-	Id: number
-	Descricao: string
-	Codigo?: string
-	Ativo: boolean
+	Id: number;
+	Descricao: string;
+	Codigo?: string;
+	Ativo: boolean;
 }
