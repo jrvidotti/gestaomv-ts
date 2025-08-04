@@ -9,7 +9,7 @@ async function handler({ request }: { request: Request }) {
 		return new Response(JSON.stringify({ error: "Método não permitido" }), {
 			status: 405,
 			headers: { "Content-Type": "application/json" },
-		})
+		});
 	}
 
 	try {
@@ -21,7 +21,7 @@ async function handler({ request }: { request: Request }) {
 					status: 500,
 					headers: { "Content-Type": "application/json" },
 				},
-			)
+			);
 		}
 
 		// Obter FormData da requisição
@@ -36,7 +36,7 @@ async function handler({ request }: { request: Request }) {
 					status: 400,
 					headers: { "Content-Type": "application/json" },
 				},
-			)
+			);
 		}
 
 		// Validar tipo de arquivo
@@ -52,7 +52,7 @@ async function handler({ request }: { request: Request }) {
 					status: 400,
 					headers: { "Content-Type": "application/json" },
 				},
-			)
+			);
 		}
 
 		// Validar tamanho do arquivo (5MB máximo)
@@ -66,7 +66,7 @@ async function handler({ request }: { request: Request }) {
 					status: 400,
 					headers: { "Content-Type": "application/json" },
 				},
-			)
+			);
 		}
 
 		// Converter File para Buffer
@@ -78,7 +78,7 @@ async function handler({ request }: { request: Request }) {
 			buffer,
 			file.name,
 			"materiais", // pasta específica para materiais
-		)
+		);
 
 		// Retornar URL pública do arquivo
 		return new Response(
@@ -93,7 +93,7 @@ async function handler({ request }: { request: Request }) {
 				status: 200,
 				headers: { "Content-Type": "application/json" },
 			},
-		)
+		);
 	} catch (error) {
 		console.error("Erro no upload de arquivo:", error);
 
@@ -104,7 +104,7 @@ async function handler({ request }: { request: Request }) {
 		return new Response(JSON.stringify({ error: errorMessage }), {
 			status: 500,
 			headers: { "Content-Type": "application/json" },
-		})
+		});
 	}
 }
 

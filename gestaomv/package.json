@@ -1,6 +1,6 @@
 {
 	"name": "@gestaomv/app",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -9,8 +9,8 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"test": "vitest run",
-		"format": "biome format",
-		"lint": "biome lint",
+		"format": "biome format --fix",
+		"lint": "biome lint --fix",
 		"typecheck": "biome check",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
