@@ -13,6 +13,7 @@ export function MvLogo({ className }: MvLogoProps) {
 			xmlns="http://www.w3.org/2000/svg"
 			aria-label="Moda Verão Logo"
 		>
+			<title>Moda Verão Logo</title>
 			<g transform="matrix(1.3333333,0,0,-1.3333333,0,200)">
 				<g transform="translate(143.3032,86.7471)">
 					<path

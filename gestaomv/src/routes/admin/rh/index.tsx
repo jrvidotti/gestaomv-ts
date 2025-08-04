@@ -196,7 +196,7 @@ function RouteComponent() {
 	const dadosDepartamentos =
 		departamentos?.map((dept, index) => ({
 			name:
-				dept.nome.length > 15 ? dept.nome.substring(0, 15) + "..." : dept.nome,
+				dept.nome.length > 15 ? `${dept.nome.substring(0, 15)}...` : dept.nome,
 			funcionarios: dept.totalFuncionarios,
 			color: COLORS[index % COLORS.length],
 		})) || [];
@@ -371,8 +371,11 @@ function RouteComponent() {
 													dataKey="value"
 													label={({ name, value }) => `${name}: ${value}`}
 												>
-													{dadosStatus.map((entry, index) => (
-														<Cell key={`cell-${index}`} fill={entry.color} />
+													{dadosStatus.map((entry) => (
+														<Cell
+															key={`cell-${entry.name}`}
+															fill={entry.color}
+														/>
 													))}
 												</Pie>
 												<Tooltip />

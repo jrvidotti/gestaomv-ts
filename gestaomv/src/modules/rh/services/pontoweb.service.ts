@@ -49,7 +49,6 @@ export class PontowebService {
 	}
 
 	private async importarEmpresa(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		empresaPontoWeb: any,
 	): Promise<{ id: number; acao: "criada" | "atualizada" }> {
 		// Verificar se empresa já existe por pontowebId
@@ -79,7 +78,6 @@ export class PontowebService {
 	}
 
 	private async importarUnidade(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		estruturaPontoWeb: any,
 	): Promise<{ id: number; acao: "criada" | "atualizada" }> {
 		// Verificar se unidade já existe por pontowebId
@@ -107,7 +105,6 @@ export class PontowebService {
 	}
 
 	private async importarDepartamento(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		departamentoPontoWeb: any,
 	): Promise<{ id: number; acao: "criado" | "atualizado" }> {
 		// Verificar se departamento já existe por pontowebId
@@ -138,7 +135,6 @@ export class PontowebService {
 	}
 
 	private async importarCargo(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		funcaoPontoWeb: any,
 		departamentoId: number,
 	): Promise<{ id: number; acao: "criado" | "atualizado" }> {
@@ -168,7 +164,6 @@ export class PontowebService {
 	}
 
 	private async importarFuncionario(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		funcionario: any,
 		empresasMap: Map<number, number>,
 		unidadesMap: Map<number, number>,
@@ -206,9 +201,7 @@ export class PontowebService {
 				sexo: undefined as "M" | "F" | "Outro" | undefined,
 				nomeMae: undefined,
 				email: funcionario.Email || undefined,
-				telefone:
-					// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-					funcionario.Telefone || (funcionario as any).Celular || undefined,
+				telefone: funcionario.Telefone || funcionario.Celular || undefined,
 				foto: undefined,
 				cargoId: cargoId || 1, // Valor padrão temporário se não encontrar
 				departamentoId: departamentoId || 1, // Valor padrão temporário se não encontrar

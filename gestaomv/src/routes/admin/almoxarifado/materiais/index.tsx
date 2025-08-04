@@ -187,7 +187,6 @@ function RouteComponent() {
 									</div>
 								</div>
 								<div>
-									{/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
 									<label className="text-sm font-medium mb-2 block">Tipo</label>
 									<LookupSelect
 										className="w-64"
