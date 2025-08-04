@@ -3562,20 +3562,6 @@
     babel-dead-code-elimination "^1.0.10"
     tiny-invariant "^1.3.3"
 
-"@tanstack/form-core@0.42.1":
-  version "0.42.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-0.42.1.tgz#9b13dda654f2470d840f563ec0e1d106e30a551e"
-  integrity sha512-jTU0jyHqFceujdtPNv3jPVej1dTqBwa8TYdIyWB5BCwRVUBZEp1PiYEBkC9r92xu5fMpBiKc+JKud3eeVjuMiA==
-  dependencies:
-    "@tanstack/store" "^0.7.0"
-
-"@tanstack/form-core@1.15.1":
-  version "1.15.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.15.1.tgz#cef05032c299a764e347443fdffff7a2d0f98a52"
-  integrity sha512-Z8+29KhaGko5VSmnt0iUpB7wlFqOsLCSL3EhC2F/xm/qMq6BzR0yJVpeunN8pwfnlVnkUAO7I8yxT9VS/7ncBA==
-  dependencies:
-    "@tanstack/store" "^0.7.2"
-
 "@tanstack/history@1.129.7":
   version "1.129.7"
   resolved "https://registry.yarnpkg.com/@tanstack/history/-/history-1.129.7.tgz#aef0836a260f859ad564394b732814b5ad313d2d"
@@ -3597,16 +3583,6 @@
   version "5.84.0"
   resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.84.0.tgz#dabed4f4abf405f0e320758ed7bc895a7687d9bb"
   integrity sha512-fbF3n+z1rqhvd9EoGp5knHkv3p5B2Zml1yNRjh7sNXklngYI5RVIWUrUjZ1RIcEoscarUb0+bOvIs5x9dwzOXQ==
-
-"@tanstack/react-form@^1.0.0":
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-form/-/react-form-1.15.2.tgz#911314a58bd45e219f8e21bb6cf20d14112bcd96"
-  integrity sha512-mNW3xixPM99jIuU0moxatZ97B0J8YWlM9ROXLlyuEA4QabLjw7dtWpd1Rq3HVftNbAOneFxb/LwoNywb9pabXw==
-  dependencies:
-    "@tanstack/form-core" "1.15.1"
-    "@tanstack/react-store" "^0.7.3"
-    decode-formdata "^0.9.0"
-    devalue "^5.1.1"
 
 "@tanstack/react-query-devtools@^5.66.5":
   version "5.84.1"
@@ -3691,7 +3667,7 @@
     "@tanstack/start-server-functions-client" "1.130.10"
     "@tanstack/start-server-functions-server" "1.129.7"
 
-"@tanstack/react-store@^0.7.0", "@tanstack/react-store@^0.7.3":
+"@tanstack/react-store@^0.7.0":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@tanstack/react-store/-/react-store-0.7.3.tgz#567d3983e654b7e5cc83fbc8a20088a319305ce0"
   integrity sha512-3Dnqtbw9P2P0gw8uUM8WP2fFfg8XMDSZCTsywRPZe/XqqYW8PGkXKZTvP0AHkE4mpqP9Y43GpOg9vwO44azu6Q==
@@ -3873,7 +3849,7 @@
   dependencies:
     "@tanstack/router-core" "1.130.10"
 
-"@tanstack/store@0.7.2", "@tanstack/store@^0.7.0", "@tanstack/store@^0.7.2":
+"@tanstack/store@0.7.2", "@tanstack/store@^0.7.0":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@tanstack/store/-/store-0.7.2.tgz#2e04dac17f7d904539eeb797d8ba0058cee4edf7"
   integrity sha512-RP80Z30BYiPX2Pyo0Nyw4s1SJFH2jyM6f9i3HfX4pA+gm5jsnYryscdq2aIQLnL4TaGuQMO+zXmN9nh1Qck+Pg==
@@ -3887,13 +3863,6 @@
   version "1.129.7"
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-file-routes/-/virtual-file-routes-1.129.7.tgz#80551059bb653199f1230531f3bf4a2a5114dd2c"
   integrity sha512-a+MxoAXG+Sq94Jp67OtveKOp2vQq75AWdVI8DRt6w19B0NEqpfm784FTLbVp/qdR1wmxCOmKAvElGSIiBOx5OQ==
-
-"@tanstack/zod-form-adapter@^0.42.1":
-  version "0.42.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/zod-form-adapter/-/zod-form-adapter-0.42.1.tgz#92ebedad52492026a4a0da588eeaa18020024110"
-  integrity sha512-hPRM0lawVKP64yurW4c6KHZH6altMo2MQN14hfi+GMBTKjO9S7bW1x5LPZ5cayoJE3mBvdlahpSGT5rYZtSbXQ==
-  dependencies:
-    "@tanstack/form-core" "0.42.1"
 
 "@testing-library/dom@^10.4.0":
   version "10.4.1"
@@ -5568,11 +5537,6 @@ decimal.js@^10.5.0:
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.6.0.tgz#e649a43e3ab953a72192ff5983865e509f37ed9a"
   integrity sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==
 
-decode-formdata@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/decode-formdata/-/decode-formdata-0.9.0.tgz#fa9c0c0ea0a279d6d1ea825c156534d2d5fa6721"
-  integrity sha512-q5uwOjR3Um5YD+ZWPOF/1sGHVW9A5rCrRwITQChRXlmPkxDFBqCm4jNTIVdGHNH9OnR+V9MoZVgRhsFb+ARbUw==
-
 decode-named-character-reference@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decode-named-character-reference/-/decode-named-character-reference-1.2.0.tgz#25c32ae6dd5e21889549d40f676030e9514cc0ed"
@@ -5747,11 +5711,6 @@ detective-vue2@^2.2.0:
     detective-scss "^5.0.1"
     detective-stylus "^5.0.1"
     detective-typescript "^14.0.0"
-
-devalue@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.1.1.tgz#a71887ac0f354652851752654e4bd435a53891ae"
-  integrity sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==
 
 devlop@^1.0.0, devlop@^1.1.0:
   version "1.1.0"

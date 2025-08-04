@@ -44,26 +44,26 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Criar usuário não-privilegiado
-RUN groupadd --gid 1001 nodejs && \
-    useradd --uid 1001 --gid nodejs --shell /bin/bash --create-home nextjs
+RUN groupadd --gid 1001 node && \
+    useradd --uid 1001 --gid node --shell /bin/bash --create-home node
 
 # Definir diretório de trabalho
 WORKDIR /app
 
 # Copiar package.json do app gestaomv
-COPY --chown=nextjs:nodejs gestaomv/package.json ./
+COPY --chown=node:node gestaomv/package.json ./
 
 # Copiar aplicação buildada
-COPY --from=builder --chown=nextjs:nodejs /app/gestaomv/.output/ ./.output/
-COPY --from=builder --chown=nextjs:nodejs /app/gestaomv/drizzle.config.ts ./
-COPY --from=builder --chown=nextjs:nodejs /app/gestaomv/scripts/ ./scripts/
+COPY --from=builder --chown=node:node /app/gestaomv/.output/ ./.output/
+COPY --from=builder --chown=node:node /app/gestaomv/drizzle.config.ts ./
+COPY --from=builder --chown=node:node /app/gestaomv/scripts/ ./scripts/
 
 # Criar diretório para dados
 RUN mkdir -p /app/data && \
-    chown -R nextjs:nodejs /app/data
+    chown -R node:node /app/data
 
 # Mudar para usuário não-privilegiado
-USER nextjs
+USER node
 
 ENV DATABASE_PATH="/app/data/database.sqlite"
 ENV DATAFILES_PATH="/app/data"

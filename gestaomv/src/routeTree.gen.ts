@@ -11,6 +11,7 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SuperadminRouteImport } from './routes/superadmin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
@@ -46,12 +47,17 @@ import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/us
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
 import { Route as AdminAlmoxarifadoMateriaisIdEditRouteImport } from './routes/admin/almoxarifado/materiais/$id.edit'
-import { ServerRoute as ApiUploadServerRouteImport } from './routes/api.upload'
-import { ServerRoute as ApiTrpcSplatServerRouteImport } from './routes/api.trpc.$'
-import { ServerRoute as ApiImagesSplatServerRouteImport } from './routes/api.images.$'
+import { ServerRoute as ApiUploadServerRouteImport } from './routes/api/upload'
+import { ServerRoute as ApiTrpcSplatServerRouteImport } from './routes/api/trpc.$'
+import { ServerRoute as ApiImagesSplatServerRouteImport } from './routes/api/images.$'
 
 const rootServerRouteImport = createServerRootRoute()
 
+const SuperadminRoute = SuperadminRouteImport.update({
+  id: '/superadmin',
+  path: '/superadmin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -258,6 +264,7 @@ const ApiImagesSplatServerRoute = ApiImagesSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/superadmin': typeof SuperadminRoute
   '/login': typeof AuthLoginRoute
   '/admin': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/superadmin': typeof SuperadminRoute
   '/login': typeof AuthLoginRoute
   '/admin': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
@@ -333,6 +341,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/superadmin': typeof SuperadminRoute
   '/_auth/login': typeof AuthLoginRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/core/configuracoes': typeof AdminCoreConfiguracoesRoute
@@ -372,6 +381,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/superadmin'
     | '/login'
     | '/admin'
     | '/admin/core/configuracoes'
@@ -409,6 +419,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/superadmin'
     | '/login'
     | '/admin'
     | '/admin/core/configuracoes'
@@ -446,6 +457,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/superadmin'
     | '/_auth/login'
     | '/admin/'
     | '/admin/core/configuracoes'
@@ -484,6 +496,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SuperadminRoute: typeof SuperadminRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCoreConfiguracoesRoute: typeof AdminCoreConfiguracoesRoute
@@ -551,6 +564,13 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/superadmin': {
+      id: '/superadmin'
+      path: '/superadmin'
+      fullPath: '/superadmin'
+      preLoaderRoute: typeof SuperadminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -826,6 +846,7 @@ declare module '@tanstack/react-start/server' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SuperadminRoute: SuperadminRoute,
   AuthLoginRoute: AuthLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCoreConfiguracoesRoute: AdminCoreConfiguracoesRoute,

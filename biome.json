@@ -7,7 +7,12 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["*/routeTree.gen.ts"],
+		"ignore": [
+			"*/routeTree.gen.ts",
+			"*/.output/*",
+			"*/.tanstack/*",
+			"*/.nitro/*"
+		],
 		"include": ["*.ts", "*.tsx", "*.js", "*.jsx", "*.css", "*.md", "*.json"]
 	},
 	"formatter": {

@@ -1,5 +1,6 @@
 // User Roles Constants
 export const USER_ROLES = {
+	SUPERADMIN: "superadmin",
 	ADMIN: "admin",
 	GERENCIA_RH: "gerencia_rh",
 	GERENCIA_RMA: "gerencia_rma",

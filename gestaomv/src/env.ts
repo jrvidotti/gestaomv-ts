@@ -9,6 +9,7 @@ export const env = createEnv({
 		DATAFILES_PATH: z.string().optional().default("./data"),
 		JWT_SECRET: z.string(),
 		TAGONE_BASE_URL: z.string(),
+		SUPERADMIN_EMAIL: z.string(),
 		SUPERADMIN_PASSWORD: z.string(),
 		RESEND_API_KEY: z.string().optional(),
 		RESEND_EMAIL_FROM: z.string().optional(),

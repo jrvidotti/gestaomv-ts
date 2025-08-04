@@ -11,12 +11,42 @@ const t = initTRPC.context<Context>().create({
 	transformer: superjson,
 });
 
+// Middleware de logging de erros
+const errorLoggingMiddleware = t.middleware(({ path, type, next, ctx }) => {
+	const start = Date.now();
+	const timestamp = new Date().toISOString();
+	const userInfo = ctx.user ? `${ctx.user.email}` : "anonymous";
+
+	return next().then(
+		(result) => {
+			// Log de sucesso (opcional, pode ser removido se muito verboso)
+			const duration = Date.now() - start;
+			console.log(
+				`[TRPC] [SUCCESS] ${timestamp} user=${userInfo} type=${type} path=${path} duration=${duration}ms`,
+			);
+			return result;
+		},
+		(error) => {
+			// Log detalhado de erro
+			const duration = Date.now() - start;
+			console.error(
+				`[TRPC] [ERROR] ${timestamp} user=${userInfo} type=${type} path=${path} duration=${duration}ms error=${error.message} (${error.code}) ${
+					error.cause ? `cause: ${error.cause}` : ""
+				}`,
+			);
+
+			// Re-throw para não interferir no fluxo normal
+			throw error;
+		},
+	);
+});
+
 export const createTRPCRouter = t.router;
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(errorLoggingMiddleware);
 
 // Procedimentos protegidos (com autenticação)
 export const protectedProcedure = t.procedure
-	// .use(this.loggingMiddleware)
+	.use(errorLoggingMiddleware)
 	.use(({ ctx, next }) => {
 		if (!ctx.user) {
 			throw new TRPCError({
@@ -34,7 +64,7 @@ export const protectedProcedure = t.procedure
 
 // Procedimentos que requerem role admin
 export const adminProcedure = t.procedure
-	// .use(this.loggingMiddleware)
+	.use(errorLoggingMiddleware)
 	.use(({ ctx, next }) => {
 		if (!ctx.user) {
 			throw new TRPCError({
@@ -62,7 +92,7 @@ export const adminProcedure = t.procedure
 
 // Novo: Procedimento que verifica se o usuário tem pelo menos uma das roles especificadas
 export const createRoleProcedure = (allowedRoles: string[]) => {
-	return t.procedure.use(({ ctx, next }) => {
+	return t.procedure.use(errorLoggingMiddleware).use(({ ctx, next }) => {
 		if (!ctx.user) {
 			throw new TRPCError({
 				code: "UNAUTHORIZED",

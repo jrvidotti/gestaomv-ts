@@ -1,6 +1,7 @@
 import { authRouter } from "@/modules/core/routers/auth.router";
 import { configuracoesRouter } from "@/modules/core/routers/configuracoes.router";
 import { empresasRouter } from "@/modules/core/routers/empresas.router";
+import { superadminRouter } from "@/modules/core/routers/superadmin.router";
 import { tagoneRouter } from "@/modules/core/routers/tagone.router";
 import { unidadesRouter } from "@/modules/core/routers/unidades.router";
 import { usersRouter } from "@/modules/core/routers/users.router";
@@ -10,6 +11,7 @@ export const coreRouter = {
 	auth: authRouter,
 	configuracoes: configuracoesRouter,
 	empresas: empresasRouter,
+	superadmin: superadminRouter,
 	tagone: tagoneRouter,
 	unidades: unidadesRouter,
 	users: usersRouter,

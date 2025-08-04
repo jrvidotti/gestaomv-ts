@@ -1,4 +1,5 @@
 import type { UserRoleType } from "@/modules/core/types";
+import jwt from "jsonwebtoken";
 
 export interface AuthUser {
 	id: number;
@@ -6,10 +7,31 @@ export interface AuthUser {
 	roles: UserRoleType[];
 }
 
-export const getTokenFromStorage = (): string | null => {
-	if (typeof window === "undefined") return null;
+export const authenticateRequest = (req: Request): AuthUser | null => {
+	const authHeader = req.headers.get("authorization");
+	const [authType, token] = authHeader?.split(" ") || ["", ""];
+	const hasToken = authType === "Bearer" && !!token;
+	return hasToken ? getUserFromToken(token) : null;
+};
 
-	return (
-		localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
-	);
+export const getUserFromToken = (token: string): AuthUser | null => {
+	try {
+		const decoded = jwt.verify(
+			token,
+			process.env.JWT_SECRET || "your-secret-key",
+		) as {
+			sub: string;
+			email: string;
+			roles: UserRoleType[];
+		};
+
+		return {
+			id: Number.parseInt(decoded.sub, 10),
+			email: decoded.email,
+			roles: decoded.roles || [],
+		};
+	} catch (error) {
+		console.error("[Auth] Erro ao verificar token:", error);
+		return null;
+	}
 };

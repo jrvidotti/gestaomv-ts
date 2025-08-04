@@ -37,7 +37,9 @@ export const authRouter = {
 		}),
 
 	profile: protectedProcedure.query(async ({ ctx }) => {
-		console.log("ctx.user", ctx.user);
+		if (ctx.user?.id === -1) {
+			return authService.superuserProfile();
+		}
 		return authService.getUserWithRoles(ctx.user.id);
 	}),
 

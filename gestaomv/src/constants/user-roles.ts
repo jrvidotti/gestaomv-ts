@@ -10,6 +10,12 @@ export interface UserRoleData {
 }
 
 export const USER_ROLES_DATA: Record<UserRoleType, UserRoleData> = {
+	[USER_ROLES.SUPERADMIN]: {
+		value: USER_ROLES.SUPERADMIN,
+		label: "Superadmin",
+		description: "Acesso total ao sistema (superusuário)",
+		color: "destructive",
+	},
 	[USER_ROLES.ADMIN]: {
 		value: USER_ROLES.ADMIN,
 		label: "Administrador",

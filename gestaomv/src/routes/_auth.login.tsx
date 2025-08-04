@@ -71,8 +71,7 @@ function LoginPage() {
 
 		try {
 			await login(data);
-			// Remover navegação manual - deixar o sistema de redirecionamento automático funcionar
-			// O usuário autenticado será redirecionado automaticamente pela lógica de proteção de rotas
+			// O redirecionamento será feito automaticamente pelo useEffect que monitora isAuthenticated
 		} catch (err) {
 			setError("Credenciais inválidas. Tente novamente.");
 		} finally {
@@ -86,8 +85,7 @@ function LoginPage() {
 
 		try {
 			await loginWithTagOne(data);
-			// Remover navegação manual - deixar o sistema de redirecionamento automático funcionar
-			// O usuário autenticado será redirecionado automaticamente pela lógica de proteção de rotas
+			// O redirecionamento será feito automaticamente pelo useEffect que monitora isAuthenticated
 		} catch (err: unknown) {
 			const errorMessage =
 				err instanceof Error
@@ -109,6 +107,11 @@ function LoginPage() {
 	}
 
 	if (isAuthenticated) {
+		// Redirecionar baseado na role do usuário
+		const user = useAuth().user;
+		if (user?.roles?.includes("superadmin")) {
+			return <Navigate to="/superadmin" />;
+		}
 		return <Navigate to="/admin" />;
 	}
 

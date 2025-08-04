@@ -57,8 +57,65 @@ export class AuthService {
 		return null;
 	}
 
+	private async loginSuperadmin(
+		email: string,
+		password: string,
+	): Promise<AuthResponse> {
+		// Verificar se as credenciais são do superadmin
+		if (
+			email !== env.SUPERADMIN_EMAIL ||
+			password !== env.SUPERADMIN_PASSWORD
+		) {
+			throw new Error("Credenciais inválidas");
+		}
+
+		// Criar usuário virtual do superadmin
+		const superadminUser = this.superuserProfile();
+
+		const access_token = AuthService.generateAccessToken(superadminUser);
+
+		const { password: _, ...userWithoutPassword } = superadminUser;
+
+		return {
+			access_token,
+			user: userWithoutPassword,
+		};
+	}
+
+	superuserProfile(): User {
+		return {
+			id: -1,
+			email: env.SUPERADMIN_EMAIL,
+			password: null,
+			name: "Superadmin",
+			isActive: true,
+			avatar: null,
+			authProvider: "email",
+			roles: ["superadmin"],
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+		};
+	}
+
 	async login(loginDto: EmailLoginDto): Promise<AuthResponse> {
-		const user = await this.validateUser(loginDto.email, loginDto.password);
+		let user: User | null = null;
+		try {
+			user = await this.validateUser(loginDto.email, loginDto.password);
+		} catch (error) {
+			// Verificar se o erro é devido à tabela de usuários não existir
+			if (
+				error instanceof Error &&
+				(error as any).code === "SQLITE_ERROR" &&
+				(error as any).message.includes("no such table: users")
+			) {
+				console.log(
+					"Tabela de usuários não existe, tentando login como superadmin",
+				);
+				return await this.loginSuperadmin(loginDto.email, loginDto.password);
+			}
+			throw error;
+		}
+
 		if (!user) {
 			throw new Error("Credenciais inválidas");
 		}

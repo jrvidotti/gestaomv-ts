@@ -1,4 +1,4 @@
-import { authenticateRequest } from "@/lib/auth.server";
+import { authenticateRequest } from "@/lib/auth";
 import { StorageService } from "@/modules/core/services/storage.service";
 import { createServerFileRoute } from "@tanstack/react-start/server";
 
