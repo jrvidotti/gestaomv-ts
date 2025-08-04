@@ -6,8 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { User, Mail, Calendar, Activity, Key } from 'lucide-react'
+import { User, Mail, Calendar, Activity, Key, LogOut } from 'lucide-react'
 import { USER_ROLES_DATA } from '@/constants/user-roles'
+import { useAuth } from '@/hooks/use-auth'
 
 export const Route = createFileRoute('/admin/user/profile')({
   component: ProfilePage,
@@ -15,10 +16,19 @@ export const Route = createFileRoute('/admin/user/profile')({
 
 function ProfilePage() {
   const trpc = useTRPC()
+  const { logout } = useAuth()
   
   const { data: user, isLoading, error } = useQuery(
     trpc.auth.profile.queryOptions()
   )
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -117,14 +127,24 @@ function ProfilePage() {
               Visualize e gerencie as informações do seu perfil
             </p>
           </div>
-          {user?.authProvider !== 'tagone' && (
-            <Button asChild variant="secondary">
-              <Link to="/admin/user/alterar-senha" className="flex items-center gap-2">
-                <Key className="h-4 w-4" />
-                Alterar Senha
-              </Link>
+          <div className="flex items-center gap-2">
+            {user?.authProvider !== 'tagone' && (
+              <Button asChild variant="secondary">
+                <Link to="/admin/user/alterar-senha" className="flex items-center gap-2">
+                  <Key className="h-4 w-4" />
+                  Alterar Senha
+                </Link>
+              </Button>
+            )}
+            <Button 
+              variant="outline" 
+              onClick={handleLogout}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Sair
             </Button>
-          )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

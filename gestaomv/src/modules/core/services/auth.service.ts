@@ -63,6 +63,11 @@ export class AuthService {
 			throw new Error("Credenciais inválidas");
 		}
 
+		// Verificar se o usuário possui roles atribuídas
+		if (!user.roles || user.roles.length === 0) {
+			throw new Error("Aguardando um administrador atribuir seu perfil de acesso");
+		}
+
 		const access_token = AuthService.generateAccessToken(user);
 
 		const { password, ...userWithoutPassword } = user;
@@ -230,6 +235,11 @@ export class AuthService {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
+		}
+
+		// Verificar se o usuário possui roles atribuídas
+		if (!user.roles || user.roles.length === 0) {
+			throw new Error("Aguardando um administrador atribuir seu perfil de acesso");
 		}
 
 		const access_token = AuthService.generateAccessToken(user);
