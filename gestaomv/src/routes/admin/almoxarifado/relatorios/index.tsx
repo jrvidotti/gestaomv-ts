@@ -32,6 +32,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Download } from "lucide-react";
 import { useState } from "react";
+import * as XLSX from "xlsx";
 
 export const Route = createFileRoute("/admin/almoxarifado/relatorios/")({
 	component: RouteComponent,
@@ -100,6 +101,139 @@ function RouteComponent() {
 		return new Intl.NumberFormat("pt-BR").format(value);
 	};
 
+	const exportarExcel = () => {
+		if (!dados || dados.length === 0) {
+			return;
+		}
+
+		const workbook = XLSX.utils.book_new();
+
+		// Preparar dados para exportação
+		let worksheetData: any[] = [];
+
+		if (tipoRelatorio === "sintetico") {
+			// Cabeçalho para relatório sintético
+			worksheetData = [
+				[
+					"Unidade",
+					"Tipo de Material",
+					"Quantidade",
+					"Valor Total",
+					"% do Total",
+					"Nº Solicitações",
+				],
+			];
+
+			// Dados sintéticos
+			for (const item of dados as ConsumoSintetico[]) {
+				worksheetData.push([
+					item.unidadeNome,
+					item.tipoMaterialNome,
+					item.quantidadeTotal,
+					item.valorTotal,
+					`${((item.valorTotal / valorTotalGeral) * 100).toFixed(1)}%`,
+					item.numeroSolicitacoes,
+				]);
+			}
+		} else {
+			// Cabeçalho para relatório analítico
+			worksheetData = [
+				[
+					"Unidade",
+					"Tipo de Material",
+					"Material",
+					"Quantidade",
+					"Valor Unitário",
+					"Valor Total",
+					"% do Total",
+					"Nº Solicitações",
+				],
+			];
+
+			// Dados analíticos
+			for (const item of dados as ConsumoAnalitico[]) {
+				worksheetData.push([
+					item.unidadeNome,
+					item.tipoMaterialNome,
+					item.materialNome,
+					item.quantidadeTotal,
+					item.valorUnitario,
+					item.valorTotal,
+					`${((item.valorTotal / valorTotalGeral) * 100).toFixed(1)}%`,
+					item.numeroSolicitacoes,
+				]);
+			}
+		}
+
+		// Linha de totais
+		worksheetData.push([]);
+		if (tipoRelatorio === "sintetico") {
+			worksheetData.push([
+				"TOTAL",
+				"",
+				quantidadeTotalGeral,
+				valorTotalGeral,
+				"100.0%",
+				"",
+			]);
+		} else {
+			worksheetData.push([
+				"TOTAL",
+				"",
+				"",
+				quantidadeTotalGeral,
+				"",
+				valorTotalGeral,
+				"100.0%",
+				"",
+			]);
+		}
+
+		const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+		// Configurar largura das colunas
+		const columnWidths =
+			tipoRelatorio === "sintetico"
+				? [
+						{ wch: 25 },
+						{ wch: 20 },
+						{ wch: 12 },
+						{ wch: 15 },
+						{ wch: 10 },
+						{ wch: 15 },
+					]
+				: [
+						{ wch: 25 },
+						{ wch: 20 },
+						{ wch: 30 },
+						{ wch: 12 },
+						{ wch: 15 },
+						{ wch: 15 },
+						{ wch: 10 },
+						{ wch: 15 },
+					];
+
+		worksheet["!cols"] = columnWidths;
+
+		// Adicionar planilha ao workbook
+		const nomeAba =
+			tipoRelatorio === "sintetico"
+				? "Relatório Sintético"
+				: "Relatório Analítico";
+		XLSX.utils.book_append_sheet(workbook, worksheet, nomeAba);
+
+		// Gerar nome do arquivo com data/hora
+		const now = new Date();
+		const dataFormatada = now.toLocaleDateString("pt-BR").replace(/\//g, "-");
+		const horaFormatada = now
+			.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+			.replace(":", "h");
+		const nomeArquivo = `relatorio-consumo-${tipoRelatorio}-${dataFormatada}-${horaFormatada}.xlsx`;
+
+		// Fazer download
+		XLSX.writeFile(workbook, nomeArquivo);
+	};
+
 	const dados =
 		tipoRelatorio === "sintetico" ? consumoSintetico : consumoAnalitico;
 	const isLoading =
@@ -115,14 +249,20 @@ function RouteComponent() {
 			title="Relatórios de Consumo"
 			subtitle="Análise de consumo de materiais por unidade e tipo"
 			actions={[
-				<Button key="exportar-excel" variant="outline" size="sm">
+				<Button
+					key="exportar-excel"
+					variant="outline"
+					size="sm"
+					onClick={exportarExcel}
+					disabled={!dados || dados.length === 0 || isLoading}
+				>
 					<Download className="h-4 w-4 mr-2" />
 					Exportar Excel
 				</Button>,
-				<Button key="exportar-pdf" variant="outline" size="sm">
-					<Download className="h-4 w-4 mr-2" />
-					Exportar PDF
-				</Button>,
+				// <Button key="exportar-pdf" variant="outline" size="sm">
+				// 	<Download className="h-4 w-4 mr-2" />
+				// 	Exportar PDF
+				// </Button>,
 			]}
 		/>
 	);
