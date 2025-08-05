@@ -143,9 +143,7 @@ export function TagOneIntegration() {
 									variant="outline"
 									size="sm"
 									onClick={handleTagoneLogout}
-									disabled={
-										isLoggingOut || tagoneStatus?.isNativeTagoneUser
-									}
+									disabled={isLoggingOut || tagoneStatus?.isNativeTagoneUser}
 									title={
 										tagoneStatus?.isNativeTagoneUser
 											? "Usuários nativos do TagOne não podem desconectar"

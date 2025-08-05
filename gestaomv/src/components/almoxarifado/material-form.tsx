@@ -12,13 +12,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useTRPC } from "@/integrations/trpc/react";
 import { formMaterialSchema } from "@/modules/almoxarifado/dtos";
@@ -205,25 +199,50 @@ export function MaterialForm({
 							/>
 						</div>
 
-						{/* Valor Unitário */}
-						<FormField
-							control={form.control}
-							name="valorUnitario"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Valor Unitário *</FormLabel>
-									<FormControl>
-										<CurrencyInput
-											value={field.value}
-											onChange={field.onChange}
-											min={0}
-											disabled={isSubmitting || isLoading}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+						<div className="grid gap-6 md:grid-cols-2">
+							{/* Valor Unitário */}
+							<FormField
+								control={form.control}
+								name="valorUnitario"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Valor Unitário *</FormLabel>
+										<FormControl>
+											<CurrencyInput
+												value={field.value}
+												onChange={field.onChange}
+												min={0}
+												disabled={isSubmitting || isLoading}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Status */}
+							<FormField
+								control={form.control}
+								name="ativo"
+								render={({ field }) => (
+									<FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+										<div className="space-y-0.5">
+											<FormLabel>Status</FormLabel>
+											<div className="text-sm text-muted-foreground">
+												{field.value ? "Ativo" : "Inativo"}
+											</div>
+										</div>
+										<FormControl>
+											<Switch
+												checked={field.value}
+												onCheckedChange={field.onChange}
+												disabled={isSubmitting || isLoading}
+											/>
+										</FormControl>
+									</FormItem>
+								)}
+							/>
+						</div>
 
 						{/* Foto do Material */}
 						<FormField
@@ -255,37 +274,6 @@ export function MaterialForm({
 								</FormItem>
 							)}
 						/>
-
-						{/* Status Ativo (apenas no modo edit) */}
-						{mode === "edit" && (
-							<FormField
-								control={form.control}
-								name="ativo"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Status</FormLabel>
-										<Select
-											value={field.value ? "true" : "false"}
-											onValueChange={(value) =>
-												field.onChange(value === "true")
-											}
-											disabled={isSubmitting || isLoading}
-										>
-											<FormControl>
-												<SelectTrigger>
-													<SelectValue />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectItem value="true">Ativo</SelectItem>
-												<SelectItem value="false">Inativo</SelectItem>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						)}
 					</form>
 				</Form>
 			</CardContent>

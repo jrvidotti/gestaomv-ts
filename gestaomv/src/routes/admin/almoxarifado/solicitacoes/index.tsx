@@ -45,6 +45,17 @@ import { USER_ROLES } from "@/modules/core/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
+	useReactTable,
+	getCoreRowModel,
+	getSortedRowModel,
+	getPaginationRowModel,
+	getFilteredRowModel,
+	createColumnHelper,
+	flexRender,
+	type SortingState,
+	type ColumnFiltersState,
+} from "@tanstack/react-table";
+import {
 	CheckCircle,
 	ClipboardList,
 	Eye,
@@ -54,6 +65,9 @@ import {
 	Plus,
 	Search,
 	XCircle,
+	ChevronUp,
+	ChevronDown,
+	ChevronsUpDown,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -61,6 +75,24 @@ type SolicitacoesSearch = {
 	status?: StatusSolicitacaoType;
 	busca?: string;
 	pagina?: number;
+};
+
+// Tipo para dados das solicitações (inferido da API)
+type SolicitacaoData = {
+	id: number;
+	status: StatusSolicitacaoType;
+	dataOperacao: string;
+	solicitante?: {
+		name: string;
+		email: string;
+	} | null;
+	unidade?: {
+		nome: string;
+	} | null;
+	itens?: Array<{
+		id: number;
+		qtdSolicitada: number;
+	}> | null;
 };
 
 export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/")({
@@ -92,8 +124,167 @@ function RouteComponent() {
 	>(statusUrl || "all");
 	const [paginaAtual, setPaginaAtual] = useState(paginaUrl || 1);
 
+	// Estados para TanStack Table
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [showColumnFilters, setShowColumnFilters] = useState(false);
+
 	const trpc = useTRPC();
 	const buscaDebounced = useDebounce(busca, 300);
+
+	// Definições de colunas
+	const columnHelper = createColumnHelper<SolicitacaoData>();
+
+	const formatDateTime = (date: string | Date) => {
+		return new Intl.DateTimeFormat("pt-BR", {
+			day: "2-digit",
+			month: "2-digit",
+			year: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+		}).format(new Date(date));
+	};
+
+	const isAdmin =
+		user?.roles?.includes(USER_ROLES.ADMIN) ||
+		user?.roles?.includes(USER_ROLES.GERENCIA_ALMOXARIFADO);
+
+	const columns = [
+		columnHelper.accessor("id", {
+			header: "Solicitação",
+			cell: (info) => (
+				<span className="font-mono">
+					#{info.getValue().toString().padStart(6, "0")}
+				</span>
+			),
+			enableSorting: true,
+		}),
+		columnHelper.accessor("solicitante", {
+			header: "Solicitante",
+			cell: (info) => {
+				const solicitante = info.getValue();
+				return (
+					<div>
+						<p className="font-medium">{solicitante?.name || "N/A"}</p>
+						<p className="text-sm text-muted-foreground">
+							{solicitante?.email || ""}
+						</p>
+					</div>
+				);
+			},
+			enableSorting: true,
+			sortingFn: (rowA, rowB) => {
+				const nameA = rowA.original.solicitante?.name || "";
+				const nameB = rowB.original.solicitante?.name || "";
+				return nameA.localeCompare(nameB);
+			},
+		}),
+		columnHelper.accessor("unidade", {
+			header: "Unidade",
+			cell: (info) => info.getValue()?.nome || "N/A",
+			enableSorting: true,
+			sortingFn: (rowA, rowB) => {
+				const nomeA = rowA.original.unidade?.nome || "";
+				const nomeB = rowB.original.unidade?.nome || "";
+				return nomeA.localeCompare(nomeB);
+			},
+		}),
+		columnHelper.accessor("status", {
+			header: "Status",
+			cell: (info) => (
+				<Badge variant={STATUS_SOLICITACAO_DATA[info.getValue()].variant}>
+					{STATUS_SOLICITACAO_DATA[info.getValue()].label}
+				</Badge>
+			),
+			enableSorting: true,
+		}),
+		columnHelper.accessor("dataOperacao", {
+			header: "Data",
+			cell: (info) => (
+				<span className="text-sm">{formatDateTime(info.getValue())}</span>
+			),
+			enableSorting: true,
+		}),
+		columnHelper.accessor("itens", {
+			header: "Itens",
+			cell: (info) => {
+				const itens = info.getValue() || [];
+				const totalItens = itens.length;
+				const totalUnidades = itens.reduce(
+					(acc, item) => acc + item.qtdSolicitada,
+					0,
+				);
+				return (
+					<div className="text-sm">
+						<p>{totalItens} itens</p>
+						<p className="text-muted-foreground">{totalUnidades} unidades</p>
+					</div>
+				);
+			},
+			enableSorting: true,
+			sortingFn: (rowA, rowB) => {
+				const itensA = rowA.original.itens?.length || 0;
+				const itensB = rowB.original.itens?.length || 0;
+				return itensA - itensB;
+			},
+		}),
+		columnHelper.display({
+			id: "actions",
+			header: "Ações",
+			cell: (info) => {
+				const solicitacao = info.row.original;
+				return (
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="sm">
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<Link
+								to="/admin/almoxarifado/solicitacoes/$id"
+								params={{ id: solicitacao.id.toString() }}
+							>
+								<DropdownMenuItem>
+									<Eye className="h-4 w-4 mr-2" />
+									Visualizar
+								</DropdownMenuItem>
+							</Link>
+							{isAdmin &&
+								solicitacao.status === STATUS_SOLICITACAO.PENDENTE && (
+									<>
+										<DropdownMenuItem
+											onClick={() => handleAprovar(solicitacao.id)}
+											className="text-green-600"
+										>
+											<CheckCircle className="h-4 w-4 mr-2" />
+											Aprovar
+										</DropdownMenuItem>
+										<DropdownMenuItem
+											onClick={() => handleRejeitar(solicitacao.id)}
+											className="text-destructive"
+										>
+											<XCircle className="h-4 w-4 mr-2" />
+											Rejeitar
+										</DropdownMenuItem>
+									</>
+								)}
+							{isAdmin &&
+								solicitacao.status === STATUS_SOLICITACAO.APROVADA && (
+									<DropdownMenuItem
+										onClick={() => handleAtender(solicitacao.id)}
+										className="text-green-600"
+									>
+										<Package className="h-4 w-4 mr-2" />
+										Atender
+									</DropdownMenuItem>
+								)}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				);
+			},
+		}),
+	];
 
 	// Aplicar filtros da URL quando o componente carrega
 	useEffect(() => {
@@ -116,6 +307,24 @@ function RouteComponent() {
 		trpc.almoxarifado.solicitacoes.listar.queryOptions(filtros),
 	);
 
+	// Configuração da tabela TanStack
+	const table = useReactTable({
+		data: data?.solicitacoes || [],
+		columns,
+		state: {
+			sorting,
+			columnFilters,
+		},
+		onSortingChange: setSorting,
+		onColumnFiltersChange: setColumnFilters,
+		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		manualPagination: true, // Paginação manual via API
+		pageCount: Math.ceil((data?.total || 0) / filtros.limite),
+	});
+
 	const { mutate: aprovarSolicitacao } = useMutation({
 		...trpc.almoxarifado.solicitacoes.aprovarOuRejeitar.mutationOptions(),
 		onSuccess: () => {
@@ -129,16 +338,6 @@ function RouteComponent() {
 			refetch();
 		},
 	});
-
-	const formatDateTime = (date: string | Date) => {
-		return new Intl.DateTimeFormat("pt-BR", {
-			day: "2-digit",
-			month: "2-digit",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-		}).format(new Date(date));
-	};
 
 	const handleAprovar = async (id: number) => {
 		if (confirm("Deseja aprovar esta solicitação?")) {
@@ -194,6 +393,8 @@ function RouteComponent() {
 		setBusca("");
 		setStatusSelecionado("all");
 		setPaginaAtual(1);
+		setSorting([]);
+		setColumnFilters([]);
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
 			search: {},
@@ -201,9 +402,6 @@ function RouteComponent() {
 	};
 
 	const totalPaginas = data ? Math.ceil(data.total / filtros.limite) : 0;
-	const isAdmin =
-		user?.roles?.includes(USER_ROLES.ADMIN) ||
-		user?.roles?.includes(USER_ROLES.GERENCIA_ALMOXARIFADO);
 
 	const obterSubtitle = () => {
 		let subtitle = "Acompanhe e gerencie todas as solicitações do almoxarifado";
@@ -243,7 +441,7 @@ function RouteComponent() {
 				<div className="space-y-6">
 					{/* Filtros */}
 					<Card>
-						<CardHeader>
+						{/* <CardHeader>
 							<CardTitle className="flex items-center gap-2">
 								<Filter className="h-5 w-5" />
 								Filtros
@@ -251,7 +449,7 @@ function RouteComponent() {
 							<CardDescription>
 								Use os filtros abaixo para encontrar solicitações específicas
 							</CardDescription>
-						</CardHeader>
+						</CardHeader> */}
 						<CardContent>
 							<div className="flex flex-col gap-4 md:flex-row md:items-end">
 								<div className="flex-1">
@@ -295,6 +493,13 @@ function RouteComponent() {
 										</SelectContent>
 									</Select>
 								</div>
+								<Button
+									variant="outline"
+									onClick={() => setShowColumnFilters(!showColumnFilters)}
+								>
+									<Filter className="h-4 w-4 mr-2" />
+									{showColumnFilters ? "Ocultar" : "Mostrar"} Filtros por Coluna
+								</Button>
 								<Button variant="outline" onClick={limparFiltros}>
 									Limpar Filtros
 								</Button>
@@ -343,132 +548,132 @@ function RouteComponent() {
 								<>
 									<Table>
 										<TableHeader>
-											<TableRow>
-												<TableHead>Solicitação</TableHead>
-												<TableHead>Solicitante</TableHead>
-												<TableHead>Unidade</TableHead>
-												<TableHead>Status</TableHead>
-												<TableHead>Data</TableHead>
-												<TableHead>Itens</TableHead>
-												<TableHead className="w-[100px]">Ações</TableHead>
-											</TableRow>
-										</TableHeader>
-										<TableBody>
-											{data.solicitacoes.map((solicitacao) => (
-												<TableRow key={solicitacao.id}>
-													<TableCell className="font-mono">
-														#{solicitacao.id.toString().padStart(6, "0")}
-													</TableCell>
-													<TableCell>
-														<div>
-															<p className="font-medium">
-																{solicitacao.solicitante?.name}
-															</p>
-															<p className="text-sm text-muted-foreground">
-																{solicitacao.solicitante?.email}
-															</p>
-														</div>
-													</TableCell>
-													<TableCell>
-														{solicitacao.unidade?.nome || "N/A"}
-													</TableCell>
-													<TableCell>
-														<Badge
-															variant={
-																STATUS_SOLICITACAO_DATA[solicitacao.status]
-																	.variant
+											{table.getHeaderGroups().map((headerGroup) => (
+												<TableRow key={headerGroup.id}>
+													{headerGroup.headers.map((header) => (
+														<TableHead
+															key={header.id}
+															className={
+																header.id === "actions" ? "w-[100px]" : ""
 															}
 														>
-															{
-																STATUS_SOLICITACAO_DATA[solicitacao.status]
-																	.label
-															}
-														</Badge>
-													</TableCell>
-													<TableCell className="text-sm">
-														{formatDateTime(solicitacao.dataOperacao)}
-													</TableCell>
-													<TableCell>
-														<div className="text-sm">
-															<p>{solicitacao.itens?.length || 0} itens</p>
-															<p className="text-muted-foreground">
-																{solicitacao.itens?.reduce(
-																	(acc, item) => acc + item.qtdSolicitada,
-																	0,
-																) || 0}{" "}
-																unidades
-															</p>
-														</div>
-													</TableCell>
-													<TableCell>
-														<DropdownMenu>
-															<DropdownMenuTrigger asChild>
-																<Button variant="ghost" size="sm">
-																	<MoreHorizontal className="h-4 w-4" />
-																</Button>
-															</DropdownMenuTrigger>
-															<DropdownMenuContent align="end">
-																<Link
-																	to="/admin/almoxarifado/solicitacoes/$id"
-																	params={{ id: solicitacao.id.toString() }}
+															{header.isPlaceholder ? null : (
+																<div
+																	className={
+																		header.column.getCanSort()
+																			? "flex items-center gap-2 cursor-pointer select-none hover:text-foreground"
+																			: ""
+																	}
+																	onClick={header.column.getToggleSortingHandler()}
+																	onKeyDown={(e) => {
+																		if (e.key === "Enter" || e.key === " ") {
+																			header.column.getToggleSortingHandler()?.(
+																				e,
+																			);
+																		}
+																	}}
+																	tabIndex={header.column.getCanSort() ? 0 : -1}
+																	role={
+																		header.column.getCanSort()
+																			? "button"
+																			: undefined
+																	}
 																>
-																	<DropdownMenuItem>
-																		<Eye className="h-4 w-4 mr-2" />
-																		Visualizar
-																	</DropdownMenuItem>
-																</Link>
-																{isAdmin &&
-																	solicitacao.status ===
-																		STATUS_SOLICITACAO.PENDENTE && (
-																		<>
-																			<DropdownMenuItem
-																				onClick={() =>
-																					handleAprovar(solicitacao.id)
-																				}
-																				className="text-green-600"
-																			>
-																				<CheckCircle className="h-4 w-4 mr-2" />
-																				Aprovar
-																			</DropdownMenuItem>
-																			<DropdownMenuItem
-																				onClick={() =>
-																					handleRejeitar(solicitacao.id)
-																				}
-																				className="text-destructive"
-																			>
-																				<XCircle className="h-4 w-4 mr-2" />
-																				Rejeitar
-																			</DropdownMenuItem>
-																		</>
+																	<div>
+																		{flexRender(
+																			header.column.columnDef.header,
+																			header.getContext(),
+																		)}
+																	</div>
+																	{header.column.getCanSort() && (
+																		<div className="flex flex-col">
+																			{header.column.getIsSorted() === "asc" ? (
+																				<ChevronUp className="h-4 w-4" />
+																			) : header.column.getIsSorted() ===
+																				"desc" ? (
+																				<ChevronDown className="h-4 w-4" />
+																			) : (
+																				<ChevronsUpDown className="h-4 w-4 opacity-50" />
+																			)}
+																		</div>
 																	)}
-																{isAdmin &&
-																	solicitacao.status ===
-																		STATUS_SOLICITACAO.APROVADA && (
-																		<DropdownMenuItem
-																			onClick={() =>
-																				handleAtender(solicitacao.id)
-																			}
-																			className="text-green-600"
-																		>
-																			<Package className="h-4 w-4 mr-2" />
-																			Atender
-																		</DropdownMenuItem>
-																	)}
-															</DropdownMenuContent>
-														</DropdownMenu>
-													</TableCell>
+																</div>
+															)}
+														</TableHead>
+													))}
 												</TableRow>
 											))}
+											{/* Linha de filtros por coluna */}
+											{showColumnFilters && (
+												<TableRow>
+													{table.getHeaderGroups()[0].headers.map((header) => (
+														<TableHead
+															key={`filter-${header.id}`}
+															className="p-2"
+														>
+															{header.column.getCanFilter() &&
+															header.id !== "actions" ? (
+																<Input
+																	placeholder={`Filtrar ${header.column.columnDef.header}...`}
+																	value={
+																		(header.column.getFilterValue() as string) ??
+																		""
+																	}
+																	onChange={(event) =>
+																		header.column.setFilterValue(
+																			event.target.value,
+																		)
+																	}
+																	className="h-8 w-full"
+																/>
+															) : null}
+														</TableHead>
+													))}
+												</TableRow>
+											)}
+										</TableHeader>
+										<TableBody>
+											{table.getRowModel().rows.length ? (
+												table.getRowModel().rows.map((row) => (
+													<TableRow
+														key={row.id}
+														data-state={row.getIsSelected() && "selected"}
+													>
+														{row.getVisibleCells().map((cell) => (
+															<TableCell key={cell.id}>
+																{flexRender(
+																	cell.column.columnDef.cell,
+																	cell.getContext(),
+																)}
+															</TableCell>
+														))}
+													</TableRow>
+												))
+											) : (
+												<TableRow>
+													<TableCell
+														colSpan={columns.length}
+														className="h-24 text-center"
+													>
+														Não há resultados.
+													</TableCell>
+												</TableRow>
+											)}
 										</TableBody>
 									</Table>
 
-									{/* Paginação */}
+									{/* Paginação integrada com TanStack Table */}
 									{totalPaginas > 1 && (
 										<div className="flex items-center justify-between pt-4">
-											<p className="text-sm text-muted-foreground">
-												Página {paginaAtual} de {totalPaginas}
-											</p>
-											<div className="flex gap-2">
+											<div className="flex items-center gap-2">
+												<p className="text-sm text-muted-foreground">
+													Página {paginaAtual} de {totalPaginas}
+												</p>
+												<div className="text-sm text-muted-foreground">
+													({data?.total || 0} solicitações no total)
+												</div>
+											</div>
+											<div className="flex items-center gap-2">
 												<Button
 													variant="outline"
 													size="sm"
@@ -487,6 +692,9 @@ function RouteComponent() {
 												>
 													Anterior
 												</Button>
+												<span className="text-sm text-muted-foreground px-2">
+													{paginaAtual} / {totalPaginas}
+												</span>
 												<Button
 													variant="outline"
 													size="sm"
