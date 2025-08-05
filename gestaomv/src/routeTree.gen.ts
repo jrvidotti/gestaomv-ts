@@ -44,7 +44,7 @@ import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/
 import { Route as AdminAlmoxarifadoSolicitacoesIdIndexRouteImport } from './routes/admin/almoxarifado/solicitacoes/$id/index'
 import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id/edit'
 import { Route as AdminRhCargosIdEditRouteImport } from './routes/admin/rh/cargos/$id.edit'
-import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id.edit'
+import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id/edit'
 import { Route as AdminCoreUnidadesIdEditRouteImport } from './routes/admin/core/unidades/$id.edit'
 import { Route as AdminCoreEmpresasIdEditRouteImport } from './routes/admin/core/empresas/$id.edit'
 import { Route as AdminAlmoxarifadoSolicitacoesIdPrintRouteImport } from './routes/admin/almoxarifado/solicitacoes/$id/print'
