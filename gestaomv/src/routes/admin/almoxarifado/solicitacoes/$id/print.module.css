@@ -1,0 +1,293 @@
+/* Reset e configurações básicas */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-size: 11px;
+	line-height: 1.4;
+	color: #000;
+	background: white;
+	padding: 15px;
+}
+
+.printContainer {
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+/* Cabeçalho da solicitação */
+.printHeader {
+	margin-bottom: 20px;
+	border-bottom: 2px solid #333;
+	padding-bottom: 15px;
+}
+
+.companyInfo {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.companyName {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.documentTitle {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.requestInfo {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-top: 15px;
+}
+
+.requestNumber {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.requestStatus {
+	padding: 4px 8px;
+	border: 1px solid #333;
+	border-radius: 4px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+/* Informações da solicitação */
+.printSection {
+	margin-bottom: 20px;
+	page-break-inside: avoid;
+}
+
+.sectionTitle {
+	font-size: 12px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-transform: uppercase;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+}
+
+.infoGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 15px;
+	margin-bottom: 15px;
+}
+
+.infoItem {
+	display: flex;
+	flex-direction: column;
+}
+
+.infoLabel {
+	font-weight: bold;
+	margin-bottom: 3px;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #666;
+}
+
+.infoValue {
+	font-size: 11px;
+}
+
+/* Seção de materiais */
+.sectionHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 10px;
+}
+
+.totals {
+	display: flex;
+	gap: 15px;
+	font-size: 10px;
+}
+
+.totalInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.totalLabel {
+	color: #666;
+	font-size: 9px;
+	text-transform: uppercase;
+}
+
+.totalValue {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+/* Lista de materiais */
+.materialsList {
+	border: 1px solid #ddd;
+}
+
+.materialItem {
+	display: flex;
+	align-items: center;
+	padding: 8px;
+	border-bottom: 1px solid #eee;
+	font-size: 10px;
+}
+
+.materialItem:last-child {
+	border-bottom: none;
+}
+
+.itemNumber {
+	width: 25px;
+	font-weight: bold;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.itemDetails {
+	flex: 1;
+	min-width: 0;
+}
+
+.itemName {
+	font-weight: bold;
+	margin-bottom: 2px;
+	font-size: 11px;
+}
+
+.itemMeta {
+	display: flex;
+	gap: 10px;
+	color: #666;
+	font-size: 9px;
+}
+
+.itemType {
+	padding: 1px 4px;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	background: #f5f5f5;
+}
+
+.itemQuantity {
+	width: 80px;
+	text-align: center;
+	margin: 0 10px;
+}
+
+.quantityInfo {
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.quantity {
+	font-size: 12px;
+}
+
+.unit {
+	font-size: 9px;
+	color: #666;
+}
+
+.requestedQty {
+	font-size: 8px;
+	color: #666;
+	font-style: italic;
+}
+
+.itemTotal {
+	width: 80px;
+	text-align: right;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+/* Observações */
+.observations {
+	background: #f9f9f9;
+	border: 1px solid #ddd;
+	padding: 10px;
+	font-size: 10px;
+	white-space: pre-wrap;
+}
+
+/* Estados de carregamento e erro */
+.printLoading,
+.printError {
+	text-align: center;
+	padding: 50px 20px;
+}
+
+.printError button {
+	margin-top: 20px;
+	padding: 10px 20px;
+	border: 1px solid #333;
+	background: white;
+	cursor: pointer;
+}
+
+.noItems {
+	text-align: center;
+	color: #666;
+	font-style: italic;
+	padding: 20px;
+}
+
+/* Configurações de impressão */
+@media print {
+	body {
+		padding: 0;
+		font-size: 10px;
+	}
+
+	.printContainer {
+		max-width: none;
+	}
+
+	/* Ocultar botões e elementos não essenciais */
+	button {
+		display: none !important;
+	}
+
+	/* Forçar quebra de página apenas se necessário */
+	.printSection {
+		page-break-inside: avoid;
+	}
+
+	/* Garantir cores em preto */
+	* {
+		color: #000 !important;
+		background: white !important;
+	}
+
+	.requestStatus,
+	.itemType {
+		border-color: #333 !important;
+		background: #f5f5f5 !important;
+	}
+}
+
+/* Configurações específicas para tela */
+@media screen {
+	.printContainer {
+		max-width: 21cm;
+		min-height: 29.7cm;
+		margin: 20px auto;
+		background: white;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		padding: 20px;
+	}
+}

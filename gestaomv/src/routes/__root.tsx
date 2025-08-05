@@ -70,7 +70,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						closeButton
 						duration={2000}
 					/>
-					;
 					<TanStackRouterDevtools />
 					<TanStackQueryLayout />
 				</AuthProvider>

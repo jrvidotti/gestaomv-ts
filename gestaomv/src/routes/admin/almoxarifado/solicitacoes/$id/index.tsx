@@ -35,7 +35,7 @@ import {
 	XCircle,
 } from "lucide-react";
 
-export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/$id")({
+export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/$id/")({
 	component: RouteComponent,
 });
 
@@ -158,7 +158,10 @@ function RouteComponent() {
 	};
 
 	const handlePrint = () => {
-		window.print();
+		window.open(
+			`/admin/almoxarifado/solicitacoes/${solicitacaoId}/print`,
+			"_blank",
+		);
 	};
 
 	const header = (
@@ -319,109 +322,6 @@ function RouteComponent() {
 				USER_ROLES.USUARIO_ALMOXARIFADO,
 			]}
 		>
-			{/* Estilos para impressão */}
-			<style>
-				{`
-					@media print {
-						/* Ocultar elementos desnecessários */
-						.print-hidden,
-						aside,
-						nav,
-						button,
-						.lucide,
-						[data-radix-collection-item],
-						.sidebar-wrapper,
-						.admin-layout-sidebar {
-							display: none !important;
-						}
-
-						/* Layout da página */
-						body {
-							margin: 0;
-							padding: 20px;
-							font-size: 12px;
-							line-height: 1.4;
-							color: #000;
-							background: white;
-						}
-
-						/* Container principal */
-						.max-w-4xl {
-							max-width: none !important;
-							margin: 0 !important;
-						}
-
-						/* Cards */
-						.card {
-							border: 1px solid #ddd !important;
-							margin-bottom: 15px !important;
-							page-break-inside: avoid;
-						}
-
-						/* Cabeçalhos */
-						h1, h2, h3 {
-							color: #000 !important;
-							margin-bottom: 10px;
-						}
-
-						/* Badges */
-						.badge {
-							border: 1px solid #ccc !important;
-							background: #f5f5f5 !important;
-							color: #000 !important;
-						}
-
-						/* Thumbnails/Imagens */
-						.thumbnail,
-						img {
-							display: none !important;
-						}
-
-						/* Lista de materiais - layout compacto */
-						.materiais-item {
-							border-bottom: 1px solid #eee !important;
-							padding: 8px 0 !important;
-							display: flex !important;
-							justify-content: space-between !important;
-							align-items: center !important;
-						}
-
-						/* Valores monetários */
-						.currency {
-							font-weight: bold !important;
-						}
-
-						/* Evitar quebra de página em elementos */
-						.card-content > div {
-							page-break-inside: avoid;
-						}
-
-						/* Título da solicitação */
-						.solicitacao-title {
-							font-size: 24px !important;
-							font-weight: bold !important;
-							margin-bottom: 5px !important;
-						}
-
-						/* Informações compactas */
-						.info-row {
-							margin-bottom: 8px !important;
-						}
-
-						/* Forçar cores para preto */
-						* {
-							color: #000 !important;
-							background: transparent !important;
-						}
-
-						/* Exceções para badges e elementos com cor específica */
-						.text-green-600, .bg-green-600 { color: #000 !important; }
-						.text-red-600, .bg-red-600 { color: #000 !important; }
-						.text-blue-600, .bg-blue-600 { color: #000 !important; }
-						.text-muted-foreground { color: #666 !important; }
-					}
-				`}
-			</style>
 			<AdminLayout header={header}>
 				<div className="max-w-4xl mx-auto space-y-6">
 					{/* Informações Principais */}
