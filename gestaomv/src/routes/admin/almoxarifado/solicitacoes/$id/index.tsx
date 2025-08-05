@@ -8,7 +8,6 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import {
 	Tooltip,
 	TooltipContent,
@@ -271,7 +270,10 @@ function RouteComponent() {
 									A solicitação que você está procurando não existe ou foi
 									removida.
 								</p>
-								<Link to="/admin/almoxarifado/solicitacoes">
+								<Link
+									to="/admin/almoxarifado/solicitacoes"
+									search={{ pagina: 1, limite: 20 }}
+								>
 									<Button>
 										<ArrowLeft className="h-4 w-4 mr-2" />
 										Voltar para Solicitações
@@ -309,7 +311,7 @@ function RouteComponent() {
 					? { nome: material.unidadeMedida.nome }
 					: null,
 				valorUnitario: material?.valorUnitario || 0,
-				qtdSolicitada: item.qtdSolicitada || null,
+				qtdSolicitada: item.qtdSolicitada || 0,
 				qtdAtendida: item.qtdAtendida || null,
 			};
 		}) || [];
