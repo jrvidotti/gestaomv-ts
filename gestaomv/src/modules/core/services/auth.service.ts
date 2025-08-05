@@ -109,11 +109,7 @@ export class AuthService {
 		}
 
 		// Verificar se o usuário possui roles atribuídas
-		if (!user.roles || user.roles.length === 0) {
-			throw new Error(
-				"Aguardando um administrador atribuir seu perfil de acesso",
-			);
-		}
+		this.checkUserHasRoles(user);
 
 		const access_token = AuthService.generateAccessToken(user);
 
@@ -256,6 +252,7 @@ export class AuthService {
 
 		let user: User;
 
+		// TODO: está realizando dois logins no TagOne (tagoneService.loginWithTagOne e tagoneService.loginAndSaveTagOne) - modificar logica para otimizar
 		if (existingTagoneUser) {
 			// Usuário já existe, atualizar cookie
 			user = existingTagoneUser;
@@ -281,14 +278,12 @@ export class AuthService {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
+
+			await notificationsService.notifyNewUserRegistration(user);
 		}
 
 		// Verificar se o usuário possui roles atribuídas
-		if (!user.roles || user.roles.length === 0) {
-			throw new Error(
-				"Aguardando um administrador atribuir seu perfil de acesso",
-			);
-		}
+		this.checkUserHasRoles(user);
 
 		const access_token = AuthService.generateAccessToken(user);
 
@@ -298,6 +293,14 @@ export class AuthService {
 			access_token,
 			user: userWithoutPassword,
 		};
+	}
+
+	private checkUserHasRoles(user: User) {
+		if (!user.roles || user.roles.length === 0) {
+			throw new Error(
+				"Aguardando um administrador atribuir seu perfil de acesso",
+			);
+		}
 	}
 }
 

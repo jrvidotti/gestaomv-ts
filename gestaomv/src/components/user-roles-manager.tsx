@@ -7,9 +7,9 @@ import { Switch } from "@/components/ui/switch";
 import { USER_ROLES_DATA } from "@/constants";
 import { USER_ROLES } from "@/modules/core/enums";
 import type { UserRoleType } from "@/modules/core/types";
-import { Crown, Search, Shield, Table } from "lucide-react";
+import { Crown, Search, Shield } from "lucide-react";
 import { useState } from "react";
-import { TableBody, TableCell, TableRow } from "./ui/table";
+import { Table, TableBody, TableCell, TableRow } from "./ui/table";
 
 interface UserRolesManagerProps {
 	userRoles: UserRoleType[];
@@ -35,10 +35,12 @@ export function UserRolesManager({
 
 	// Agrupar roles por categoria
 	const adminRoles = filteredRoles.filter(
-		(role) => role.value === USER_ROLES.ADMIN,
+		(role) =>
+			role.value === USER_ROLES.ADMIN || role.value === USER_ROLES.SUPERADMIN,
 	);
-	const managementRoles = filteredRoles.filter((role) =>
-		role.value.startsWith("gerencia_"),
+	const managementRoles = filteredRoles.filter(
+		(role) =>
+			role.value.startsWith("gerencia_") || role.value.startsWith("aprovador_"),
 	);
 	const basicRoles = filteredRoles.filter((role) =>
 		role.value.startsWith("usuario_"),
@@ -97,9 +99,9 @@ export function UserRolesManager({
 						</div>
 					</TableCell>
 				</TableRow>
-				{roles.map((roleData) => (
-					<RoleRow key={roleData.value} roleData={roleData} />
-				))}
+				{roles.map((roleData) => {
+					return <RoleRow key={roleData.value} roleData={roleData} />;
+				})}
 			</>
 		);
 	};

@@ -23,11 +23,11 @@ function ConfiguracoesPage() {
 	const trpc = useTRPC();
 
 	// Estados locais para as configurações
-	const [allowRegistration, setAllowRegistration] = useState(false);
+	const [allowUserRegistration, setAllowUserRegistration] = useState(false);
 	const [emailNotifications, setEmailNotifications] = useState(false);
 	const [maintenanceMode, setMaintenanceMode] = useState(false);
 	const [notifyNewUsers, setNotifyNewUsers] = useState(false);
-	const [notifyApprovedUsers, setNotifyApprovedUsers] = useState(false);
+	const [notifyUserApproval, setNotifyUserApproval] = useState(false);
 	const [selectedAdmins, setSelectedAdmins] = useState<string[]>([]);
 
 	// Queries tRPC
@@ -56,15 +56,15 @@ function ConfiguracoesPage() {
 	// Sincronizar configurações com estado local quando carregadas
 	useEffect(() => {
 		if (configuracoes) {
-			setAllowRegistration(configuracoes.allowRegistration || false);
+			setAllowUserRegistration(configuracoes.allowUserRegistration || false);
 			setEmailNotifications(configuracoes.emailNotifications || false);
 			setMaintenanceMode(configuracoes.maintenanceMode || false);
 			setNotifyNewUsers(configuracoes.notifyNewUsers || false);
-			setNotifyApprovedUsers(configuracoes.notifyApprovedUsers || false);
+			setNotifyUserApproval(configuracoes.notifyUserApproval || false);
 
 			// Parsear IDs de administradores (string → array)
-			const adminIds = configuracoes.notifyAdminIds
-				? configuracoes.notifyAdminIds.split(",").filter(Boolean)
+			const adminIds = configuracoes.newUserNotificationAdmins
+				? configuracoes.newUserNotificationAdmins.split(",").filter(Boolean)
 				: [];
 			setSelectedAdmins(adminIds);
 		}
@@ -75,12 +75,12 @@ function ConfiguracoesPage() {
 		const adminIdsString = selectedAdmins.join(",");
 
 		saveConfiguracoes({
-			allowRegistration,
+			allowUserRegistration,
 			emailNotifications,
 			maintenanceMode,
 			notifyNewUsers,
-			notifyApprovedUsers,
-			notifyAdminIds: adminIdsString,
+			notifyUserApproval,
+			newUserNotificationAdmins: adminIdsString,
 		});
 	};
 
@@ -152,8 +152,8 @@ function ConfiguracoesPage() {
 								</div>
 								<Switch
 									id="allow-registration"
-									checked={allowRegistration}
-									onCheckedChange={setAllowRegistration}
+									checked={allowUserRegistration}
+									onCheckedChange={setAllowUserRegistration}
 								/>
 							</div>
 
@@ -240,9 +240,11 @@ function ConfiguracoesPage() {
 														</div>
 													</div>
 													<Switch
-														checked={selectedAdmins.includes(admin.id)}
+														checked={selectedAdmins.includes(
+															admin.id.toString(),
+														)}
 														onCheckedChange={() =>
-															toggleAdminSelection(admin.id)
+															toggleAdminSelection(admin.id.toString())
 														}
 													/>
 												</div>
@@ -284,12 +286,12 @@ function ConfiguracoesPage() {
 								</div>
 								<Switch
 									id="notify-approved-users"
-									checked={notifyApprovedUsers}
-									onCheckedChange={setNotifyApprovedUsers}
+									checked={notifyUserApproval}
+									onCheckedChange={setNotifyUserApproval}
 								/>
 							</div>
 
-							{notifyApprovedUsers && (
+							{notifyUserApproval && (
 								<Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
 									<Bell className="h-4 w-4 text-green-600" />
 									<AlertDescription className="text-green-800 dark:text-green-200">

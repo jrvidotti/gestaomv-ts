@@ -24,7 +24,7 @@ export const users = sqliteTable("users", {
 export const userTagone = sqliteTable("user_tagone", {
 	id: idAutoIncrement(),
 	userId: integer("user_id")
-		.references(() => users.id)
+		.references(() => users.id, { onDelete: "cascade" })
 		.notNull()
 		.unique(),
 	usuarioTagone: text("usuario_tagone").notNull().unique(),
