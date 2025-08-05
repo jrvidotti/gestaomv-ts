@@ -33,78 +33,63 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useAuth } from "@/hooks/use-auth";
-import { useDebounce } from "@/hooks/use-debounce";
 import { useTRPC } from "@/integrations/trpc/react";
 import {
 	STATUS_OPTIONS,
 	STATUS_SOLICITACAO_DATA,
 } from "@/modules/almoxarifado/consts";
+import type { FiltrosSolicitacoes } from "@/modules/almoxarifado/dtos";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
-import type { StatusSolicitacaoType } from "@/modules/almoxarifado/types";
+import type { SolicitacaoMaterial } from "@/modules/almoxarifado/types";
 import { USER_ROLES } from "@/modules/core/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-	useReactTable,
-	getCoreRowModel,
-	getSortedRowModel,
-	getPaginationRowModel,
-	getFilteredRowModel,
+	type ColumnFiltersState,
+	type SortingState,
 	createColumnHelper,
 	flexRender,
-	type SortingState,
-	type ColumnFiltersState,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	useReactTable,
 } from "@tanstack/react-table";
 import {
 	CheckCircle,
+	ChevronDown,
+	ChevronUp,
+	ChevronsUpDown,
 	ClipboardList,
 	Eye,
-	Filter,
 	MoreHorizontal,
 	Package,
 	Plus,
-	Search,
 	XCircle,
-	ChevronUp,
-	ChevronDown,
-	ChevronsUpDown,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-
-type SolicitacoesSearch = {
-	status?: StatusSolicitacaoType;
-	busca?: string;
-	pagina?: number;
-};
-
-// Tipo para dados das solicitações (inferido da API)
-type SolicitacaoData = {
-	id: number;
-	status: StatusSolicitacaoType;
-	dataOperacao: string;
-	solicitante?: {
-		name: string;
-		email: string;
-	} | null;
-	unidade?: {
-		nome: string;
-	} | null;
-	itens?: Array<{
-		id: number;
-		qtdSolicitada: number;
-	}> | null;
-};
+import { useState } from "react";
 
 export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/")({
 	component: RouteComponent,
-	validateSearch: (search: Record<string, unknown>): SolicitacoesSearch => {
+	validateSearch: (search: Record<string, unknown>): FiltrosSolicitacoes => {
 		return {
-			status:
-				typeof search.status === "string"
-					? (search.status as StatusSolicitacaoType)
-					: undefined,
-			busca: typeof search.busca === "string" ? search.busca : undefined,
 			pagina: typeof search.pagina === "number" ? search.pagina : 1,
+			limite: typeof search.limite === "number" ? search.limite : 20,
+			status: typeof search.status === "string" ? search.status : undefined,
+			unidadeId:
+				typeof search.unidadeId === "number" ? search.unidadeId : undefined,
+			solicitanteId:
+				typeof search.solicitanteId === "number"
+					? search.solicitanteId
+					: undefined,
+			dataInicial:
+				typeof search.dataInicial === "string"
+					? new Date(search.dataInicial)
+					: undefined,
+			dataFinal:
+				typeof search.dataFinal === "string"
+					? new Date(search.dataFinal)
+					: undefined,
 		};
 	},
 });
@@ -112,28 +97,40 @@ export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/")({
 function RouteComponent() {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	const {
-		status: statusUrl,
-		busca: buscaUrl,
-		pagina: paginaUrl,
-	} = Route.useSearch();
+	const filtrosUrl = Route.useSearch();
 
-	const [busca, setBusca] = useState(buscaUrl || "");
-	const [statusSelecionado, setStatusSelecionado] = useState<
-		StatusSolicitacaoType | "all"
-	>(statusUrl || "all");
-	const [paginaAtual, setPaginaAtual] = useState(paginaUrl || 1);
+	const searchParams = Route.useSearch();
+
+	const [paginaAtual, setPaginaAtual] = useState(filtrosUrl.pagina || 1);
 
 	// Estados para TanStack Table
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [showColumnFilters, setShowColumnFilters] = useState(false);
 
 	const trpc = useTRPC();
-	const buscaDebounced = useDebounce(busca, 300);
+
+	// Construir filtros combinando paginação e filtros da tabela
+	const filtros = {
+		pagina: paginaAtual,
+		limite: filtrosUrl.limite || 20,
+		...(filtrosUrl.status && { status: filtrosUrl.status as any }),
+		...(filtrosUrl.unidadeId && { unidadeId: Number(filtrosUrl.unidadeId) }),
+		...(filtrosUrl.solicitanteId && {
+			solicitanteId: Number(filtrosUrl.solicitanteId),
+		}),
+		...(filtrosUrl.dataInicial && { dataInicial: filtrosUrl.dataInicial }),
+		...(filtrosUrl.dataFinal && { dataFinal: filtrosUrl.dataFinal }),
+	};
+
+	const { data, isLoading, refetch } = useQuery(
+		trpc.almoxarifado.solicitacoes.listar.queryOptions(filtros),
+	);
+
+	// Query para listar unidades
+	const { data: unidades } = useQuery(trpc.unidades.findAll.queryOptions());
 
 	// Definições de colunas
-	const columnHelper = createColumnHelper<SolicitacaoData>();
+	const columnHelper = createColumnHelper<SolicitacaoMaterial>();
 
 	const formatDateTime = (date: string | Date) => {
 		return new Intl.DateTimeFormat("pt-BR", {
@@ -183,6 +180,7 @@ function RouteComponent() {
 			header: "Unidade",
 			cell: (info) => info.getValue()?.nome || "N/A",
 			enableSorting: true,
+			enableColumnFilter: false, // Desabilitado - agora é server-side
 			sortingFn: (rowA, rowB) => {
 				const nomeA = rowA.original.unidade?.nome || "";
 				const nomeB = rowB.original.unidade?.nome || "";
@@ -197,6 +195,7 @@ function RouteComponent() {
 				</Badge>
 			),
 			enableSorting: true,
+			enableColumnFilter: false, // Desabilitado - agora é server-side
 		}),
 		columnHelper.accessor("dataOperacao", {
 			header: "Data",
@@ -211,7 +210,7 @@ function RouteComponent() {
 				const itens = info.getValue() || [];
 				const totalItens = itens.length;
 				const totalUnidades = itens.reduce(
-					(acc, item) => acc + item.qtdSolicitada,
+					(acc, item) => acc + (item.qtdSolicitada || 0),
 					0,
 				);
 				return (
@@ -285,27 +284,6 @@ function RouteComponent() {
 			},
 		}),
 	];
-
-	// Aplicar filtros da URL quando o componente carrega
-	useEffect(() => {
-		if (statusUrl && statusUrl !== statusSelecionado) {
-			setStatusSelecionado(statusUrl);
-		}
-	}, [statusUrl, statusSelecionado]);
-
-	const filtros = {
-		status:
-			statusSelecionado && statusSelecionado !== "all"
-				? statusSelecionado
-				: undefined,
-		busca: buscaDebounced || undefined,
-		pagina: paginaAtual,
-		limite: 20,
-	};
-
-	const { data, isLoading, refetch } = useQuery(
-		trpc.almoxarifado.solicitacoes.listar.queryOptions(filtros),
-	);
 
 	// Configuração da tabela TanStack
 	const table = useReactTable({
@@ -383,41 +361,53 @@ function RouteComponent() {
 			atenderSolicitacao({
 				id,
 				data: {
-					itens: itensAtendimento,
+					itens: itensAtendimento as any,
 				},
 			});
 		}
 	};
 
+	const handleStatusFilter = (value: string) => {
+		navigate({
+			to: "/admin/almoxarifado/solicitacoes",
+			search: {
+				...searchParams,
+				status: value === "all" ? undefined : value,
+				pagina: 1,
+			},
+		});
+	};
+
+	const handleUnidadeFilter = (value: string) => {
+		navigate({
+			to: "/admin/almoxarifado/solicitacoes",
+			search: {
+				...searchParams,
+				unidadeId: value === "all" ? undefined : Number(value),
+				pagina: 1,
+			},
+		});
+	};
+
 	const limparFiltros = () => {
-		setBusca("");
-		setStatusSelecionado("all");
 		setPaginaAtual(1);
 		setSorting([]);
 		setColumnFilters([]);
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
-			search: {},
+			search: { pagina: 1, limite: 20 },
 		});
 	};
 
 	const totalPaginas = data ? Math.ceil(data.total / filtros.limite) : 0;
 
-	const obterSubtitle = () => {
-		let subtitle = "Acompanhe e gerencie todas as solicitações do almoxarifado";
-		if (statusSelecionado && statusSelecionado !== "all") {
-			const statusOption = STATUS_OPTIONS.find(
-				(s) => s.value === statusSelecionado,
-			);
-			subtitle += ` • Filtro: ${statusOption?.label || statusSelecionado}`;
-		}
-		return subtitle;
-	};
+	const subtitle =
+		"Acompanhe e gerencie todas as solicitações do almoxarifado. Use os filtros na tabela para refinar os resultados.";
 
 	const header = (
 		<PageHeader
 			title="Solicitações de Material"
-			subtitle={obterSubtitle()}
+			subtitle={subtitle}
 			actions={[
 				<Link key="nova-solicitacao" to="/admin/almoxarifado/solicitacoes/nova">
 					<Button>
@@ -439,83 +429,22 @@ function RouteComponent() {
 		>
 			<AdminLayout header={header}>
 				<div className="space-y-6">
-					{/* Filtros */}
+					{/* Tabela de Solicitações */}
 					<Card>
-						{/* <CardHeader>
-							<CardTitle className="flex items-center gap-2">
-								<Filter className="h-5 w-5" />
-								Filtros
-							</CardTitle>
-							<CardDescription>
-								Use os filtros abaixo para encontrar solicitações específicas
-							</CardDescription>
-						</CardHeader> */}
-						<CardContent>
-							<div className="flex flex-col gap-4 md:flex-row md:items-end">
-								<div className="flex-1">
-									<label
-										htmlFor="busca"
-										className="text-sm font-medium mb-2 block"
-									>
-										Buscar por ID
-									</label>
-									<div className="relative">
-										<Search className="h-4 w-4 absolute left-3 top-3 text-muted-foreground" />
-										<Input
-											id="busca"
-											placeholder="Buscar por número da solicitação..."
-											value={busca}
-											onChange={(e) => setBusca(e.target.value)}
-											className="pl-9"
-										/>
-									</div>
-								</div>
+						<CardHeader>
+							<div className="flex items-center justify-between">
 								<div>
-									<label className="text-sm font-medium mb-2 block">
-										Status
-									</label>
-									<Select
-										value={statusSelecionado}
-										onValueChange={(value) =>
-											setStatusSelecionado(value as StatusSolicitacaoType)
-										}
-									>
-										<SelectTrigger className="w-48">
-											<SelectValue placeholder="Todos os status" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="all">Todos os status</SelectItem>
-											{STATUS_OPTIONS.map((status) => (
-												<SelectItem key={status.value} value={status.value}>
-													{status.label}
-												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
+									<CardTitle>Solicitações</CardTitle>
+									<CardDescription>
+										{isLoading
+											? "Carregando..."
+											: `${data?.total || 0} solicitações encontradas`}
+									</CardDescription>
 								</div>
-								<Button
-									variant="outline"
-									onClick={() => setShowColumnFilters(!showColumnFilters)}
-								>
-									<Filter className="h-4 w-4 mr-2" />
-									{showColumnFilters ? "Ocultar" : "Mostrar"} Filtros por Coluna
-								</Button>
 								<Button variant="outline" onClick={limparFiltros}>
 									Limpar Filtros
 								</Button>
 							</div>
-						</CardContent>
-					</Card>
-
-					{/* Tabela de Solicitações */}
-					<Card>
-						<CardHeader>
-							<CardTitle>Solicitações</CardTitle>
-							<CardDescription>
-								{isLoading
-									? "Carregando..."
-									: `${data?.total || 0} solicitações encontradas`}
-							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							{isLoading ? (
@@ -531,18 +460,15 @@ function RouteComponent() {
 										Nenhuma solicitação encontrada
 									</h3>
 									<p className="text-muted-foreground mb-4">
-										{statusSelecionado && statusSelecionado !== "all"
-											? "Tente ajustar os filtros para encontrar solicitações."
-											: "Comece criando sua primeira solicitação de material."}
+										Tente ajustar os filtros da tabela para encontrar
+										solicitações específicas.
 									</p>
-									{statusSelecionado === "all" && (
-										<Link to="/admin/almoxarifado/solicitacoes/nova">
-											<Button>
-												<Plus className="h-4 w-4 mr-2" />
-												Criar Primeira Solicitação
-											</Button>
-										</Link>
-									)}
+									<Link to="/admin/almoxarifado/solicitacoes/nova">
+										<Button>
+											<Plus className="h-4 w-4 mr-2" />
+											Criar Primeira Solicitação
+										</Button>
+									</Link>
 								</div>
 							) : (
 								<>
@@ -604,33 +530,78 @@ function RouteComponent() {
 												</TableRow>
 											))}
 											{/* Linha de filtros por coluna */}
-											{showColumnFilters && (
+											{
 												<TableRow>
 													{table.getHeaderGroups()[0].headers.map((header) => (
 														<TableHead
 															key={`filter-${header.id}`}
 															className="p-2"
 														>
-															{header.column.getCanFilter() &&
-															header.id !== "actions" ? (
-																<Input
-																	placeholder={`Filtrar ${header.column.columnDef.header}...`}
-																	value={
-																		(header.column.getFilterValue() as string) ??
-																		""
-																	}
-																	onChange={(event) =>
-																		header.column.setFilterValue(
-																			event.target.value,
-																		)
-																	}
-																	className="h-8 w-full"
-																/>
+															{header.id !== "actions" &&
+															(header.id === "status" ||
+																header.id === "unidade" ||
+																header.column.getCanFilter()) ? (
+																header.id === "status" ? (
+																	<Select
+																		value={filtrosUrl.status || "all"}
+																		onValueChange={handleStatusFilter}
+																	>
+																		<SelectTrigger className="h-8 w-full">
+																			<SelectValue placeholder="Status" />
+																		</SelectTrigger>
+																		<SelectContent>
+																			{STATUS_OPTIONS.map((status) => (
+																				<SelectItem
+																					key={status.value}
+																					value={status.value}
+																				>
+																					{status.label}
+																				</SelectItem>
+																			))}
+																		</SelectContent>
+																	</Select>
+																) : header.id === "unidade" ? (
+																	<Select
+																		value={
+																			filtrosUrl.unidadeId?.toString() || "all"
+																		}
+																		onValueChange={handleUnidadeFilter}
+																	>
+																		<SelectTrigger className="h-8 w-full">
+																			<SelectValue placeholder="Unidade" />
+																		</SelectTrigger>
+																		<SelectContent>
+																			<SelectItem value="all">Todas</SelectItem>
+																			{unidades?.map((unidade) => (
+																				<SelectItem
+																					key={unidade.id}
+																					value={unidade.id.toString()}
+																				>
+																					{unidade.nome}
+																				</SelectItem>
+																			))}
+																		</SelectContent>
+																	</Select>
+																) : (
+																	<Input
+																		placeholder={`Filtrar ${header.column.columnDef.header}...`}
+																		value={
+																			(header.column.getFilterValue() as string) ??
+																			""
+																		}
+																		onChange={(event) =>
+																			header.column.setFilterValue(
+																				event.target.value,
+																			)
+																		}
+																		className="h-8 w-full"
+																	/>
+																)
 															) : null}
 														</TableHead>
 													))}
 												</TableRow>
-											)}
+											}
 										</TableHeader>
 										<TableBody>
 											{table.getRowModel().rows.length ? (

@@ -1,3 +1,4 @@
+import { TagOneIntegration } from "@/components/integrations/tagone-integration";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,6 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TagOneIntegration } from "@/components/integrations/tagone-integration";
 import { USER_ROLES_DATA } from "@/constants/user-roles";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/integrations/trpc/react";

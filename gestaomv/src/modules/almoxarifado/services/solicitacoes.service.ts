@@ -10,21 +10,18 @@ import {
 	STATUS_SOLICITACAO,
 	STATUS_SOLICITACAO_ARRAY,
 } from "@/modules/almoxarifado/enums";
-import type { StatusSolicitacaoType } from "@/modules/almoxarifado/types";
-import { NotificationsService } from "@/modules/core/services/notifications.service";
+import type {
+	SolicitacaoMaterial,
+	StatusSolicitacaoType,
+} from "@/modules/almoxarifado/types";
+import { notificationsService } from "@/modules/core/services/notifications.service";
 import { type SQLWrapper, and, count, desc, eq, sql } from "drizzle-orm";
 
 export class SolicitacoesService {
-	private notificationsService: NotificationsService;
-
-	constructor() {
-		this.notificationsService = new NotificationsService();
-	}
-
 	async criarSolicitacaoMaterial(
 		solicitanteId: number,
 		solicitacaoData: CriarSolicitacaoMaterialData,
-	) {
+	): Promise<SolicitacaoMaterial | undefined> {
 		const [solicitacao] = await db
 			.insert(solicitacoesMaterial)
 			.values({
@@ -52,7 +49,7 @@ export class SolicitacoesService {
 		);
 		if (solicitacaoCompleta) {
 			// Enviar notificação assíncrona para aprovadores (não esperar para não travar o response)
-			this.notificationsService
+			notificationsService
 				.notificarSolicitacaoCriada(
 					solicitacaoCompleta,
 					solicitacaoCompleta.itens || [],
@@ -68,7 +65,10 @@ export class SolicitacoesService {
 		return solicitacao;
 	}
 
-	async listarSolicitacoesMaterial(filtros?: FiltrosSolicitacoes) {
+	async listarSolicitacoesMaterial(filtros?: FiltrosSolicitacoes): Promise<{
+		solicitacoes: SolicitacaoMaterial[];
+		total: number;
+	}> {
 		const {
 			status,
 			unidadeId,
@@ -165,7 +165,9 @@ export class SolicitacoesService {
 		};
 	}
 
-	async buscarSolicitacaoMaterialPorId(id: number) {
+	async buscarSolicitacaoMaterialPorId(
+		id: number,
+	): Promise<SolicitacaoMaterial | undefined> {
 		const solicitacao = await db.query.solicitacoesMaterial.findFirst({
 			where: eq(solicitacoesMaterial.id, id),
 			with: {
@@ -216,7 +218,7 @@ export class SolicitacoesService {
 		id: number,
 		dadosAprovacao: AtualizarSolicitacaoData,
 		aprovadorId?: number,
-	) {
+	): Promise<SolicitacaoMaterial | undefined> {
 		const agora = new Date().toISOString();
 
 		await db
@@ -257,7 +259,7 @@ export class SolicitacoesService {
 		if (solicitacaoCompleta) {
 			// Enviar notificações assíncronas baseadas no status
 			if (dadosAprovacao.status === STATUS_SOLICITACAO.APROVADA) {
-				this.notificationsService
+				notificationsService
 					.notificarSolicitacaoAprovada(
 						solicitacaoCompleta,
 						solicitacaoCompleta.itens || [],
@@ -269,7 +271,7 @@ export class SolicitacoesService {
 						);
 					});
 			} else if (dadosAprovacao.status === STATUS_SOLICITACAO.REJEITADA) {
-				this.notificationsService
+				notificationsService
 					.notificarSolicitacaoRejeitada(
 						solicitacaoCompleta,
 						solicitacaoCompleta.itens || [],
@@ -287,7 +289,10 @@ export class SolicitacoesService {
 		return solicitacaoCompleta;
 	}
 
-	async cancelarSolicitacao(id: number, solicitanteId: number) {
+	async cancelarSolicitacao(
+		id: number,
+		solicitanteId: number,
+	): Promise<SolicitacaoMaterial | undefined> {
 		const agora = new Date().toISOString();
 
 		// Verificar se a solicitação existe e está pendente
@@ -353,7 +358,7 @@ export class SolicitacoesService {
 	async atenderSolicitacao(
 		id: number,
 		dadosAtendimento: AtenderSolicitacaoData & { atendidoPorId: number },
-	) {
+	): Promise<SolicitacaoMaterial | undefined> {
 		const agora = new Date().toISOString();
 
 		await db

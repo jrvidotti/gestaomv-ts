@@ -25,7 +25,7 @@ function EditEmpresaPage() {
 
 	// Converter ID para number e validar
 	const empresaId = Number(id);
-	if (isNaN(empresaId)) {
+	if (Number.isNaN(empresaId)) {
 		throw new Error("ID de empresa inválido");
 	}
 

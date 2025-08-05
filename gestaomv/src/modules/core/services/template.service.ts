@@ -52,8 +52,16 @@ export class TemplateService {
 	 */
 	private registerHelpers(): void {
 		// Helper para formatação de data
-		Handlebars.registerHelper("formatDate", (date: Date) => {
-			return date.toLocaleDateString("pt-BR", {
+		Handlebars.registerHelper("formatDate", (date: Date | string | null) => {
+			if (!date) return "Data não informada";
+
+			const dateObj = date instanceof Date ? date : new Date(date);
+
+			if (Number.isNaN(dateObj.getTime())) {
+				return "Data inválida";
+			}
+
+			return dateObj.toLocaleDateString("pt-BR", {
 				year: "numeric",
 				month: "long",
 				day: "numeric",
@@ -61,9 +69,13 @@ export class TemplateService {
 		});
 
 		// Helper para capitalização
-		Handlebars.registerHelper("capitalize", (str: string) => {
-			return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		});
+		Handlebars.registerHelper(
+			"capitalize",
+			(str: string | null | undefined) => {
+				if (!str || typeof str !== "string") return "";
+				return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+			},
+		);
 
 		// Helper condicional
 		Handlebars.registerHelper(
@@ -74,17 +86,36 @@ export class TemplateService {
 		);
 
 		// Helper para formatação de moeda
-		Handlebars.registerHelper("formatCurrency", (value: number) => {
-			return new Intl.NumberFormat("pt-BR", {
-				style: "currency",
-				currency: "BRL",
-			}).format(value || 0);
-		});
+		Handlebars.registerHelper(
+			"formatCurrency",
+			(value: number | string | null | undefined) => {
+				const numValue =
+					typeof value === "string" ? Number.parseFloat(value) : value;
+				if (
+					Number.isNaN(numValue) ||
+					numValue === null ||
+					numValue === undefined
+				) {
+					return "R$ 0,00";
+				}
+				return new Intl.NumberFormat("pt-BR", {
+					style: "currency",
+					currency: "BRL",
+				}).format(numValue);
+			},
+		);
 
 		// Helper para formatação de números com padding
-		Handlebars.registerHelper("formatNumber", (value: number, padding = 6) => {
-			return value.toString().padStart(padding, "0");
-		});
+		Handlebars.registerHelper(
+			"formatNumber",
+			(value: number | string | null | undefined, padding = 6) => {
+				if (value === null || value === undefined) return "000000";
+				const numValue =
+					typeof value === "string" ? Number.parseFloat(value) : value;
+				if (Number.isNaN(numValue)) return "000000";
+				return numValue.toString().padStart(padding, "0");
+			},
+		);
 
 		// Helper de comparação not equals
 		Handlebars.registerHelper("ne", (arg1: unknown, arg2: unknown) => {

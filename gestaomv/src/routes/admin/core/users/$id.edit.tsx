@@ -40,7 +40,7 @@ function EditUserPage() {
 
 	// Converter ID para number e validar
 	const userId = Number(id);
-	if (isNaN(userId)) {
+	if (Number.isNaN(userId)) {
 		throw new Error("ID de usuário inválido");
 	}
 

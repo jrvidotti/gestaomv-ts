@@ -91,7 +91,7 @@ Utilize sempre que possível:
 ## Avisos e Lembretes
 
 - Não tente iniciar o servidor (yarn dev) a não ser que solicitado
-- Nunca utilize vazio ou nulo em `<Select>` para evitar erros: "A <Select.Item /> must have a value prop that is not an empty string. This is because the Select value can be set to an empty string to clear the selection and show the placeholder."
+- Ao utilizar componentes Select, nunca utilize vazio ou nulo como opções (utilize "all").
 
 ## Migration Notes
 

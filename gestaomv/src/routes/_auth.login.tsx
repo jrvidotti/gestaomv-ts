@@ -63,7 +63,7 @@ function LoginPage() {
 	// Reset erro quando mudamos o tipo de login
 	useEffect(() => {
 		setError("");
-	}, [loginType]);
+	}, []);
 
 	// Reset formulários quando trocar o tipo de login
 	useEffect(() => {

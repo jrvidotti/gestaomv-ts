@@ -13,7 +13,9 @@ export const solicitacoesMaterial = sqliteTable(
 		solicitanteId: integer("solicitante_id")
 			.notNull()
 			.references(() => users.id),
-		unidadeId: integer("unidade_id").references(() => unidades.id),
+		unidadeId: integer("unidade_id")
+			.notNull()
+			.references(() => unidades.id),
 		aprovadorId: integer("aprovador_id").references(() => users.id),
 		atendidoPorId: integer("atendido_por_id").references(() => users.id),
 		dataOperacao: text("data_operacao")

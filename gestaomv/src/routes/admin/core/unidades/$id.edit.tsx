@@ -25,7 +25,7 @@ function EditUnidadePage() {
 
 	// Converter ID para number e validar
 	const unidadeId = Number(id);
-	if (isNaN(unidadeId)) {
+	if (Number.isNaN(unidadeId)) {
 		throw new Error("ID de unidade inválido");
 	}
 
