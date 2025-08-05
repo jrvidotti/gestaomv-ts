@@ -23,12 +23,18 @@ function EditEmpresaPage() {
 
 	const trpc = useTRPC();
 
+	// Converter ID para number e validar
+	const empresaId = Number(id);
+	if (isNaN(empresaId)) {
+		throw new Error("ID de empresa inválido");
+	}
+
 	// Queries tRPC
 	const {
 		data: empresa,
 		isLoading,
 		error,
-	} = useQuery(trpc.empresas.findOne.queryOptions({ id }));
+	} = useQuery(trpc.empresas.findOne.queryOptions({ id: empresaId }));
 	const { mutate: updateEmpresa, isPending } = useMutation({
 		...trpc.empresas.update.mutationOptions(),
 		onSuccess: () => {
@@ -41,7 +47,7 @@ function EditEmpresaPage() {
 	});
 
 	const handleSubmit = (data: UpdateEmpresaDto) => {
-		updateEmpresa({ id, ...data });
+		updateEmpresa({ id: empresaId, data });
 	};
 
 	const handleBack = () => {
@@ -143,13 +149,17 @@ function EditEmpresaPage() {
 								<div>
 									<span className="font-medium">Criado em:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(empresa.createdAt).toLocaleDateString("pt-BR")}
+										{empresa.createdAt
+											? new Date(empresa.createdAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 								<div>
 									<span className="font-medium">Última atualização:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(empresa.updatedAt).toLocaleDateString("pt-BR")}
+										{empresa.updatedAt
+											? new Date(empresa.updatedAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 							</div>

@@ -38,12 +38,18 @@ function EditUserPage() {
 	const [userRoles, setUserRoles] = useState<UserRoleType[]>([]);
 	const trpc = useTRPC();
 
+	// Converter ID para number e validar
+	const userId = Number(id);
+	if (isNaN(userId)) {
+		throw new Error("ID de usuário inválido");
+	}
+
 	// Queries tRPC
 	const {
 		data: user,
 		isLoading,
 		error,
-	} = useQuery(trpc.users.findOne.queryOptions({ id }));
+	} = useQuery(trpc.users.findOne.queryOptions({ id: userId }));
 	const { mutate: updateUser, isPending } = useMutation({
 		...trpc.users.update.mutationOptions(),
 		onSuccess: () => {
@@ -64,9 +70,11 @@ function EditUserPage() {
 	const handleSubmitBasicData = (data: UpdateUserData) => {
 		// Combinar dados básicos com roles atuais
 		updateUser({
-			id,
-			...data,
-			roles: userRoles,
+			id: userId,
+			data: {
+				...data,
+				roles: userRoles,
+			},
 		});
 	};
 
@@ -80,8 +88,10 @@ function EditUserPage() {
 		// Atualizar no servidor imediatamente
 		updateUser(
 			{
-				id,
-				roles: newRoles,
+				id: userId,
+				data: {
+					roles: newRoles,
+				},
 			},
 			{
 				onSuccess: () => {
@@ -226,13 +236,17 @@ function EditUserPage() {
 								<div>
 									<span className="font-medium">Criado em:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(user.createdAt).toLocaleDateString("pt-BR")}
+										{user.createdAt
+											? new Date(user.createdAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 								<div>
 									<span className="font-medium">Última atualização:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(user.updatedAt).toLocaleDateString("pt-BR")}
+										{user.updatedAt
+											? new Date(user.updatedAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 							</div>

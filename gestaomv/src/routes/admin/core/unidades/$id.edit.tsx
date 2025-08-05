@@ -23,12 +23,18 @@ function EditUnidadePage() {
 
 	const trpc = useTRPC();
 
+	// Converter ID para number e validar
+	const unidadeId = Number(id);
+	if (isNaN(unidadeId)) {
+		throw new Error("ID de unidade inválido");
+	}
+
 	// Queries tRPC
 	const {
 		data: unidade,
 		isLoading,
 		error,
-	} = useQuery(trpc.unidades.findOne.queryOptions({ id }));
+	} = useQuery(trpc.unidades.findOne.queryOptions({ id: unidadeId }));
 	const { mutate: updateUnidade, isPending } = useMutation({
 		...trpc.unidades.update.mutationOptions(),
 		onSuccess: () => {
@@ -41,7 +47,7 @@ function EditUnidadePage() {
 	});
 
 	const handleSubmit = (data: UpdateUnidadeDto) => {
-		updateUnidade({ id, ...data });
+		updateUnidade({ id: unidadeId, data });
 	};
 
 	const handleBack = () => {
@@ -149,13 +155,17 @@ function EditUnidadePage() {
 								<div>
 									<span className="font-medium">Criado em:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(unidade.createdAt).toLocaleDateString("pt-BR")}
+										{unidade.createdAt
+											? new Date(unidade.createdAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 								<div>
 									<span className="font-medium">Última atualização:</span>
 									<span className="ml-2 text-muted-foreground">
-										{new Date(unidade.updatedAt).toLocaleDateString("pt-BR")}
+										{unidade.updatedAt
+											? new Date(unidade.updatedAt).toLocaleDateString("pt-BR")
+											: "N/A"}
 									</span>
 								</div>
 							</div>

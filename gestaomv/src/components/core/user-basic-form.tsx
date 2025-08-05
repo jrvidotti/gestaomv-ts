@@ -29,7 +29,7 @@ interface UserBasicFormProps {
 		email: string;
 		isActive: boolean;
 	};
-	onSubmit: (data: CreateUserData | UpdateUserData) => Promise<void>;
+	onSubmit: (data: CreateUserData | UpdateUserData) => void | Promise<void>;
 	isSubmitting?: boolean;
 }
 
