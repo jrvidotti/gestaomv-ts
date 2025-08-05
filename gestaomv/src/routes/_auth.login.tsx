@@ -63,7 +63,17 @@ function LoginPage() {
 	// Reset erro quando mudamos o tipo de login
 	useEffect(() => {
 		setError("");
-	}, []);
+	}, [loginType]);
+
+	// Reset formulários quando trocar o tipo de login
+	useEffect(() => {
+		if (loginType === "local") {
+			tagoneLoginForm.reset();
+		} else {
+			emailLoginForm.reset();
+		}
+		setError("");
+	}, [loginType, emailLoginForm, tagoneLoginForm]);
 
 	const onEmailSubmit = async (data: EmailLoginDto) => {
 		setIsLoading(true);
@@ -163,7 +173,7 @@ function LoginPage() {
 						</div>
 
 						{loginType === "local" ? (
-							<Form {...emailLoginForm}>
+							<Form key="email-form" {...emailLoginForm}>
 								<form
 									onSubmit={emailLoginForm.handleSubmit(onEmailSubmit)}
 									className="space-y-4"
@@ -224,7 +234,7 @@ function LoginPage() {
 								</form>
 							</Form>
 						) : (
-							<Form {...tagoneLoginForm}>
+							<Form key="tagone-form" {...tagoneLoginForm}>
 								<form
 									onSubmit={tagoneLoginForm.handleSubmit(onTagOneSubmit)}
 									className="space-y-4"

@@ -9,6 +9,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TagOneIntegration } from "@/components/integrations/tagone-integration";
 import { USER_ROLES_DATA } from "@/constants/user-roles";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/integrations/trpc/react";
@@ -319,6 +320,11 @@ function ProfilePage() {
 							</div>
 						</CardContent>
 					</Card>
+				</div>
+
+				{/* Integração TagOne */}
+				<div className="mt-6">
+					<TagOneIntegration />
 				</div>
 			</div>
 		</div>
