@@ -87,6 +87,8 @@ Utilize sempre que possível:
 - **TanStack Table**: construção de tabelas complexas e personalizáveis
 - **TanStack Router**: roteamento baseado em arquivos
 - **Shadcn**: componentes de UI
+- **Date-fns**: biblioteca de data e hora
+- **Zod**: validação de dados
 
 ## Avisos e Lembretes
 

@@ -15,6 +15,7 @@ import type {
 	StatusSolicitacaoType,
 } from "@/modules/almoxarifado/types";
 import { notificationsService } from "@/modules/core/services/notifications.service";
+import { addDays } from "date-fns";
 import { type SQLWrapper, and, count, desc, eq, sql } from "drizzle-orm";
 
 export class SolicitacoesService {
@@ -98,12 +99,14 @@ export class SolicitacoesService {
 
 		if (dataInicial) {
 			condicoes.push(
-				sql`${solicitacoesMaterial.dataOperacao} >= ${dataInicial}`,
+				sql`${solicitacoesMaterial.dataOperacao} >= ${addDays(dataInicial, 0).toISOString()}`,
 			);
 		}
 
 		if (dataFinal) {
-			condicoes.push(sql`${solicitacoesMaterial.dataOperacao} <= ${dataFinal}`);
+			condicoes.push(
+				sql`${solicitacoesMaterial.dataOperacao} < ${addDays(dataFinal, 1).toISOString()}`,
+			);
 		}
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;

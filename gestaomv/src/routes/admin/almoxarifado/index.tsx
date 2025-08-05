@@ -440,7 +440,10 @@ function RouteComponent() {
 							</Card>
 						</Link>
 
-						<Link to="/admin/almoxarifado/solicitacoes">
+						<Link
+							to="/admin/almoxarifado/solicitacoes"
+							search={{ pagina: 1, limite: 20 }}
+						>
 							<Card className="hover:bg-accent cursor-pointer transition-colors">
 								<CardHeader>
 									<CardTitle className="flex items-center gap-2">
@@ -646,7 +649,11 @@ function RouteComponent() {
 								<div className="grid gap-4 md:grid-cols-4">
 									<Link
 										to="/admin/almoxarifado/solicitacoes"
-										search={{ status: STATUS_SOLICITACAO.PENDENTE }}
+										search={{
+											pagina: 1,
+											limite: 20,
+											status: STATUS_SOLICITACAO.PENDENTE,
+										}}
 									>
 										<div className="text-center p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors">
 											<Clock className="h-8 w-8 mx-auto mb-2 text-blue-500" />
@@ -658,7 +665,11 @@ function RouteComponent() {
 									</Link>
 									<Link
 										to="/admin/almoxarifado/solicitacoes"
-										search={{ status: STATUS_SOLICITACAO.APROVADA }}
+										search={{
+											pagina: 1,
+											limite: 20,
+											status: STATUS_SOLICITACAO.APROVADA,
+										}}
 									>
 										<div className="text-center p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors">
 											<CheckCircle className="h-8 w-8 mx-auto mb-2 text-green-500" />
@@ -670,7 +681,11 @@ function RouteComponent() {
 									</Link>
 									<Link
 										to="/admin/almoxarifado/solicitacoes"
-										search={{ status: STATUS_SOLICITACAO.ATENDIDA }}
+										search={{
+											pagina: 1,
+											limite: 20,
+											status: STATUS_SOLICITACAO.ATENDIDA,
+										}}
 									>
 										<div className="text-center p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors">
 											<Boxes className="h-8 w-8 mx-auto mb-2 text-orange-500" />
@@ -682,7 +697,11 @@ function RouteComponent() {
 									</Link>
 									<Link
 										to="/admin/almoxarifado/solicitacoes"
-										search={{ status: STATUS_SOLICITACAO.REJEITADA }}
+										search={{
+											pagina: 1,
+											limite: 20,
+											status: STATUS_SOLICITACAO.REJEITADA,
+										}}
 									>
 										<div className="text-center p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors">
 											<TrendingUp className="h-8 w-8 mx-auto mb-2 text-red-500" />

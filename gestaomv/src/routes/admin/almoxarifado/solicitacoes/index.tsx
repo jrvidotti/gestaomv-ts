@@ -1,4 +1,5 @@
 import { RouteGuard } from "@/components/auth/route-guard";
+import { DateRangeFilter } from "@/components/filters/date-range-filter";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/table";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/integrations/trpc/react";
+import { cn } from "@/lib/utils";
 import {
 	STATUS_OPTIONS,
 	STATUS_SOLICITACAO_DATA,
@@ -60,7 +61,6 @@ import {
 	ChevronDown,
 	ChevronUp,
 	ChevronsUpDown,
-	ClipboardList,
 	Eye,
 	MoreHorizontal,
 	Package,
@@ -83,13 +83,9 @@ export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/")({
 					? search.solicitanteId
 					: undefined,
 			dataInicial:
-				typeof search.dataInicial === "string"
-					? new Date(search.dataInicial)
-					: undefined,
+				typeof search.dataInicial === "string" ? search.dataInicial : undefined,
 			dataFinal:
-				typeof search.dataFinal === "string"
-					? new Date(search.dataFinal)
-					: undefined,
+				typeof search.dataFinal === "string" ? search.dataFinal : undefined,
 		};
 	},
 });
@@ -180,7 +176,6 @@ function RouteComponent() {
 			header: "Unidade",
 			cell: (info) => info.getValue()?.nome || "N/A",
 			enableSorting: true,
-			enableColumnFilter: false, // Desabilitado - agora é server-side
 			sortingFn: (rowA, rowB) => {
 				const nomeA = rowA.original.unidade?.nome || "";
 				const nomeB = rowB.original.unidade?.nome || "";
@@ -195,7 +190,6 @@ function RouteComponent() {
 				</Badge>
 			),
 			enableSorting: true,
-			enableColumnFilter: false, // Desabilitado - agora é server-side
 		}),
 		columnHelper.accessor("dataOperacao", {
 			header: "Data",
@@ -389,6 +383,21 @@ function RouteComponent() {
 		});
 	};
 
+	const handleDateFilter = (dates: {
+		dataInicial?: string;
+		dataFinal?: string;
+	}) => {
+		navigate({
+			to: "/admin/almoxarifado/solicitacoes",
+			search: {
+				...searchParams,
+				dataInicial: dates.dataInicial,
+				dataFinal: dates.dataFinal,
+				pagina: 1,
+			},
+		});
+	};
+
 	const limparFiltros = () => {
 		setPaginaAtual(1);
 		setSorting([]);
@@ -419,6 +428,62 @@ function RouteComponent() {
 		/>
 	);
 
+	const filtroStatus = (
+		<Select
+			value={filtrosUrl.status || "all"}
+			onValueChange={handleStatusFilter}
+		>
+			<SelectTrigger
+				className={cn("h-8 w-full", {
+					"bg-accent": filtrosUrl.status && filtrosUrl.status !== "all",
+				})}
+			>
+				<SelectValue placeholder="Status" />
+			</SelectTrigger>
+			<SelectContent>
+				{STATUS_OPTIONS.map((status) => (
+					<SelectItem key={status.value} value={status.value}>
+						{status.label}
+					</SelectItem>
+				))}
+			</SelectContent>
+		</Select>
+	);
+	const filtroUnidade = (
+		<Select
+			value={filtrosUrl.unidadeId?.toString() || "all"}
+			onValueChange={handleUnidadeFilter}
+		>
+			<SelectTrigger
+				className={cn("h-8 w-full", {
+					"bg-accent": filtrosUrl.unidadeId,
+				})}
+			>
+				<SelectValue placeholder="Unidade" />
+			</SelectTrigger>
+			<SelectContent>
+				<SelectItem value="all">Todas</SelectItem>
+				{unidades?.map((unidade) => (
+					<SelectItem key={unidade.id} value={unidade.id.toString()}>
+						{unidade.nome}
+					</SelectItem>
+				))}
+			</SelectContent>
+		</Select>
+	);
+	const filtroDataOperacao = (
+		<DateRangeFilter
+			value={{
+				dataInicial: filtrosUrl.dataInicial,
+				dataFinal: filtrosUrl.dataFinal,
+			}}
+			onValueChange={handleDateFilter}
+			placeholder="Filtrar por data"
+			className={
+				filtrosUrl.dataInicial || filtrosUrl.dataFinal ? "bg-accent" : ""
+			}
+		/>
+	);
 	return (
 		<RouteGuard
 			requiredRoles={[
@@ -452,23 +517,6 @@ function RouteComponent() {
 									<p className="text-muted-foreground">
 										Carregando solicitações...
 									</p>
-								</div>
-							) : !data?.solicitacoes.length ? (
-								<div className="text-center py-8">
-									<ClipboardList className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-									<h3 className="text-lg font-semibold mb-2">
-										Nenhuma solicitação encontrada
-									</h3>
-									<p className="text-muted-foreground mb-4">
-										Tente ajustar os filtros da tabela para encontrar
-										solicitações específicas.
-									</p>
-									<Link to="/admin/almoxarifado/solicitacoes/nova">
-										<Button>
-											<Plus className="h-4 w-4 mr-2" />
-											Criar Primeira Solicitação
-										</Button>
-									</Link>
 								</div>
 							) : (
 								<>
@@ -537,67 +585,13 @@ function RouteComponent() {
 															key={`filter-${header.id}`}
 															className="p-2"
 														>
-															{header.id !== "actions" &&
-															(header.id === "status" ||
-																header.id === "unidade" ||
-																header.column.getCanFilter()) ? (
-																header.id === "status" ? (
-																	<Select
-																		value={filtrosUrl.status || "all"}
-																		onValueChange={handleStatusFilter}
-																	>
-																		<SelectTrigger className="h-8 w-full">
-																			<SelectValue placeholder="Status" />
-																		</SelectTrigger>
-																		<SelectContent>
-																			{STATUS_OPTIONS.map((status) => (
-																				<SelectItem
-																					key={status.value}
-																					value={status.value}
-																				>
-																					{status.label}
-																				</SelectItem>
-																			))}
-																		</SelectContent>
-																	</Select>
-																) : header.id === "unidade" ? (
-																	<Select
-																		value={
-																			filtrosUrl.unidadeId?.toString() || "all"
-																		}
-																		onValueChange={handleUnidadeFilter}
-																	>
-																		<SelectTrigger className="h-8 w-full">
-																			<SelectValue placeholder="Unidade" />
-																		</SelectTrigger>
-																		<SelectContent>
-																			<SelectItem value="all">Todas</SelectItem>
-																			{unidades?.map((unidade) => (
-																				<SelectItem
-																					key={unidade.id}
-																					value={unidade.id.toString()}
-																				>
-																					{unidade.nome}
-																				</SelectItem>
-																			))}
-																		</SelectContent>
-																	</Select>
-																) : (
-																	<Input
-																		placeholder={`Filtrar ${header.column.columnDef.header}...`}
-																		value={
-																			(header.column.getFilterValue() as string) ??
-																			""
-																		}
-																		onChange={(event) =>
-																			header.column.setFilterValue(
-																				event.target.value,
-																			)
-																		}
-																		className="h-8 w-full"
-																	/>
-																)
-															) : null}
+															{header.id === "status"
+																? filtroStatus
+																: header.id === "unidade"
+																	? filtroUnidade
+																	: header.id === "dataOperacao"
+																		? filtroDataOperacao
+																		: null}
 														</TableHead>
 													))}
 												</TableRow>
@@ -605,21 +599,39 @@ function RouteComponent() {
 										</TableHeader>
 										<TableBody>
 											{table.getRowModel().rows.length ? (
-												table.getRowModel().rows.map((row) => (
-													<TableRow
-														key={row.id}
-														data-state={row.getIsSelected() && "selected"}
-													>
-														{row.getVisibleCells().map((cell) => (
-															<TableCell key={cell.id}>
-																{flexRender(
-																	cell.column.columnDef.cell,
-																	cell.getContext(),
-																)}
-															</TableCell>
-														))}
-													</TableRow>
-												))
+												table.getRowModel().rows.map((row) => {
+													const solicitacao = row.original;
+													return (
+														<TableRow
+															key={row.id}
+															data-state={row.getIsSelected() && "selected"}
+															className="cursor-pointer hover:bg-muted/50"
+															onClick={() => {
+																navigate({
+																	to: "/admin/almoxarifado/solicitacoes/$id",
+																	params: { id: solicitacao.id.toString() },
+																});
+															}}
+														>
+															{row.getVisibleCells().map((cell) => (
+																<TableCell
+																	key={cell.id}
+																	onClick={(e) => {
+																		// Previne navegação quando clica no menu de ações
+																		if (cell.column.id === "actions") {
+																			e.stopPropagation();
+																		}
+																	}}
+																>
+																	{flexRender(
+																		cell.column.columnDef.cell,
+																		cell.getContext(),
+																	)}
+																</TableCell>
+															))}
+														</TableRow>
+													);
+												})
 											) : (
 												<TableRow>
 													<TableCell

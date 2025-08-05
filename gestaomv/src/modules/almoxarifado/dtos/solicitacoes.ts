@@ -52,8 +52,8 @@ export const filtroSolicitacoesSchema = z.object({
 	status: z.enum(STATUS_SOLICITACAO_ARRAY).optional(),
 	unidadeId: z.number().min(1).optional(),
 	solicitanteId: z.number().min(1).optional(),
-	dataInicial: z.date().optional(),
-	dataFinal: z.date().optional(),
+	dataInicial: z.string().optional(),
+	dataFinal: z.string().optional(),
 	pagina: z.number().min(1, "Página deve ser maior que 0").default(1),
 	limite: z
 		.number()

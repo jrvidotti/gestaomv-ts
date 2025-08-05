@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
@@ -24,15 +23,7 @@ export function PageHeader({
 	onClickBack,
 	backButtonText,
 }: PageHeaderProps) {
-	const {
-		state,
-		open,
-		setOpen,
-		openMobile,
-		setOpenMobile,
-		isMobile,
-		toggleSidebar,
-	} = useSidebar();
+	const { state } = useSidebar();
 
 	return (
 		<header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 bg-background z-10">

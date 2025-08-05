@@ -15,7 +15,7 @@ import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import { USER_ROLES } from "@/modules/core/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	Building2,
@@ -136,7 +136,7 @@ function RouteComponent() {
 			atenderSolicitacao({
 				id: solicitacaoId,
 				data: {
-					itens: itensAtendimento,
+					itens: itensAtendimento as any,
 				},
 			});
 		}
@@ -154,13 +154,9 @@ function RouteComponent() {
 		<PageHeader
 			title={`Solicitação #${solicitacaoId.toString().padStart(6, "0")}`}
 			subtitle="Detalhes da solicitação de material"
+			onClickBack={() => window.history.back()}
+			backButtonText="Voltar"
 			actions={[
-				<Link key="voltar" to="/admin/almoxarifado/solicitacoes">
-					<Button variant="outline">
-						<ArrowLeft className="h-4 w-4 mr-2" />
-						Voltar
-					</Button>
-				</Link>,
 				...(podeAprovarRejeitar &&
 				solicitacao?.status === STATUS_SOLICITACAO.PENDENTE
 					? [
@@ -295,8 +291,8 @@ function RouteComponent() {
 					? { nome: material.unidadeMedida.nome }
 					: null,
 				valorUnitario: material?.valorUnitario || 0,
-				qtdSolicitada: item.qtdSolicitada,
-				qtdAtendida: item.qtdAtendida,
+				qtdSolicitada: item.qtdSolicitada || null,
+				qtdAtendida: item.qtdAtendida || null,
 			};
 		}) || [];
 
@@ -430,24 +426,6 @@ function RouteComponent() {
 							</CardContent>
 						</Card>
 					)}
-
-					{/* Motivo de Rejeição */}
-					{solicitacao.status === STATUS_SOLICITACAO.REJEITADA &&
-						solicitacao.motivoRejeicao && (
-							<Card className="border-destructive/20 bg-destructive/5">
-								<CardHeader>
-									<CardTitle className="flex items-center gap-2 text-destructive">
-										<XCircle className="h-5 w-5" />
-										Motivo da Rejeição
-									</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<p className="text-sm text-destructive whitespace-pre-wrap">
-										{solicitacao.motivoRejeicao}
-									</p>
-								</CardContent>
-							</Card>
-						)}
 
 					{/* Lista de Materiais */}
 					<MateriaisVisualizacao
