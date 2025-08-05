@@ -35,7 +35,7 @@ export const Route = createFileRoute("/_auth/login")({
 function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
-	const [loginType, setLoginType] = useState<"local" | "tagone">("local");
+	const [loginType, setLoginType] = useState<"tagone" | "local">("tagone");
 	const {
 		login,
 		loginWithTagOne,
@@ -154,21 +154,21 @@ function LoginPage() {
 						<div className="flex rounded-lg border p-1 mb-6">
 							<Button
 								type="button"
-								variant={loginType === "local" ? "default" : "ghost"}
-								className="flex-1"
-								onClick={() => setLoginType("local")}
-								disabled={isLoading}
-							>
-								Login Local
-							</Button>
-							<Button
-								type="button"
 								variant={loginType === "tagone" ? "default" : "ghost"}
 								className="flex-1"
 								onClick={() => setLoginType("tagone")}
 								disabled={isLoading}
 							>
 								Login TagOne
+							</Button>
+							<Button
+								type="button"
+								variant={loginType === "local" ? "default" : "ghost"}
+								className="flex-1"
+								onClick={() => setLoginType("local")}
+								disabled={isLoading}
+							>
+								Login Local
 							</Button>
 						</div>
 
