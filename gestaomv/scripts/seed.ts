@@ -7,6 +7,7 @@ import {
 	equipesConfig,
 	executaImportacao,
 	materiaisConfig,
+	solicitacoesConfig,
 	tiposMaterialConfig,
 	unidadesConfig,
 	unidadesMedidaConfig,
@@ -25,6 +26,7 @@ async function main() {
 	results.equipes = await executaImportacao(equipesConfig);
 	results.cargos = await executaImportacao(cargosConfig);
 	results.materiais = await executaImportacao(materiaisConfig);
+	results.solicitacoes = await executaImportacao(solicitacoesConfig);
 	console.table(results, ["importados", "ignorados", "erros", "tempoMs"]);
 }
 

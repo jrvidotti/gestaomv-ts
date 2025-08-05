@@ -9,9 +9,30 @@
 		{
 			"email": "jrvidotti@gmail.com",
 			"name": "Junior",
-			"password": "junior123",
+			"password": "senha123",
 			"isActive": true,
-			"roles": ["admin"]
+			"roles": ["admin", "superadmin"]
+		},
+		{
+			"email": "aprovador_almoxarifado@x.com",
+			"name": "Aprovador Almoxarifado",
+			"password": "senha123",
+			"isActive": true,
+			"roles": ["aprovador_almoxarifado"]
+		},
+		{
+			"email": "gerencia_almoxarifado@x.com",
+			"name": "Gerencia Almoxarifado",
+			"password": "senha123",
+			"isActive": true,
+			"roles": ["gerencia_almoxarifado"]
+		},
+		{
+			"email": "usuario_almoxarifado@x.com",
+			"name": "Usuario Almoxarifado",
+			"password": "senha123",
+			"isActive": true,
+			"roles": ["usuario_almoxarifado"]
 		}
 	]
 }

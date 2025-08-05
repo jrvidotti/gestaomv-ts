@@ -9,21 +9,28 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/integrations/trpc/react";
 import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import { USER_ROLES } from "@/modules/core/enums";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
 	ArrowLeft,
 	Building2,
 	Calendar,
 	CheckCircle,
 	ClipboardList,
+	Info,
 	MessageSquare,
 	Package,
+	Printer,
 	User,
 	XCircle,
 } from "lucide-react";
@@ -150,6 +157,10 @@ function RouteComponent() {
 		}
 	};
 
+	const handlePrint = () => {
+		window.print();
+	};
+
 	const header = (
 		<PageHeader
 			title={`Solicitação #${solicitacaoId.toString().padStart(6, "0")}`}
@@ -157,6 +168,10 @@ function RouteComponent() {
 			onClickBack={() => window.history.back()}
 			backButtonText="Voltar"
 			actions={[
+				<Button key="imprimir" variant="outline" onClick={handlePrint}>
+					<Printer className="h-4 w-4 mr-2" />
+					Imprimir
+				</Button>,
 				...(podeAprovarRejeitar &&
 				solicitacao?.status === STATUS_SOLICITACAO.PENDENTE
 					? [
@@ -304,34 +319,128 @@ function RouteComponent() {
 				USER_ROLES.USUARIO_ALMOXARIFADO,
 			]}
 		>
+			{/* Estilos para impressão */}
+			<style>
+				{`
+					@media print {
+						/* Ocultar elementos desnecessários */
+						.print-hidden,
+						aside,
+						nav,
+						button,
+						.lucide,
+						[data-radix-collection-item],
+						.sidebar-wrapper,
+						.admin-layout-sidebar {
+							display: none !important;
+						}
+
+						/* Layout da página */
+						body {
+							margin: 0;
+							padding: 20px;
+							font-size: 12px;
+							line-height: 1.4;
+							color: #000;
+							background: white;
+						}
+
+						/* Container principal */
+						.max-w-4xl {
+							max-width: none !important;
+							margin: 0 !important;
+						}
+
+						/* Cards */
+						.card {
+							border: 1px solid #ddd !important;
+							margin-bottom: 15px !important;
+							page-break-inside: avoid;
+						}
+
+						/* Cabeçalhos */
+						h1, h2, h3 {
+							color: #000 !important;
+							margin-bottom: 10px;
+						}
+
+						/* Badges */
+						.badge {
+							border: 1px solid #ccc !important;
+							background: #f5f5f5 !important;
+							color: #000 !important;
+						}
+
+						/* Thumbnails/Imagens */
+						.thumbnail,
+						img {
+							display: none !important;
+						}
+
+						/* Lista de materiais - layout compacto */
+						.materiais-item {
+							border-bottom: 1px solid #eee !important;
+							padding: 8px 0 !important;
+							display: flex !important;
+							justify-content: space-between !important;
+							align-items: center !important;
+						}
+
+						/* Valores monetários */
+						.currency {
+							font-weight: bold !important;
+						}
+
+						/* Evitar quebra de página em elementos */
+						.card-content > div {
+							page-break-inside: avoid;
+						}
+
+						/* Título da solicitação */
+						.solicitacao-title {
+							font-size: 24px !important;
+							font-weight: bold !important;
+							margin-bottom: 5px !important;
+						}
+
+						/* Informações compactas */
+						.info-row {
+							margin-bottom: 8px !important;
+						}
+
+						/* Forçar cores para preto */
+						* {
+							color: #000 !important;
+							background: transparent !important;
+						}
+
+						/* Exceções para badges e elementos com cor específica */
+						.text-green-600, .bg-green-600 { color: #000 !important; }
+						.text-red-600, .bg-red-600 { color: #000 !important; }
+						.text-blue-600, .bg-blue-600 { color: #000 !important; }
+						.text-muted-foreground { color: #666 !important; }
+					}
+				`}
+			</style>
 			<AdminLayout header={header}>
 				<div className="max-w-4xl mx-auto space-y-6">
 					{/* Informações Principais */}
-					<div className="grid gap-6 md:grid-cols-2">
-						{/* Status e Data */}
-						<Card>
-							<CardHeader>
-								<CardTitle className="flex items-center gap-2">
-									<ClipboardList className="h-5 w-5" />
-									Status da Solicitação
-								</CardTitle>
-							</CardHeader>
-							<CardContent className="space-y-4">
-								<div className="flex items-center justify-between">
-									<span className="text-sm font-medium">Status Atual:</span>
-									<Badge
-										variant={
-											STATUS_SOLICITACAO_DATA[solicitacao.status].variant
-										}
-										className="text-sm"
-									>
-										{STATUS_SOLICITACAO_DATA[solicitacao.status].label}
-									</Badge>
-								</div>
-
-								<Separator />
-
+					<Card>
+						<CardContent className="space-y-4">
+							<div className="grid gap-6 md:grid-cols-2 print:grid-cols-2">
 								<div className="space-y-3">
+									<div className="flex items-center gap-2">
+										<span className="text-sm font-medium">Status Atual:</span>
+										<Badge
+											variant={
+												STATUS_SOLICITACAO_DATA[solicitacao.status].variant
+											}
+											className="text-sm"
+										>
+											{STATUS_SOLICITACAO_DATA[solicitacao.status].label}
+										</Badge>
+									</div>
+
 									<div className="flex items-center gap-2">
 										<Calendar className="h-4 w-4 text-muted-foreground" />
 										<div>
@@ -340,46 +449,49 @@ function RouteComponent() {
 												{formatDateTime(solicitacao.dataOperacao)}
 											</p>
 										</div>
+										{(solicitacao.dataAprovacao ||
+											solicitacao.dataAtendimento) && (
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<Info className="h-4 w-4 text-secondary hover:text-primary cursor-help" />
+												</TooltipTrigger>
+												<TooltipContent side="right" className="max-w-sm">
+													<div className="space-y-2">
+														{solicitacao.dataAprovacao && (
+															<div className="flex items-center gap-2">
+																<CheckCircle className="h-3 w-3 text-green-600" />
+																<div>
+																	<p className="text-xs font-medium">
+																		Aprovada em:
+																	</p>
+																	<p className="text-xs">
+																		{formatDateTime(solicitacao.dataAprovacao)}
+																	</p>
+																</div>
+															</div>
+														)}
+														{solicitacao.dataAtendimento && (
+															<div className="flex items-center gap-2">
+																<Package className="h-3 w-3 text-blue-600" />
+																<div>
+																	<p className="text-xs font-medium">
+																		Atendida em:
+																	</p>
+																	<p className="text-xs">
+																		{formatDateTime(
+																			solicitacao.dataAtendimento,
+																		)}
+																	</p>
+																</div>
+															</div>
+														)}
+													</div>
+												</TooltipContent>
+											</Tooltip>
+										)}
 									</div>
-
-									{solicitacao.dataAprovacao && (
-										<div className="flex items-center gap-2">
-											<CheckCircle className="h-4 w-4 text-green-600" />
-											<div>
-												<p className="text-sm font-medium">Data de Aprovação</p>
-												<p className="text-sm text-muted-foreground">
-													{formatDateTime(solicitacao.dataAprovacao)}
-												</p>
-											</div>
-										</div>
-									)}
-
-									{solicitacao.dataAtendimento && (
-										<div className="flex items-center gap-2">
-											<Package className="h-4 w-4 text-blue-600" />
-											<div>
-												<p className="text-sm font-medium">
-													Data de Atendimento
-												</p>
-												<p className="text-sm text-muted-foreground">
-													{formatDateTime(solicitacao.dataAtendimento)}
-												</p>
-											</div>
-										</div>
-									)}
 								</div>
-							</CardContent>
-						</Card>
 
-						{/* Solicitante e Unidade */}
-						<Card>
-							<CardHeader>
-								<CardTitle className="flex items-center gap-2">
-									<User className="h-5 w-5" />
-									Informações do Solicitante
-								</CardTitle>
-							</CardHeader>
-							<CardContent className="space-y-4">
 								<div className="space-y-3">
 									<div className="flex items-center gap-2">
 										<User className="h-4 w-4 text-muted-foreground" />
@@ -394,8 +506,6 @@ function RouteComponent() {
 										</div>
 									</div>
 
-									<Separator />
-
 									<div className="flex items-center gap-2">
 										<Building2 className="h-4 w-4 text-muted-foreground" />
 										<div>
@@ -406,9 +516,9 @@ function RouteComponent() {
 										</div>
 									</div>
 								</div>
-							</CardContent>
-						</Card>
-					</div>
+							</div>
+						</CardContent>
+					</Card>
 
 					{/* Observações */}
 					{solicitacao.observacoes && (

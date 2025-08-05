@@ -4,6 +4,7 @@ import { config as departamentosConfig } from "./departamentos";
 import { config as empresasConfig } from "./empresas";
 import { config as equipesConfig } from "./equipes";
 import { config as materiaisConfig } from "./materiais";
+import { config as solicitacoesConfig } from "./solicitacoes";
 import { config as tiposMaterialConfig } from "./tipos-material";
 import { config as unidadesConfig } from "./unidades";
 import { config as unidadesMedidaConfig } from "./unidades-medida";
@@ -20,4 +21,5 @@ export {
 	equipesConfig,
 	cargosConfig,
 	materiaisConfig,
+	solicitacoesConfig,
 };

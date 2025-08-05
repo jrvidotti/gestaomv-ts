@@ -5,7 +5,13 @@ export interface StatusSolicitacaoData {
 	value: StatusSolicitacaoType;
 	label: string;
 	description: string;
-	variant: "default" | "secondary" | "destructive" | "outline";
+	variant:
+		| "default"
+		| "secondary"
+		| "destructive"
+		| "outline"
+		| "accent"
+		| "success";
 	color: string;
 }
 
@@ -17,35 +23,35 @@ export const STATUS_SOLICITACAO_DATA: Record<
 		value: STATUS_SOLICITACAO.PENDENTE,
 		label: "Pendente",
 		description: "Aguardando aprovação",
-		variant: "default",
+		variant: "accent",
 		color: "blue",
 	},
 	[STATUS_SOLICITACAO.APROVADA]: {
 		value: STATUS_SOLICITACAO.APROVADA,
 		label: "Aprovada",
 		description: "Aguardando aprovação",
-		variant: "default",
+		variant: "secondary",
 		color: "blue",
 	},
 	[STATUS_SOLICITACAO.REJEITADA]: {
 		value: STATUS_SOLICITACAO.REJEITADA,
 		label: "Rejeitada",
 		description: "Aguardando aprovação",
-		variant: "default",
+		variant: "destructive",
 		color: "blue",
 	},
 	[STATUS_SOLICITACAO.CANCELADA]: {
 		value: STATUS_SOLICITACAO.CANCELADA,
 		label: "Cancelada",
 		description: "Aguardando aprovação",
-		variant: "default",
+		variant: "destructive",
 		color: "blue",
 	},
 	[STATUS_SOLICITACAO.ATENDIDA]: {
 		value: STATUS_SOLICITACAO.ATENDIDA,
 		label: "Atendida",
 		description: "Aguardando aprovação",
-		variant: "default",
+		variant: "success",
 		color: "blue",
 	},
 };
