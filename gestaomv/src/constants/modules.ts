@@ -204,7 +204,7 @@ export const MODULES_DATA: ModuleData[] = [
 				title: "Relatórios",
 				url: "/admin/almoxarifado/relatorios",
 				icon: FileText,
-				status: MODULE_STATUS.DESENVOLVIMENTO,
+				status: MODULE_STATUS.ATIVO,
 				roles: [USER_ROLES.GERENCIA_ALMOXARIFADO],
 			},
 		],

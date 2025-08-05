@@ -4,6 +4,12 @@ import { Thumbnail } from "@/components/thumbnail";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useTRPC } from "@/integrations/trpc/react";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
@@ -47,6 +53,9 @@ export function MateriaisVisualizacao({
 }: MateriaisVisualizacaoProps) {
 	const [editandoItem, setEditandoItem] = useState<number | null>(null);
 	const [novaQtd, setNovaQtd] = useState<number>(0);
+	const [materialSelecionado, setMaterialSelecionado] =
+		useState<MaterialVisualizacao | null>(null);
+	const [modalAberto, setModalAberto] = useState(false);
 
 	const podeEditarQtd =
 		podeEditar &&
@@ -119,7 +128,7 @@ export function MateriaisVisualizacao({
 
 		try {
 			if (isAprovador) {
-				// Aprovadores e admins podem alterar sem restrições
+				// Aprovadores e admins podem altegar sem restrições
 				await atualizarQtdAprovadorMutation.mutateAsync({
 					itemId,
 					qtdAtendida: novaQtd,
@@ -134,6 +143,16 @@ export function MateriaisVisualizacao({
 		} catch (error) {
 			console.error("Erro ao salvar edição:", error);
 		}
+	};
+
+	const abrirModal = (material: MaterialVisualizacao) => {
+		setMaterialSelecionado(material);
+		setModalAberto(true);
+	};
+
+	const fecharModal = () => {
+		setModalAberto(false);
+		setMaterialSelecionado(null);
 	};
 
 	if (materiais.length === 0) {
@@ -196,7 +215,8 @@ export function MateriaisVisualizacao({
 										alt={material.nome}
 										size="small"
 										fallbackIcon={Package}
-										className="flex-shrink-0"
+										className="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+										onClick={() => abrirModal(material)}
 									/>
 									<div className="min-w-0 flex-1">
 										<p
@@ -297,6 +317,103 @@ export function MateriaisVisualizacao({
 					})}
 				</div>
 			</CardContent>
+
+			{/* Modal de detalhes do material */}
+			<Dialog open={modalAberto} onOpenChange={setModalAberto}>
+				<DialogContent className="max-w-2xl">
+					{materialSelecionado && (
+						<>
+							<DialogHeader>
+								<DialogTitle className="flex items-center gap-2">
+									<Package className="h-5 w-5" />
+									{materialSelecionado.nome}
+								</DialogTitle>
+							</DialogHeader>
+
+							<div className="space-y-6">
+								{/* Imagem grande */}
+								<div className="flex justify-center">
+									<Thumbnail
+										src={materialSelecionado.foto}
+										alt={materialSelecionado.nome}
+										size={200}
+										fallbackIcon={Package}
+										className="rounded-lg"
+									/>
+								</div>
+
+								{/* Informações do material */}
+								<div className="grid gap-4 md:grid-cols-2">
+									<div className="space-y-3">
+										<div>
+											<h4 className="text-sm font-medium text-muted-foreground">
+												Nome do Material
+											</h4>
+											<p className="font-medium">{materialSelecionado.nome}</p>
+										</div>
+
+										<div>
+											<h4 className="text-sm font-medium text-muted-foreground">
+												Tipo
+											</h4>
+											<Badge variant="outline">
+												{materialSelecionado.tipoMaterial?.nome || "Sem tipo"}
+											</Badge>
+										</div>
+
+										<div>
+											<h4 className="text-sm font-medium text-muted-foreground">
+												Valor Unitário
+											</h4>
+											<p className="font-medium text-primary">
+												{formatCurrency(materialSelecionado.valorUnitario)}/
+												{materialSelecionado.unidadeMedida?.nome || "unid"}
+											</p>
+										</div>
+									</div>
+
+									<div className="space-y-3">
+										<div>
+											<h4 className="text-sm font-medium text-muted-foreground">
+												Quantidade Solicitada
+											</h4>
+											<p className="font-medium">
+												{materialSelecionado.qtdSolicitada}{" "}
+												{materialSelecionado.unidadeMedida?.nome || "unid"}
+											</p>
+										</div>
+
+										{materialSelecionado.qtdAtendida !== undefined && (
+											<div>
+												<h4 className="text-sm font-medium text-muted-foreground">
+													Quantidade Atendida
+												</h4>
+												<p className="font-medium">
+													{materialSelecionado.qtdAtendida}{" "}
+													{materialSelecionado.unidadeMedida?.nome || "unid"}
+												</p>
+											</div>
+										)}
+
+										<div>
+											<h4 className="text-sm font-medium text-muted-foreground">
+												Valor Total
+											</h4>
+											<p className="text-lg font-bold text-primary">
+												{formatCurrency(
+													materialSelecionado.valorUnitario *
+														(materialSelecionado.qtdAtendida ??
+															materialSelecionado.qtdSolicitada),
+												)}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
+				</DialogContent>
+			</Dialog>
 		</Card>
 	);
 }

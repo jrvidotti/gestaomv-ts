@@ -1,6 +1,7 @@
 import { protectedProcedure } from "@/integrations/trpc/init";
 import {
 	filtroEstatisticasSchema,
+	relatorioConsumoFiltrosSchema,
 	topMateriaisSchema,
 } from "@/modules/almoxarifado/dtos";
 import { estatisticasService } from "@/modules/almoxarifado/services/estatisticas.service";
@@ -49,5 +50,17 @@ export const statsRouter = {
 				input.status,
 			);
 			return resultado;
+		}),
+
+	obterConsumoSintetico: protectedProcedure
+		.input(relatorioConsumoFiltrosSchema)
+		.query(async ({ input }) => {
+			return await estatisticasService.obterConsumoSintetico(input);
+		}),
+
+	obterConsumoAnalitico: protectedProcedure
+		.input(relatorioConsumoFiltrosSchema)
+		.query(async ({ input }) => {
+			return await estatisticasService.obterConsumoAnalitico(input);
 		}),
 } satisfies TRPCRouterRecord;

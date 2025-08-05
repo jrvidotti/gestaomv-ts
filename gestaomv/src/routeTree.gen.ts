@@ -31,6 +31,7 @@ import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/use
 import { Route as AdminCoreUnidadesIndexRouteImport } from './routes/admin/core/unidades/index'
 import { Route as AdminCoreEmpresasIndexRouteImport } from './routes/admin/core/empresas/index'
 import { Route as AdminAlmoxarifadoSolicitacoesIndexRouteImport } from './routes/admin/almoxarifado/solicitacoes/index'
+import { Route as AdminAlmoxarifadoRelatoriosIndexRouteImport } from './routes/admin/almoxarifado/relatorios/index'
 import { Route as AdminAlmoxarifadoMateriaisIndexRouteImport } from './routes/admin/almoxarifado/materiais/index'
 import { Route as AdminRhDepartamentosNovoRouteImport } from './routes/admin/rh/departamentos/novo'
 import { Route as AdminRhCargosNovoRouteImport } from './routes/admin/rh/cargos/novo'
@@ -157,6 +158,12 @@ const AdminAlmoxarifadoSolicitacoesIndexRoute =
   AdminAlmoxarifadoSolicitacoesIndexRouteImport.update({
     id: '/admin/almoxarifado/solicitacoes/',
     path: '/admin/almoxarifado/solicitacoes/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminAlmoxarifadoRelatoriosIndexRoute =
+  AdminAlmoxarifadoRelatoriosIndexRouteImport.update({
+    id: '/admin/almoxarifado/relatorios/',
+    path: '/admin/almoxarifado/relatorios/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AdminAlmoxarifadoMateriaisIndexRoute =
@@ -288,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/relatorios': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
@@ -327,6 +335,7 @@ export interface FileRoutesByTo {
   '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/relatorios': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
@@ -367,6 +376,7 @@ export interface FileRoutesById {
   '/admin/rh/cargos/novo': typeof AdminRhCargosNovoRoute
   '/admin/rh/departamentos/novo': typeof AdminRhDepartamentosNovoRoute
   '/admin/almoxarifado/materiais/': typeof AdminAlmoxarifadoMateriaisIndexRoute
+  '/admin/almoxarifado/relatorios/': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes/': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   '/admin/core/empresas/': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades/': typeof AdminCoreUnidadesIndexRoute
@@ -408,6 +418,7 @@ export interface FileRouteTypes {
     | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais'
+    | '/admin/almoxarifado/relatorios'
     | '/admin/almoxarifado/solicitacoes'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
@@ -447,6 +458,7 @@ export interface FileRouteTypes {
     | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais'
+    | '/admin/almoxarifado/relatorios'
     | '/admin/almoxarifado/solicitacoes'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
@@ -486,6 +498,7 @@ export interface FileRouteTypes {
     | '/admin/rh/cargos/novo'
     | '/admin/rh/departamentos/novo'
     | '/admin/almoxarifado/materiais/'
+    | '/admin/almoxarifado/relatorios/'
     | '/admin/almoxarifado/solicitacoes/'
     | '/admin/core/empresas/'
     | '/admin/core/unidades/'
@@ -526,6 +539,7 @@ export interface RootRouteChildren {
   AdminRhCargosNovoRoute: typeof AdminRhCargosNovoRoute
   AdminRhDepartamentosNovoRoute: typeof AdminRhDepartamentosNovoRoute
   AdminAlmoxarifadoMateriaisIndexRoute: typeof AdminAlmoxarifadoMateriaisIndexRoute
+  AdminAlmoxarifadoRelatoriosIndexRoute: typeof AdminAlmoxarifadoRelatoriosIndexRoute
   AdminAlmoxarifadoSolicitacoesIndexRoute: typeof AdminAlmoxarifadoSolicitacoesIndexRoute
   AdminCoreEmpresasIndexRoute: typeof AdminCoreEmpresasIndexRoute
   AdminCoreUnidadesIndexRoute: typeof AdminCoreUnidadesIndexRoute
@@ -718,6 +732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAlmoxarifadoSolicitacoesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/almoxarifado/relatorios/': {
+      id: '/admin/almoxarifado/relatorios/'
+      path: '/admin/almoxarifado/relatorios'
+      fullPath: '/admin/almoxarifado/relatorios'
+      preLoaderRoute: typeof AdminAlmoxarifadoRelatoriosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/almoxarifado/materiais/': {
       id: '/admin/almoxarifado/materiais/'
       path: '/admin/almoxarifado/materiais'
@@ -885,6 +906,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRhCargosNovoRoute: AdminRhCargosNovoRoute,
   AdminRhDepartamentosNovoRoute: AdminRhDepartamentosNovoRoute,
   AdminAlmoxarifadoMateriaisIndexRoute: AdminAlmoxarifadoMateriaisIndexRoute,
+  AdminAlmoxarifadoRelatoriosIndexRoute: AdminAlmoxarifadoRelatoriosIndexRoute,
   AdminAlmoxarifadoSolicitacoesIndexRoute:
     AdminAlmoxarifadoSolicitacoesIndexRoute,
   AdminCoreEmpresasIndexRoute: AdminCoreEmpresasIndexRoute,

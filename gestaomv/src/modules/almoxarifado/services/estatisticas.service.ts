@@ -3,8 +3,14 @@ import {
 	materiais,
 	solicitacoesMaterial,
 	solicitacoesMaterialItens,
+	tiposMaterial,
 	unidades,
 } from "@/db/schemas";
+import type {
+	ConsumoAnalitico,
+	ConsumoSintetico,
+	RelatorioConsumoFiltros,
+} from "@/modules/almoxarifado/dtos";
 import type { TopMaterialResult } from "@/modules/almoxarifado/types";
 import { and, count, desc, eq, sql } from "drizzle-orm";
 
@@ -251,6 +257,126 @@ export class EstatisticasService {
 			...item,
 			totalSolicitado: Number(item.totalSolicitado),
 			totalAtendido: Number(item.totalAtendido),
+			valorTotal: Number(item.valorTotal),
+			numeroSolicitacoes: Number(item.numeroSolicitacoes),
+		}));
+	}
+
+	private construirCondicoesFiltro(filtros: RelatorioConsumoFiltros) {
+		const condicoes = [
+			filtros.dataInicial
+				? sql`${solicitacoesMaterial.dataOperacao} >= ${filtros.dataInicial.toISOString()}`
+				: undefined,
+			filtros.dataFinal
+				? sql`${solicitacoesMaterial.dataOperacao} <= ${filtros.dataFinal.toISOString()}`
+				: undefined,
+			filtros.status && filtros.status !== "all"
+				? sql`${solicitacoesMaterial.status} = ${filtros.status}`
+				: undefined,
+			filtros.unidadeId
+				? sql`${solicitacoesMaterial.unidadeId} = ${filtros.unidadeId}`
+				: undefined,
+			filtros.tipoMaterialId
+				? sql`${materiais.tipoMaterialId} = ${filtros.tipoMaterialId}`
+				: undefined,
+		].filter(Boolean);
+
+		return condicoes.length > 0 ? and(...condicoes) : undefined;
+	}
+
+	async obterConsumoSintetico(
+		filtros: RelatorioConsumoFiltros,
+	): Promise<ConsumoSintetico[]> {
+		const whereClause = this.construirCondicoesFiltro(filtros);
+
+		const consumoSintetico = await db
+			.select({
+				unidadeId: unidades.id,
+				unidadeNome: unidades.nome,
+				tipoMaterialId: tiposMaterial.id,
+				tipoMaterialNome: tiposMaterial.nome,
+				quantidadeTotal: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada})`,
+				valorTotal: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada} * ${materiais.valorUnitario})`,
+				numeroSolicitacoes: sql<number>`COUNT(DISTINCT ${solicitacoesMaterial.id})`,
+			})
+			.from(solicitacoesMaterialItens)
+			.innerJoin(
+				materiais,
+				eq(solicitacoesMaterialItens.materialId, materiais.id),
+			)
+			.innerJoin(tiposMaterial, eq(materiais.tipoMaterialId, tiposMaterial.id))
+			.innerJoin(
+				solicitacoesMaterial,
+				eq(
+					solicitacoesMaterialItens.solicitacaoMaterialId,
+					solicitacoesMaterial.id,
+				),
+			)
+			.innerJoin(unidades, eq(solicitacoesMaterial.unidadeId, unidades.id))
+			.where(whereClause)
+			.groupBy(unidades.id, unidades.nome, tiposMaterial.id, tiposMaterial.nome)
+			.orderBy(desc(sql`SUM(${solicitacoesMaterialItens.qtdSolicitada})`));
+
+		return consumoSintetico.map((item) => ({
+			...item,
+			quantidadeTotal: Number(item.quantidadeTotal),
+			valorTotal: Number(item.valorTotal),
+			numeroSolicitacoes: Number(item.numeroSolicitacoes),
+		}));
+	}
+
+	async obterConsumoAnalitico(
+		filtros: RelatorioConsumoFiltros,
+	): Promise<ConsumoAnalitico[]> {
+		const whereClause = this.construirCondicoesFiltro(filtros);
+
+		const consumoAnalitico = await db
+			.select({
+				unidadeId: unidades.id,
+				unidadeNome: unidades.nome,
+				tipoMaterialId: tiposMaterial.id,
+				tipoMaterialNome: tiposMaterial.nome,
+				materialId: materiais.id,
+				materialNome: materiais.nome,
+				quantidadeTotal: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada})`,
+				valorUnitario: materiais.valorUnitario,
+				valorTotal: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada} * ${materiais.valorUnitario})`,
+				numeroSolicitacoes: sql<number>`COUNT(DISTINCT ${solicitacoesMaterial.id})`,
+			})
+			.from(solicitacoesMaterialItens)
+			.innerJoin(
+				materiais,
+				eq(solicitacoesMaterialItens.materialId, materiais.id),
+			)
+			.innerJoin(tiposMaterial, eq(materiais.tipoMaterialId, tiposMaterial.id))
+			.innerJoin(
+				solicitacoesMaterial,
+				eq(
+					solicitacoesMaterialItens.solicitacaoMaterialId,
+					solicitacoesMaterial.id,
+				),
+			)
+			.innerJoin(unidades, eq(solicitacoesMaterial.unidadeId, unidades.id))
+			.where(whereClause)
+			.groupBy(
+				unidades.id,
+				unidades.nome,
+				tiposMaterial.id,
+				tiposMaterial.nome,
+				materiais.id,
+				materiais.nome,
+				materiais.valorUnitario,
+			)
+			.orderBy(
+				unidades.nome,
+				tiposMaterial.nome,
+				desc(sql`SUM(${solicitacoesMaterialItens.qtdSolicitada})`),
+			);
+
+		return consumoAnalitico.map((item) => ({
+			...item,
+			quantidadeTotal: Number(item.quantidadeTotal),
+			valorUnitario: Number(item.valorUnitario),
 			valorTotal: Number(item.valorTotal),
 			numeroSolicitacoes: Number(item.numeroSolicitacoes),
 		}));

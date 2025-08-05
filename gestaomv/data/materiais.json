@@ -11,7 +11,7 @@
 			"nome": "Sacola MV - PP",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -20,7 +20,7 @@
 			"nome": "Sacola MV - P",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -29,7 +29,7 @@
 			"nome": "Sacola MV - M",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 18.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -38,7 +38,7 @@
 			"nome": "Sacola MV - G",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 22.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -47,7 +47,7 @@
 			"nome": "Sacola MV - GG",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 26.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -56,7 +56,7 @@
 			"nome": "Emb Presente PP - M3: 25x37cm",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 25.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -65,7 +65,7 @@
 			"nome": "Emb Presente P - M4: 30x44cm",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 30.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -74,7 +74,7 @@
 			"nome": "Emb Presente M - G1: 35x54cm",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 35.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -83,7 +83,7 @@
 			"nome": "Emb Presente G - G2: 45x59cm",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 40.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -92,7 +92,7 @@
 			"nome": "Emb Presente GG: 58x89cm",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 50.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -101,7 +101,7 @@
 			"nome": "Sacola Preta - P",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -110,7 +110,7 @@
 			"nome": "Sacola Preta - M",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 18.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -119,7 +119,7 @@
 			"nome": "Sacola Preta - G",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 22.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -128,7 +128,7 @@
 			"nome": "Sacola Branca - P",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -137,7 +137,7 @@
 			"nome": "Sacola Branca - M",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 18.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -146,7 +146,7 @@
 			"nome": "Sacola Branca - G",
 			"unidadeMedidaId": "FD",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 22.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -155,7 +155,7 @@
 			"nome": "Açúcar",
 			"unidadeMedidaId": "KG",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -164,7 +164,7 @@
 			"nome": "Café",
 			"unidadeMedidaId": "KG",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 25.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -173,7 +173,7 @@
 			"nome": "Chá Mate",
 			"unidadeMedidaId": "KG",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -182,7 +182,7 @@
 			"nome": "Copo Plástico 200ml",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -191,7 +191,7 @@
 			"nome": "Copo Plástico 50ml",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -200,7 +200,7 @@
 			"nome": "Coador P",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -209,7 +209,7 @@
 			"nome": "Coador M",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 3.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -218,7 +218,7 @@
 			"nome": "Grampo",
 			"unidadeMedidaId": "CX",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -227,7 +227,7 @@
 			"nome": "Fix Pin Antifurto Pino Tag 40mm",
 			"unidadeMedidaId": "CX",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 30.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -236,7 +236,7 @@
 			"nome": "Trava Anel 450mm",
 			"unidadeMedidaId": "CX",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 25.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -245,7 +245,7 @@
 			"nome": "Capa de Carnê",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -254,7 +254,7 @@
 			"nome": "Bobina Termica - Bematech",
 			"unidadeMedidaId": "RL",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -263,7 +263,7 @@
 			"nome": "Etiqueta de Promoção",
 			"unidadeMedidaId": "RL",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -272,7 +272,7 @@
 			"nome": "Etiqueta Troca",
 			"unidadeMedidaId": "RL",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -281,7 +281,7 @@
 			"nome": "Etiqueta Presente",
 			"unidadeMedidaId": "RL",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -290,7 +290,7 @@
 			"nome": "Etiqueta de Preço",
 			"unidadeMedidaId": "RM",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 20.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -299,7 +299,7 @@
 			"nome": "Etiqueta Vitrine",
 			"unidadeMedidaId": "RM",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 20.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -308,7 +308,7 @@
 			"nome": "Etiqueta Perfume",
 			"unidadeMedidaId": "RM",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 20.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -317,7 +317,7 @@
 			"nome": "Placa de Acrilico / Fechado",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -326,7 +326,7 @@
 			"nome": "Caderno Grande / Folga",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -335,7 +335,7 @@
 			"nome": "Tinta p/ Carimbo",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -344,7 +344,7 @@
 			"nome": "Apontador",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -353,7 +353,7 @@
 			"nome": "Borracha",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -362,7 +362,7 @@
 			"nome": "Lápis",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 1.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -371,7 +371,7 @@
 			"nome": "Caneta",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -380,7 +380,7 @@
 			"nome": "Caneta Marca-texto",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -389,7 +389,7 @@
 			"nome": "Caneta p/Vitrine Preta",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -398,7 +398,7 @@
 			"nome": "Pincel Atômico",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -407,7 +407,7 @@
 			"nome": "Corretivo Liquido",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 4.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -416,7 +416,7 @@
 			"nome": "Grampeador",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -425,7 +425,7 @@
 			"nome": "Calculadora",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 35.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -434,7 +434,7 @@
 			"nome": "Caderno",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -443,7 +443,7 @@
 			"nome": "Caixa Arquivo",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -452,7 +452,7 @@
 			"nome": "Papel Sulfite A4",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 25.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -461,7 +461,7 @@
 			"nome": "Envelope Plastico",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 1.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -470,7 +470,7 @@
 			"nome": "Pasta Elastica",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 3.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -479,7 +479,7 @@
 			"nome": "Cola Branca",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -488,7 +488,7 @@
 			"nome": "Adesivo Instantâneo",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -497,7 +497,7 @@
 			"nome": "Aplicador Cola Quente",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 20.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -506,7 +506,7 @@
 			"nome": "Bastão de Cola Quente",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -515,7 +515,7 @@
 			"nome": "Cartão Visita",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 0.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -524,7 +524,7 @@
 			"nome": "Bloco de Nota Promissória",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -533,7 +533,7 @@
 			"nome": "Bloco de Recibo",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -542,7 +542,7 @@
 			"nome": "Bloco de Orçamento",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 7.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -551,7 +551,7 @@
 			"nome": "Bloco de Transferência",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -560,7 +560,7 @@
 			"nome": "Bloco de Confronto",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -569,7 +569,7 @@
 			"nome": "Carbono",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 0.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -578,7 +578,7 @@
 			"nome": "Bobina Biométrica - Ponto",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -587,7 +587,7 @@
 			"nome": "Agulha p/ Aplicador Tag",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -596,7 +596,7 @@
 			"nome": "Aplicador Tag",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 30.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -605,7 +605,7 @@
 			"nome": "Estilete",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -614,7 +614,7 @@
 			"nome": "Lamina",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -623,7 +623,7 @@
 			"nome": "Fita Larga 48x100mm",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -632,7 +632,7 @@
 			"nome": "Barbante (M)",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -641,7 +641,7 @@
 			"nome": "Linha de Anzol",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -650,7 +650,7 @@
 			"nome": "Fitilhos",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -659,7 +659,7 @@
 			"nome": "Laço",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 0.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -668,7 +668,7 @@
 			"nome": "Suporte Durex",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -677,7 +677,7 @@
 			"nome": "Fita Adesiva 12x40mm",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 3.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -686,7 +686,7 @@
 			"nome": "Tesoura",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -695,7 +695,7 @@
 			"nome": "Cesto P/ Lixo",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 20.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -704,7 +704,7 @@
 			"nome": "Saco de lixo (tamanho P)",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -713,7 +713,7 @@
 			"nome": "Papel Higienico",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 18.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -722,7 +722,7 @@
 			"nome": "Papel Toalha",
 			"unidadeMedidaId": "PCT",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -731,7 +731,7 @@
 			"nome": "Agua Sanitária",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -740,7 +740,7 @@
 			"nome": "Álcool",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -749,7 +749,7 @@
 			"nome": "Desinfetante",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -758,7 +758,7 @@
 			"nome": "Detergente",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 4.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -767,7 +767,7 @@
 			"nome": "Escova de Lavar Roupa",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 5.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -776,7 +776,7 @@
 			"nome": "Esponja Dupla Face",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 2.5,
 			"foto": "",
 			"ativo": true
 		},
@@ -785,7 +785,7 @@
 			"nome": "Flanela",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -794,7 +794,7 @@
 			"nome": "Inseticida",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 12.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -803,7 +803,7 @@
 			"nome": "Limpa Vidro",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -812,7 +812,7 @@
 			"nome": "Limpador Multiuso",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 7.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -821,7 +821,7 @@
 			"nome": "Luva M",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 6.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -830,7 +830,7 @@
 			"nome": "Luva G",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 7.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -839,7 +839,7 @@
 			"nome": "Pá",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 10.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -848,7 +848,7 @@
 			"nome": "Palha de aço",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 4.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -857,7 +857,7 @@
 			"nome": "Vasoura",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 15.0,
 			"foto": "",
 			"ativo": true
 		},
@@ -866,7 +866,7 @@
 			"nome": "Bom ar",
 			"unidadeMedidaId": "UN",
 			"descricao": "",
-			"valorUnitario": 0,
+			"valorUnitario": 8.0,
 			"foto": "",
 			"ativo": true
 		}
