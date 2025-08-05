@@ -133,16 +133,16 @@ function RouteComponent() {
 	);
 
 	const { data: estatisticas, isLoading: carregandoStats } = useQuery(
-		trpc.almoxarifado.obterEstatisticas.queryOptions(filtros),
+		trpc.almoxarifado.stats.obterEstatisticas.queryOptions(filtros),
 	);
 	const { data: topMateriais, isLoading: carregandoTop } = useQuery(
-		trpc.almoxarifado.obterTopMateriais.queryOptions({
+		trpc.almoxarifado.stats.obterTopMateriais.queryOptions({
 			limite: 5,
 			...filtros,
 		}),
 	);
 	const { data: usoPorTipo, isLoading: carregandoTipo } = useQuery(
-		trpc.almoxarifado.obterUsoPorTipo.queryOptions(filtros),
+		trpc.almoxarifado.stats.obterUsoPorTipo.queryOptions(filtros),
 	);
 
 	const formatCurrency = (value: number) => {
