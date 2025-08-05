@@ -14,7 +14,7 @@ interface UsePermissionsReturn {
 export function usePermissions(): UsePermissionsReturn {
 	const { user, hasRole, hasAnyRole } = useAuth();
 
-	const isAdmin = hasRole(USER_ROLES.ADMIN);
+	const isAdmin = hasRole(USER_ROLES.ADMIN) || hasRole(USER_ROLES.SUPERADMIN);
 
 	const canAccessModule = (moduleId: ModuleType): boolean => {
 		// Admin tem acesso a tudo
