@@ -53,15 +53,12 @@ WORKDIR /app
 # Copiar package.json do app gestaomv
 COPY --chown=appuser:appgroup gestaomv/package.json ./
 COPY --chown=appuser:appgroup gestaomv/src/db/migrations ./migrations
+COPY --chown=appuser:appgroup gestaomv/src/data ./data
 
 # Copiar aplicação buildada
 COPY --from=builder --chown=appuser:appgroup /app/gestaomv/.output/ ./.output/
 COPY --from=builder --chown=appuser:appgroup /app/gestaomv/drizzle.config.ts ./
 COPY --from=builder --chown=appuser:appgroup /app/gestaomv/scripts/ ./scripts/
-
-# Criar diretório para dados
-RUN mkdir -p /app/data && \
-    chown -R appuser:node /app/data
 
 # Mudar para usuário não-privilegiado
 USER appuser
@@ -70,11 +67,11 @@ ENV DATABASE_PATH="/app/data/database.sqlite"
 ENV DATAFILES_PATH="/app/data"
 ENV MIGRATIONS_PATH="/app/migrations"
 ENV HOSTNAME="localhost"
-ENV PORT=3001
+ENV PORT=3000
 ENV NODE_ENV="production"
 
 # Expor porta
-EXPOSE 3001
+EXPOSE 3000
 
 # Definir diretório de trabalho da aplicação
 WORKDIR /app
