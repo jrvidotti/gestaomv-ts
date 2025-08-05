@@ -22,9 +22,9 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useTRPC } from "@/integrations/trpc/react";
 import { cn } from "@/lib/utils";
 import { USER_ROLES } from "@/modules/core/enums";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";

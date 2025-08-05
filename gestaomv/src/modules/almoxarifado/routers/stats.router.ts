@@ -1,10 +1,10 @@
-import { protectedProcedure } from "@/integrations/trpc/init";
 import {
 	filtroEstatisticasSchema,
 	relatorioConsumoFiltrosSchema,
 	topMateriaisSchema,
 } from "@/modules/almoxarifado/dtos";
 import { estatisticasService } from "@/modules/almoxarifado/services/estatisticas.service";
+import { protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const statsRouter = {

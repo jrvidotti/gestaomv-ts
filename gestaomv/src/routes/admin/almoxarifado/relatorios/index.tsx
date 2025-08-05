@@ -19,7 +19,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useTRPC } from "@/integrations/trpc/react";
 import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
 import type {
 	ConsumoAnalitico,
@@ -28,6 +27,7 @@ import type {
 	TipoRelatorioConsumo,
 } from "@/modules/almoxarifado/dtos";
 import { USER_ROLES } from "@/modules/core/enums";
+import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { BarChart3, Download } from "lucide-react";

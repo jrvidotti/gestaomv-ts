@@ -1,5 +1,5 @@
-import { trpcClient } from "@/integrations/tanstack-query/root-provider";
 import type { UserRoleType } from "@/modules/core/types";
+import { trpcClient } from "@/providers/root-provider";
 import { createContext, useContext, useEffect, useState } from "react";
 
 // Tipos inferidos automaticamente do tRPC

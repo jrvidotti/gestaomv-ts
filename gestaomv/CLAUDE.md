@@ -48,10 +48,10 @@ Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabal
   - `dtos/` - Esquemas de validação de entrada/saída Zod
   - `types/` - Definições de tipos TypeScript
   - `services/` - Serviços de lógica de negócio
-  - `routers/` - Rotas de API tRPC em `src/integrations/trpc/` com estrutura de roteador modular
+  - `routers/` - Rotas de API tRPC em `src/trpc/` com estrutura de roteador modular
 - **Módulos**: `core`, `almoxarifado` (estoque), `rh` (recursos humanos)
 - **Banco de Dados**: Esquemas centralizados em `src/db/schemas.ts` que re-exporta todos os esquemas dos módulos
-- **Integração tRPC**: Rotas de API em `src/integrations/trpc/` com estrutura de roteador modular
+- **Integração tRPC**: Rotas de API em `src/trpc/` com estrutura de roteador modular
 
 ### Padrões Principais
 
@@ -79,7 +79,7 @@ O projeto utiliza tRPC para comunicação type-safe entre frontend e backend. A 
 ### Estrutura tRPC
 
 ```
-src/integrations/trpc/
+src/trpc/
 ├── init.ts        # Configuração inicial do tRPC
 ├── react.ts       # Hooks React para uso no frontend
 └── router.ts      # Router principal que combina todos os módulos
@@ -92,7 +92,7 @@ src/integrations/trpc/
 #### Import Correto
 
 ```typescript
-import { useTRPC } from "@/integrations/trpc/react";
+import { useTRPC } from "@/trpc/react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 ```
 
@@ -134,7 +134,7 @@ function Component() {
 #### Exemplo Completo
 
 ```typescript
-import { useTRPC } from '@/integrations/trpc/react'
+import { useTRPC } from '@/trpc/react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
 function UsersPage() {

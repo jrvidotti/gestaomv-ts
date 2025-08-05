@@ -14,9 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useTRPC } from "@/integrations/trpc/react";
 import { formMaterialSchema } from "@/modules/almoxarifado/dtos";
 import type { Material } from "@/modules/almoxarifado/types";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";

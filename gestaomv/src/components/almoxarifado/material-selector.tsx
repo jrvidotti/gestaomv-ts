@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useTRPC } from "@/integrations/trpc/react";
+import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Package, Plus, Search, X } from "lucide-react";
 import { useState } from "react";

@@ -1,10 +1,10 @@
-import { createRoleProcedure } from "@/integrations/trpc/init";
 import {
 	createAdminSchema,
 	seedOperationSchema,
 } from "@/modules/core/dtos/superadmin";
 import { USER_ROLES } from "@/modules/core/enums";
 import { superadminService } from "@/modules/core/services/superadmin.service";
+import { createRoleProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 const superadminProcedure = createRoleProcedure([USER_ROLES.SUPERADMIN]);

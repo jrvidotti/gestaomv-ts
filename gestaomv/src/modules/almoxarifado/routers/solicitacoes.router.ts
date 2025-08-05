@@ -1,8 +1,4 @@
 import {
-	createRoleProcedure,
-	protectedProcedure,
-} from "@/integrations/trpc/init";
-import {
 	atenderSolicitacaoSchema,
 	atualizarSolicitacaoSchema,
 	criarSolicitacaoMaterialSchema,
@@ -10,6 +6,7 @@ import {
 } from "@/modules/almoxarifado/dtos";
 import { solicitacoesService } from "@/modules/almoxarifado/services/solicitacoes.service";
 import { USER_ROLES } from "@/modules/core/enums";
+import { createRoleProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

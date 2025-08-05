@@ -7,8 +7,8 @@ import { MaterialForm } from "@/components/almoxarifado/material-form";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
-import { useTRPC } from "@/integrations/trpc/react";
 import type { atualizarMaterialSchema } from "@/modules/almoxarifado/dtos";
+import { useTRPC } from "@/trpc/react";
 
 export const Route = createFileRoute("/admin/almoxarifado/materiais/$id/edit")({
 	component: EditMaterialPage,

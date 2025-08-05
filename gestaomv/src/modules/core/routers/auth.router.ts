@@ -1,9 +1,4 @@
 import {
-	adminProcedure,
-	protectedProcedure,
-	publicProcedure,
-} from "@/integrations/trpc/init";
-import {
 	addUserRoleSchema,
 	changePasswordSchema,
 	emailLoginSchema,
@@ -14,6 +9,11 @@ import {
 } from "@/modules/core/dtos";
 import { authService } from "@/modules/core/services/auth.service";
 import { usersService } from "@/modules/core/services/users.service";
+import {
+	adminProcedure,
+	protectedProcedure,
+	publicProcedure,
+} from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const authRouter = {

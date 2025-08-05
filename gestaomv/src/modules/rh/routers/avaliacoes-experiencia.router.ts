@@ -1,10 +1,10 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import { criarAvaliacaoExperienciaSchema } from "@/modules/rh/dtos";
 import {
 	recomendacaoAvaliacaoEnum,
 	tipoAvaliacaoExperienciaEnum,
 } from "@/modules/rh/enums";
 import { avaliacoesExperienciaService } from "@/modules/rh/services/avaliacoes-experiencia.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

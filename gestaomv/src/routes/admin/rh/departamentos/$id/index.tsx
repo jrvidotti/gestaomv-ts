@@ -19,9 +19,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO_DATA } from "@/modules/rh/consts";
+import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Building2, Pencil, Users } from "lucide-react";

@@ -26,8 +26,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
+import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Filter, Pencil, Plus, Search, Trash2, Users } from "lucide-react";

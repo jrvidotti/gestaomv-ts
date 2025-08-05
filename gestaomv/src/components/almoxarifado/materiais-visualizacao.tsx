@@ -11,9 +11,9 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useTRPC } from "@/integrations/trpc/react";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import type { StatusSolicitacaoType } from "@/modules/almoxarifado/types";
+import { useTRPC } from "@/trpc/react";
 import { useMutation } from "@tanstack/react-query";
 import { Check, Edit, Package, X } from "lucide-react";
 import { useState } from "react";

@@ -3,9 +3,9 @@ import { createTRPCClient, httpBatchStreamLink } from "@trpc/client";
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import superjson from "superjson";
 
-import type { TRPCRouter } from "@/integrations/trpc/router";
+import type { TRPCRouter } from "@/trpc/router";
 
-import { TRPCProvider } from "@/integrations/trpc/react";
+import { TRPCProvider } from "@/trpc/react";
 
 function getUrl() {
 	const base = (() => {

@@ -116,7 +116,7 @@ const mutation = api.almoxarifado.criarMaterial.useMutation();
 
 ```typescript
 // Use este padrão no novo sistema
-import { useTRPC } from "@/integrations/trpc/react";
+import { useTRPC } from "@/trpc/react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 function Component() {
@@ -153,7 +153,7 @@ O sistema antigo (NextJS) usava um wrapper `api` que encapsulava os hooks do tRP
 
 2. **Erro**: Import não encontrado para `@/lib/trpc`
    - **Causa**: Caminho incorreto para tRPC no novo sistema
-   - **Solução**: Usar `@/integrations/trpc/react`
+   - **Solução**: Usar `@/trpc/react`
 
 3. **Erro**: `useQuery` não funciona com tRPC
    - **Causa**: Uso direto de hooks tRPC em vez de TanStack Query
@@ -173,7 +173,7 @@ Para migrar uma página que usa tRPC:
 
    ```diff
    - import { api } from '@/lib/trpc'
-   + import { useTRPC } from '@/integrations/trpc/react'
+   + import { useTRPC } from '@/trpc/react'
    + import { useQuery, useMutation } from '@tanstack/react-query'
    ```
 

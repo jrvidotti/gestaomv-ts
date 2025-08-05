@@ -1,10 +1,10 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	atualizarDepartamentoSchema,
 	criarDepartamentoSchema,
 	filtrosDepartamentosSchema,
 } from "@/modules/rh/dtos";
 import { departamentosService } from "@/modules/rh/services/departamentos.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

@@ -19,12 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import {
 	type CriarDepartamentoData,
 	criarDepartamentoSchema,
 } from "@/modules/rh/dtos/departamentos";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";

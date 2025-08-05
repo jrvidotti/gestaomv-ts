@@ -1,4 +1,3 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	adicionarFuncionarioEquipeSchema,
 	atualizarEquipeSchema,
@@ -7,6 +6,7 @@ import {
 } from "@/modules/rh/dtos";
 import { equipeFuncionariosService } from "@/modules/rh/services/equipe-funcionarios.service";
 import { equipesService } from "@/modules/rh/services/equipes.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

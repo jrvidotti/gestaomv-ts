@@ -1,5 +1,5 @@
-import { trpcRouter } from "@/integrations/trpc/router";
 import { authenticateRequest } from "@/lib/auth";
+import { trpcRouter } from "@/trpc/router";
 import { createServerFileRoute } from "@tanstack/react-start/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 

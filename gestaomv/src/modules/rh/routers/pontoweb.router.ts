@@ -1,9 +1,9 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	importarFuncionariosSchema,
 	sincronizarAfastamentosSchema,
 } from "@/modules/core/dtos";
 import { pontowebService } from "@/modules/rh/services/pontoweb.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const pontowebRouter = {

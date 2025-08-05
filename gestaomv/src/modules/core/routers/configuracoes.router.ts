@@ -1,6 +1,6 @@
-import { adminProcedure } from "@/integrations/trpc/init";
 import { updateConfiguracoesSistemaSchema } from "@/modules/core/dtos";
 import { configuracoesService } from "@/modules/core/services/configuracoes.service";
+import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const configuracoesRouter = {

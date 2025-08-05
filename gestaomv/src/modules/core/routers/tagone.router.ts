@@ -1,6 +1,6 @@
-import { protectedProcedure } from "@/integrations/trpc/init";
 import { tagoneLoginSchema } from "@/modules/core/dtos";
 import { tagoneService } from "@/modules/core/services/tagone.service";
+import { protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const tagoneRouter = {

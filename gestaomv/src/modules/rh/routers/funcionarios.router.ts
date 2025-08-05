@@ -1,4 +1,3 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	alterarStatusFuncionarioSchema,
 	atualizarFuncionarioSchema,
@@ -8,6 +7,7 @@ import {
 } from "@/modules/rh/dtos";
 import { funcionariosService } from "@/modules/rh/services/funcionarios.service";
 import { userFuncionariosService } from "@/modules/rh/services/user-funcionarios.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

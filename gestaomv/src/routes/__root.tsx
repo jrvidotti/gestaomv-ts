@@ -1,29 +1,22 @@
+import { NotFound } from "@/components/not-found";
+import type { AuthUser } from "@/lib/auth";
+import type { TRPCRouter } from "@/trpc/router";
+import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
 	HeadContent,
 	Scripts,
 	createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-
-import { NotFound } from "@/components/not-found";
-import { AuthProvider } from "../hooks/use-auth";
-
-import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
-
-import appCss from "../styles.css?url";
-
-import type { QueryClient } from "@tanstack/react-query";
-
-import type { TRPCRouter } from "@/integrations/trpc/router";
-import type { AuthUser } from "@/lib/auth";
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { Toaster } from "sonner";
+import { AuthProvider } from "../hooks/use-auth";
+import appCss from "../styles.css?url";
 
 interface MyRouterContext {
 	queryClient: QueryClient;
-
 	trpc: TRPCOptionsProxy<TRPCRouter>;
-
 	user: AuthUser | null;
 }
 
@@ -71,7 +64,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						duration={2000}
 					/>
 					<TanStackRouterDevtools />
-					<TanStackQueryLayout />
+					<ReactQueryDevtools buttonPosition="bottom-right" />
 				</AuthProvider>
 				<Scripts />
 			</body>

@@ -1,10 +1,10 @@
-import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import {
 	atualizarMaterialSchema,
 	filtroMateriaisSchema,
 	formMaterialSchema,
 } from "@/modules/almoxarifado/dtos";
 import { materiaisService } from "@/modules/almoxarifado/services/materiais.service";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

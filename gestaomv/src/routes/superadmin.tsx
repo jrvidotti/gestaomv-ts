@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTRPC } from "@/integrations/trpc/react";
 import type { MigrationStatusDTO } from "@/modules/core/dtos";
+import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
@@ -16,17 +16,14 @@ function SuperadminPage() {
 	const [operationLog, setOperationLog] = useState<string[]>([]);
 	const [showOnlyLog, setShowOnlyLog] = useState(false);
 
-	const {
-		data: systemInfoData,
-		isLoading: systemLoading,
-		refetch: refetchSystemInfo,
-	} = useQuery(trpc.superadmin.getSystemInfo.queryOptions());
+	const { data: systemInfoData, isLoading: systemLoading } = useQuery(
+		trpc.superadmin.getSystemInfo.queryOptions(),
+	);
 
 	// Queries
 	const {
 		data: statsData,
 		isLoading: statsLoading,
-		error: statsError,
 		refetch: refetchStats,
 	} = useQuery(trpc.superadmin.getStats.queryOptions());
 

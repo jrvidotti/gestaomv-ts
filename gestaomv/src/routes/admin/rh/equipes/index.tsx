@@ -28,9 +28,9 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import type { FiltrosEquipes } from "@/modules/rh/types";
+import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {

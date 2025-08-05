@@ -33,7 +33,6 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useAuth } from "@/hooks/use-auth";
-import { useTRPC } from "@/integrations/trpc/react";
 import { cn } from "@/lib/utils";
 import {
 	STATUS_OPTIONS,
@@ -43,6 +42,7 @@ import type { FiltrosSolicitacoes } from "@/modules/almoxarifado/dtos";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import type { SolicitacaoMaterial } from "@/modules/almoxarifado/types";
 import { USER_ROLES } from "@/modules/core/enums";
+import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {

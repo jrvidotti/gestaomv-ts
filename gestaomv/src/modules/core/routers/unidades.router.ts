@@ -1,6 +1,6 @@
-import { adminProcedure } from "@/integrations/trpc/init";
 import { createUnidadeSchema, updateUnidadeSchema } from "@/modules/core/dtos";
 import { unidadesService } from "@/modules/core/services/unidades.service";
+import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 

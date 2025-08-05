@@ -15,11 +15,11 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useTRPC } from "@/integrations/trpc/react";
 import {
 	type ChangePasswordDto,
 	changePasswordSchema,
 } from "@/modules/core/dtos/users";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";

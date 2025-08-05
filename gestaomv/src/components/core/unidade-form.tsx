@@ -12,13 +12,13 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useTRPC } from "@/integrations/trpc/react";
 import {
 	type CreateUnidadeDto,
 	type UpdateUnidadeDto,
 	createUnidadeSchema,
 	updateUnidadeSchema,
 } from "@/modules/core/dtos";
+import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { MapPin } from "lucide-react";

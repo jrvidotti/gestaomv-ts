@@ -12,7 +12,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { USER_ROLES_DATA } from "@/constants/user-roles";
 import { useAuth } from "@/hooks/use-auth";
-import { useTRPC } from "@/integrations/trpc/react";
+import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Activity, Calendar, Key, LogOut, Mail, User } from "lucide-react";

@@ -35,17 +35,15 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useTRPC } from "@/integrations/trpc/react";
 import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
 import {
 	STATUS_FUNCIONARIO_DATA,
 	STATUS_FUNCIONARIO_OPTIONS,
 } from "@/modules/rh/consts";
-import type {
-	FiltrosFuncionarios,
-	StatusFuncionarioType,
-} from "@/modules/rh/types";
+import type { FiltrosFuncionarios } from "@/modules/rh/dtos";
+import type { StatusFuncionarioType } from "@/modules/rh/types";
+import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
@@ -115,22 +113,22 @@ function RouteComponent() {
 		busca: buscaDebounced || undefined,
 		status:
 			statusSelecionado && statusSelecionado !== "all"
-				? statusSelecionado
+				? [statusSelecionado]
 				: undefined,
 		departamentoId:
 			departamentoSelecionado && departamentoSelecionado !== "all"
-				? departamentoSelecionado
+				? Number(departamentoSelecionado)
 				: undefined,
 		cargoId:
 			cargoSelecionado && cargoSelecionado !== "all"
-				? cargoSelecionado
+				? Number(cargoSelecionado)
 				: undefined,
 		pagina: paginaAtual,
 		limite: 20,
 	};
 
 	const { data, isLoading, refetch } = useQuery(
-		trpc.rh.listarFuncionarios.queryOptions(filtros),
+		trpc.rh.funcionarios.listar.queryOptions(filtros),
 	);
 	const { data: departamentosResponse, isLoading: isLoadingDepartamentos } =
 		useQuery(trpc.rh.departamentos.listar.queryOptions({}));
@@ -140,10 +138,10 @@ function RouteComponent() {
 
 	// Extrair dados dos objetos retornados pelas queries
 	const departamentosData = departamentosResponse?.departamentos || [];
-	const cargosData = cargosResponse || [];
+	const cargosData = cargosResponse?.cargos || [];
 
 	const { mutate: alterarStatusFuncionario } = useMutation({
-		...trpc.rh.alterarStatusFuncionario.mutationOptions(),
+		...trpc.rh.funcionarios.alterarStatus.mutationOptions(),
 		onSuccess: () => {
 			refetch();
 		},
@@ -180,7 +178,7 @@ function RouteComponent() {
 				`Deseja alterar o status do funcionário para "${statusData.label}"?`,
 			)
 		) {
-			alterarStatusFuncionario({ id, status: novoStatus });
+			alterarStatusFuncionario({ id, data: { status: novoStatus } });
 		}
 	};
 
@@ -516,7 +514,7 @@ function RouteComponent() {
 																{[
 																	STATUS_FUNCIONARIO.AVISO_PREVIO,
 																	STATUS_FUNCIONARIO.EM_CONTRATACAO,
-																].includes(funcionario.status) && (
+																].includes(funcionario.status as any) && (
 																	<DropdownMenuItem
 																		onClick={() =>
 																			handleAlterarStatus(
