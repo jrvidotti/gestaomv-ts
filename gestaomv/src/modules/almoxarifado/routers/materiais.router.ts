@@ -4,11 +4,9 @@ import {
 	filtroMateriaisSchema,
 	formMaterialSchema,
 } from "@/modules/almoxarifado/dtos";
-import { MateriaisService } from "@/modules/almoxarifado/services/materiais.service";
+import { materiaisService } from "@/modules/almoxarifado/services/materiais.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const materiaisService = new MateriaisService();
 
 export const materiaisRouter = {
 	criar: adminProcedure

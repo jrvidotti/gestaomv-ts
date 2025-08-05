@@ -175,3 +175,5 @@ export class TagoneService {
 		return record.length > 0 ? record[0] : null;
 	}
 }
+
+export const tagoneService = new TagoneService();

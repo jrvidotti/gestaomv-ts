@@ -1,9 +1,7 @@
 import { adminProcedure } from "@/integrations/trpc/init";
 import { updateConfiguracoesSistemaSchema } from "@/modules/core/dtos";
-import { ConfiguracoesService } from "@/modules/core/services/configuracoes.service";
+import { configuracoesService } from "@/modules/core/services/configuracoes.service";
 import type { TRPCRouterRecord } from "@trpc/server";
-
-const configuracoesService = new ConfiguracoesService();
 
 export const configuracoesRouter = {
 	getConfiguracoesSistema: adminProcedure.query(async () => {

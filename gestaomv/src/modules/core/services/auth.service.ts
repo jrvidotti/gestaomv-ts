@@ -7,28 +7,16 @@ import type {
 	RemoveUserRoleDto,
 	TagoneLoginDto,
 } from "@/modules/core/dtos";
-import { EmailService } from "@/modules/core/services/email.service";
-import { NotificationsService } from "@/modules/core/services/notifications.service";
-import { TagoneService } from "@/modules/core/services/tagone.service";
-import { UsersService } from "@/modules/core/services/users.service";
+import { emailService } from "@/modules/core/services/email.service";
+import { notificationsService } from "@/modules/core/services/notifications.service";
+import { tagoneService } from "@/modules/core/services/tagone.service";
+import { usersService } from "@/modules/core/services/users.service";
 import type { User, UserRoleType } from "@/modules/core/types";
 import { TRPCError } from "@trpc/server";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 
 export class AuthService {
-	private usersService: UsersService;
-	private emailService: EmailService;
-	private tagoneService: TagoneService;
-	private notificationsService: NotificationsService;
-
-	constructor() {
-		this.usersService = new UsersService();
-		this.emailService = new EmailService();
-		this.tagoneService = new TagoneService();
-		this.notificationsService = new NotificationsService();
-	}
-
 	private isValidEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
@@ -47,10 +35,10 @@ export class AuthService {
 	}
 
 	async validateUser(email: string, password: string): Promise<User | null> {
-		const user = await this.usersService.findByEmail(email);
+		const user = await usersService.findByEmail(email);
 		if (
 			user?.password &&
-			(await this.usersService.validatePassword(password, user.password))
+			(await usersService.validatePassword(password, user.password))
 		) {
 			return user;
 		}
@@ -138,23 +126,23 @@ export class AuthService {
 	}
 
 	async register(registerDto: RegisterDto): Promise<AuthResponse> {
-		const existingUser = await this.usersService.findByEmail(registerDto.email);
+		const existingUser = await usersService.findByEmail(registerDto.email);
 		if (existingUser) {
 			throw new Error("Email já está em uso");
 		}
 
-		const user = await this.usersService.create(registerDto);
+		const user = await usersService.create(registerDto);
 		const access_token = AuthService.generateAccessToken(user);
 
 		// Enviar e-mail de boas-vindas de forma assíncrona
 		// Não aguardar para não bloquear o registro em caso de erro
-		this.emailService.sendWelcomeEmail(user.email, user.name).catch((error) => {
+		emailService.sendWelcomeEmail(user.email, user.name).catch((error) => {
 			console.error("Erro ao enviar e-mail de boas-vindas:", error);
 		});
 
 		// Enviar notificação para administradores de forma assíncrona
 		const { password, ...userWithoutPassword } = user;
-		this.notificationsService
+		notificationsService
 			.notifyNewUserRegistration(userWithoutPassword)
 			.catch((error) => {
 				console.error("Erro ao enviar notificação de novo usuário:", error);
@@ -169,7 +157,7 @@ export class AuthService {
 	async getProfile(
 		userId: number,
 	): Promise<Omit<User, "password"> | undefined> {
-		const user = await this.usersService.findOne(userId);
+		const user = await usersService.findOne(userId);
 		if (!user) {
 			return undefined;
 		}
@@ -179,30 +167,30 @@ export class AuthService {
 	}
 
 	async getUserRoles(userId: number): Promise<UserRoleType[]> {
-		return await this.usersService.getUserRoles(userId);
+		return await usersService.getUserRoles(userId);
 	}
 
 	async addUserRole(addUserRoleDto: AddUserRoleDto): Promise<void> {
-		return await this.usersService.addUserRole(
+		return await usersService.addUserRole(
 			addUserRoleDto.userId,
 			addUserRoleDto.role,
 		);
 	}
 
 	async removeUserRole(removeUserRoleDto: RemoveUserRoleDto): Promise<void> {
-		return await this.usersService.removeUserRole(
+		return await usersService.removeUserRole(
 			removeUserRoleDto.userId,
 			removeUserRoleDto.role,
 		);
 	}
 
 	async getUserWithRoles(userId: number): Promise<User | undefined> {
-		return await this.usersService.findOne(userId);
+		return await usersService.findOne(userId);
 	}
 
 	async loginWithTagOne(loginDto: TagoneLoginDto): Promise<AuthResponse> {
 		// Tentar fazer login no TagOne
-		const tagoneResult = await this.tagoneService.loginWithTagOne(
+		const tagoneResult = await tagoneService.loginWithTagOne(
 			loginDto.usuarioTagone,
 			loginDto.senha,
 		);
@@ -244,12 +232,11 @@ export class AuthService {
 
 		if (tagoneEmail && this.isValidEmail(tagoneEmail)) {
 			// Se existe usuário com este e-mail, verificar se já tem userTagone
-			const existingEmailUser =
-				await this.usersService.findByEmail(tagoneEmail);
+			const existingEmailUser = await usersService.findByEmail(tagoneEmail);
 			if (existingEmailUser && existingEmailUser.authProvider !== "tagone") {
 				// Verificar se este usuário já conectou ao TagOne
 				const existingTagoneConnection =
-					await this.usersService.findByTagOneUsername(loginDto.usuarioTagone);
+					await usersService.findByTagOneUsername(loginDto.usuarioTagone);
 				if (
 					!existingTagoneConnection ||
 					existingTagoneConnection.id !== existingEmailUser.id
@@ -263,7 +250,7 @@ export class AuthService {
 		}
 
 		// Buscar usuário existente com este username TagOne
-		const existingTagoneUser = await this.usersService.findByTagOneUsername(
+		const existingTagoneUser = await usersService.findByTagOneUsername(
 			loginDto.usuarioTagone,
 		);
 
@@ -274,13 +261,13 @@ export class AuthService {
 			user = existingTagoneUser;
 
 			// Atualizar ou criar registro TagOne
-			await this.tagoneService.loginAndSaveTagOne(user.id, {
+			await tagoneService.loginAndSaveTagOne(user.id, {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
 		} else {
 			// Criar novo usuário
-			const newUser = await this.usersService.create({
+			const newUser = await usersService.create({
 				email: emailToUse,
 				name: nameToUse, // Nome preferencial do TagOne
 				authProvider: "tagone",
@@ -290,7 +277,7 @@ export class AuthService {
 			user = newUser;
 
 			// Criar registro TagOne
-			await this.tagoneService.loginAndSaveTagOne(user.id, {
+			await tagoneService.loginAndSaveTagOne(user.id, {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
@@ -313,3 +300,5 @@ export class AuthService {
 		};
 	}
 }
+
+export const authService = new AuthService();

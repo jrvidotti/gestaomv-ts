@@ -88,3 +88,5 @@ export class EmpresasService {
 		return empresa;
 	}
 }
+
+export const empresasService = new EmpresasService();

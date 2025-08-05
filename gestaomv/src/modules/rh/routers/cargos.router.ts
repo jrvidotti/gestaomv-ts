@@ -4,11 +4,9 @@ import {
 	criarCargoSchema,
 	filtrosCargosSchema,
 } from "@/modules/rh/dtos";
-import { CargosService } from "@/modules/rh/services/cargos.service";
+import { cargosService } from "@/modules/rh/services/cargos.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const cargosService = new CargosService();
 
 export const cargosRouter = {
 	criar: adminProcedure.input(criarCargoSchema).mutation(async ({ input }) => {

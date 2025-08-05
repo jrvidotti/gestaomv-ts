@@ -428,3 +428,5 @@ export class SuperadminService {
 		}
 	}
 }
+
+export const superadminService = new SuperadminService();

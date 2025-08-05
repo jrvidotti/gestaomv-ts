@@ -275,3 +275,5 @@ export class FuncionariosService {
 		await db.delete(funcionarios).where(eq(funcionarios.id, id));
 	}
 }
+
+export const funcionariosService = new FuncionariosService();

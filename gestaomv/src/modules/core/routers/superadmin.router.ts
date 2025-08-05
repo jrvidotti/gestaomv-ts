@@ -4,10 +4,8 @@ import {
 	seedOperationSchema,
 } from "@/modules/core/dtos/superadmin";
 import { USER_ROLES } from "@/modules/core/enums";
-import { SuperadminService } from "@/modules/core/services/superadmin.service";
+import { superadminService } from "@/modules/core/services/superadmin.service";
 import type { TRPCRouterRecord } from "@trpc/server";
-
-const superadminService = new SuperadminService();
 
 const superadminProcedure = createRoleProcedure([USER_ROLES.SUPERADMIN]);
 

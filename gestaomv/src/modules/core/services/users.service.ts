@@ -323,3 +323,5 @@ export class UsersService {
 		return matchingUsers;
 	}
 }
+
+export const usersService = new UsersService();

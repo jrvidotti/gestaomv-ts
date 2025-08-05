@@ -1,9 +1,6 @@
 import { authenticateRequest } from "@/lib/auth";
-import { StorageService } from "@/modules/core/services/storage.service";
+import { storageService } from "@/modules/core/services/storage.service";
 import { createServerFileRoute } from "@tanstack/react-start/server";
-
-// Instanciar o serviço de storage
-const storageService = new StorageService();
 
 async function handler({ request }: { request: Request }) {
 	try {

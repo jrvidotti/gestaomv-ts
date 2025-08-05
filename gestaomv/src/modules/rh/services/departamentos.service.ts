@@ -97,3 +97,5 @@ export class DepartamentosService {
 		await db.delete(departamentos).where(eq(departamentos.id, id));
 	}
 }
+
+export const departamentosService = new DepartamentosService();

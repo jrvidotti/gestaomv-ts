@@ -332,3 +332,5 @@ export class AvaliacoesPeriodicasService {
 			.where(eq(avaliacoesPeriodicas.id, id));
 	}
 }
+
+export const avaliacoesPeriodicasService = new AvaliacoesPeriodicasService();

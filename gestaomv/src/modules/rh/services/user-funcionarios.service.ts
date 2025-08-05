@@ -160,3 +160,5 @@ export class UserFuncionariosService {
 			.where(eq(userFuncionarios.funcionarioId, funcionarioId));
 	}
 }
+
+export const userFuncionariosService = new UserFuncionariosService();

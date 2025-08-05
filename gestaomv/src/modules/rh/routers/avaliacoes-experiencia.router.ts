@@ -4,11 +4,9 @@ import {
 	recomendacaoAvaliacaoEnum,
 	tipoAvaliacaoExperienciaEnum,
 } from "@/modules/rh/enums";
-import { AvaliacoesExperienciaService } from "@/modules/rh/services/avaliacoes-experiencia.service";
+import { avaliacoesExperienciaService } from "@/modules/rh/services/avaliacoes-experiencia.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const avaliacoesExperienciaService = new AvaliacoesExperienciaService();
 
 export const avaliacoesExperienciaRouter = {
 	criar: adminProcedure

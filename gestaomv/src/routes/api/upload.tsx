@@ -1,7 +1,5 @@
-import { StorageService } from "@/modules/core/services/storage.service";
+import { storageService } from "@/modules/core/services/storage.service";
 import { createServerFileRoute } from "@tanstack/react-start/server";
-
-const storageService = new StorageService();
 
 async function handler({ request }: { request: Request }) {
 	// Apenas POST é permitido

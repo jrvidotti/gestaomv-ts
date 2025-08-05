@@ -1,10 +1,8 @@
 import { adminProcedure } from "@/integrations/trpc/init";
 import { createEmpresaSchema, updateEmpresaSchema } from "@/modules/core/dtos";
-import { EmpresasService } from "@/modules/core/services/empresas.service";
+import { empresasService } from "@/modules/core/services/empresas.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const empresasService = new EmpresasService();
 
 export const empresasRouter = {
 	findAll: adminProcedure.query(async () => {

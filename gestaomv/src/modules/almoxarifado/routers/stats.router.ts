@@ -3,10 +3,8 @@ import {
 	filtroEstatisticasSchema,
 	topMateriaisSchema,
 } from "@/modules/almoxarifado/dtos";
-import { EstatisticasService } from "@/modules/almoxarifado/services/estatisticas.service";
+import { estatisticasService } from "@/modules/almoxarifado/services/estatisticas.service";
 import type { TRPCRouterRecord } from "@trpc/server";
-
-const estatisticasService = new EstatisticasService();
 
 export const statsRouter = {
 	obterEstatisticas: protectedProcedure

@@ -4,11 +4,9 @@ import {
 	criarDepartamentoSchema,
 	filtrosDepartamentosSchema,
 } from "@/modules/rh/dtos";
-import { DepartamentosService } from "@/modules/rh/services/departamentos.service";
+import { departamentosService } from "@/modules/rh/services/departamentos.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const departamentosService = new DepartamentosService();
 
 export const departamentosRouter = {
 	criar: adminProcedure

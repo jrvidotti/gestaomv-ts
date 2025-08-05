@@ -8,12 +8,10 @@ import {
 	criarSolicitacaoMaterialSchema,
 	filtroSolicitacoesSchema,
 } from "@/modules/almoxarifado/dtos";
-import { SolicitacoesService } from "@/modules/almoxarifado/services/solicitacoes.service";
+import { solicitacoesService } from "@/modules/almoxarifado/services/solicitacoes.service";
 import { USER_ROLES } from "@/modules/core/enums";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const solicitacoesService = new SolicitacoesService();
 
 // Procedures específicos por role
 const aprovadorProcedure = createRoleProcedure([

@@ -1,10 +1,8 @@
 import { adminProcedure } from "@/integrations/trpc/init";
 import { createUnidadeSchema, updateUnidadeSchema } from "@/modules/core/dtos";
-import { UnidadesService } from "@/modules/core/services/unidades.service";
+import { unidadesService } from "@/modules/core/services/unidades.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const unidadesService = new UnidadesService();
 
 export const unidadesRouter = {
 	findAll: adminProcedure.query(async () => {

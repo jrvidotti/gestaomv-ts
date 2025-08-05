@@ -148,3 +148,5 @@ export class ConfiguracoesService {
 		}
 	}
 }
+
+export const configuracoesService = new ConfiguracoesService();

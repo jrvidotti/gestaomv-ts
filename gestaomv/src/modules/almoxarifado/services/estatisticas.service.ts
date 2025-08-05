@@ -256,3 +256,5 @@ export class EstatisticasService {
 		}));
 	}
 }
+
+export const estatisticasService = new EstatisticasService();

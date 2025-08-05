@@ -1,5 +1,5 @@
 import { almoxarifadoRouter } from "@/modules/almoxarifado/routers";
-import { coreRouter } from "@/modules/core/routers/core.router";
+import { coreRouter } from "@/modules/core/routers";
 import { rhRouter } from "@/modules/rh/routers";
 import { createTRPCRouter } from "./init";
 

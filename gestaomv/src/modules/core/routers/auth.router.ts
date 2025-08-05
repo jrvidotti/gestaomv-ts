@@ -12,12 +12,9 @@ import {
 	removeUserRoleSchema,
 	tagoneLoginSchema,
 } from "@/modules/core/dtos";
-import { AuthService } from "@/modules/core/services/auth.service";
-import { UsersService } from "@/modules/core/services/users.service";
+import { authService } from "@/modules/core/services/auth.service";
+import { usersService } from "@/modules/core/services/users.service";
 import type { TRPCRouterRecord } from "@trpc/server";
-
-const authService = new AuthService();
-const usersService = new UsersService();
 
 export const authRouter = {
 	login: publicProcedure.input(emailLoginSchema).mutation(async ({ input }) => {

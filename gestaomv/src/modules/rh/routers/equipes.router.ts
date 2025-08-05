@@ -5,13 +5,10 @@ import {
 	criarEquipeSchema,
 	filtrosEquipesSchema,
 } from "@/modules/rh/dtos";
-import { EquipeFuncionariosService } from "@/modules/rh/services/equipe-funcionarios.service";
-import { EquipesService } from "@/modules/rh/services/equipes.service";
+import { equipeFuncionariosService } from "@/modules/rh/services/equipe-funcionarios.service";
+import { equipesService } from "@/modules/rh/services/equipes.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const equipesService = new EquipesService();
-const equipeFuncionariosService = new EquipeFuncionariosService();
 
 export const equipesRouter = {
 	criar: adminProcedure.input(criarEquipeSchema).mutation(async ({ input }) => {

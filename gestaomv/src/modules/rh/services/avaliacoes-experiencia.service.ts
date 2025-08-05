@@ -272,3 +272,5 @@ export class AvaliacoesExperienciaService {
 			.where(eq(avaliacoesExperiencia.id, id));
 	}
 }
+
+export const avaliacoesExperienciaService = new AvaliacoesExperienciaService();

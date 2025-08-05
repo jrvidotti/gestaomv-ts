@@ -100,3 +100,5 @@ export class UnidadesService {
 		return unidade;
 	}
 }
+
+export const unidadesService = new UnidadesService();

@@ -5,12 +5,10 @@ import type {
 	CriarMaterialData,
 	FiltrosMateriais,
 } from "@/modules/almoxarifado/dtos";
-import { StorageService } from "@/modules/core/services/storage.service";
+import { storageService } from "@/modules/core/services/storage.service";
 import { and, count, eq, sql } from "drizzle-orm";
 
 export class MateriaisService {
-	private readonly storageService = new StorageService();
-
 	async listarTiposMaterial() {
 		return await db.select().from(tiposMaterial);
 	}
@@ -125,8 +123,8 @@ export class MateriaisService {
 
 		try {
 			// Deletar arquivo do storage se o serviço estiver configurado
-			if (this.storageService.isConfigurado()) {
-				await this.storageService.deletarArquivo(urlFoto);
+			if (storageService.isConfigurado()) {
+				await storageService.deletarArquivo(urlFoto);
 			}
 		} catch (error) {
 			// Log do erro mas não falha a operação se o arquivo não for encontrado no storage
@@ -143,3 +141,5 @@ export class MateriaisService {
 			.where(eq(materiais.id, materialId));
 	}
 }
+
+export const materiaisService = new MateriaisService();

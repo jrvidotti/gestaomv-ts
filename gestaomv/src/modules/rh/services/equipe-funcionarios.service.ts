@@ -256,3 +256,5 @@ export class EquipeFuncionariosService {
 			.where(eq(equipeFuncionarios.equipeId, equipeId));
 	}
 }
+
+export const equipeFuncionariosService = new EquipeFuncionariosService();

@@ -6,13 +6,10 @@ import {
 	criarUserFuncionarioSchema,
 	filtrosFuncionariosSchema,
 } from "@/modules/rh/dtos";
-import { FuncionariosService } from "@/modules/rh/services/funcionarios.service";
-import { UserFuncionariosService } from "@/modules/rh/services/user-funcionarios.service";
+import { funcionariosService } from "@/modules/rh/services/funcionarios.service";
+import { userFuncionariosService } from "@/modules/rh/services/user-funcionarios.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const funcionariosService = new FuncionariosService();
-const userFuncionariosService = new UserFuncionariosService();
 
 export const funcionariosRouter = {
 	criar: adminProcedure

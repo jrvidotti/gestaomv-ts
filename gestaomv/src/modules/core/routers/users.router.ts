@@ -1,10 +1,8 @@
 import { adminProcedure } from "@/integrations/trpc/init";
 import { createUserSchema, updateUserSchema } from "@/modules/core/dtos";
-import { UsersService } from "@/modules/core/services/users.service";
+import { usersService } from "@/modules/core/services/users.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const usersService = new UsersService();
 
 export const usersRouter = {
 	findAll: adminProcedure.query(async () => {

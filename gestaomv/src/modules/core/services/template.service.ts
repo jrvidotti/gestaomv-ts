@@ -276,3 +276,5 @@ export class TemplateService {
 		return template(data);
 	}
 }
+
+export const templateService = new TemplateService();

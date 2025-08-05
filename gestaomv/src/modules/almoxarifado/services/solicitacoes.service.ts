@@ -379,3 +379,5 @@ export class SolicitacoesService {
 		return await this.buscarSolicitacaoMaterialPorId(id);
 	}
 }
+
+export const solicitacoesService = new SolicitacoesService();

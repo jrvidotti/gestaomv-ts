@@ -1,11 +1,9 @@
 import { adminProcedure, protectedProcedure } from "@/integrations/trpc/init";
 import { criarAvaliacaoPeriodicaSchema } from "@/modules/rh/dtos";
 import { classificacaoAvaliacaoPeriodicaEnum } from "@/modules/rh/enums";
-import { AvaliacoesPeriodicasService } from "@/modules/rh/services/avaliacoes-periodicas.service";
+import { avaliacoesPeriodicasService } from "@/modules/rh/services/avaliacoes-periodicas.service";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
-
-const avaliacoesPeriodicasService = new AvaliacoesPeriodicasService();
 
 export const avaliacoesPeriodicasRouter = {
 	criar: adminProcedure

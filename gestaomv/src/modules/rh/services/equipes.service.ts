@@ -83,3 +83,5 @@ export class EquipesService {
 		await db.delete(equipes).where(eq(equipes.id, id));
 	}
 }
+
+export const equipesService = new EquipesService();
