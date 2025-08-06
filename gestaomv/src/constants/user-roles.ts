@@ -60,6 +60,13 @@ export const USER_ROLES_DATA: Record<UserRoleType, UserRoleData> = {
 		description: "Acesso de gerenciamento de CRM",
 		color: "default",
 	},
+	[USER_ROLES.AVALIADOR_CHECKLIST]: {
+		value: USER_ROLES.AVALIADOR_CHECKLIST,
+		label: "Avaliador Checklist",
+		description:
+			"Responsável por avaliar unidades através de checklists periódicos",
+		color: "secondary",
+	},
 	[USER_ROLES.USUARIO_RH]: {
 		value: USER_ROLES.USUARIO_RH,
 		label: "Usuário RH",

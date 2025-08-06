@@ -17,6 +17,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
 import { Route as AdminRhIndexRouteImport } from './routes/admin/rh/index'
 import { Route as AdminCoreIndexRouteImport } from './routes/admin/core/index'
+import { Route as AdminChecklistIndexRouteImport } from './routes/admin/checklist/index'
 import { Route as AdminAlmoxarifadoIndexRouteImport } from './routes/admin/almoxarifado/index'
 import { Route as AdminUserProfileRouteImport } from './routes/admin/user/profile'
 import { Route as AdminUserAlterarSenhaRouteImport } from './routes/admin/user/alterar-senha'
@@ -30,6 +31,9 @@ import { Route as AdminRhAvaliacoesExperienciaIndexRouteImport } from './routes/
 import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/users/index'
 import { Route as AdminCoreUnidadesIndexRouteImport } from './routes/admin/core/unidades/index'
 import { Route as AdminCoreEmpresasIndexRouteImport } from './routes/admin/core/empresas/index'
+import { Route as AdminChecklistTemplatesIndexRouteImport } from './routes/admin/checklist/templates/index'
+import { Route as AdminChecklistRelatoriosIndexRouteImport } from './routes/admin/checklist/relatorios/index'
+import { Route as AdminChecklistAvaliacoesIndexRouteImport } from './routes/admin/checklist/avaliacoes/index'
 import { Route as AdminAlmoxarifadoSolicitacoesIndexRouteImport } from './routes/admin/almoxarifado/solicitacoes/index'
 import { Route as AdminAlmoxarifadoRelatoriosIndexRouteImport } from './routes/admin/almoxarifado/relatorios/index'
 import { Route as AdminAlmoxarifadoMateriaisIndexRouteImport } from './routes/admin/almoxarifado/materiais/index'
@@ -38,6 +42,7 @@ import { Route as AdminRhCargosNovoRouteImport } from './routes/admin/rh/cargos/
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreUnidadesNovaRouteImport } from './routes/admin/core/unidades/nova'
 import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/empresas/nova'
+import { Route as AdminChecklistTemplatesNovoRouteImport } from './routes/admin/checklist/templates/novo'
 import { Route as AdminAlmoxarifadoSolicitacoesNovaRouteImport } from './routes/admin/almoxarifado/solicitacoes/nova'
 import { Route as AdminAlmoxarifadoMateriaisNovoRouteImport } from './routes/admin/almoxarifado/materiais/novo'
 import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/rh/departamentos/$id/index'
@@ -83,6 +88,11 @@ const AdminRhIndexRoute = AdminRhIndexRouteImport.update({
 const AdminCoreIndexRoute = AdminCoreIndexRouteImport.update({
   id: '/admin/core/',
   path: '/admin/core/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminChecklistIndexRoute = AdminChecklistIndexRouteImport.update({
+  id: '/admin/checklist/',
+  path: '/admin/checklist/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAlmoxarifadoIndexRoute = AdminAlmoxarifadoIndexRouteImport.update({
@@ -154,6 +164,24 @@ const AdminCoreEmpresasIndexRoute = AdminCoreEmpresasIndexRouteImport.update({
   path: '/admin/core/empresas/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminChecklistTemplatesIndexRoute =
+  AdminChecklistTemplatesIndexRouteImport.update({
+    id: '/admin/checklist/templates/',
+    path: '/admin/checklist/templates/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminChecklistRelatoriosIndexRoute =
+  AdminChecklistRelatoriosIndexRouteImport.update({
+    id: '/admin/checklist/relatorios/',
+    path: '/admin/checklist/relatorios/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminChecklistAvaliacoesIndexRoute =
+  AdminChecklistAvaliacoesIndexRouteImport.update({
+    id: '/admin/checklist/avaliacoes/',
+    path: '/admin/checklist/avaliacoes/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminAlmoxarifadoSolicitacoesIndexRoute =
   AdminAlmoxarifadoSolicitacoesIndexRouteImport.update({
     id: '/admin/almoxarifado/solicitacoes/',
@@ -198,6 +226,12 @@ const AdminCoreEmpresasNovaRoute = AdminCoreEmpresasNovaRouteImport.update({
   path: '/admin/core/empresas/nova',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminChecklistTemplatesNovoRoute =
+  AdminChecklistTemplatesNovoRouteImport.update({
+    id: '/admin/checklist/templates/novo',
+    path: '/admin/checklist/templates/novo',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminAlmoxarifadoSolicitacoesNovaRoute =
   AdminAlmoxarifadoSolicitacoesNovaRouteImport.update({
     id: '/admin/almoxarifado/solicitacoes/nova',
@@ -285,10 +319,12 @@ export interface FileRoutesByFullPath {
   '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
   '/admin/user/profile': typeof AdminUserProfileRoute
   '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
+  '/admin/checklist': typeof AdminChecklistIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
+  '/admin/checklist/templates/novo': typeof AdminChecklistTemplatesNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -297,6 +333,9 @@ export interface FileRoutesByFullPath {
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
   '/admin/almoxarifado/relatorios': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
+  '/admin/checklist/avaliacoes': typeof AdminChecklistAvaliacoesIndexRoute
+  '/admin/checklist/relatorios': typeof AdminChecklistRelatoriosIndexRoute
+  '/admin/checklist/templates': typeof AdminChecklistTemplatesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
@@ -325,10 +364,12 @@ export interface FileRoutesByTo {
   '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
   '/admin/user/profile': typeof AdminUserProfileRoute
   '/admin/almoxarifado': typeof AdminAlmoxarifadoIndexRoute
+  '/admin/checklist': typeof AdminChecklistIndexRoute
   '/admin/core': typeof AdminCoreIndexRoute
   '/admin/rh': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
+  '/admin/checklist/templates/novo': typeof AdminChecklistTemplatesNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -337,6 +378,9 @@ export interface FileRoutesByTo {
   '/admin/almoxarifado/materiais': typeof AdminAlmoxarifadoMateriaisIndexRoute
   '/admin/almoxarifado/relatorios': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
+  '/admin/checklist/avaliacoes': typeof AdminChecklistAvaliacoesIndexRoute
+  '/admin/checklist/relatorios': typeof AdminChecklistRelatoriosIndexRoute
+  '/admin/checklist/templates': typeof AdminChecklistTemplatesIndexRoute
   '/admin/core/empresas': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
@@ -366,10 +410,12 @@ export interface FileRoutesById {
   '/admin/user/alterar-senha': typeof AdminUserAlterarSenhaRoute
   '/admin/user/profile': typeof AdminUserProfileRoute
   '/admin/almoxarifado/': typeof AdminAlmoxarifadoIndexRoute
+  '/admin/checklist/': typeof AdminChecklistIndexRoute
   '/admin/core/': typeof AdminCoreIndexRoute
   '/admin/rh/': typeof AdminRhIndexRoute
   '/admin/almoxarifado/materiais/novo': typeof AdminAlmoxarifadoMateriaisNovoRoute
   '/admin/almoxarifado/solicitacoes/nova': typeof AdminAlmoxarifadoSolicitacoesNovaRoute
+  '/admin/checklist/templates/novo': typeof AdminChecklistTemplatesNovoRoute
   '/admin/core/empresas/nova': typeof AdminCoreEmpresasNovaRoute
   '/admin/core/unidades/nova': typeof AdminCoreUnidadesNovaRoute
   '/admin/core/users/novo': typeof AdminCoreUsersNovoRoute
@@ -378,6 +424,9 @@ export interface FileRoutesById {
   '/admin/almoxarifado/materiais/': typeof AdminAlmoxarifadoMateriaisIndexRoute
   '/admin/almoxarifado/relatorios/': typeof AdminAlmoxarifadoRelatoriosIndexRoute
   '/admin/almoxarifado/solicitacoes/': typeof AdminAlmoxarifadoSolicitacoesIndexRoute
+  '/admin/checklist/avaliacoes/': typeof AdminChecklistAvaliacoesIndexRoute
+  '/admin/checklist/relatorios/': typeof AdminChecklistRelatoriosIndexRoute
+  '/admin/checklist/templates/': typeof AdminChecklistTemplatesIndexRoute
   '/admin/core/empresas/': typeof AdminCoreEmpresasIndexRoute
   '/admin/core/unidades/': typeof AdminCoreUnidadesIndexRoute
   '/admin/core/users/': typeof AdminCoreUsersIndexRoute
@@ -408,10 +457,12 @@ export interface FileRouteTypes {
     | '/admin/user/alterar-senha'
     | '/admin/user/profile'
     | '/admin/almoxarifado'
+    | '/admin/checklist'
     | '/admin/core'
     | '/admin/rh'
     | '/admin/almoxarifado/materiais/novo'
     | '/admin/almoxarifado/solicitacoes/nova'
+    | '/admin/checklist/templates/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -420,6 +471,9 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado/materiais'
     | '/admin/almoxarifado/relatorios'
     | '/admin/almoxarifado/solicitacoes'
+    | '/admin/checklist/avaliacoes'
+    | '/admin/checklist/relatorios'
+    | '/admin/checklist/templates'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
     | '/admin/core/users'
@@ -448,10 +502,12 @@ export interface FileRouteTypes {
     | '/admin/user/alterar-senha'
     | '/admin/user/profile'
     | '/admin/almoxarifado'
+    | '/admin/checklist'
     | '/admin/core'
     | '/admin/rh'
     | '/admin/almoxarifado/materiais/novo'
     | '/admin/almoxarifado/solicitacoes/nova'
+    | '/admin/checklist/templates/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -460,6 +516,9 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado/materiais'
     | '/admin/almoxarifado/relatorios'
     | '/admin/almoxarifado/solicitacoes'
+    | '/admin/checklist/avaliacoes'
+    | '/admin/checklist/relatorios'
+    | '/admin/checklist/templates'
     | '/admin/core/empresas'
     | '/admin/core/unidades'
     | '/admin/core/users'
@@ -488,10 +547,12 @@ export interface FileRouteTypes {
     | '/admin/user/alterar-senha'
     | '/admin/user/profile'
     | '/admin/almoxarifado/'
+    | '/admin/checklist/'
     | '/admin/core/'
     | '/admin/rh/'
     | '/admin/almoxarifado/materiais/novo'
     | '/admin/almoxarifado/solicitacoes/nova'
+    | '/admin/checklist/templates/novo'
     | '/admin/core/empresas/nova'
     | '/admin/core/unidades/nova'
     | '/admin/core/users/novo'
@@ -500,6 +561,9 @@ export interface FileRouteTypes {
     | '/admin/almoxarifado/materiais/'
     | '/admin/almoxarifado/relatorios/'
     | '/admin/almoxarifado/solicitacoes/'
+    | '/admin/checklist/avaliacoes/'
+    | '/admin/checklist/relatorios/'
+    | '/admin/checklist/templates/'
     | '/admin/core/empresas/'
     | '/admin/core/unidades/'
     | '/admin/core/users/'
@@ -529,10 +593,12 @@ export interface RootRouteChildren {
   AdminUserAlterarSenhaRoute: typeof AdminUserAlterarSenhaRoute
   AdminUserProfileRoute: typeof AdminUserProfileRoute
   AdminAlmoxarifadoIndexRoute: typeof AdminAlmoxarifadoIndexRoute
+  AdminChecklistIndexRoute: typeof AdminChecklistIndexRoute
   AdminCoreIndexRoute: typeof AdminCoreIndexRoute
   AdminRhIndexRoute: typeof AdminRhIndexRoute
   AdminAlmoxarifadoMateriaisNovoRoute: typeof AdminAlmoxarifadoMateriaisNovoRoute
   AdminAlmoxarifadoSolicitacoesNovaRoute: typeof AdminAlmoxarifadoSolicitacoesNovaRoute
+  AdminChecklistTemplatesNovoRoute: typeof AdminChecklistTemplatesNovoRoute
   AdminCoreEmpresasNovaRoute: typeof AdminCoreEmpresasNovaRoute
   AdminCoreUnidadesNovaRoute: typeof AdminCoreUnidadesNovaRoute
   AdminCoreUsersNovoRoute: typeof AdminCoreUsersNovoRoute
@@ -541,6 +607,9 @@ export interface RootRouteChildren {
   AdminAlmoxarifadoMateriaisIndexRoute: typeof AdminAlmoxarifadoMateriaisIndexRoute
   AdminAlmoxarifadoRelatoriosIndexRoute: typeof AdminAlmoxarifadoRelatoriosIndexRoute
   AdminAlmoxarifadoSolicitacoesIndexRoute: typeof AdminAlmoxarifadoSolicitacoesIndexRoute
+  AdminChecklistAvaliacoesIndexRoute: typeof AdminChecklistAvaliacoesIndexRoute
+  AdminChecklistRelatoriosIndexRoute: typeof AdminChecklistRelatoriosIndexRoute
+  AdminChecklistTemplatesIndexRoute: typeof AdminChecklistTemplatesIndexRoute
   AdminCoreEmpresasIndexRoute: typeof AdminCoreEmpresasIndexRoute
   AdminCoreUnidadesIndexRoute: typeof AdminCoreUnidadesIndexRoute
   AdminCoreUsersIndexRoute: typeof AdminCoreUsersIndexRoute
@@ -634,6 +703,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/checklist/': {
+      id: '/admin/checklist/'
+      path: '/admin/checklist'
+      fullPath: '/admin/checklist'
+      preLoaderRoute: typeof AdminChecklistIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/almoxarifado/': {
       id: '/admin/almoxarifado/'
       path: '/admin/almoxarifado'
@@ -725,6 +801,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreEmpresasIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/checklist/templates/': {
+      id: '/admin/checklist/templates/'
+      path: '/admin/checklist/templates'
+      fullPath: '/admin/checklist/templates'
+      preLoaderRoute: typeof AdminChecklistTemplatesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/checklist/relatorios/': {
+      id: '/admin/checklist/relatorios/'
+      path: '/admin/checklist/relatorios'
+      fullPath: '/admin/checklist/relatorios'
+      preLoaderRoute: typeof AdminChecklistRelatoriosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/checklist/avaliacoes/': {
+      id: '/admin/checklist/avaliacoes/'
+      path: '/admin/checklist/avaliacoes'
+      fullPath: '/admin/checklist/avaliacoes'
+      preLoaderRoute: typeof AdminChecklistAvaliacoesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/almoxarifado/solicitacoes/': {
       id: '/admin/almoxarifado/solicitacoes/'
       path: '/admin/almoxarifado/solicitacoes'
@@ -779,6 +876,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/core/empresas/nova'
       fullPath: '/admin/core/empresas/nova'
       preLoaderRoute: typeof AdminCoreEmpresasNovaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/checklist/templates/novo': {
+      id: '/admin/checklist/templates/novo'
+      path: '/admin/checklist/templates/novo'
+      fullPath: '/admin/checklist/templates/novo'
+      preLoaderRoute: typeof AdminChecklistTemplatesNovoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/almoxarifado/solicitacoes/nova': {
@@ -895,11 +999,13 @@ const rootRouteChildren: RootRouteChildren = {
   AdminUserAlterarSenhaRoute: AdminUserAlterarSenhaRoute,
   AdminUserProfileRoute: AdminUserProfileRoute,
   AdminAlmoxarifadoIndexRoute: AdminAlmoxarifadoIndexRoute,
+  AdminChecklistIndexRoute: AdminChecklistIndexRoute,
   AdminCoreIndexRoute: AdminCoreIndexRoute,
   AdminRhIndexRoute: AdminRhIndexRoute,
   AdminAlmoxarifadoMateriaisNovoRoute: AdminAlmoxarifadoMateriaisNovoRoute,
   AdminAlmoxarifadoSolicitacoesNovaRoute:
     AdminAlmoxarifadoSolicitacoesNovaRoute,
+  AdminChecklistTemplatesNovoRoute: AdminChecklistTemplatesNovoRoute,
   AdminCoreEmpresasNovaRoute: AdminCoreEmpresasNovaRoute,
   AdminCoreUnidadesNovaRoute: AdminCoreUnidadesNovaRoute,
   AdminCoreUsersNovoRoute: AdminCoreUsersNovoRoute,
@@ -909,6 +1015,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAlmoxarifadoRelatoriosIndexRoute: AdminAlmoxarifadoRelatoriosIndexRoute,
   AdminAlmoxarifadoSolicitacoesIndexRoute:
     AdminAlmoxarifadoSolicitacoesIndexRoute,
+  AdminChecklistAvaliacoesIndexRoute: AdminChecklistAvaliacoesIndexRoute,
+  AdminChecklistRelatoriosIndexRoute: AdminChecklistRelatoriosIndexRoute,
+  AdminChecklistTemplatesIndexRoute: AdminChecklistTemplatesIndexRoute,
   AdminCoreEmpresasIndexRoute: AdminCoreEmpresasIndexRoute,
   AdminCoreUnidadesIndexRoute: AdminCoreUnidadesIndexRoute,
   AdminCoreUsersIndexRoute: AdminCoreUsersIndexRoute,

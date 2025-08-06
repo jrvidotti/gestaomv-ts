@@ -24,14 +24,14 @@ const config = defineConfig({
 			onwarn(warning, warn) {
 				// Suprimir warnings sobre imports não utilizados de dependências externas
 				if (
-					warning.code === 'UNUSED_EXTERNAL_IMPORT' &&
-					(warning.exporter?.includes('@tanstack/start-server-core') ||
-					 warning.exporter?.includes('@tanstack/router-core') ||
-					 warning.exporter?.includes('h3'))
+					warning.code === "UNUSED_EXTERNAL_IMPORT" &&
+					(warning.exporter?.includes("@tanstack/start-server-core") ||
+						warning.exporter?.includes("@tanstack/router-core") ||
+						warning.exporter?.includes("h3"))
 				) {
 					return;
 				}
-				
+
 				// Manter outros warnings
 				warn(warning);
 			},

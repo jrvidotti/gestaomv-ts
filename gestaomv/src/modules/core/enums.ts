@@ -8,6 +8,7 @@ export const USER_ROLES = {
 	APROVADOR_ALMOXARIFADO: "aprovador_almoxarifado",
 	GERENCIA_FINANCEIRO: "gerencia_financeiro",
 	GERENCIA_CRM: "gerencia_crm",
+	AVALIADOR_CHECKLIST: "avaliador_checklist",
 	USUARIO_RH: "usuario_rh",
 	USUARIO_RMA: "usuario_rma",
 	USUARIO_ALMOXARIFADO: "usuario_almoxarifado",

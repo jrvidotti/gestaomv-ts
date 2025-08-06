@@ -1,8 +1,8 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "d44b7814-c0eb-4c08-b362-c221b07a6f17",
-	"prevId": "db1f3ab0-63d2-4f1c-8a24-c7fca1329b4a",
+	"id": "fd2f08a0-61aa-4b57-9369-dc473a07d671",
+	"prevId": "d44b7814-c0eb-4c08-b362-c221b07a6f17",
 	"tables": {
 		"user_roles": {
 			"name": "user_roles",
@@ -1855,6 +1855,487 @@
 					"tableFrom": "rh_avaliacoes_periodicas",
 					"tableTo": "users",
 					"columnsFrom": ["avaliador_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"checklist_items": {
+			"name": "checklist_items",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"template_id": {
+					"name": "template_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"titulo": {
+					"name": "titulo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"descricao": {
+					"name": "descricao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tipo": {
+					"name": "tipo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"obrigatorio": {
+					"name": "obrigatorio",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"peso": {
+					"name": "peso",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 1
+				},
+				"ordem": {
+					"name": "ordem",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"ativo": {
+					"name": "ativo",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"checklist_items_template_id_idx": {
+					"name": "checklist_items_template_id_idx",
+					"columns": ["template_id"],
+					"isUnique": false
+				},
+				"checklist_items_ordem_idx": {
+					"name": "checklist_items_ordem_idx",
+					"columns": ["template_id", "ordem"],
+					"isUnique": false
+				},
+				"checklist_items_ativo_idx": {
+					"name": "checklist_items_ativo_idx",
+					"columns": ["ativo"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"checklist_items_template_id_checklist_templates_id_fk": {
+					"name": "checklist_items_template_id_checklist_templates_id_fk",
+					"tableFrom": "checklist_items",
+					"tableTo": "checklist_templates",
+					"columnsFrom": ["template_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"checklist_templates": {
+			"name": "checklist_templates",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"nome": {
+					"name": "nome",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"descricao": {
+					"name": "descricao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"periodicidade": {
+					"name": "periodicidade",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"ativo": {
+					"name": "ativo",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"criado_por_id": {
+					"name": "criado_por_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"checklist_templates_nome_idx": {
+					"name": "checklist_templates_nome_idx",
+					"columns": ["nome"],
+					"isUnique": false
+				},
+				"checklist_templates_ativo_idx": {
+					"name": "checklist_templates_ativo_idx",
+					"columns": ["ativo"],
+					"isUnique": false
+				},
+				"checklist_templates_criado_por_idx": {
+					"name": "checklist_templates_criado_por_idx",
+					"columns": ["criado_por_id"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"checklist_templates_criado_por_id_users_id_fk": {
+					"name": "checklist_templates_criado_por_id_users_id_fk",
+					"tableFrom": "checklist_templates",
+					"tableTo": "users",
+					"columnsFrom": ["criado_por_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"checklist_avaliacoes": {
+			"name": "checklist_avaliacoes",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"template_id": {
+					"name": "template_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"unidade_id": {
+					"name": "unidade_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"avaliador_id": {
+					"name": "avaliador_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'pendente'"
+				},
+				"data_agendada": {
+					"name": "data_agendada",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_inicio": {
+					"name": "data_inicio",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_fim": {
+					"name": "data_fim",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"observacoes": {
+					"name": "observacoes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"media_final": {
+					"name": "media_final",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"classificacao": {
+					"name": "classificacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"checklist_avaliacoes_template_id_idx": {
+					"name": "checklist_avaliacoes_template_id_idx",
+					"columns": ["template_id"],
+					"isUnique": false
+				},
+				"checklist_avaliacoes_unidade_id_idx": {
+					"name": "checklist_avaliacoes_unidade_id_idx",
+					"columns": ["unidade_id"],
+					"isUnique": false
+				},
+				"checklist_avaliacoes_avaliador_id_idx": {
+					"name": "checklist_avaliacoes_avaliador_id_idx",
+					"columns": ["avaliador_id"],
+					"isUnique": false
+				},
+				"checklist_avaliacoes_status_idx": {
+					"name": "checklist_avaliacoes_status_idx",
+					"columns": ["status"],
+					"isUnique": false
+				},
+				"checklist_avaliacoes_data_agendada_idx": {
+					"name": "checklist_avaliacoes_data_agendada_idx",
+					"columns": ["data_agendada"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"checklist_avaliacoes_template_id_checklist_templates_id_fk": {
+					"name": "checklist_avaliacoes_template_id_checklist_templates_id_fk",
+					"tableFrom": "checklist_avaliacoes",
+					"tableTo": "checklist_templates",
+					"columnsFrom": ["template_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"checklist_avaliacoes_unidade_id_unidades_id_fk": {
+					"name": "checklist_avaliacoes_unidade_id_unidades_id_fk",
+					"tableFrom": "checklist_avaliacoes",
+					"tableTo": "unidades",
+					"columnsFrom": ["unidade_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"checklist_avaliacoes_avaliador_id_users_id_fk": {
+					"name": "checklist_avaliacoes_avaliador_id_users_id_fk",
+					"tableFrom": "checklist_avaliacoes",
+					"tableTo": "users",
+					"columnsFrom": ["avaliador_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"checklist_respostas": {
+			"name": "checklist_respostas",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"avaliacao_id": {
+					"name": "avaliacao_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"item_id": {
+					"name": "item_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_nota": {
+					"name": "valor_nota",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"valor_boolean": {
+					"name": "valor_boolean",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"valor_texto": {
+					"name": "valor_texto",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"observacao": {
+					"name": "observacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"checklist_respostas_avaliacao_id_idx": {
+					"name": "checklist_respostas_avaliacao_id_idx",
+					"columns": ["avaliacao_id"],
+					"isUnique": false
+				},
+				"checklist_respostas_item_id_idx": {
+					"name": "checklist_respostas_item_id_idx",
+					"columns": ["item_id"],
+					"isUnique": false
+				},
+				"checklist_respostas_unique_idx": {
+					"name": "checklist_respostas_unique_idx",
+					"columns": ["avaliacao_id", "item_id"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"checklist_respostas_avaliacao_id_checklist_avaliacoes_id_fk": {
+					"name": "checklist_respostas_avaliacao_id_checklist_avaliacoes_id_fk",
+					"tableFrom": "checklist_respostas",
+					"tableTo": "checklist_avaliacoes",
+					"columnsFrom": ["avaliacao_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"checklist_respostas_item_id_checklist_items_id_fk": {
+					"name": "checklist_respostas_item_id_checklist_items_id_fk",
+					"tableFrom": "checklist_respostas",
+					"tableTo": "checklist_items",
+					"columnsFrom": ["item_id"],
 					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"

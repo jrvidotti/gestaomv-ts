@@ -1,10 +1,3 @@
-import {
-	classificacaoAvaliacaoPeriodicaEnum,
-	recomendacaoAvaliacaoEnum,
-	statusFuncionarioEnum,
-	tipoAvaliacaoExperienciaEnum,
-} from "./enums";
-
 // Status Funcionário
 export const STATUS_FUNCIONARIO = {
 	EM_CONTRATACAO: "EM_CONTRATACAO",
