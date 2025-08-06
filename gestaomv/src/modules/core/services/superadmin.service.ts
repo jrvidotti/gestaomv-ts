@@ -13,6 +13,7 @@ import {
 	executaExportacao,
 	executaImportacao,
 	materiaisConfig,
+	solicitacoesConfig,
 	tiposMaterialConfig,
 	unidadesConfig,
 	unidadesMedidaConfig,
@@ -286,6 +287,7 @@ export class SuperadminService {
 			equipesConfig,
 			cargosConfig,
 			materiaisConfig,
+			solicitacoesConfig,
 		];
 
 		const resultados = [];
@@ -294,7 +296,7 @@ export class SuperadminService {
 		if (operation === "export") {
 			for (const config of configs) {
 				try {
-					const resultado = await executaExportacao(config);
+					const resultado = await executaExportacao(config as any);
 					resultados.push(resultado);
 					outputs.push({
 						timestamp: resultado.timestamp || new Date().toISOString(),
@@ -321,7 +323,7 @@ export class SuperadminService {
 
 			for (const config of configs) {
 				try {
-					const resultado = await executaImportacao(config);
+					const resultado = await executaImportacao(config as any);
 					resultados.push(resultado);
 
 					if (resultado.arquivoEncontrado) {
