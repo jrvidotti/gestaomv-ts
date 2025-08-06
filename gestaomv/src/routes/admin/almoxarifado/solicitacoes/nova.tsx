@@ -22,7 +22,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -157,9 +157,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.GERENCIA_ALMOXARIFADO,
+				ALL_ROLES.USUARIO_ALMOXARIFADO,
 			]}
 		>
 			<AdminLayout header={header}>

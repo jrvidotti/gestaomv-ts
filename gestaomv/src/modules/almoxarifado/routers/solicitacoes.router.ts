@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	atenderSolicitacaoSchema,
 	atualizarSolicitacaoSchema,
@@ -12,16 +12,16 @@ import z from "zod";
 
 // Procedures específicos por role
 const aprovadorProcedure = createRoleProcedure([
-	USER_ROLES.ADMIN,
-	USER_ROLES.APROVADOR_ALMOXARIFADO,
+	ALL_ROLES.ADMIN,
+	ALL_ROLES.APROVADOR_ALMOXARIFADO,
 ]);
 const gestorAlmoxarifadoProcedure = createRoleProcedure([
-	USER_ROLES.ADMIN,
-	USER_ROLES.APROVADOR_ALMOXARIFADO,
-	USER_ROLES.GERENCIA_ALMOXARIFADO,
+	ALL_ROLES.ADMIN,
+	ALL_ROLES.APROVADOR_ALMOXARIFADO,
+	ALL_ROLES.GERENCIA_ALMOXARIFADO,
 ]);
 const gerenteAlmoxarifadoProcedure = createRoleProcedure([
-	USER_ROLES.GERENCIA_ALMOXARIFADO,
+	ALL_ROLES.GERENCIA_ALMOXARIFADO,
 ]);
 
 export const solicitacoesRouter = {
@@ -47,7 +47,7 @@ export const solicitacoesRouter = {
 
 			// Se não é admin, mostrar apenas suas próprias solicitações
 			if (
-				!ctx.user?.roles?.includes(USER_ROLES.ADMIN) &&
+				!ctx.user?.roles?.includes(ALL_ROLES.ADMIN) &&
 				!ctx.user?.roles?.includes("gerencia_almoxarifado")
 			) {
 				filtros.solicitanteId = ctx.user?.id;
@@ -68,7 +68,7 @@ export const solicitacoesRouter = {
 			// Verificar se o usuário pode ver essa solicitação
 			const isOwner = solicitacao.solicitanteId === ctx.user?.id;
 			const isAdmin =
-				ctx.user?.roles?.includes(USER_ROLES.ADMIN) ||
+				ctx.user?.roles?.includes(ALL_ROLES.ADMIN) ||
 				ctx.user?.roles?.includes("gerencia_almoxarifado");
 
 			if (!isOwner && !isAdmin) {

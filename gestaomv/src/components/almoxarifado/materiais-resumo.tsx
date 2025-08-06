@@ -1,8 +1,8 @@
 "use client";
 
+import { Thumbnail } from "@/components/thumbnail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Thumbnail } from "@/components/ui/thumbnail";
 import { Package } from "lucide-react";
 
 export interface MaterialResumo {

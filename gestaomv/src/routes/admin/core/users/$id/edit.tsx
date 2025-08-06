@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserRolesManager } from "@/components/user-roles-manager";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { UserRoleType } from "@/constants";
 import type { updateUserSchema } from "@/modules/core/dtos";
 import { useTRPC } from "@/trpc/react";
@@ -129,7 +129,7 @@ function EditUserPage() {
 
 	if (isLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-6xl mx-auto">
 						<Card>
@@ -162,7 +162,7 @@ function EditUserPage() {
 
 	if (error || !user) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-6xl mx-auto">
 						<Card>
@@ -187,7 +187,7 @@ function EditUserPage() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="max-w-6xl mx-auto space-y-6">
 					{/* Alerta para usuários recém-criados */}

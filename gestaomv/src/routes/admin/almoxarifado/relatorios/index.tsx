@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
 import type {
 	ConsumoAnalitico,
@@ -269,7 +269,7 @@ function RouteComponent() {
 
 	return (
 		<RouteGuard
-			requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_ALMOXARIFADO]}
+			requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.GERENCIA_ALMOXARIFADO]}
 		>
 			<AdminLayout header={header}>
 				<div className="space-y-6">

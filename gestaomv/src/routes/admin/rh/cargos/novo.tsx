@@ -26,7 +26,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	type CriarCargoData,
 	criarCargoSchema,
@@ -99,7 +99,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.GERENCIA_RH]}>
 			<AdminLayout header={header}>
 				<div className="max-w-2xl mx-auto">
 					<Card>

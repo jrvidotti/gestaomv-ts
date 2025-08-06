@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	createAdminSchema,
 	seedOperationSchema,
@@ -7,7 +7,7 @@ import { superadminService } from "@/modules/core/services/superadmin.service";
 import { createRoleProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
-const superadminProcedure = createRoleProcedure([USER_ROLES.SUPERADMIN]);
+const superadminProcedure = createRoleProcedure([ALL_ROLES.SUPERADMIN]);
 
 export const superadminRouter = {
 	getStats: superadminProcedure.query(async () => {

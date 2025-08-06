@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { AuthUser } from "@/lib/auth";
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
@@ -74,7 +74,7 @@ export const adminProcedure = t.procedure
 		}
 
 		// Verifica se o usuário tem role admin (principal ou adicional)
-		const hasAdminRole = ctx.user.roles.includes(USER_ROLES.ADMIN);
+		const hasAdminRole = ctx.user.roles.includes(ALL_ROLES.ADMIN);
 
 		if (!hasAdminRole) {
 			throw new TRPCError({

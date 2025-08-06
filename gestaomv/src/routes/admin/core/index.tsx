@@ -14,7 +14,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -59,7 +59,7 @@ function AdminCoreDashboard() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="space-y-6">
 					{/* Cards de Estatísticas */}

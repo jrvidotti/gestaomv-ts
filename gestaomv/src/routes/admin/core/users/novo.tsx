@@ -3,7 +3,7 @@ import { UserBasicForm } from "@/components/core/user-basic-form";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { createUserSchema } from "@/modules/core/dtos";
 import { useTRPC } from "@/trpc/react";
 import { useMutation } from "@tanstack/react-query";
@@ -68,7 +68,7 @@ function NovoUserPage() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="max-w-4xl mx-auto">
 					<UserBasicForm

@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	adminProcedure,
 	createRoleProcedure,
@@ -19,8 +19,8 @@ import { ChecklistAvaliacoesService } from "../services/avaliacoes.service";
 
 // Procedimento específico para avaliadores de checklist
 const avaliadorChecklistProcedure = createRoleProcedure([
-	USER_ROLES.ADMIN,
-	USER_ROLES.AVALIADOR_CHECKLIST,
+	ALL_ROLES.ADMIN,
+	ALL_ROLES.CHECKLIST_AVALIADOR,
 ]);
 
 export const avaliacoesRouter = createTRPCRouter({
@@ -30,9 +30,7 @@ export const avaliacoesRouter = createTRPCRouter({
 		.query(async ({ input, ctx }) => {
 			// Se não for admin ou avaliador_checklist, filtrar apenas suas próprias avaliações
 			const isAdminOrAvaliador = ctx.user.roles.some((role) =>
-				[USER_ROLES.ADMIN, USER_ROLES.AVALIADOR_CHECKLIST].includes(
-					role as any,
-				),
+				[ALL_ROLES.ADMIN, ALL_ROLES.CHECKLIST_AVALIADOR].includes(role as any),
 			);
 
 			const filtros = isAdminOrAvaliador
@@ -54,9 +52,7 @@ export const avaliacoesRouter = createTRPCRouter({
 
 			// Verificar se usuário tem permissão para ver a avaliação
 			const isAdminOrAvaliador = ctx.user.roles.some((role) =>
-				[USER_ROLES.ADMIN, USER_ROLES.AVALIADOR_CHECKLIST].includes(
-					role as any,
-				),
+				[ALL_ROLES.ADMIN, ALL_ROLES.CHECKLIST_AVALIADOR].includes(role as any),
 			);
 
 			if (!isAdminOrAvaliador && avaliacao.avaliadorId !== ctx.user.id) {
@@ -87,7 +83,7 @@ export const avaliacoesRouter = createTRPCRouter({
 			}
 
 			// Verificar permissões
-			const isAdmin = ctx.user.roles.includes(USER_ROLES.ADMIN);
+			const isAdmin = ctx.user.roles.includes(ALL_ROLES.ADMIN);
 			const isOwner = avaliacaoExistente.avaliadorId === ctx.user.id;
 
 			if (!isAdmin && !isOwner) {
@@ -111,7 +107,7 @@ export const avaliacoesRouter = createTRPCRouter({
 				throw new Error("Avaliação não encontrada");
 			}
 
-			const isAdmin = ctx.user.roles.includes(USER_ROLES.ADMIN);
+			const isAdmin = ctx.user.roles.includes(ALL_ROLES.ADMIN);
 			const isOwner = avaliacaoExistente.avaliadorId === ctx.user.id;
 
 			if (!isAdmin && !isOwner) {

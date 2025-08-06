@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { USER_ROLES_DATA } from "@/constants";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES, ALL_ROLES_DATA } from "@/constants";
 import type { UserRoleType } from "@/constants";
 
 interface RoleBadgeProps {
@@ -15,7 +14,7 @@ interface MultipleRoleBadgeProps {
 }
 
 export function RoleBadge({ role, className }: RoleBadgeProps) {
-	const roleData = USER_ROLES_DATA[role];
+	const roleData = ALL_ROLES_DATA[role];
 
 	if (!roleData) {
 		return (
@@ -26,7 +25,7 @@ export function RoleBadge({ role, className }: RoleBadgeProps) {
 	}
 
 	const getVariant = (role: UserRoleType) => {
-		if (role === USER_ROLES.ADMIN) return "destructive";
+		if (role === ALL_ROLES.ADMIN) return "destructive";
 
 		if (role.startsWith("gerencia_")) return "default";
 

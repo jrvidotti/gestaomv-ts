@@ -1,5 +1,5 @@
 import { USER_ROLES_DATA } from "@/constants";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { env } from "@/env";
 import { configuracoesService } from "@/modules/core/services/configuracoes.service";
 import { emailService } from "@/modules/core/services/email.service";
@@ -371,8 +371,8 @@ export class NotificationsService {
 
 			// Buscar todos os aprovadores de almoxarifado
 			const aprovadores = await usersService.findUsersByRoles([
-				USER_ROLES.ADMIN,
-				USER_ROLES.APROVADOR_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.APROVADOR_ALMOXARIFADO,
 			]);
 
 			if (aprovadores.length === 0) {
@@ -448,9 +448,9 @@ export class NotificationsService {
 
 			// Buscar todos os gerentes de almoxarifado
 			const gerentes = await usersService.findUsersByRoles([
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.APROVADOR_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.GERENCIA_ALMOXARIFADO,
+				ALL_ROLES.APROVADOR_ALMOXARIFADO,
 			]);
 
 			if (gerentes.length === 0) {

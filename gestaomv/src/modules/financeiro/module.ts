@@ -1,8 +1,12 @@
 import { MODULE_STATUS, type ModuleData } from "@/constants";
-import { USER_ROLES } from "@/constants";
 import { CreditCard, DollarSign, Receipt, TrendingUp } from "lucide-react";
 
-export const MODULE_DATA_FINANCEIRO: ModuleData = {
+export const MODULE_ROLES = {
+	GERENCIA_FINANCEIRO: "gerencia_financeiro",
+	USUARIO_FINANCEIRO: "usuario_financeiro",
+} as const;
+
+export const MODULE_DATA: ModuleData = {
 	module: "financeiro",
 	title: "Financeiro",
 	description: "Contas a pagar, receber e fluxo de caixa",
@@ -10,6 +14,20 @@ export const MODULE_DATA_FINANCEIRO: ModuleData = {
 	color: "bg-green-500",
 	status: MODULE_STATUS.DESENVOLVIMENTO,
 	icon: DollarSign,
+	moduleRoles: MODULE_ROLES,
+	moduleRolesData: {
+		[MODULE_ROLES.GERENCIA_FINANCEIRO]: {
+			value: MODULE_ROLES.GERENCIA_FINANCEIRO,
+			label: "Gerente Financeiro",
+			description: "Acesso de gerenciamento de Financeiro",
+			color: "default",
+		},
+		[MODULE_ROLES.USUARIO_FINANCEIRO]: {
+			value: MODULE_ROLES.USUARIO_FINANCEIRO,
+			label: "Usuário Financeiro",
+			description: "Acesso de usuário de Financeiro",
+		},
+	} as const,
 	items: [
 		{
 			title: "Contas a Pagar",
@@ -28,8 +46,8 @@ export const MODULE_DATA_FINANCEIRO: ModuleData = {
 			url: "/admin/financeiro/cashflow",
 			icon: TrendingUp,
 			status: MODULE_STATUS.DESENVOLVIMENTO,
-			roles: [USER_ROLES.GERENCIA_FINANCEIRO],
+			roles: [MODULE_ROLES.GERENCIA_FINANCEIRO],
 		},
 	],
-	roles: [USER_ROLES.GERENCIA_FINANCEIRO, USER_ROLES.USUARIO_FINANCEIRO],
+	roles: [MODULE_ROLES.GERENCIA_FINANCEIRO, MODULE_ROLES.USUARIO_FINANCEIRO],
 } as const;

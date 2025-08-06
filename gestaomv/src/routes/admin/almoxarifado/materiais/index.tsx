@@ -27,7 +27,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { FiltrosMateriais } from "@/modules/almoxarifado/dtos/materiais";
 import { useTRPC } from "@/trpc/react";
@@ -148,9 +148,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.GERENCIA_ALMOXARIFADO,
+				ALL_ROLES.USUARIO_ALMOXARIFADO,
 			]}
 		>
 			<AdminLayout header={header}>

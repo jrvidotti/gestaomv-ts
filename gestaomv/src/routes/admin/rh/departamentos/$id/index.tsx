@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { STATUS_FUNCIONARIO_DATA } from "@/modules/rh/consts";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
@@ -70,9 +70,9 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.GERENCIA_RH,
-					USER_ROLES.USUARIO_RH,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.GERENCIA_RH,
+					ALL_ROLES.USUARIO_RH,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -88,9 +88,9 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.GERENCIA_RH,
-					USER_ROLES.USUARIO_RH,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.GERENCIA_RH,
+					ALL_ROLES.USUARIO_RH,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -105,9 +105,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_RH,
-				USER_ROLES.USUARIO_RH,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.GERENCIA_RH,
+				ALL_ROLES.USUARIO_RH,
 			]}
 		>
 			<AdminLayout header={header}>

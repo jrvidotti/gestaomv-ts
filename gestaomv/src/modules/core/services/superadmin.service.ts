@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { db } from "@/db";
 import { schema } from "@/db";
 import { getDatabaseMigrations } from "@/db";
@@ -258,7 +258,7 @@ export class SuperadminService {
 						name: "SuperAdmin",
 						isActive: true,
 					},
-					[USER_ROLES.SUPERADMIN, USER_ROLES.ADMIN],
+					[ALL_ROLES.SUPERADMIN, ALL_ROLES.ADMIN],
 				);
 
 			return {

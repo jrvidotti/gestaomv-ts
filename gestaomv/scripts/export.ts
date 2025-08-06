@@ -1,18 +1,7 @@
 import {
 	type ResultExportacao,
-	type ResultImportacao,
-	cargosConfig,
-	consultasCpfConfig,
-	departamentosConfig,
-	empresasConfig,
-	equipesConfig,
 	executaExportacao,
-	materiaisConfig,
 	solicitacoesConfig,
-	tiposMaterialConfig,
-	unidadesConfig,
-	unidadesMedidaConfig,
-	usersConfig,
 } from "@/lib/import-export";
 
 async function main() {

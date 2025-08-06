@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { ResultadoImportacao } from "@/modules/core/dtos";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -140,7 +140,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.GERENCIA_RH]}>
 			<AdminLayout header={header}>
 				<div className="space-y-6">
 					{/* Seção de Importação de Funcionários */}

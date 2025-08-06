@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -51,7 +51,7 @@ function ConfiguracoesPage() {
 
 	// Filtrar apenas administradores
 	const adminUsers =
-		users?.filter((user) => user.roles.includes(USER_ROLES.ADMIN)) || [];
+		users?.filter((user) => user.roles.includes(ALL_ROLES.ADMIN)) || [];
 
 	// Sincronizar configurações com estado local quando carregadas
 	useEffect(() => {
@@ -108,7 +108,7 @@ function ConfiguracoesPage() {
 
 	if (configLoading || usersLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="space-y-6">
 						{[1, 2, 3].map((i) => (
@@ -129,7 +129,7 @@ function ConfiguracoesPage() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="space-y-6">
 					{/* Card 1 - Configurações do Sistema */}
