@@ -1,7 +1,7 @@
+import type { UserRoleType } from "@/constants";
 import { getDatabase } from "@/db";
 import { userRoles, users } from "@/db/schemas";
 import type { ImportExportOptions } from "@/lib/import-export";
-import type { UserRoleType } from "@/modules/core/types";
 import bcrypt from "bcrypt";
 
 export interface UserImport {

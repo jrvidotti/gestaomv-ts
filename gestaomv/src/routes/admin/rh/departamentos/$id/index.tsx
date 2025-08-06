@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/modules/core/enums";
+import { USER_ROLES } from "@/constants";
 import { STATUS_FUNCIONARIO_DATA } from "@/modules/rh/consts";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";

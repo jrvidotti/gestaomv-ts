@@ -26,7 +26,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/modules/core/enums";
+import { USER_ROLES } from "@/constants";
 import {
 	type AtualizarCargoData,
 	atualizarCargoSchema,

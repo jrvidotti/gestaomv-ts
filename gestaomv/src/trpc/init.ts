@@ -1,5 +1,5 @@
+import { USER_ROLES } from "@/constants";
 import type { AuthUser } from "@/lib/auth";
-import { USER_ROLES } from "@/modules/core/enums";
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 

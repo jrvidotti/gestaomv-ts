@@ -18,7 +18,9 @@ src/modules/checklist/
 │   ├── templates.ts   # Validações para templates
 │   ├── avaliacoes.ts  # Validações para avaliações
 │   └── index.ts
-├── enums.ts          # Enumerações e constantes
+├── enums/            # Enumerações e constantes
+│   ├── index.ts
+│   └── ...
 ├── routers/          # Endpoints tRPC
 │   ├── templates.router.ts
 │   ├── avaliacoes.router.ts
@@ -31,33 +33,34 @@ src/modules/checklist/
 │   ├── templates.service.ts
 │   └── avaliacoes.service.ts
 ├── types.ts          # Tipos TypeScript
-└── CLAUDE.md        # Esta documentação
+├── module.ts         # Configuração do módulo
+└── CLAUDE.md         # Esta documentação
 ```
 
 ## Enums e Constantes
 
 ### Tipos de Item (`tipoItemChecklistEnum`)
-- `"nota_1_5"` - Avaliação com nota de 1 a 5
-- `"sim_nao"` - Resposta Sim/Não (booleano)  
+- `"NOTA_1_5"` - Avaliação com nota de 1 a 5
+- `"SIM_NAO"` - Resposta Sim/Não (booleano)  
 - `"texto"` - Campo de texto livre
 
 ### Status das Avaliações (`statusAvaliacaoEnum`)
-- `"pendente"` - Avaliação criada mas não iniciada
-- `"em_andamento"` - Avaliação sendo preenchida
-- `"concluida"` - Avaliação finalizada com nota calculada
-- `"cancelada"` - Avaliação cancelada
+- `"PENDENTE"` - Avaliação criada mas não iniciada
+- `"EM_ANDAMENTO"` - Avaliação sendo preenchida
+- `"CONCLUIDA"` - Avaliação finalizada com nota calculada
+- `"CANCELADA"` - Avaliação cancelada
 
 ### Periodicidade (`periodicidadeEnum`)
-- `"semanal"`, `"quinzenal"`, `"mensal"`
-- `"bimestral"`, `"trimestral"`, `"semestral"`
-- `"anual"`, `"unica"` (avaliação única/pontual)
+- `"SEMANAL"`, `"QUINZENAL"`, `"MENSAL"`
+- `"BIMESTRAL"`, `"TRIMESTRAL"`, `"SEMESTRAL"`
+- `"ANUAL"`, `"UNICA"` (avaliação única/pontual)
 
 ### Classificação das Notas (`classificacaoNotaEnum`)
-- `"excelente"` - 4.5 a 5.0
-- `"bom"` - 3.5 a 4.4
-- `"regular"` - 2.5 a 3.4
-- `"ruim"` - 1.5 a 2.4
-- `"pessimo"` - 1.0 a 1.4
+- `"EXCELENTE"` - 4.5 a 5.0
+- `"BOM"` - 3.5 a 4.4
+- `"REGULAR"` - 2.5 a 3.4
+- `"RUIM"` - 1.5 a 2.4
+- `"PESSIMO"` - 1.0 a 1.4
 
 ## Esquemas de Banco de Dados
 
@@ -120,7 +123,7 @@ src/modules/checklist/
   - Permissão: `protectedProcedure`
 
 - **`buscar`** - Busca template por ID
-  - Input: `{ id, incluirItens? }`
+  - Input: `{ id }`
   - Output: Template com itens opcionais
   - Permissão: `protectedProcedure`
 
@@ -169,7 +172,7 @@ src/modules/checklist/
   - Permissão: `protectedProcedure`
 
 - **`buscar`** - Busca avaliação por ID
-  - Input: `{ id, incluirRespostas?, incluirTemplate? }`
+  - Input: `{ id }`
   - Output: Avaliação completa com relacionamentos
   - Permissão: `protectedProcedure`
 
@@ -208,7 +211,7 @@ src/modules/checklist/
 #### Métodos Principais
 - **`criar(data, criadoPorId)`** - Cria template com itens em transação
 - **`listar(filtros)`** - Lista templates com paginação e filtros
-- **`buscar(id, incluirItens)`** - Busca template com itens opcionais
+- **`buscar(id)`** - Busca template com itens opcionais
 - **`atualizar(id, data)`** - Atualiza template
 - **`deletar(id)`** - Soft delete do template
 - **`adicionarItem(templateId, itemData)`** - Adiciona item com ordem automática
@@ -221,7 +224,7 @@ src/modules/checklist/
 #### Métodos Principais
 - **`criar(data, avaliadorId)`** - Cria avaliação com respostas opcionais
 - **`listar(filtros)`** - Lista avaliações com relacionamentos
-- **`buscar(id, incluirRespostas, incluirTemplate)`** - Busca avaliação completa
+- **`buscar(id)`** - Busca avaliação completa
 - **`atualizar(id, data)`** - Atualiza avaliação e respostas em transação
 - **`deletar(id)`** - Remove avaliação
 - **`finalizarAvaliacao(id, tx?)`** - Calcula média e finaliza
@@ -361,6 +364,7 @@ Média final: 17.5 / 4.5 = 3.89
 
 ### Integração com Outros Módulos
 - **Core**: Usuários, empresas e unidades
-- **RH**: Funcionários como avaliadores  
+- **RH**: Funcionários como avaliadores
 - **Almoxarifado**: Avaliações de estoque
 - **Notifications**: Alertas de avaliações pendentes
+

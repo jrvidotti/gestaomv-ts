@@ -26,7 +26,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/modules/core/enums";
+import { USER_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";

@@ -1,8 +1,8 @@
 import { MateriaisImpressao } from "@/components/almoxarifado/materiais-impressao";
 import type { MaterialVisualizacao } from "@/components/almoxarifado/materiais-visualizacao";
 import { RouteGuard } from "@/components/auth/route-guard";
+import { USER_ROLES } from "@/constants";
 import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";

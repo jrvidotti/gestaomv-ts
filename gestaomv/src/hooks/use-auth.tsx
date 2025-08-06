@@ -1,4 +1,4 @@
-import type { UserRoleType } from "@/modules/core/types";
+import type { UserRoleType } from "@/constants";
 import { trpcClient } from "@/providers/root-provider";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -21,7 +21,7 @@ interface AuthContextType {
 	register: (data: RegisterInput) => Promise<void>;
 	logout: () => Promise<void>;
 	hasRole: (role: UserRoleType | string) => boolean;
-	hasAnyRole: (roles: (UserRoleType | string)[]) => boolean;
+	hasAnyRole: (roles: readonly (UserRoleType | string)[]) => boolean;
 	getAllRoles: () => UserRoleType[];
 	getUserRoles: (userId: number) => Promise<UserRoleType[]>;
 }
@@ -122,7 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	};
 
 	// Verifica se o usuário tem pelo menos uma das roles especificadas
-	const hasAnyRole = (roles: (UserRoleType | string)[]): boolean => {
+	const hasAnyRole = (roles: readonly (UserRoleType | string)[]): boolean => {
 		if (!user) return false;
 		return roles.some((role) => hasRole(role));
 	};

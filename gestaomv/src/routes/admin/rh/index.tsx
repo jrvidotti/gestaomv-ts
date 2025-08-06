@@ -17,7 +17,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { USER_ROLES } from "@/modules/core/enums";
+import { USER_ROLES } from "@/constants";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";

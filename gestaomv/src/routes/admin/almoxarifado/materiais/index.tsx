@@ -27,9 +27,9 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { USER_ROLES } from "@/constants";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { FiltrosMateriais } from "@/modules/almoxarifado/dtos/materiais";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";

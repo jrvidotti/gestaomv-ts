@@ -18,9 +18,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { USER_ROLES } from "@/constants";
 import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";

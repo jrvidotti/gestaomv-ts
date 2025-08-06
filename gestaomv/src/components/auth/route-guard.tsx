@@ -1,8 +1,8 @@
 "use client";
 
+import type { UserRoleType } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { usePermissions } from "@/hooks/use-permissions";
-import type { UserRoleType } from "@/modules/core/types";
 import { useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Unauthorized } from "./unauthorized";

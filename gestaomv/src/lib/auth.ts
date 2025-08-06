@@ -1,4 +1,4 @@
-import type { UserRoleType } from "@/modules/core/types";
+import type { UserRoleType } from "@/constants";
 import jwt from "jsonwebtoken";
 
 export interface AuthUser {

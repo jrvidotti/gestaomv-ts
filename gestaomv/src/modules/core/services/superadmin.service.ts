@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { USER_ROLES } from "@/constants";
 import { db } from "@/db";
 import { schema } from "@/db";
 import { getDatabaseMigrations } from "@/db";
@@ -19,7 +20,6 @@ import {
 	unidadesMedidaConfig,
 	usersConfig,
 } from "@/lib/import-export";
-import { USER_ROLES } from "@/modules/core/enums";
 import { count, sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import type {

@@ -1,6 +1,6 @@
+import { USER_ROLES_ARRAY } from "@/constants";
+import type { UserRoleType } from "@/constants";
 import z from "zod";
-import { USER_ROLES_ARRAY } from "../enums";
-import type { UserRoleType } from "../types";
 
 const userRoleEnumSchema = z.enum(USER_ROLES_ARRAY) as z.ZodType<UserRoleType>;
 

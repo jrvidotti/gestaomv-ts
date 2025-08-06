@@ -1,5 +1,6 @@
+import type { UserRoleType } from "@/constants";
+
 import type { Funcionario } from "@/modules/rh/types";
-import type { USER_ROLES } from "./enums";
 import type {
 	consultasCpf,
 	empresas,
@@ -11,9 +12,11 @@ import type {
 
 // ===== USERS =====
 
-export type UserRoleType = (typeof USER_ROLES)[keyof typeof USER_ROLES];
 export type UserRole = typeof userRoles.$inferSelect;
 export type CriarUserRole = typeof userRoles.$inferInsert;
+
+// somente para compatibilidade
+export type { UserRoleType } from "@/constants";
 
 export type User = typeof users.$inferSelect & {
 	roles: UserRoleType[];

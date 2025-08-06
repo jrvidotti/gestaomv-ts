@@ -1,6 +1,6 @@
 "use client";
 
-import type { UserRoleType } from "@/modules/core/types";
+import type { UserRoleType } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

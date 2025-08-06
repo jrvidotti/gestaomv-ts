@@ -13,8 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { USER_ROLES } from "@/constants";
 import type { ResultadoImportacao } from "@/modules/core/dtos";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";

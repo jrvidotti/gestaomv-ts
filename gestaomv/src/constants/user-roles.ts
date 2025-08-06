@@ -1,5 +1,37 @@
-import { USER_ROLES } from "@/modules/core/enums";
-import type { UserRoleType } from "@/modules/core/types";
+import {
+	USER_ROLES_ALMOXARIFADO,
+	USER_ROLES_ALMOXARIFADO_DATA,
+} from "@/modules/almoxarifado/roles";
+import {
+	USER_ROLES_CHECKLIST,
+	USER_ROLES_CHECKLIST_DATA,
+} from "@/modules/checklist/roles";
+import { USER_ROLES_CORE, USER_ROLES_CORE_DATA } from "@/modules/core/roles";
+import { USER_ROLES_CRM, USER_ROLES_CRM_DATA } from "@/modules/crm/roles";
+import {
+	USER_ROLES_FINANCEIRO,
+	USER_ROLES_FINANCEIRO_DATA,
+} from "@/modules/financeiro/roles";
+import { USER_ROLES_RH, USER_ROLES_RH_DATA } from "@/modules/rh/roles";
+import { USER_ROLES_RMA, USER_ROLES_RMA_DATA } from "@/modules/rma/roles";
+
+// User Roles Constants
+export const USER_ROLES = {
+	...USER_ROLES_CORE,
+	...USER_ROLES_RH,
+	...USER_ROLES_ALMOXARIFADO,
+	...USER_ROLES_CHECKLIST,
+	...USER_ROLES_RMA,
+	...USER_ROLES_CRM,
+	...USER_ROLES_FINANCEIRO,
+} as const;
+
+export type UserRoleType = (typeof USER_ROLES)[keyof typeof USER_ROLES];
+
+export const USER_ROLES_ARRAY = Object.values(USER_ROLES) as [
+	string,
+	...string[],
+];
 
 // User Roles Map with Labels
 export interface UserRoleData {
@@ -10,89 +42,13 @@ export interface UserRoleData {
 }
 
 export const USER_ROLES_DATA: Record<UserRoleType, UserRoleData> = {
-	[USER_ROLES.SUPERADMIN]: {
-		value: USER_ROLES.SUPERADMIN,
-		label: "Superadmin",
-		description: "Acesso total ao sistema (superusuário)",
-		color: "destructive",
-	},
-	[USER_ROLES.ADMIN]: {
-		value: USER_ROLES.ADMIN,
-		label: "Administrador",
-		description: "Acesso total ao sistema",
-		color: "destructive",
-	},
-	[USER_ROLES.GERENCIA_RH]: {
-		value: USER_ROLES.GERENCIA_RH,
-		label: "Gerente RH",
-		description: "Acesso de gerenciamento de RH",
-		color: "default",
-	},
-	[USER_ROLES.GERENCIA_RMA]: {
-		value: USER_ROLES.GERENCIA_RMA,
-		label: "Gerente RMA",
-		description: "Acesso de gerenciamento de RMA",
-		color: "default",
-	},
-	[USER_ROLES.GERENCIA_ALMOXARIFADO]: {
-		value: USER_ROLES.GERENCIA_ALMOXARIFADO,
-		label: "Gerente Almoxarifado",
-		description:
-			"Atendimento de solicitações e ajuste controlado de quantidades (apenas redução)",
-		color: "default",
-	},
-	[USER_ROLES.APROVADOR_ALMOXARIFADO]: {
-		value: USER_ROLES.APROVADOR_ALMOXARIFADO,
-		label: "Aprovador Almoxarifado",
-		description:
-			"Aprovação/rejeição e atendimento de solicitações com controle total de quantidades",
-		color: "secondary",
-	},
-	[USER_ROLES.GERENCIA_FINANCEIRO]: {
-		value: USER_ROLES.GERENCIA_FINANCEIRO,
-		label: "Gerente Financeiro",
-		description: "Acesso de gerenciamento de Financeiro",
-		color: "default",
-	},
-	[USER_ROLES.GERENCIA_CRM]: {
-		value: USER_ROLES.GERENCIA_CRM,
-		label: "Gerente CRM",
-		description: "Acesso de gerenciamento de CRM",
-		color: "default",
-	},
-	[USER_ROLES.AVALIADOR_CHECKLIST]: {
-		value: USER_ROLES.AVALIADOR_CHECKLIST,
-		label: "Avaliador Checklist",
-		description:
-			"Responsável por avaliar unidades através de checklists periódicos",
-		color: "secondary",
-	},
-	[USER_ROLES.USUARIO_RH]: {
-		value: USER_ROLES.USUARIO_RH,
-		label: "Usuário RH",
-		description: "Acesso de usuário de RH",
-	},
-	[USER_ROLES.USUARIO_RMA]: {
-		value: USER_ROLES.USUARIO_RMA,
-		label: "Usuário RMA",
-		description: "Acesso de usuário de RMA",
-	},
-	[USER_ROLES.USUARIO_ALMOXARIFADO]: {
-		value: USER_ROLES.USUARIO_ALMOXARIFADO,
-		label: "Usuário Almoxarifado",
-		description:
-			"Criação e acompanhamento de solicitações próprias, cancelamento de pendentes",
-	},
-	[USER_ROLES.USUARIO_FINANCEIRO]: {
-		value: USER_ROLES.USUARIO_FINANCEIRO,
-		label: "Usuário Financeiro",
-		description: "Acesso de usuário de Financeiro",
-	},
-	[USER_ROLES.USUARIO_CRM]: {
-		value: USER_ROLES.USUARIO_CRM,
-		label: "Usuário CRM",
-		description: "Acesso de usuário de CRM",
-	},
+	...USER_ROLES_CORE_DATA,
+	...USER_ROLES_RH_DATA,
+	...USER_ROLES_ALMOXARIFADO_DATA,
+	...USER_ROLES_CHECKLIST_DATA,
+	...USER_ROLES_RMA_DATA,
+	...USER_ROLES_CRM_DATA,
+	...USER_ROLES_FINANCEIRO_DATA,
 } as const;
 
 // Utility functions

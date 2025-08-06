@@ -32,6 +32,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { USER_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import {
@@ -41,7 +42,6 @@ import {
 import type { FiltrosSolicitacoes } from "@/modules/almoxarifado/dtos";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import type { SolicitacaoMaterial } from "@/modules/almoxarifado/types";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";

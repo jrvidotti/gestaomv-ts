@@ -1,4 +1,4 @@
-import { USER_ROLES } from "@/modules/core/enums";
+import { USER_ROLES } from "@/constants";
 import {
 	adminProcedure,
 	createRoleProcedure,

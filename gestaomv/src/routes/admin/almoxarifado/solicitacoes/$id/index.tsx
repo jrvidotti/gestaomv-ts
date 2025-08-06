@@ -13,10 +13,10 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { USER_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
-import { USER_ROLES } from "@/modules/core/enums";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";

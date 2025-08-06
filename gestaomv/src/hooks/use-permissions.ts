@@ -1,13 +1,13 @@
 import { MODULES, MODULES_DATA, type ModuleType } from "@/constants";
+import { USER_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
-import { USER_ROLES } from "@/modules/core/enums";
 
 interface UsePermissionsReturn {
 	canAccessModule: (moduleId: ModuleType) => boolean;
 	canAccessPage: (pageUrl: string) => boolean;
-	getAccessibleModules: () => typeof MODULES_DATA;
+	getAccessibleModules: () => (typeof MODULES_DATA)[number][];
 	hasModuleAccess: (moduleId: ModuleType) => boolean;
-	getDefaultAccessibleModule: () => (typeof MODULES_DATA)[0] | null;
+	getDefaultAccessibleModule: () => (typeof MODULES_DATA)[number] | null;
 	isAdmin: boolean;
 }
 
@@ -56,7 +56,7 @@ export function usePermissions(): UsePermissionsReturn {
 		const moduleId = urlParts[2] as ModuleType;
 
 		// Verificar se é um módulo válido
-		if (!Object.values(MODULES).includes(moduleId)) return false;
+		if (!MODULES.includes(moduleId)) return false;
 
 		const moduleData = MODULES_DATA.find((m) => m.module === moduleId);
 		if (!moduleData) return false;
@@ -84,7 +84,9 @@ export function usePermissions(): UsePermissionsReturn {
 	};
 
 	const getAccessibleModules = () => {
-		return MODULES_DATA.filter((module) => canAccessModule(module.module));
+		return MODULES_DATA.filter((module) =>
+			canAccessModule(module.module as ModuleType),
+		);
 	};
 
 	const hasModuleAccess = (moduleId: ModuleType): boolean => {

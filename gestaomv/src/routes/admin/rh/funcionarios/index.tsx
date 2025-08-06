@@ -34,8 +34,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { USER_ROLES } from "@/constants";
 import { useDebounce } from "@/hooks/use-debounce";
-import { USER_ROLES } from "@/modules/core/enums";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
 import {
 	STATUS_FUNCIONARIO_DATA,

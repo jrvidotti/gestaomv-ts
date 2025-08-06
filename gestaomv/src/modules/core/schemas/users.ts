@@ -1,3 +1,5 @@
+import { USER_ROLES_ARRAY } from "@/constants";
+import type { UserRoleType } from "@/constants";
 import { idAutoIncrement } from "@/db/helpers";
 import { relations, sql } from "drizzle-orm";
 import {
@@ -6,8 +8,6 @@ import {
 	sqliteTable,
 	text,
 } from "drizzle-orm/sqlite-core";
-import { USER_ROLES_ARRAY } from "../enums";
-import type { UserRoleType } from "../types";
 
 export const users = sqliteTable("users", {
 	id: idAutoIncrement(),

@@ -1,8 +1,8 @@
+import { USER_ROLES } from "@/constants";
 import {
 	createAdminSchema,
 	seedOperationSchema,
 } from "@/modules/core/dtos/superadmin";
-import { USER_ROLES } from "@/modules/core/enums";
 import { superadminService } from "@/modules/core/services/superadmin.service";
 import { createRoleProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { USER_ROLES_DATA } from "@/constants";
-import { USER_ROLES } from "@/modules/core/enums";
-import type { UserRoleType } from "@/modules/core/types";
+import { USER_ROLES } from "@/constants";
+import type { UserRoleType } from "@/constants";
 
 interface RoleBadgeProps {
 	role: UserRoleType;

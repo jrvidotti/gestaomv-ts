@@ -1,6 +1,6 @@
 import { USER_ROLES_DATA } from "@/constants";
+import { USER_ROLES } from "@/constants";
 import { env } from "@/env";
-import { USER_ROLES } from "@/modules/core/enums";
 import { configuracoesService } from "@/modules/core/services/configuracoes.service";
 import { emailService } from "@/modules/core/services/email.service";
 import { templateService } from "@/modules/core/services/template.service";

@@ -280,164 +280,171 @@ function AvaliacoesListPage() {
 	return (
 		<AdminLayout header={header}>
 			<div className="space-y-6">
+				<Card>
+					<CardHeader>
+						<CardTitle>Filtros</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<form onSubmit={handleSearch} className="flex gap-4 items-end">
+							<div>
+								<label className="text-sm font-medium mb-2 block">Status</label>
+								<Select
+									value={filtros.status || "all"}
+									onValueChange={(value) =>
+										setFiltros((prev) => ({
+											...prev,
+											status: value === "all" ? "" : value,
+										}))
+									}
+								>
+									<SelectTrigger>
+										<SelectValue placeholder="Todos" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="all">Todos</SelectItem>
+										<SelectItem value="pendente">Pendente</SelectItem>
+										<SelectItem value="em_andamento">Em Andamento</SelectItem>
+										<SelectItem value="concluida">Concluída</SelectItem>
+										<SelectItem value="cancelada">Cancelada</SelectItem>
+									</SelectContent>
+								</Select>
+							</div>
+							<div>
+								<label className="text-sm font-medium mb-2 block">
+									Classificação
+								</label>
+								<Select
+									value={filtros.classificacao || "all"}
+									onValueChange={(value) =>
+										setFiltros((prev) => ({
+											...prev,
+											classificacao: value === "all" ? "" : value,
+										}))
+									}
+								>
+									<SelectTrigger>
+										<SelectValue placeholder="Todas" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="all">Todas</SelectItem>
+										<SelectItem value="excelente">Excelente</SelectItem>
+										<SelectItem value="bom">Bom</SelectItem>
+										<SelectItem value="regular">Regular</SelectItem>
+										<SelectItem value="ruim">Ruim</SelectItem>
+										<SelectItem value="pessimo">Péssimo</SelectItem>
+									</SelectContent>
+								</Select>
+							</div>
+							<div>
+								<label className="text-sm font-medium mb-2 block">
+									Data Início
+								</label>
+								<Input
+									type="date"
+									value={filtros.dataInicio}
+									onChange={(e) =>
+										setFiltros((prev) => ({
+											...prev,
+											dataInicio: e.target.value,
+										}))
+									}
+								/>
+							</div>
+							<div>
+								<label className="text-sm font-medium mb-2 block">
+									Data Fim
+								</label>
+								<Input
+									type="date"
+									value={filtros.dataFim}
+									onChange={(e) =>
+										setFiltros((prev) => ({ ...prev, dataFim: e.target.value }))
+									}
+								/>
+							</div>
+							<Button type="submit">
+								<Search className="w-4 h-4 mr-2" />
+								Buscar
+							</Button>
+						</form>
+					</CardContent>
+				</Card>
 
-			<Card>
-				<CardHeader>
-					<CardTitle>Filtros</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<form onSubmit={handleSearch} className="flex gap-4 items-end">
-						<div>
-							<label className="text-sm font-medium mb-2 block">Status</label>
-							<Select
-								value={filtros.status || "all"}
-								onValueChange={(value) =>
-									setFiltros((prev) => ({ ...prev, status: value === "all" ? "" : value }))
-								}
-							>
-								<SelectTrigger>
-									<SelectValue placeholder="Todos" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">Todos</SelectItem>
-									<SelectItem value="pendente">Pendente</SelectItem>
-									<SelectItem value="em_andamento">Em Andamento</SelectItem>
-									<SelectItem value="concluida">Concluída</SelectItem>
-									<SelectItem value="cancelada">Cancelada</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-						<div>
-							<label className="text-sm font-medium mb-2 block">
-								Classificação
-							</label>
-							<Select
-								value={filtros.classificacao || "all"}
-								onValueChange={(value) =>
-									setFiltros((prev) => ({ ...prev, classificacao: value === "all" ? "" : value }))
-								}
-							>
-								<SelectTrigger>
-									<SelectValue placeholder="Todas" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="all">Todas</SelectItem>
-									<SelectItem value="excelente">Excelente</SelectItem>
-									<SelectItem value="bom">Bom</SelectItem>
-									<SelectItem value="regular">Regular</SelectItem>
-									<SelectItem value="ruim">Ruim</SelectItem>
-									<SelectItem value="pessimo">Péssimo</SelectItem>
-								</SelectContent>
-							</Select>
-						</div>
-						<div>
-							<label className="text-sm font-medium mb-2 block">
-								Data Início
-							</label>
-							<Input
-								type="date"
-								value={filtros.dataInicio}
-								onChange={(e) =>
-									setFiltros((prev) => ({
-										...prev,
-										dataInicio: e.target.value,
-									}))
-								}
-							/>
-						</div>
-						<div>
-							<label className="text-sm font-medium mb-2 block">Data Fim</label>
-							<Input
-								type="date"
-								value={filtros.dataFim}
-								onChange={(e) =>
-									setFiltros((prev) => ({ ...prev, dataFim: e.target.value }))
-								}
-							/>
-						</div>
-						<Button type="submit">
-							<Search className="w-4 h-4 mr-2" />
-							Buscar
-						</Button>
-					</form>
-				</CardContent>
-			</Card>
-
-			<Card>
-				<CardContent className="p-0">
-					<Table>
-						<TableHeader>
-							{table.getHeaderGroups().map((headerGroup) => (
-								<TableRow key={headerGroup.id}>
-									{headerGroup.headers.map((header) => (
-										<TableHead key={header.id}>
-											{header.isPlaceholder
-												? null
-												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
-										</TableHead>
-									))}
-								</TableRow>
-							))}
-						</TableHeader>
-						<TableBody>
-							{isLoading ? (
-								<TableRow>
-									<TableCell
-										colSpan={columns.length}
-										className="h-24 text-center"
-									>
-										Carregando...
-									</TableCell>
-								</TableRow>
-							) : table.getRowModel().rows?.length ? (
-								table.getRowModel().rows.map((row) => (
-									<TableRow key={row.id}>
-										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>
-												{flexRender(
-													cell.column.columnDef.cell,
-													cell.getContext(),
-												)}
-											</TableCell>
+				<Card>
+					<CardContent className="p-0">
+						<Table>
+							<TableHeader>
+								{table.getHeaderGroups().map((headerGroup) => (
+									<TableRow key={headerGroup.id}>
+										{headerGroup.headers.map((header) => (
+											<TableHead key={header.id}>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+															header.column.columnDef.header,
+															header.getContext(),
+														)}
+											</TableHead>
 										))}
 									</TableRow>
-								))
-							) : (
-								<TableRow>
-									<TableCell
-										colSpan={columns.length}
-										className="h-24 text-center"
-									>
-										Nenhuma avaliação encontrada.
-									</TableCell>
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-				</CardContent>
-			</Card>
+								))}
+							</TableHeader>
+							<TableBody>
+								{isLoading ? (
+									<TableRow>
+										<TableCell
+											colSpan={columns.length}
+											className="h-24 text-center"
+										>
+											Carregando...
+										</TableCell>
+									</TableRow>
+								) : table.getRowModel().rows?.length ? (
+									table.getRowModel().rows.map((row) => (
+										<TableRow key={row.id}>
+											{row.getVisibleCells().map((cell) => (
+												<TableCell key={cell.id}>
+													{flexRender(
+														cell.column.columnDef.cell,
+														cell.getContext(),
+													)}
+												</TableCell>
+											))}
+										</TableRow>
+									))
+								) : (
+									<TableRow>
+										<TableCell
+											colSpan={columns.length}
+											className="h-24 text-center"
+										>
+											Nenhuma avaliação encontrada.
+										</TableCell>
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
 
-			{data && data.totalPaginas > 1 && (
-				<div className="flex justify-center space-x-2">
-					{Array.from({ length: data.totalPaginas }, (_, i) => i + 1).map(
-						(page) => (
-							<Button
-								key={page}
-								variant={page === filtros.pagina ? "default" : "outline"}
-								size="sm"
-								onClick={() =>
-									setFiltros((prev) => ({ ...prev, pagina: page }))
-								}
-							>
-								{page}
-							</Button>
-						),
-					)}
-				</div>
-			)}
+				{data && data.totalPaginas > 1 && (
+					<div className="flex justify-center space-x-2">
+						{Array.from({ length: data.totalPaginas }, (_, i) => i + 1).map(
+							(page) => (
+								<Button
+									key={page}
+									variant={page === filtros.pagina ? "default" : "outline"}
+									size="sm"
+									onClick={() =>
+										setFiltros((prev) => ({ ...prev, pagina: page }))
+									}
+								>
+									{page}
+								</Button>
+							),
+						)}
+					</div>
+				)}
 			</div>
 		</AdminLayout>
 	);
