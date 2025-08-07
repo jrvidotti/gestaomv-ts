@@ -36,7 +36,7 @@ Entidade base para o cadastro de pessoas físicas e jurídicas.
 
 - ID único
 - Tipo de pessoa (física/jurídica)
-- Documento (CPF para pessoa física, CNPJ para pessoa jurídica)
+- Documento (CPF para pessoa física, CNPJ para pessoa jurídica) - utilizar integração com API Direct Data para preenchimento automático dos campos
 - Nome/Razão social
 - Data de cadastro
 
@@ -53,7 +53,7 @@ Entidade base para o cadastro de pessoas físicas e jurídicas.
 
 **Endereço:**
 
-- CEP
+- CEP (utilizar integração com viacep para preenchimento automático do endereço)
 - Logradouro
 - Número
 - Complemento
