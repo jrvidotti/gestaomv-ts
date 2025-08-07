@@ -1,13 +1,11 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { eq } from "drizzle-orm";
 import type { CreateUnidadeDto, UpdateUnidadeDto } from "../dtos";
 import { unidades } from "../schemas";
 import type { Unidade } from "../types";
 
 export class UnidadesService {
-	private get db() {
-		return db;
-	}
+	constructor(private readonly db: Db) {}
 
 	async criar(unidadeData: CreateUnidadeDto): Promise<Unidade> {
 		const [unidade] = await this.db
@@ -20,7 +18,7 @@ export class UnidadesService {
 		return unidade;
 	}
 
-	async findAll(): Promise<Unidade[]> {
+	async listar(): Promise<Unidade[]> {
 		const allUnidades = await this.db.query.unidades.findMany({
 			with: {
 				empresa: true,
@@ -87,7 +85,7 @@ export class UnidadesService {
 		return unidadesByEmpresa;
 	}
 
-	async findByPontowebId(pontowebId: number): Promise<Unidade | undefined> {
+	async buscarByPontowebId(pontowebId: number): Promise<Unidade | undefined> {
 		const unidade = await this.db.query.unidades.findFirst({
 			where: eq(unidades.pontowebId, pontowebId),
 			with: {
@@ -100,5 +98,3 @@ export class UnidadesService {
 		return unidade;
 	}
 }
-
-export const unidadesService = new UnidadesService();

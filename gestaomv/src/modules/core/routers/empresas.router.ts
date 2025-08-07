@@ -1,5 +1,5 @@
 import { createEmpresaSchema, updateEmpresaSchema } from "@/modules/core/dtos";
-import { empresasService } from "@/modules/core/services/empresas.service";
+import { empresasService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

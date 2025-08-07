@@ -1,13 +1,11 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { eq } from "drizzle-orm";
 import type { CreateEmpresaDto, UpdateEmpresaDto } from "../dtos";
 import { empresas } from "../schemas";
 import type { Empresa } from "../types";
 
 export class EmpresasService {
-	private get db() {
-		return db;
-	}
+	constructor(private readonly db: Db) {}
 
 	async criar(empresaData: CreateEmpresaDto): Promise<Empresa> {
 		const [empresa] = await this.db
@@ -88,5 +86,3 @@ export class EmpresasService {
 		return empresa;
 	}
 }
-
-export const empresasService = new EmpresasService();

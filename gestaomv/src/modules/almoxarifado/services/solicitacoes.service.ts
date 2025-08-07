@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { solicitacoesMaterial, solicitacoesMaterialItens } from "@/db/schemas";
 import type {
 	AtenderSolicitacaoData,
@@ -14,16 +14,21 @@ import type {
 	SolicitacaoMaterial,
 	StatusSolicitacaoType,
 } from "@/modules/almoxarifado/types";
-import { notificationsService } from "@/modules/core/services/notifications.service";
+import type { NotificationsService } from "@/modules/core/services/notifications.service";
 import { addDays } from "date-fns";
 import { type SQLWrapper, and, count, desc, eq, sql } from "drizzle-orm";
 
 export class SolicitacoesService {
+	constructor(
+		private db: Db,
+		private notificationsService: NotificationsService,
+	) {}
+
 	async criarSolicitacaoMaterial(
 		solicitanteId: number,
 		solicitacaoData: CriarSolicitacaoMaterialData,
 	): Promise<SolicitacaoMaterial | undefined> {
-		const [solicitacao] = await db
+		const [solicitacao] = await this.db
 			.insert(solicitacoesMaterial)
 			.values({
 				solicitanteId,
@@ -35,7 +40,7 @@ export class SolicitacoesService {
 			.returning();
 
 		if (solicitacaoData.itens.length > 0) {
-			await db.insert(solicitacoesMaterialItens).values(
+			await this.db.insert(solicitacoesMaterialItens).values(
 				solicitacaoData.itens.map((item) => ({
 					solicitacaoMaterialId: solicitacao.id,
 					materialId: item.materialId,
@@ -50,7 +55,7 @@ export class SolicitacoesService {
 		);
 		if (solicitacaoCompleta) {
 			// Enviar notificação assíncrona para aprovadores (não esperar para não travar o response)
-			notificationsService
+			this.notificationsService
 				.notificarSolicitacaoCriada(
 					solicitacaoCompleta,
 					solicitacaoCompleta.itens || [],
@@ -111,7 +116,7 @@ export class SolicitacoesService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const solicitacoesList = await db.query.solicitacoesMaterial.findMany({
+		const solicitacoesList = await this.db.query.solicitacoesMaterial.findMany({
 			where: whereClause,
 			with: {
 				solicitante: {
@@ -157,7 +162,7 @@ export class SolicitacoesService {
 			offset,
 		});
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(solicitacoesMaterial)
 			.where(whereClause);
@@ -171,7 +176,7 @@ export class SolicitacoesService {
 	async buscarSolicitacaoMaterialPorId(
 		id: number,
 	): Promise<SolicitacaoMaterial | undefined> {
-		const solicitacao = await db.query.solicitacoesMaterial.findFirst({
+		const solicitacao = await this.db.query.solicitacoesMaterial.findFirst({
 			where: eq(solicitacoesMaterial.id, id),
 			with: {
 				solicitante: {
@@ -224,7 +229,7 @@ export class SolicitacoesService {
 	): Promise<SolicitacaoMaterial | undefined> {
 		const agora = new Date().toISOString();
 
-		await db
+		await this.db
 			.update(solicitacoesMaterial)
 			.set({
 				status: dadosAprovacao.status,
@@ -236,7 +241,7 @@ export class SolicitacoesService {
 
 		// Se aprovando, definir qtdAtendida = qtdSolicitada para itens onde qtdAtendida for null
 		if (dadosAprovacao.status === STATUS_SOLICITACAO.APROVADA) {
-			await db
+			await this.db
 				.update(solicitacoesMaterialItens)
 				.set({
 					qtdAtendida: sql`COALESCE(${solicitacoesMaterialItens.qtdAtendida}, ${solicitacoesMaterialItens.qtdSolicitada})`,
@@ -247,7 +252,7 @@ export class SolicitacoesService {
 
 		if (dadosAprovacao.itens) {
 			for (const item of dadosAprovacao.itens) {
-				await db
+				await this.db
 					.update(solicitacoesMaterialItens)
 					.set({
 						qtdAtendida: item.qtdAtendida,
@@ -262,7 +267,7 @@ export class SolicitacoesService {
 		if (solicitacaoCompleta) {
 			// Enviar notificações assíncronas baseadas no status
 			if (dadosAprovacao.status === STATUS_SOLICITACAO.APROVADA) {
-				notificationsService
+				this.notificationsService
 					.notificarSolicitacaoAprovada(
 						solicitacaoCompleta,
 						solicitacaoCompleta.itens || [],
@@ -274,7 +279,7 @@ export class SolicitacoesService {
 						);
 					});
 			} else if (dadosAprovacao.status === STATUS_SOLICITACAO.REJEITADA) {
-				notificationsService
+				this.notificationsService
 					.notificarSolicitacaoRejeitada(
 						solicitacaoCompleta,
 						solicitacaoCompleta.itens || [],
@@ -299,7 +304,7 @@ export class SolicitacoesService {
 		const agora = new Date().toISOString();
 
 		// Verificar se a solicitação existe e está pendente
-		const solicitacao = await db.query.solicitacoesMaterial.findFirst({
+		const solicitacao = await this.db.query.solicitacoesMaterial.findFirst({
 			where: and(
 				eq(solicitacoesMaterial.id, id),
 				eq(solicitacoesMaterial.solicitanteId, solicitanteId),
@@ -311,7 +316,7 @@ export class SolicitacoesService {
 			throw new Error("Solicitação não encontrada ou não pode ser cancelada");
 		}
 
-		await db
+		await this.db
 			.update(solicitacoesMaterial)
 			.set({
 				status: STATUS_SOLICITACAO.CANCELADA,
@@ -331,9 +336,11 @@ export class SolicitacoesService {
 
 		// Se não pode reduzir, buscar quantidade atual para validação
 		if (!podeReduzir) {
-			const itemAtual = await db.query.solicitacoesMaterialItens.findFirst({
-				where: eq(solicitacoesMaterialItens.id, itemId),
-			});
+			const itemAtual = await this.db.query.solicitacoesMaterialItens.findFirst(
+				{
+					where: eq(solicitacoesMaterialItens.id, itemId),
+				},
+			);
 
 			if (!itemAtual) {
 				throw new Error("Item da solicitação não encontrado");
@@ -347,7 +354,7 @@ export class SolicitacoesService {
 			}
 		}
 
-		await db
+		await this.db
 			.update(solicitacoesMaterialItens)
 			.set({
 				qtdAtendida,
@@ -364,7 +371,7 @@ export class SolicitacoesService {
 	): Promise<SolicitacaoMaterial | undefined> {
 		const agora = new Date().toISOString();
 
-		await db
+		await this.db
 			.update(solicitacoesMaterial)
 			.set({
 				status: STATUS_SOLICITACAO.ATENDIDA,
@@ -375,7 +382,7 @@ export class SolicitacoesService {
 			.where(eq(solicitacoesMaterial.id, id));
 
 		for (const item of dadosAtendimento.itens) {
-			await db
+			await this.db
 				.update(solicitacoesMaterialItens)
 				.set({
 					qtdAtendida: item.qtdAtendida,
@@ -387,5 +394,3 @@ export class SolicitacoesService {
 		return await this.buscarSolicitacaoMaterialPorId(id);
 	}
 }
-
-export const solicitacoesService = new SolicitacoesService();

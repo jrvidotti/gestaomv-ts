@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import bcrypt from "bcrypt";
 import { and, eq } from "drizzle-orm";
 import type { ChangePasswordDto } from "../dtos";
@@ -6,6 +6,8 @@ import { userRoles, userTagone, users } from "../schemas";
 import type { CriarUser, User, UserRoleType } from "../types";
 
 export class UsersService {
+	constructor(private readonly db: Db) {}
+
 	async criar(
 		userData: Omit<CriarUser, "id" | "createdAt" | "updatedAt">,
 		roles?: UserRoleType[],
@@ -17,10 +19,10 @@ export class UsersService {
 			dataToInsert.password = await bcrypt.hash(userData.password, 10);
 		}
 
-		const [user] = await db.insert(users).values(dataToInsert).returning();
+		const [user] = await this.db.insert(users).values(dataToInsert).returning();
 
 		if (roles) {
-			await db
+			await this.db
 				.insert(userRoles)
 				.values(roles.map((role) => ({ userId: user.id, role })));
 		}
@@ -29,7 +31,7 @@ export class UsersService {
 	}
 
 	async listar(): Promise<User[]> {
-		const users = await db.query.users.findMany({
+		const users = await this.db.query.users.findMany({
 			with: {
 				userRoles: {
 					columns: {
@@ -48,7 +50,7 @@ export class UsersService {
 	}
 
 	async buscar(id: number): Promise<User | undefined> {
-		const userWithRoles = await db.query.users.findFirst({
+		const userWithRoles = await this.db.query.users.findFirst({
 			where: eq(users.id, id),
 			with: {
 				userRoles: {
@@ -67,7 +69,7 @@ export class UsersService {
 	}
 
 	async findByEmail(email: string): Promise<User | undefined> {
-		const user = await db.query.users.findFirst({
+		const user = await this.db.query.users.findFirst({
 			where: eq(users.email, email),
 			columns: {
 				id: true,
@@ -78,7 +80,7 @@ export class UsersService {
 	}
 
 	async findByTagOneUsername(username: string): Promise<User | undefined> {
-		const userTagoneRecord = await db.query.userTagone.findFirst({
+		const userTagoneRecord = await this.db.query.userTagone.findFirst({
 			where: eq(userTagone.usuarioTagone, username),
 			columns: {
 				userId: true,
@@ -110,11 +112,11 @@ export class UsersService {
 			updateData.password = await bcrypt.hash(userData.password, 10);
 		}
 
-		await db.update(users).set(updateData).where(eq(users.id, id));
+		await this.db.update(users).set(updateData).where(eq(users.id, id));
 
 		if (roles) {
-			await db.delete(userRoles).where(eq(userRoles.userId, id));
-			await db
+			await this.db.delete(userRoles).where(eq(userRoles.userId, id));
+			await this.db
 				.insert(userRoles)
 				.values(roles.map((role) => ({ userId: id, role })));
 		}
@@ -144,7 +146,7 @@ export class UsersService {
 	}
 
 	async deletar(id: number): Promise<void> {
-		await db.delete(users).where(eq(users.id, id));
+		await this.db.delete(users).where(eq(users.id, id));
 	}
 
 	async validatePassword(
@@ -155,7 +157,7 @@ export class UsersService {
 	}
 
 	async getUserRoles(userId: number): Promise<UserRoleType[]> {
-		const roles = await db.query.userRoles.findMany({
+		const roles = await this.db.query.userRoles.findMany({
 			where: eq(userRoles.userId, userId),
 			columns: {
 				role: true,
@@ -167,12 +169,12 @@ export class UsersService {
 
 	async addUserRole(userId: number, role: UserRoleType): Promise<void> {
 		// Verifica se a role já existe para evitar duplicatas
-		const existingRole = await db.query.userRoles.findFirst({
+		const existingRole = await this.db.query.userRoles.findFirst({
 			where: and(eq(userRoles.userId, userId), eq(userRoles.role, role)),
 		});
 
 		if (!existingRole) {
-			await db.insert(userRoles).values({
+			await this.db.insert(userRoles).values({
 				userId,
 				role,
 			});
@@ -180,7 +182,7 @@ export class UsersService {
 	}
 
 	async removeUserRole(userId: number, role: UserRoleType): Promise<void> {
-		await db
+		await this.db
 			.delete(userRoles)
 			.where(and(eq(userRoles.userId, userId), eq(userRoles.role, role)));
 	}
@@ -189,7 +191,7 @@ export class UsersService {
 		userId: number,
 		changePasswordData: Omit<ChangePasswordDto, "confirmPassword">,
 	): Promise<void> {
-		const user = await db.query.users.findFirst({
+		const user = await this.db.query.users.findFirst({
 			where: eq(users.id, userId),
 			columns: {
 				password: true,
@@ -218,7 +220,7 @@ export class UsersService {
 		);
 
 		// Atualiza a senha no banco de dados
-		await db
+		await this.db
 			.update(users)
 			.set({
 				password: hashedNewPassword,
@@ -228,7 +230,7 @@ export class UsersService {
 	}
 
 	async listarUsersPendentes(): Promise<User[]> {
-		const usersWithRoles = await db.query.users.findMany({
+		const usersWithRoles = await this.db.query.users.findMany({
 			where: eq(users.isActive, true),
 			with: {
 				userRoles: {
@@ -259,7 +261,7 @@ export class UsersService {
 		pendingUsers: number;
 		inactiveUsers: number;
 	}> {
-		const allUsers = await db.query.users.findMany({
+		const allUsers = await this.db.query.users.findMany({
 			with: {
 				userRoles: {
 					columns: {
@@ -294,7 +296,7 @@ export class UsersService {
 			return [];
 		}
 
-		const usersWithRoles = await db.query.users.findMany({
+		const usersWithRoles = await this.db.query.users.findMany({
 			where: eq(users.isActive, true),
 			with: {
 				userRoles: {
@@ -323,5 +325,3 @@ export class UsersService {
 		return matchingUsers;
 	}
 }
-
-export const usersService = new UsersService();

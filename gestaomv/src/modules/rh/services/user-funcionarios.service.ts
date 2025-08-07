@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { funcionarios, userFuncionarios, users } from "@/db/schemas";
 import type {
 	CriarUserFuncionarioData,
@@ -7,8 +7,10 @@ import type {
 import { and, count, eq } from "drizzle-orm";
 
 export class UserFuncionariosService {
+	constructor(private db: Db) {}
+
 	async criarUserFuncionario(userFuncionarioData: CriarUserFuncionarioData) {
-		const [userFuncionario] = await db
+		const [userFuncionario] = await this.db
 			.insert(userFuncionarios)
 			.values({
 				...userFuncionarioData,
@@ -34,7 +36,7 @@ export class UserFuncionariosService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const userFuncionariosList = await db
+		const userFuncionariosList = await this.db
 			.select({
 				userId: userFuncionarios.userId,
 				funcionarioId: userFuncionarios.funcionarioId,
@@ -60,7 +62,7 @@ export class UserFuncionariosService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(userFuncionarios)
 			.where(whereClause);
@@ -72,7 +74,7 @@ export class UserFuncionariosService {
 	}
 
 	async buscarUserFuncionarioPorUserId(userId: string) {
-		const userFuncionario = await db.query.userFuncionarios.findFirst({
+		const userFuncionario = await this.db.query.userFuncionarios.findFirst({
 			where: eq(userFuncionarios.userId, userId),
 			with: {
 				user: true,
@@ -91,7 +93,7 @@ export class UserFuncionariosService {
 	}
 
 	async buscarUserFuncionarioPorFuncionarioId(funcionarioId: string) {
-		const userFuncionario = await db.query.userFuncionarios.findFirst({
+		const userFuncionario = await this.db.query.userFuncionarios.findFirst({
 			where: eq(userFuncionarios.funcionarioId, funcionarioId),
 			with: {
 				user: true,
@@ -124,7 +126,7 @@ export class UserFuncionariosService {
 		userId: string,
 		funcionarioId: string,
 	): Promise<boolean> {
-		const vinculo = await db.query.userFuncionarios.findFirst({
+		const vinculo = await this.db.query.userFuncionarios.findFirst({
 			where: and(
 				eq(userFuncionarios.userId, userId),
 				eq(userFuncionarios.funcionarioId, funcionarioId),
@@ -138,7 +140,7 @@ export class UserFuncionariosService {
 		userId: string,
 		funcionarioId: string,
 	): Promise<void> {
-		await db
+		await this.db
 			.delete(userFuncionarios)
 			.where(
 				and(
@@ -149,16 +151,14 @@ export class UserFuncionariosService {
 	}
 
 	async deletarVinculoPorUserId(userId: string): Promise<void> {
-		await db
+		await this.db
 			.delete(userFuncionarios)
 			.where(eq(userFuncionarios.userId, userId));
 	}
 
 	async deletarVinculoPorFuncionarioId(funcionarioId: string): Promise<void> {
-		await db
+		await this.db
 			.delete(userFuncionarios)
 			.where(eq(userFuncionarios.funcionarioId, funcionarioId));
 	}
 }
-
-export const userFuncionariosService = new UserFuncionariosService();

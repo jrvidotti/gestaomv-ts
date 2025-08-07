@@ -1,5 +1,5 @@
 import { tagoneLoginSchema } from "@/modules/core/dtos";
-import { tagoneService } from "@/modules/core/services/tagone.service";
+import { tagoneService } from "@/modules/core/services";
 import { protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 

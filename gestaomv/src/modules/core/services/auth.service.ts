@@ -7,22 +7,10 @@ import type {
 	RemoveUserRoleDto,
 	TagoneLoginDto,
 } from "@/modules/core/dtos";
-import {
-	type EmailService,
-	emailService,
-} from "@/modules/core/services/email.service";
-import {
-	type NotificationsService,
-	notificationsService,
-} from "@/modules/core/services/notifications.service";
-import {
-	type TagoneService,
-	tagoneService,
-} from "@/modules/core/services/tagone.service";
-import {
-	type UsersService,
-	usersService,
-} from "@/modules/core/services/users.service";
+import type { EmailService } from "@/modules/core/services/email.service";
+import type { NotificationsService } from "@/modules/core/services/notifications.service";
+import type { TagoneService } from "@/modules/core/services/tagone.service";
+import type { UsersService } from "@/modules/core/services/users.service";
 import type { User, UserRoleType } from "@/modules/core/types";
 import { TRPCError } from "@trpc/server";
 import type { JwtPayload } from "jsonwebtoken";
@@ -326,11 +314,3 @@ export class AuthService {
 		}
 	}
 }
-
-// Singleton
-export const authService = new AuthService(
-	usersService,
-	tagoneService,
-	notificationsService,
-	emailService,
-);

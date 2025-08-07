@@ -1,19 +1,25 @@
 import { ALL_ROLES, ALL_ROLES_DATA } from "@/constants";
 import { env } from "@/env";
-import { configuracoesService } from "@/modules/core/services/configuracoes.service";
-import { emailService } from "@/modules/core/services/email.service";
-import { templateService } from "@/modules/core/services/template.service";
-import { usersService } from "@/modules/core/services/users.service";
+import type { ConfiguracoesService } from "@/modules/core/services/configuracoes.service";
+import type { EmailService } from "@/modules/core/services/email.service";
+import type { TemplateService } from "@/modules/core/services/template.service";
+import type { UsersService } from "@/modules/core/services/users.service";
 import type { User, UserRoleType } from "@/modules/core/types";
 
 export class NotificationsService {
+	constructor(
+		private readonly configuracoesService: ConfiguracoesService,
+		private readonly emailService: EmailService,
+		private readonly templateService: TemplateService,
+		private readonly usersService: UsersService,
+	) {}
 	async notifyNewUserRegistration(
 		newUser: Omit<User, "password">,
 	): Promise<void> {
 		try {
 			// Verificar se notificações estão habilitadas
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 
 			if (!configuracoes.notifyNewUsers || !configuracoes.emailNotifications) {
 				console.log("Notificações de novos usuários desabilitadas");
@@ -40,7 +46,7 @@ export class NotificationsService {
 
 			// Buscar dados dos administradores usando import dinâmico
 			const admins = await Promise.all(
-				adminIds.map((id) => usersService.buscar(id)),
+				adminIds.map((id) => this.usersService.buscar(id)),
 			);
 
 			const validAdmins = admins.filter((admin) => admin?.email);
@@ -58,7 +64,7 @@ export class NotificationsService {
 			const emailPromises = validAdmins
 				.filter((admin) => !!admin?.email)
 				.map((admin) =>
-					emailService
+					this.emailService
 						.sendEmail(admin?.email || "", emailSubject, emailContent)
 						.catch((error) => {
 							console.error(
@@ -163,7 +169,7 @@ export class NotificationsService {
 		try {
 			// Verificar se notificações estão habilitadas
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 
 			if (
 				!configuracoes.notifyUserApproval ||
@@ -186,7 +192,7 @@ export class NotificationsService {
 			);
 
 			// Enviar email para o usuário aprovado
-			await emailService.sendEmail(user.email, emailSubject, emailContent);
+			await this.emailService.sendEmail(user.email, emailSubject, emailContent);
 			console.log(`Email de aprovação enviado para ${user.email}`);
 		} catch (error) {
 			console.error(
@@ -296,7 +302,7 @@ export class NotificationsService {
 	): Promise<void> {
 		try {
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 
 			if (!configuracoes.emailNotifications) {
 				return;
@@ -317,7 +323,7 @@ export class NotificationsService {
 			}
 
 			const admins = await Promise.all(
-				targetAdminIds.map((id) => usersService.buscar(id)),
+				targetAdminIds.map((id) => this.usersService.buscar(id)),
 			);
 
 			const validAdmins = admins.filter((admin) => !!admin?.email);
@@ -333,7 +339,7 @@ export class NotificationsService {
 			const emailPromises = validAdmins
 				.filter((admin) => admin?.email)
 				.map((admin) =>
-					emailService
+					this.emailService
 						.sendEmail(admin?.email || "", subject, content)
 						.catch((error) =>
 							console.error(
@@ -362,14 +368,14 @@ export class NotificationsService {
 
 			// Verificar se notificações estão habilitadas
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 			if (!configuracoes.emailNotifications) {
 				console.log("Notificações por email desabilitadas");
 				return;
 			}
 
 			// Buscar todos os aprovadores de almoxarifado
-			const aprovadores = await usersService.findUsersByRoles([
+			const aprovadores = await this.usersService.findUsersByRoles([
 				ALL_ROLES.ADMIN,
 				ALL_ROLES.ALMOXARIFADO_APROVADOR,
 			]);
@@ -391,19 +397,21 @@ export class NotificationsService {
 			// Enviar email para cada aprovador
 			const emailPromises = aprovadores.map(async (aprovador) => {
 				try {
-					const emailContent = templateService.renderSolicitacaoCriadaEmail({
-						aprovadorNome: aprovador.name,
-						solicitacao,
-						materiais,
-						valorTotal,
-						systemUrl: env.SERVER_URL,
-					});
+					const emailContent =
+						this.templateService.renderSolicitacaoCriadaEmail({
+							aprovadorNome: aprovador.name,
+							solicitacao,
+							materiais,
+							valorTotal,
+							systemUrl: env.SERVER_URL,
+						});
 
-					const emailSubject = templateService.renderSolicitacaoCriadaSubject({
-						solicitacao,
-					});
+					const emailSubject =
+						this.templateService.renderSolicitacaoCriadaSubject({
+							solicitacao,
+						});
 
-					await emailService.sendEmail(
+					await this.emailService.sendEmail(
 						aprovador.email,
 						emailSubject,
 						emailContent,
@@ -439,14 +447,14 @@ export class NotificationsService {
 
 			// Verificar se notificações estão habilitadas
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 			if (!configuracoes.emailNotifications) {
 				console.log("Notificações por email desabilitadas");
 				return;
 			}
 
 			// Buscar todos os gerentes de almoxarifado
-			const gerentes = await usersService.findUsersByRoles([
+			const gerentes = await this.usersService.findUsersByRoles([
 				ALL_ROLES.ADMIN,
 				ALL_ROLES.ALMOXARIFADO_GERENCIA,
 				ALL_ROLES.ALMOXARIFADO_APROVADOR,
@@ -464,20 +472,20 @@ export class NotificationsService {
 			// Enviar email para cada gerente
 			const emailPromises = gerentes.map(async (gerente) => {
 				try {
-					const emailContent = templateService.renderSolicitacaoAprovadaEmail({
-						gerenteNome: gerente.name,
-						solicitacao,
-						materiais,
-						systemUrl: env.SERVER_URL,
-					});
-
-					const emailSubject = templateService.renderSolicitacaoAprovadaSubject(
-						{
+					const emailContent =
+						this.templateService.renderSolicitacaoAprovadaEmail({
+							gerenteNome: gerente.name,
 							solicitacao,
-						},
-					);
+							materiais,
+							systemUrl: env.SERVER_URL,
+						});
 
-					await emailService.sendEmail(
+					const emailSubject =
+						this.templateService.renderSolicitacaoAprovadaSubject({
+							solicitacao,
+						});
+
+					await this.emailService.sendEmail(
 						gerente.email,
 						emailSubject,
 						emailContent,
@@ -512,7 +520,7 @@ export class NotificationsService {
 
 			// Verificar se notificações estão habilitadas
 			const configuracoes =
-				await configuracoesService.getConfiguracoesSistema();
+				await this.configuracoesService.getConfiguracoesSistema();
 			if (!configuracoes.emailNotifications) {
 				console.log("Notificações por email desabilitadas");
 				return;
@@ -529,18 +537,20 @@ export class NotificationsService {
 			);
 
 			try {
-				const emailContent = templateService.renderSolicitacaoRejeitadaEmail({
-					solicitacao,
-					materiais,
-					motivoRejeicao,
-					systemUrl: env.SERVER_URL,
-				});
+				const emailContent =
+					this.templateService.renderSolicitacaoRejeitadaEmail({
+						solicitacao,
+						materiais,
+						motivoRejeicao,
+						systemUrl: env.SERVER_URL,
+					});
 
-				const emailSubject = templateService.renderSolicitacaoRejeitadaSubject({
-					solicitacao,
-				});
+				const emailSubject =
+					this.templateService.renderSolicitacaoRejeitadaSubject({
+						solicitacao,
+					});
 
-				await emailService.sendEmail(
+				await this.emailService.sendEmail(
 					solicitacao.solicitante.email,
 					emailSubject,
 					emailContent,
@@ -562,5 +572,3 @@ export class NotificationsService {
 		}
 	}
 }
-
-export const notificationsService = new NotificationsService();

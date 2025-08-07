@@ -1,5 +1,5 @@
 import { createUserSchema, updateUserSchema } from "@/modules/core/dtos";
-import { usersService } from "@/modules/core/services/users.service";
+import { usersService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

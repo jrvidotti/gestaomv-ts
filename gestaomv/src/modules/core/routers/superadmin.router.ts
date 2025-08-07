@@ -3,7 +3,7 @@ import {
 	createAdminSchema,
 	seedOperationSchema,
 } from "@/modules/core/dtos/superadmin";
-import { superadminService } from "@/modules/core/services/superadmin.service";
+import { superadminService } from "@/modules/core/services";
 import { createRoleProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 

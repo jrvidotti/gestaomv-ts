@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { equipes } from "@/db/schemas";
 import type {
 	AtualizarEquipeData,
@@ -8,8 +8,9 @@ import type {
 import { and, asc, count, eq, sql } from "drizzle-orm";
 
 export class EquipesService {
+	constructor(private db: Db) {}
 	async criarEquipe(equipeData: CriarEquipeData) {
-		const [equipe] = await db
+		const [equipe] = await this.db
 			.insert(equipes)
 			.values({
 				...equipeData,
@@ -33,7 +34,7 @@ export class EquipesService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const equipesList = await db
+		const equipesList = await this.db
 			.select()
 			.from(equipes)
 			.where(whereClause)
@@ -41,7 +42,7 @@ export class EquipesService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(equipes)
 			.where(whereClause);
@@ -53,7 +54,7 @@ export class EquipesService {
 	}
 
 	async buscarEquipePorId(id: number) {
-		const equipe = await db.query.equipes.findFirst({
+		const equipe = await this.db.query.equipes.findFirst({
 			where: eq(equipes.id, id),
 		});
 
@@ -61,7 +62,7 @@ export class EquipesService {
 	}
 
 	async buscarEquipePorCodigo(codigo: string) {
-		const equipe = await db.query.equipes.findFirst({
+		const equipe = await this.db.query.equipes.findFirst({
 			where: eq(equipes.codigo, codigo),
 		});
 
@@ -74,14 +75,15 @@ export class EquipesService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db.update(equipes).set(dadosAtualizacao).where(eq(equipes.id, id));
+		await this.db
+			.update(equipes)
+			.set(dadosAtualizacao)
+			.where(eq(equipes.id, id));
 
 		return await this.buscarEquipePorId(id);
 	}
 
 	async deletarEquipe(id: number): Promise<void> {
-		await db.delete(equipes).where(eq(equipes.id, id));
+		await this.db.delete(equipes).where(eq(equipes.id, id));
 	}
 }
-
-export const equipesService = new EquipesService();

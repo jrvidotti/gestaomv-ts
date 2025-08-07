@@ -1,4 +1,5 @@
 import { ALL_ROLES } from "@/constants";
+import { avaliacoesService } from "@/modules/checklist/services";
 import {
 	adminProcedure,
 	createRoleProcedure,
@@ -15,7 +16,6 @@ import {
 	relatorioAvaliacoesSchema,
 	updateAvaliacaoSchema,
 } from "../dtos/avaliacoes";
-import { ChecklistAvaliacoesService } from "../services/avaliacoes.service";
 
 // Procedimento específico para avaliadores de checklist
 const avaliadorChecklistProcedure = createRoleProcedure([
@@ -37,14 +37,14 @@ export const avaliacoesRouter = createTRPCRouter({
 				? input
 				: { ...input, avaliadorId: ctx.user.id };
 
-			return await ChecklistAvaliacoesService.listar(filtros);
+			return await avaliacoesService.listar(filtros);
 		}),
 
 	// Buscar avaliação por ID (protegido)
 	buscar: protectedProcedure
 		.input(getAvaliacaoSchema)
 		.query(async ({ input, ctx }) => {
-			const avaliacao = await ChecklistAvaliacoesService.buscar(input.id);
+			const avaliacao = await avaliacoesService.buscar(input.id);
 
 			if (!avaliacao) {
 				throw new Error("Avaliação não encontrada");
@@ -66,7 +66,7 @@ export const avaliacoesRouter = createTRPCRouter({
 	criar: avaliadorChecklistProcedure
 		.input(createAvaliacaoSchema)
 		.mutation(async ({ input, ctx }) => {
-			return await ChecklistAvaliacoesService.criar(input, ctx.user.id);
+			return await avaliacoesService.criar(input, ctx.user.id);
 		}),
 
 	// Atualizar avaliação (apenas o próprio avaliador ou admin)
@@ -74,9 +74,7 @@ export const avaliacoesRouter = createTRPCRouter({
 		.input(updateAvaliacaoSchema)
 		.mutation(async ({ input, ctx }) => {
 			// Primeiro, buscar a avaliação para verificar permissões
-			const avaliacaoExistente = await ChecklistAvaliacoesService.buscar(
-				input.id,
-			);
+			const avaliacaoExistente = await avaliacoesService.buscar(input.id);
 
 			if (!avaliacaoExistente) {
 				throw new Error("Avaliação não encontrada");
@@ -91,7 +89,7 @@ export const avaliacoesRouter = createTRPCRouter({
 			}
 
 			const { id, ...data } = input;
-			return await ChecklistAvaliacoesService.atualizar(id, data);
+			return await avaliacoesService.atualizar(id, data);
 		}),
 
 	// Finalizar avaliação (apenas o próprio avaliador ou admin)
@@ -99,9 +97,7 @@ export const avaliacoesRouter = createTRPCRouter({
 		.input(finalizarAvaliacaoSchema)
 		.mutation(async ({ input, ctx }) => {
 			// Verificar permissões (mesmo que atualizar)
-			const avaliacaoExistente = await ChecklistAvaliacoesService.buscar(
-				input.id,
-			);
+			const avaliacaoExistente = await avaliacoesService.buscar(input.id);
 
 			if (!avaliacaoExistente) {
 				throw new Error("Avaliação não encontrada");
@@ -115,7 +111,7 @@ export const avaliacoesRouter = createTRPCRouter({
 			}
 
 			const { id, ...data } = input;
-			return await ChecklistAvaliacoesService.atualizar(id, {
+			return await avaliacoesService.atualizar(id, {
 				...data,
 				status: "concluida",
 			});
@@ -125,7 +121,7 @@ export const avaliacoesRouter = createTRPCRouter({
 	deletar: adminProcedure
 		.input(deleteAvaliacaoSchema)
 		.mutation(async ({ input }) => {
-			const success = await ChecklistAvaliacoesService.deletar(input.id);
+			const success = await avaliacoesService.deletar(input.id);
 
 			if (!success) {
 				throw new Error("Falha ao deletar avaliação");
@@ -138,13 +134,13 @@ export const avaliacoesRouter = createTRPCRouter({
 	gerarRelatorio: avaliadorChecklistProcedure
 		.input(relatorioAvaliacoesSchema)
 		.query(async ({ input }) => {
-			return await ChecklistAvaliacoesService.gerarRelatorio(input);
+			return await avaliacoesService.gerarRelatorio(input);
 		}),
 
 	// Comparativo entre unidades (admin ou avaliador_checklist)
 	gerarComparativo: avaliadorChecklistProcedure
 		.input(comparativoUnidadesSchema)
 		.query(async ({ input }) => {
-			return await ChecklistAvaliacoesService.gerarComparativo(input);
+			return await avaliacoesService.gerarComparativo(input);
 		}),
 });

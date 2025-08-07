@@ -1,22 +1,37 @@
-import { env } from "@/env";
 import type { ResultadoImportacao } from "@/modules/core/dtos";
-import { empresasService } from "@/modules/core/services/empresas.service";
-import { unidadesService } from "@/modules/core/services/unidades.service";
-import { cargosService } from "@/modules/rh/services/cargos.service";
-import { departamentosService } from "@/modules/rh/services/departamentos.service";
-import { funcionariosService } from "@/modules/rh/services/funcionarios.service";
+import type { EmpresasService } from "@/modules/core/services/empresas.service";
+import type { UnidadesService } from "@/modules/core/services/unidades.service";
+import type { CargosService } from "@/modules/rh/services/cargos.service";
+import type { DepartamentosService } from "@/modules/rh/services/departamentos.service";
+import type { FuncionariosService } from "@/modules/rh/services/funcionarios.service";
 import { type Funcionario, PontoWebClient } from "@movelabs/pontoweb";
 
 export class PontowebService {
+	constructor(
+		private empresasService: EmpresasService,
+		private unidadesService: UnidadesService,
+		private departamentosService: DepartamentosService,
+		private cargosService: CargosService,
+		private funcionariosService: FuncionariosService,
+		private pontowebUser?: string,
+		private pontowebPass?: string,
+	) {
+		if (!pontowebUser || !pontowebPass) {
+			console.log(
+				"Variáveis de ambiente PONTOWEB_USER e PONTOWEB_PASS não configuradas",
+			);
+		}
+	}
+
 	private async getPontowebClient() {
-		if (!env.PONTOWEB_USER || !env.PONTOWEB_PASS) {
+		if (!this.pontowebUser || !this.pontowebPass) {
 			throw new Error(
 				"Variáveis de ambiente PONTOWEB_USER e PONTOWEB_PASS devem estar configuradas",
 			);
 		}
 		const client = await PontoWebClient.init(
-			env.PONTOWEB_USER,
-			env.PONTOWEB_PASS,
+			this.pontowebUser,
+			this.pontowebPass,
 		);
 		return client;
 	}
@@ -44,7 +59,7 @@ export class PontowebService {
 		empresaPontoWeb: any,
 	): Promise<{ id: number; acao: "criada" | "atualizada" }> {
 		// Verificar se empresa já existe por pontowebId
-		const empresaExistente = await empresasService.buscarPorPontowebId(
+		const empresaExistente = await this.empresasService.buscarPorPontowebId(
 			empresaPontoWeb.Id,
 		);
 
@@ -58,14 +73,14 @@ export class PontowebService {
 
 		if (empresaExistente) {
 			// Atualizar empresa existente
-			const empresaAtualizada = await empresasService.atualizar(
+			const empresaAtualizada = await this.empresasService.atualizar(
 				empresaExistente.id,
 				dadosEmpresa,
 			);
 			return { id: empresaAtualizada?.id || 0, acao: "atualizada" };
 		}
 		// Criar nova empresa
-		const novaEmpresa = await empresasService.criar(dadosEmpresa);
+		const novaEmpresa = await this.empresasService.criar(dadosEmpresa);
 		return { id: novaEmpresa.id, acao: "criada" };
 	}
 
@@ -73,7 +88,7 @@ export class PontowebService {
 		estruturaPontoWeb: any,
 	): Promise<{ id: number; acao: "criada" | "atualizada" }> {
 		// Verificar se unidade já existe por pontowebId
-		const unidadeExistente = await unidadesService.findByPontowebId(
+		const unidadeExistente = await this.unidadesService.buscarByPontowebId(
 			estruturaPontoWeb.Id,
 		);
 
@@ -85,14 +100,14 @@ export class PontowebService {
 
 		if (unidadeExistente) {
 			// Atualizar unidade existente
-			const unidadeAtualizada = await unidadesService.atualizar(
+			const unidadeAtualizada = await this.unidadesService.atualizar(
 				unidadeExistente.id,
 				dadosUnidade,
 			);
 			return { id: unidadeAtualizada?.id || 0, acao: "atualizada" };
 		}
 		// Criar nova unidade
-		const novaUnidade = await unidadesService.criar(dadosUnidade);
+		const novaUnidade = await this.unidadesService.criar(dadosUnidade);
 		return { id: novaUnidade.id, acao: "criada" };
 	}
 
@@ -101,7 +116,7 @@ export class PontowebService {
 	): Promise<{ id: number; acao: "criado" | "atualizado" }> {
 		// Verificar se departamento já existe por pontowebId
 		const departamentoExistente =
-			await departamentosService.buscarDepartamentoPorPontowebId(
+			await this.departamentosService.buscarDepartamentoPorPontowebId(
 				departamentoPontoWeb.Id,
 			);
 
@@ -114,7 +129,7 @@ export class PontowebService {
 		if (departamentoExistente) {
 			// Atualizar departamento existente
 			const departamentoAtualizado =
-				await departamentosService.atualizarDepartamento(
+				await this.departamentosService.atualizarDepartamento(
 					departamentoExistente.id,
 					dadosDepartamento,
 				);
@@ -122,7 +137,7 @@ export class PontowebService {
 		}
 		// Criar novo departamento
 		const novoDepartamento =
-			await departamentosService.criarDepartamento(dadosDepartamento);
+			await this.departamentosService.criarDepartamento(dadosDepartamento);
 		return { id: novoDepartamento.id, acao: "criado" };
 	}
 
@@ -131,7 +146,7 @@ export class PontowebService {
 		departamentoId: number,
 	): Promise<{ id: number; acao: "criado" | "atualizado" }> {
 		// Verificar se cargo já existe por pontowebId
-		const cargoExistente = await cargosService.buscarCargoPorPontowebId(
+		const cargoExistente = await this.cargosService.buscarCargoPorPontowebId(
 			funcaoPontoWeb.Id,
 		);
 
@@ -144,14 +159,14 @@ export class PontowebService {
 
 		if (cargoExistente) {
 			// Atualizar cargo existente
-			const cargoAtualizado = await cargosService.atualizarCargo(
+			const cargoAtualizado = await this.cargosService.atualizarCargo(
 				cargoExistente.id,
 				dadosCargo,
 			);
 			return { id: cargoAtualizado?.id || 0, acao: "atualizado" };
 		}
 		// Criar novo cargo
-		const novoCargo = await cargosService.criarCargo(dadosCargo);
+		const novoCargo = await this.cargosService.criarCargo(dadosCargo);
 		return { id: novoCargo.id, acao: "criado" };
 	}
 
@@ -166,7 +181,7 @@ export class PontowebService {
 		try {
 			// Verificar se o funcionário já existe
 			const funcionarioExistente =
-				await funcionariosService.buscarFuncionarioPorPontowebId(
+				await this.funcionariosService.buscarFuncionarioPorPontowebId(
 					funcionario.Id,
 				);
 
@@ -211,7 +226,7 @@ export class PontowebService {
 			if (funcionarioExistente) {
 				if (modoAtualizar) {
 					// Atualizar funcionário existente
-					await funcionariosService.atualizarFuncionario(
+					await this.funcionariosService.atualizarFuncionario(
 						funcionarioExistente.id,
 						dadosFuncionario,
 					);
@@ -221,7 +236,7 @@ export class PontowebService {
 				return "ignorado";
 			}
 			// Criar novo funcionário
-			await funcionariosService.criarFuncionario(dadosFuncionario);
+			await this.funcionariosService.criarFuncionario(dadosFuncionario);
 			return "importado";
 		} catch (error) {
 			console.error(
@@ -377,7 +392,7 @@ export class PontowebService {
 							);
 							try {
 								departamentoPadrao =
-									await departamentosService.criarDepartamento({
+									await this.departamentosService.criarDepartamento({
 										nome: "Departamento Geral",
 										descricao:
 											"Departamento padrão para cargos importados do PontoWeb sem departamento específico",
@@ -389,7 +404,7 @@ export class PontowebService {
 								// Se já existe, buscar por nome
 								console.log("🔍 Buscando departamento padrão existente...");
 								const departamentos =
-									await departamentosService.listarDepartamentos({
+									await this.departamentosService.listarDepartamentos({
 										busca: "Departamento Geral",
 										limite: 1,
 										pagina: 1,
@@ -599,5 +614,3 @@ export class PontowebService {
 		return resultado;
 	}
 }
-
-export const pontowebService = new PontowebService();

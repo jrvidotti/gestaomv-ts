@@ -1,8 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ALL_ROLES } from "@/constants";
-import { db } from "@/db";
-import { schema } from "@/db";
+import { type Db, schema } from "@/db";
 import { getDatabaseMigrations } from "@/db";
 import { env } from "@/env";
 import {
@@ -20,6 +19,7 @@ import {
 	unidadesMedidaConfig,
 	usersConfig,
 } from "@/lib/import-export";
+import type { UsersService } from "@/modules/core/services/users.service";
 import { count, sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import type {
@@ -30,7 +30,6 @@ import type {
 	SystemInfoDTO,
 	SystemStatsDTO,
 } from "../dtos";
-import { UsersService } from "./users.service";
 
 interface AppliedMigration {
 	hash: string;
@@ -52,13 +51,16 @@ interface Journal {
 }
 
 export class SuperadminService {
-	private usersService = new UsersService();
+	constructor(
+		private readonly db: Db,
+		private readonly usersService: UsersService,
+	) {}
 
 	async buscarStatsSistema(): Promise<SystemStatsDTO> {
 		try {
 			const safeCount = async (table: any, tableName: string) => {
 				try {
-					const result = await db.select({ count: count() }).from(table);
+					const result = await this.db.select({ count: count() }).from(table);
 					return result[0].count;
 				} catch (error) {
 					console.warn(`Tabela '${tableName}' não encontrada, retornando 0`);
@@ -162,7 +164,7 @@ export class SuperadminService {
 
 	private async getAppliedMigrations(): Promise<AppliedMigration[]> {
 		try {
-			const result = await db.all(sql`
+			const result = await this.db.all(sql`
         SELECT hash, created_at 
         FROM __drizzle_migrations 
         ORDER BY created_at ASC
@@ -249,7 +251,7 @@ export class SuperadminService {
 			migrate(migrationDb, { migrationsFolder });
 			console.log("✅ Migrações aplicadas com sucesso!");
 
-			const hasUser = await db.query.users.findFirst();
+			const hasUser = await this.db.query.users.findFirst();
 			if (!hasUser)
 				await this.usersService.criar(
 					{
@@ -430,5 +432,3 @@ export class SuperadminService {
 		}
 	}
 }
-
-export const superadminService = new SuperadminService();

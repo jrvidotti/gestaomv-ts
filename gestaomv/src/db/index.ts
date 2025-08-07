@@ -21,5 +21,6 @@ export function getDatabaseMigrations() {
 }
 
 export const db = getDatabase();
+export type Db = typeof db;
 
 export { schema };

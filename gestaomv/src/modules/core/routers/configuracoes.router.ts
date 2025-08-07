@@ -1,5 +1,5 @@
 import { updateConfiguracoesSistemaSchema } from "@/modules/core/dtos";
-import { configuracoesService } from "@/modules/core/services/configuracoes.service";
+import { configuracoesService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 

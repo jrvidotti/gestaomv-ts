@@ -7,8 +7,8 @@ import {
 	removeUserRoleSchema,
 	tagoneLoginSchema,
 } from "@/modules/core/dtos";
-import { authService } from "@/modules/core/services/auth.service";
-import { usersService } from "@/modules/core/services/users.service";
+import { authService } from "@/modules/core/services";
+import { usersService } from "@/modules/core/services";
 import {
 	adminProcedure,
 	protectedProcedure,

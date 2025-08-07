@@ -5,7 +5,7 @@ import {
 	criarSolicitacaoMaterialSchema,
 	filtroSolicitacoesSchema,
 } from "@/modules/almoxarifado/dtos";
-import { solicitacoesService } from "@/modules/almoxarifado/services/solicitacoes.service";
+import { solicitacoesService } from "@/modules/almoxarifado/services";
 import { createRoleProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
@@ -48,7 +48,7 @@ export const solicitacoesRouter = {
 			// Se não é admin, mostrar apenas suas próprias solicitações
 			if (
 				!ctx.user?.roles?.includes(ALL_ROLES.ADMIN) &&
-				!ctx.user?.roles?.includes("gerencia_almoxarifado")
+				!ctx.user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA)
 			) {
 				filtros.solicitanteId = ctx.user?.id;
 			}
@@ -69,7 +69,7 @@ export const solicitacoesRouter = {
 			const isOwner = solicitacao.solicitanteId === ctx.user?.id;
 			const isAdmin =
 				ctx.user?.roles?.includes(ALL_ROLES.ADMIN) ||
-				ctx.user?.roles?.includes("gerencia_almoxarifado");
+				ctx.user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA);
 
 			if (!isOwner && !isAdmin) {
 				throw new Error("Acesso negado");

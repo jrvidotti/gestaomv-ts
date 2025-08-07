@@ -1,22 +1,20 @@
 import { env } from "@/env";
-import {
+import type {
 	TemplateService,
-	type WelcomeEmailData,
+	WelcomeEmailData,
 } from "@/modules/core/services/template.service";
 import { Resend } from "resend";
 
 export class EmailService {
 	private readonly resend: Resend | null;
-	private readonly templateService: TemplateService;
 
-	constructor() {
-		this.templateService = new TemplateService();
+	constructor(private readonly templateService: TemplateService) {
 		if (env.RESEND_API_KEY) {
 			this.resend = new Resend(env.RESEND_API_KEY);
 		} else {
 			this.resend = null;
 			console.warn(
-				"RESEND_API_KEY not configured. Email functionality will be disabled.",
+				"RESEND_API_KEY não configurada. Funcionalidade de email será desabilitada.",
 			);
 		}
 	}
@@ -27,7 +25,7 @@ export class EmailService {
 		options?: Partial<WelcomeEmailData>,
 	): Promise<void> {
 		if (!this.resend) {
-			console.warn("Cannot send email: Resend not configured");
+			console.warn("Não é possível enviar email: Resend não configurado");
 			return;
 		}
 
@@ -56,22 +54,25 @@ export class EmailService {
 			// Verificar se houve erro na resposta
 			if (response.error) {
 				throw new Error(
-					`Resend API Error: ${response.error.message} - ${response.error.name}`,
+					`Erro da API Resend: ${response.error.message} - ${response.error.name}`,
 				);
 			}
 
 			console.log(
-				`Welcome email sent successfully to ${email}. Message ID: ${response.data.id}`,
+				`Email de boas-vindas enviado com sucesso para ${email}. ID da mensagem: ${response.data.id}`,
 			);
 		} catch (error) {
-			console.error(`Failed to send welcome email to ${email}:`, error);
+			console.error(
+				`Falha ao enviar email de boas-vindas para ${email}:`,
+				error,
+			);
 			// Não relançar o erro para não bloquear o registro do usuário
 		}
 	}
 
 	async sendEmail(to: string, subject: string, html: string): Promise<void> {
 		if (!this.resend) {
-			console.warn("Cannot send email: Resend not configured");
+			console.warn("Não é possível enviar email: Resend não configurado");
 			return;
 		}
 
@@ -86,18 +87,16 @@ export class EmailService {
 			// Verificar se houve erro na resposta
 			if (response.error) {
 				throw new Error(
-					`Resend API Error: ${response.error.message} - ${response.error.name}`,
+					`Erro da API Resend: ${response.error.message} - ${response.error.name}`,
 				);
 			}
 
 			console.log(
-				`Email sent successfully to ${to}. Message ID: ${response.data.id}`,
+				`Email enviado com sucesso para ${to}. ID da mensagem: ${response.data.id}`,
 			);
 		} catch (error) {
-			console.error(`Failed to send email to ${to}:`, error);
+			console.error(`Falha ao enviar email para ${to}:`, error);
 			throw error;
 		}
 	}
 }
-
-export const emailService = new EmailService();
