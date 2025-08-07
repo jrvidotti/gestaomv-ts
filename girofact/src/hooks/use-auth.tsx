@@ -4,10 +4,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 // Tipos inferidos automaticamente do tRPC
 type UserProfile = NonNullable<
-  Awaited<ReturnType<typeof trpcClient.auth.buscarPerfil.query>>
+  Awaited<ReturnType<typeof trpcClient.core.auth.buscarPerfil.query>>
 >;
-type LoginInput = Parameters<typeof trpcClient.auth.login.mutate>[0];
-type RegisterInput = Parameters<typeof trpcClient.auth.registrar.mutate>[0];
+type LoginInput = Parameters<typeof trpcClient.core.auth.login.mutate>[0];
+type RegisterInput = Parameters<
+  typeof trpcClient.core.auth.registrar.mutate
+>[0];
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -33,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const token = localStorage.getItem("auth_token");
         if (token) {
-          const userProfile = await trpcClient.auth.buscarPerfil.query();
+          const userProfile = await trpcClient.core.auth.buscarPerfil.query();
           if (userProfile) {
             setUser(userProfile);
           }
@@ -53,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const emailLogin = async (credentials: LoginInput) => {
     setIsLoading(true);
     try {
-      const response = await trpcClient.auth.login.mutate(credentials);
+      const response = await trpcClient.core.auth.login.mutate(credentials);
 
       // Armazenar token e dados do usuário
       localStorage.setItem("auth_token", response.access_token);
@@ -68,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (data: RegisterInput) => {
     setIsLoading(true);
     try {
-      const response = await trpcClient.auth.registrar.mutate(data);
+      const response = await trpcClient.core.auth.registrar.mutate(data);
 
       // Armazenar token e dados do usuário
       localStorage.setItem("auth_token", response.access_token);
@@ -83,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     setIsLoading(true);
     try {
-      await trpcClient.auth.logout.mutate();
+      await trpcClient.core.auth.logout.mutate();
     } catch (error) {
       // Ignorar erros de logout
     } finally {
@@ -124,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Busca roles de um usuário específico (para admins)
   const getUserRoles = async (userId: number): Promise<UserRoleType[]> => {
     try {
-      return await trpcClient.auth.buscarUserRoles.query({ userId });
+      return await trpcClient.core.auth.buscarUserRoles.query({ userId });
     } catch (error) {
       console.error("Erro ao buscar roles do usuário:", error);
       return [];
