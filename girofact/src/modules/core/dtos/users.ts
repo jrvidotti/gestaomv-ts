@@ -5,7 +5,7 @@ import z from "zod";
 const userRoleEnumSchema = z.enum(USER_ROLES_ARRAY) as z.ZodType<UserRoleType>;
 
 export const createUserSchema = z.object({
-	email: z.string().email("Email inválido"),
+	email: z.email("Email inválido"),
 	password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 	name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
 	roles: userRoleEnumSchema.array().default([]),
@@ -13,7 +13,7 @@ export const createUserSchema = z.object({
 });
 
 export const updateUserSchema = z.object({
-	email: z.string().email("Email inválido").optional(),
+	email: z.email("Email inválido").optional(),
 	password: z
 		.string()
 		.min(6, "Senha deve ter pelo menos 6 caracteres")

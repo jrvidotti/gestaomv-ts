@@ -241,3 +241,55 @@ trpc.core.users.*
 - Todos os endpoints retornam dados tipados via Zod schemas
 - Filtros de listagem incluem paginação (`pagina`, `limite`)
 - Schemas de validação estão em `src/modules/[module]/dtos/`
+
+## Configurações de Banco de Dados
+
+### Campos de Data e Timestamp
+
+- Campos `date`, `time` ou `timestamp` devem ser armazenados como `text` no Drizzle/SQLite:
+
+```typescript
+import { sql } from "drizzle-orm";
+import { text, sqliteTable } from "drizzle-orm/sqlite-core";
+const table = sqliteTable("table", {
+  time: text().default(sql`(CURRENT_TIME)`),
+  date: text().default(sql`(CURRENT_DATE)`),
+  timestamp: text().default(sql`(CURRENT_TIMESTAMP)`),
+});
+```
+
+**Diretrizes**:
+- Campos `date` devem ser armazenados no formato 'YYYY-MM-DD' (sem timezone)
+- Campos `timestamp` devem ser armazenados como ISO/UTC
+
+## Padrões de Desenvolvimento
+
+### Drizzle Schemas
+
+- Nos esquemas Drizzle, utilize o novo formato para declarar indices (array, não objeto):
+
+Correto:
+```typescript
+export const dadosBancarios = sqliteTable(
+  "nome_tabela",
+  {...},
+  (table) => [
+    uniqueIndex("unique_campo").on(
+      table.campo,
+    ),
+  ]
+);
+```
+
+Errado:
+```typescript
+export const dadosBancarios = sqliteTable(
+  "nome_tabela",
+  {...},
+  (table) => ({
+    uniqueIndex("unique_campo").on(
+      table.campo,
+    ),
+  })
+);
+```

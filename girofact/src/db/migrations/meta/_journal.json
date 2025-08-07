@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1754582062484,
-      "tag": "0000_elite_scarecrow",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1754584733192,
-      "tag": "0001_foamy_sugar_man",
+      "when": 1754606298171,
+      "tag": "0000_left_valkyrie",
       "breakpoints": true
     }
   ]

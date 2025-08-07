@@ -1,6 +1,6 @@
 import type { UserRoleType } from "@/constants";
 
-import type { settings, userRoles, users } from "./schemas";
+import type { configuracoes, userRoles, users } from "./schemas";
 
 // ===== USERS =====
 
@@ -19,5 +19,5 @@ export type CriarUser = typeof users.$inferInsert & {
 
 // ===== SETTINGS =====
 
-export type Configuracao = typeof settings.$inferSelect;
-export type CriarConfiguracao = typeof settings.$inferInsert;
+export type Configuracao = typeof configuracoes.$inferSelect;
+export type CriarConfiguracao = typeof configuracoes.$inferInsert;

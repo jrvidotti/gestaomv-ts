@@ -5,8 +5,8 @@ import { usersRouter } from "@/modules/core/routers/users.router";
 import type { TRPCRouterRecord } from "@trpc/server";
 
 export const coreRouter = {
-  auth: authRouter,
-  configuracoes: configuracoesRouter,
-  superadmin: superadminRouter,
-  users: usersRouter,
+	auth: authRouter,
+	configuracoes: configuracoesRouter,
+	superadmin: superadminRouter,
+	users: usersRouter,
 } satisfies TRPCRouterRecord;

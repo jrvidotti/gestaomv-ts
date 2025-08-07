@@ -11,10 +11,7 @@
 			"name": "Junior",
 			"password": "senha123",
 			"isActive": true,
-			"roles": [
-				"admin",
-				"superadmin"
-			]
+			"roles": ["admin", "superadmin"]
 		}
 	]
 }

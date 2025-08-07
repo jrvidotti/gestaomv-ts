@@ -9,7 +9,6 @@ O módulo de factoring é responsável pelo controle de concessão de crédito e
 - Controlar a concessão de crédito para clientes
 - Gerenciar operações financeiras baseadas em cheques e notas promissórias
 - Manter histórico completo de operações e documentos
-- Facilitar a tomada de decisões através de simulações
 - Garantir rastreabilidade através de sistema de arquivos e anexos
 
 ## 3. Entidades Principais
@@ -90,7 +89,6 @@ Entidade base para o cadastro de pessoas físicas e jurídicas.
 - Conta
 - Dígito verificador da conta
 - Tipo de conta: corrente (padrão), poupança
-- Titular da conta (em branco se é a pessoa)
 
 ### 3.5. Cliente
 
@@ -134,39 +132,6 @@ Estende a entidade Pessoa com informações específicas para realização de op
 
 **Regra de negócio:** Se o campo "ID da pessoa" for preenchido, os dados serão carregados automaticamente da pessoa cadastrada. Caso contrário, os campos nome e telefone são obrigatórios.
 
-### 3.7. Simulação de Operação
-
-**Campos:**
-
-- ID único
-- ID do cliente (chave estrangeira)
-- Data da simulação
-- Usuário que realizou a simulação
-- Taxa de juros aplicada na simulação
-- Observações
-- Data base da simulação
-- Data de validade da simulação
-- Status da simulação (pendente, aprovada, rejeitada, convertida em operação)
-- Usuário que aprovou a simulação
-- Data de aprovação
-
-**Relacionamentos:**
-
-- Múltiplos documentos da simulação
-
-### 3.8. Documento da Simulação
-
-**Campos:**
-
-- ID único
-- ID da simulação (chave estrangeira)
-- Data de vencimento
-- Valor do documento
-- Float (dias extras para compensação)
-- Dias até o vencimento (calculado)
-- Dias totais com float (calculado)
-- Observações
-
 ### 3.9. Operação
 
 **Campos:**
@@ -174,11 +139,10 @@ Estende a entidade Pessoa com informações específicas para realização de op
 - ID único
 - Número da operação (sequencial/protocolo)
 - ID do cliente (chave estrangeira)
-- ID da simulação (chave estrangeira - opcional, se baseada em simulação)
 - Data da operação
 - Taxa de juros aplicada
 - Valor líquido da operação
-- Status da operação (pendente, liquidada, cancelada)
+- Status da operação (rascunho, pendente, liquidada, cancelada)
 - Data de pagamento (quando liquidada)
 - Carteira de pagamento (chave estrangeira)
 - Usuário responsável pela operação
@@ -203,6 +167,7 @@ Estende a entidade Pessoa com informações específicas para realização de op
 - Status do documento (pendente, compensado, devolvido, protestado, resgatado)
 - Valor de juros da operação
 - Observações
+- Foi devolvido (boolean) - se foi devolvido, deixar marcado para estatísticas
 
 **Campos específicos para Nota Promissória:**
 
@@ -221,13 +186,14 @@ Estende a entidade Pessoa com informações específicas para realização de op
 
 - ID único
 - ID do documento (chave estrangeira)
-- Tipo de ocorrência (compensação, devolução, protesto, prorrogação, resgate)
+- Tipo de ocorrência (compensação, devolução, protesto, prorrogação, resgate, pagamento)
 - Data da ocorrência
 - Data de vencimento atual
 - Data de vencimento prorrogada
 - Valor da compensação
 - Valor de juros da prorrogação
 - Valor de tarifa
+- Alínea de devolução
 - Usuário
 - Observação
 
@@ -285,9 +251,8 @@ Esta tabela registra todos os lançamentos financeiros do cliente, incluindo ope
 
 ### 4.0. Parametros do Sistema
 
-- Validade de simulação (padrão 7 dias)
 - Tipo de juros (simples ou composto)
-- Taxa de juros padrão
+- Taxa de juros padrão (ao mês)
 - Tarifa de devolução de cheques
 - Tarifa de prorrogação
 
@@ -315,11 +280,6 @@ Esta tabela registra todos os lançamentos financeiros do cliente, incluindo ope
 ### 4.4. Contatos de Referência
 
 - Telefone é obrigatório para todas as referências
-
-### 4.5. Simulações
-
-- Calcular data de validade da simulação baseada utilizando o parametro de validade de simulação
-- Documentos devem ter data de vencimento acima da data base
 
 ### 4.6. Operações
 
@@ -366,6 +326,13 @@ Esta tabela registra todos os lançamentos financeiros do cliente, incluindo ope
   - Dias totais: 6 (dias corridos) + 2 (float) + 2 (final de semana) = 10 dias
 
 - **Exemplo 3:**
+  - Data de operação: 07/08/2025
+  - Data de vencimento: 13/08/2025 (quarta)
+  - Float: 2 dias (15/08/2025 - sexta)
+  - Por conta do vencimento + float cair no sexta, são adicionados 3 dias corridos (sexta, sábado e domingo)
+  - Dias totais: 6 (dias corridos) + 2 (float) + 3 (final de semana) = 11 dias
+
+- **Exemplo 4:**
   - Data de operação: 11/08/2025
   - Data de vencimento: 17/08/2025 (domingo)
   - Por conta de domingo, o dia 18/08/2025 (segunda) é considerado dia corrido
@@ -378,6 +345,7 @@ Esta tabela registra todos os lançamentos financeiros do cliente, incluindo ope
 - Operação liquidada: deve-se registrar um lançamento de débito para o cliente no valor líquido da operação
 - Ocorrência tipo "prorrogação": registrar lançamento de débito no valor do juros e tarifa de prorrogação
 - Ocorrência tipo "resgate": registrar lançamento de débito no valor do juros e tarifa de resgate
+- Ocorrência tipo "pagamento": registrar lançamento de débito no valor do documento, juros e tarifa.
 - Ocorrência tipo "compensação" e documento estava "pendente": não registrar lançamento
 - Ocorrência tipo "devolução": registrar lançamento de débito no valor do documento e tarifa de devolução
 - Ocorrência tipo "protesto": registrar lançamento de débito no valor da tarifa de protesto
@@ -395,17 +363,11 @@ O cadastro de ocorrência altera o status do documento.
 - **Bloqueado**: Cliente temporariamente impedido de operar
 - **Suspenso**: Cliente com restrições específicas
 
-### 5.2. Status de Simulação
-
-- **Pendente**: Aguardando análise ou decisão
-- **Aprovada**: Aprovada para conversão em operação
-- **Rejeitada**: Não aprovada para operação
-- **Convertida**: Já convertida em operação efetiva
-- **Expirada**: Prazo de validade vencido (o status no banco é Pendente, mas a data de validade é menor que a data atual)
-
 ### 5.3. Status de Operação
 
-- **Pendente**: Operação em andamento, aguardando liquidação
+- **Rascunho**: Operação em digitação
+- **Aprovacao**: Operação solicitando aprovação
+- **Efetivada**: Operação efetivada, aguardando liquidação
 - **Liquidada**: Operação totalmente liquidada
 - **Cancelada**: Operação cancelada
 
@@ -416,6 +378,7 @@ O cadastro de ocorrência altera o status do documento.
 - **Devolvido**: Documento foi devolvido pelo banco
 - **Protestado**: Documento foi protestado
 - **Resgatado**: Documento foi resgatado pelo cliente
+- **Pago**: Documento foi pago pelo cliente
 
 ### 5.5. Tipo de Ocorrência
 
@@ -423,7 +386,8 @@ O cadastro de ocorrência altera o status do documento.
 - **Devolução**: Documento foi devolvido pelo banco
 - **Protesto**: Documento foi protestado
 - **Prorrogação**: Documento teve vencimento prorrogado
-- **Resgate**: Documento foi resgatado pelo cliente
+- **Resgate**: Documento foi resgatado pelo cliente (quando o cheque se encontra pendente ou compensado)
+- **Pagamento**: Documento foi resgatado pelo cliente (quando o cheque se encontra devolvido ou protestado)
 
 ## 6. Funcionalidades do Sistema
 
@@ -435,16 +399,8 @@ O cadastro de ocorrência altera o status do documento.
 - Cadastro e manutenção de referências
 - Controle de informações de crédito
 
-### 6.2. Simulações
-
-- Criação de simulações de operação
-- Cálculo automático de juros e valores líquidos
-- Aprovação/rejeição de simulações
-- Conversão de simulações em operações
-
 ### 6.3. Operações
 
-- Criação de operações baseadas em simulações ou diretas
 - Gestão de documentos (cheques e notas promissórias)
 - Controle de status e pagamentos
 - Cálculos financeiros automáticos
@@ -507,18 +463,12 @@ O cadastro de ocorrência altera o status do documento.
 - Dados: Cliente, limite, utilizado, disponível, percentual utilizado
 - Alertas: Clientes próximos do limite, limites zerados
 
-**9. Simulações vs Operações**
-
-- Filtros: Período, status da simulação
-- Dados: Simulação, cliente, valor simulado, taxa, status, operação resultante
-- Taxa de conversão: Simulações convertidas em operações
-
 #### 📈 Relatórios Analíticos
 
 **10. Performance por Usuário**
 
 - Filtros: Período, usuário
-- Dados: Usuário, operações realizadas, valor operado, simulações criadas
+- Dados: Usuário, operações realizadas, valor operado
 - Produtividade: Volume por usuário, tempo médio de análise
 
 **11. Análise de Tarifas**
@@ -691,3 +641,5 @@ O cadastro de ocorrência altera o status do documento.
 - Máscaras para CPF, CNPJ, telefone
 - Validação em tempo real
 - Mensagens de erro claras
+
+- Tela para compensação de documentos (lista) (informar carteira)

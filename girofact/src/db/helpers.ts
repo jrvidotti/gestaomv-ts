@@ -1,4 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
+import { sql } from "drizzle-orm";
 import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const idCuid = () =>
@@ -8,11 +9,11 @@ export const idCuid = () =>
 export const idAutoIncrement = () =>
 	integer("id").primaryKey({ autoIncrement: true });
 
-export const createdAt = () =>
-	integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date());
-export const updatedAt = () =>
-	integer("updated_at", { mode: "timestamp" }).$defaultFn(() => new Date());
+export const criadoEm = () =>
+	text("criado_em").default(sql`(CURRENT_TIMESTAMP)`);
+export const atualizadoEm = () =>
+	text("atualizado_em").default(sql`(CURRENT_TIMESTAMP)`);
 export const timestamps = () => ({
-	createdAt: createdAt(),
-	updatedAt: updatedAt(),
+	createdAt: criadoEm(),
+	updatedAt: atualizadoEm(),
 });

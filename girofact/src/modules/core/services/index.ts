@@ -16,14 +16,14 @@ export const usersService = new UsersService(db);
 export const superadminService = new SuperadminService(db, usersService);
 
 export const notificationsService = new NotificationsService(
-  configuracoesService,
-  emailService,
-  templateService,
-  usersService
+	configuracoesService,
+	emailService,
+	templateService,
+	usersService,
 );
 
 export const authService = new AuthService(
-  usersService,
-  notificationsService,
-  emailService
+	usersService,
+	notificationsService,
+	emailService,
 );
