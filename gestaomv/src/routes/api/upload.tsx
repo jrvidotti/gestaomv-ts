@@ -1,4 +1,4 @@
-import { storageService } from "@/modules/core/services/storage.service";
+import { storageService } from "@/modules/core/services";
 import { createServerFileRoute } from "@tanstack/react-start/server";
 
 async function handler({ request }: { request: Request }) {
