@@ -451,11 +451,138 @@ O cadastro de ocorrência altera o status do documento.
 
 ### 6.4. Relatórios e Consultas
 
-- Relatório de operações por período
-- Relatório de clientes por status
-- Consulta de documentos por status
-- Relatório de inadimplência
-- Análise de rentabilidade por cliente
+#### 📊 Relatórios Operacionais
+
+**1. Relatório de Operações**
+
+- Filtros: Período, cliente, status, carteira, usuário
+- Dados: Número da operação, cliente, data, valor bruto, valor líquido, taxa, status, vencimentos
+- Totalizadores: Quantidade de operações, valor total bruto, valor total líquido, juros totais
+
+**2. Posição de Documentos**
+
+- Filtros: Período de vencimento, tipo de documento, status, cliente
+- Dados: Documento, cliente, data de vencimento, valor, status, dias em atraso
+- Agrupamento: Por status (pendente, compensado, devolvido, protestado)
+
+**3. Agenda de Vencimentos**
+
+- Filtros: Período futuro (próximos 30/60/90 dias)
+- Dados: Data de vencimento, cliente, tipo de documento, valor, float
+- Ordenação: Por data de vencimento
+- Indicadores: Documentos do dia, da semana, do mês
+
+#### 💰 Relatórios Financeiros
+
+**4. Fluxo de Caixa**
+
+- Filtros: Período, carteira
+- Dados: Data, descrição, entrada, saída, saldo acumulado
+- Origem: Operações, compensações, devoluções, recebimentos
+- Projeção: Baseada nos vencimentos futuros
+
+**5. Rentabilidade por Cliente**
+
+- Filtros: Período, cliente
+- Dados: Cliente, número de operações, valor operado, juros recebidos, tarifas, lucro líquido
+- Indicadores: Margem de lucro, ticket médio, frequência
+
+**6. Análise de Inadimplência**
+
+- Filtros: Período, faixas de atraso
+- Dados: Cliente, valor em atraso, dias de atraso, histórico de ocorrências
+- Estatísticas: Taxa de inadimplência, provisão para perdas
+
+#### 📋 Relatórios de Controle
+
+**7. Carteira de Clientes**
+
+- Filtros: Status do cliente, limite de crédito, região
+- Dados: Cliente, status, limite, utilizado, disponível, última operação
+- Análises: Clientes ativos vs inativos, concentração de risco
+
+**8. Utilização de Limite**
+
+- Filtros: Cliente, percentual de utilização
+- Dados: Cliente, limite, utilizado, disponível, percentual utilizado
+- Alertas: Clientes próximos do limite, limites zerados
+
+**9. Simulações vs Operações**
+
+- Filtros: Período, status da simulação
+- Dados: Simulação, cliente, valor simulado, taxa, status, operação resultante
+- Taxa de conversão: Simulações convertidas em operações
+
+#### 📈 Relatórios Analíticos
+
+**10. Performance por Usuário**
+
+- Filtros: Período, usuário
+- Dados: Usuário, operações realizadas, valor operado, simulações criadas
+- Produtividade: Volume por usuário, tempo médio de análise
+
+**11. Análise de Tarifas**
+
+- Filtros: Período, tipo de tarifa
+- Dados: Tipo de tarifa, quantidade, valor arrecadado
+- Detalhamento: Tarifas de devolução, prorrogação, protesto
+
+**12. Histórico de Ocorrências**
+
+- Filtros: Período, tipo de ocorrência, cliente
+- Dados: Data, cliente, documento, tipo de ocorrência, valor, usuário
+- Estatísticas: Frequência por tipo, clientes com mais ocorrências
+
+#### 🎯 Relatórios Gerenciais
+
+**13. Dashboard Executivo**
+
+- KPIs: Volume operado, carteira ativa, taxa de inadimplência, rentabilidade
+- Gráficos: Evolução mensal, comparativo anual, distribuição por cliente
+- Alertas: Limites ultrapassados, documentos vencidos, metas
+
+**14. Análise de Risco**
+
+- Filtros: Período, faixa de limite
+- Dados: Concentração por cliente, exposição total, garantias
+- Indicadores: Maior cliente (%), top 10 clientes, diversificação
+
+**15. Auditoria de Operações**
+
+- Filtros: Período, usuário, tipo de ação
+- Dados: Data/hora, usuário, ação realizada, dados alterados
+- Rastreabilidade: Criação, alteração, cancelamento de operações
+
+#### 📊 Relatórios Customizáveis
+
+**16. Consulta de Lançamentos**
+
+- Filtros: Cliente, período, tipo, carteira
+- Dados: Data, descrição, origem, entrada, saída, saldo
+- Exportação: Excel, PDF, CSV
+
+**17. Extrato do Cliente**
+
+- Filtros: Cliente específico, período
+- Dados: Operações, documentos, ocorrências, recebimentos, saldo
+- Formato: Similar a extrato bancário
+
+#### 🔄 Configurações de Relatório
+
+**Recursos Comuns:**
+
+- Exportação: PDF, Excel, CSV
+- Agendamento: Diário, semanal, mensal
+- Filtros salvos: Templates de consulta
+- Gráficos: Visualizações interativas
+- Drill-down: Detalhamento por clique
+- Comparativos: Período anterior, meta vs realizado
+
+**Permissões:**
+
+- Relatórios por perfil de usuário
+- Dados sensíveis protegidos
+- Log de acessos aos relatórios
 
 ### 6.5. Gestão de Arquivos
 
@@ -497,6 +624,10 @@ O cadastro de ocorrência altera o status do documento.
 - E-mail para comunicações
 - SMS para avisos urgentes
 - WhatsApp para contato direto
+
+### 7.5. Busca de CEP
+
+- Integração com viacep para busca de CEP
 
 ## 8. Segurança e Privacidade
 
