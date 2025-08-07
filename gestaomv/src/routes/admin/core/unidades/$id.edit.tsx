@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { UpdateUnidadeDto } from "@/modules/core/dtos";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -34,9 +34,9 @@ function EditUnidadePage() {
 		data: unidade,
 		isLoading,
 		error,
-	} = useQuery(trpc.unidades.findOne.queryOptions({ id: unidadeId }));
+	} = useQuery(trpc.unidades.buscar.queryOptions({ id: unidadeId }));
 	const { mutate: updateUnidade, isPending } = useMutation({
-		...trpc.unidades.update.mutationOptions(),
+		...trpc.unidades.atualizar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Unidade atualizada com sucesso!");
 			navigate({ to: "/admin/core/unidades" });
@@ -71,7 +71,7 @@ function EditUnidadePage() {
 
 	if (isLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-4xl mx-auto">
 						<Card>
@@ -100,7 +100,7 @@ function EditUnidadePage() {
 
 	if (error || !unidade) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-4xl mx-auto">
 						<Card>
@@ -125,7 +125,7 @@ function EditUnidadePage() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="max-w-4xl mx-auto space-y-6">
 					<UnidadeForm

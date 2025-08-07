@@ -3,7 +3,7 @@ import {
 	relatorioConsumoFiltrosSchema,
 	topMateriaisSchema,
 } from "@/modules/almoxarifado/dtos";
-import { estatisticasService } from "@/modules/almoxarifado/services/estatisticas.service";
+import { estatisticasService } from "@/modules/almoxarifado/services";
 import { protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 

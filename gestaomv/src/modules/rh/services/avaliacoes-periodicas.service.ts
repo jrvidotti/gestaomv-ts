@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { avaliacoesPeriodicas, funcionarios, users } from "@/db/schemas";
 import type {
 	AtualizarAvaliacaoPeriodicaData,
@@ -9,6 +9,8 @@ import type { ClassificacaoAvaliacaoPeriodicaType } from "@/modules/rh/types";
 import { and, count, desc, eq, gte, lte } from "drizzle-orm";
 
 export class AvaliacoesPeriodicasService {
+	constructor(private db: Db) {}
+
 	private calcularMedia(
 		desempenho: number,
 		comprometimento: number,
@@ -57,7 +59,7 @@ export class AvaliacoesPeriodicasService {
 
 		const classificacao = this.determinarClassificacao(mediaFinal);
 
-		const [avaliacao] = await db
+		const [avaliacao] = await this.db
 			.insert(avaliacoesPeriodicas)
 			.values({
 				...avaliacaoData,
@@ -116,7 +118,7 @@ export class AvaliacoesPeriodicasService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const avaliacoesList = await db
+		const avaliacoesList = await this.db
 			.select({
 				id: avaliacoesPeriodicas.id,
 				funcionarioId: avaliacoesPeriodicas.funcionarioId,
@@ -163,7 +165,7 @@ export class AvaliacoesPeriodicasService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(avaliacoesPeriodicas)
 			.where(whereClause);
@@ -175,7 +177,7 @@ export class AvaliacoesPeriodicasService {
 	}
 
 	async buscarAvaliacaoPeriodicaPorId(id: number) {
-		const avaliacao = await db.query.avaliacoesPeriodicas.findFirst({
+		const avaliacao = await this.db.query.avaliacoesPeriodicas.findFirst({
 			where: eq(avaliacoesPeriodicas.id, id),
 			with: {
 				funcionario: {
@@ -192,7 +194,7 @@ export class AvaliacoesPeriodicasService {
 	}
 
 	async buscarAvaliacoesPorFuncionario(funcionarioId: number) {
-		const avaliacoesList = await db.query.avaliacoesPeriodicas.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesPeriodicas.findMany({
 			where: eq(avaliacoesPeriodicas.funcionarioId, funcionarioId),
 			with: {
 				avaliador: true,
@@ -204,7 +206,7 @@ export class AvaliacoesPeriodicasService {
 	}
 
 	async buscarAvaliacoesPorAvaliador(avaliadorId: number) {
-		const avaliacoesList = await db.query.avaliacoesPeriodicas.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesPeriodicas.findMany({
 			where: eq(avaliacoesPeriodicas.avaliadorId, avaliadorId),
 			with: {
 				funcionario: {
@@ -223,7 +225,7 @@ export class AvaliacoesPeriodicasService {
 	async buscarAvaliacoesPorClassificacao(
 		classificacao: ClassificacaoAvaliacaoPeriodicaType,
 	) {
-		const avaliacoesList = await db.query.avaliacoesPeriodicas.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesPeriodicas.findMany({
 			where: eq(avaliacoesPeriodicas.classificacao, classificacao),
 			with: {
 				funcionario: {
@@ -241,7 +243,7 @@ export class AvaliacoesPeriodicasService {
 	}
 
 	async buscarUltimaAvaliacaoFuncionario(funcionarioId: number) {
-		const ultimaAvaliacao = await db.query.avaliacoesPeriodicas.findFirst({
+		const ultimaAvaliacao = await this.db.query.avaliacoesPeriodicas.findFirst({
 			where: eq(avaliacoesPeriodicas.funcionarioId, funcionarioId),
 			with: {
 				avaliador: true,
@@ -256,7 +258,7 @@ export class AvaliacoesPeriodicasService {
 		periodoInicial: string,
 		periodoFinal: string,
 	) {
-		const avaliacoesList = await db.query.avaliacoesPeriodicas.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesPeriodicas.findMany({
 			where: and(
 				gte(avaliacoesPeriodicas.periodoInicial, periodoInicial),
 				lte(avaliacoesPeriodicas.periodoFinal, periodoFinal),
@@ -318,7 +320,7 @@ export class AvaliacoesPeriodicasService {
 			}
 		}
 
-		await db
+		await this.db
 			.update(avaliacoesPeriodicas)
 			.set(dadosAtualizacao)
 			.where(eq(avaliacoesPeriodicas.id, id));
@@ -327,10 +329,8 @@ export class AvaliacoesPeriodicasService {
 	}
 
 	async deletarAvaliacaoPeriodica(id: number): Promise<void> {
-		await db
+		await this.db
 			.delete(avaliacoesPeriodicas)
 			.where(eq(avaliacoesPeriodicas.id, id));
 	}
 }
-
-export const avaliacoesPeriodicasService = new AvaliacoesPeriodicasService();

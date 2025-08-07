@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -51,9 +51,9 @@ function UnidadesListPage() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(trpc.unidades.findAll.queryOptions());
+	} = useQuery(trpc.unidades.listar.queryOptions());
 	const { mutate: removeUnidade } = useMutation({
-		...trpc.unidades.remove.mutationOptions(),
+		...trpc.unidades.deletar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Unidade removida com sucesso!");
 			refetch();
@@ -98,7 +98,7 @@ function UnidadesListPage() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="space-y-4">
 					{/* Campo de Busca */}

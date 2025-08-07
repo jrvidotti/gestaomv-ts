@@ -22,7 +22,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,7 +78,7 @@ function RouteComponent() {
 
 	// Buscar unidades
 	const { data: unidades, isLoading: carregandoUnidades } = useQuery(
-		trpc.unidades.findAll.queryOptions(),
+		trpc.unidades.listar.queryOptions(),
 	);
 
 	const { mutate: criarSolicitacao, error: erroMutacao } = useMutation({
@@ -157,9 +157,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

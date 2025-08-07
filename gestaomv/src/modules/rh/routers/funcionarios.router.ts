@@ -5,8 +5,8 @@ import {
 	criarUserFuncionarioSchema,
 	filtrosFuncionariosSchema,
 } from "@/modules/rh/dtos";
-import { funcionariosService } from "@/modules/rh/services/funcionarios.service";
-import { userFuncionariosService } from "@/modules/rh/services/user-funcionarios.service";
+import { funcionariosService } from "@/modules/rh/services";
+import { userFuncionariosService } from "@/modules/rh/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

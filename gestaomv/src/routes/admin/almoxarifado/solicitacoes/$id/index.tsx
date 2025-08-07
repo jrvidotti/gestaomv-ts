@@ -13,7 +13,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
@@ -56,9 +56,9 @@ function RouteComponent() {
 		}),
 	);
 
-	const isAdmin = user?.roles?.includes(USER_ROLES.ADMIN);
-	const isAprovador = user?.roles?.includes(USER_ROLES.APROVADOR_ALMOXARIFADO);
-	const isGerente = user?.roles?.includes(USER_ROLES.GERENCIA_ALMOXARIFADO);
+	const isAdmin = user?.roles?.includes(ALL_ROLES.ADMIN);
+	const isAprovador = user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_APROVADOR);
+	const isGerente = user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA);
 	const isOwner = user?.id === solicitacao?.solicitanteId;
 
 	// Permissões derivadas
@@ -231,10 +231,10 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.APROVADOR_ALMOXARIFADO,
-					USER_ROLES.GERENCIA_ALMOXARIFADO,
-					USER_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -252,10 +252,10 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.APROVADOR_ALMOXARIFADO,
-					USER_ROLES.GERENCIA_ALMOXARIFADO,
-					USER_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -319,9 +319,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

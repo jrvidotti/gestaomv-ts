@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { cargos, departamentos } from "@/db/schemas";
 import type {
 	AtualizarCargoData,
@@ -8,8 +8,10 @@ import type {
 import { and, asc, count, eq, sql } from "drizzle-orm";
 
 export class CargosService {
+	constructor(private db: Db) {}
+
 	async criarCargo(cargoData: CriarCargoData) {
-		const [cargo] = await db
+		const [cargo] = await this.db
 			.insert(cargos)
 			.values({
 				...cargoData,
@@ -37,7 +39,7 @@ export class CargosService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const cargosList = await db
+		const cargosList = await this.db
 			.select({
 				id: cargos.id,
 				nome: cargos.nome,
@@ -58,7 +60,7 @@ export class CargosService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(cargos)
 			.where(whereClause);
@@ -70,7 +72,7 @@ export class CargosService {
 	}
 
 	async buscarCargoPorId(id: number) {
-		const cargo = await db.query.cargos.findFirst({
+		const cargo = await this.db.query.cargos.findFirst({
 			where: eq(cargos.id, id),
 			with: {
 				departamento: true,
@@ -81,7 +83,7 @@ export class CargosService {
 	}
 
 	async buscarCargoPorNome(nome: string) {
-		const cargo = await db.query.cargos.findFirst({
+		const cargo = await this.db.query.cargos.findFirst({
 			where: eq(cargos.nome, nome),
 			with: {
 				departamento: true,
@@ -92,7 +94,7 @@ export class CargosService {
 	}
 
 	async buscarCargosPorDepartamento(departamentoId: number) {
-		const cargosList = await db.query.cargos.findMany({
+		const cargosList = await this.db.query.cargos.findMany({
 			where: eq(cargos.departamentoId, departamentoId),
 			orderBy: [asc(cargos.nome)],
 		});
@@ -101,7 +103,7 @@ export class CargosService {
 	}
 
 	async buscarCargoPorPontowebId(pontowebId: number) {
-		const cargo = await db.query.cargos.findFirst({
+		const cargo = await this.db.query.cargos.findFirst({
 			where: eq(cargos.pontowebId, pontowebId),
 			with: {
 				departamento: true,
@@ -117,14 +119,12 @@ export class CargosService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db.update(cargos).set(dadosAtualizacao).where(eq(cargos.id, id));
+		await this.db.update(cargos).set(dadosAtualizacao).where(eq(cargos.id, id));
 
 		return await this.buscarCargoPorId(id);
 	}
 
 	async deletarCargo(id: number): Promise<void> {
-		await db.delete(cargos).where(eq(cargos.id, id));
+		await this.db.delete(cargos).where(eq(cargos.id, id));
 	}
 }
-
-export const cargosService = new CargosService();

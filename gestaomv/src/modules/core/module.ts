@@ -1,8 +1,12 @@
 import { MODULE_STATUS, type ModuleData } from "@/constants";
-import { USER_ROLES } from "@/constants";
 import { Building, Building2, Settings, Users } from "lucide-react";
 
-export const MODULE_DATA_CORE: ModuleData = {
+export const MODULE_ROLES = {
+	SUPERADMIN: "superadmin",
+	ADMIN: "admin",
+} as const;
+
+export const MODULE_DATA: ModuleData = {
 	module: "core",
 	title: "Administração",
 	description: "Configurações e usuários do sistema",
@@ -10,6 +14,21 @@ export const MODULE_DATA_CORE: ModuleData = {
 	color: "bg-slate-500",
 	status: MODULE_STATUS.ATIVO,
 	icon: Settings,
+	moduleRoles: MODULE_ROLES,
+	moduleRolesData: {
+		[MODULE_ROLES.SUPERADMIN]: {
+			value: MODULE_ROLES.SUPERADMIN,
+			label: "Superadmin",
+			description: "Acesso total ao sistema (superusuário)",
+			color: "destructive",
+		},
+		[MODULE_ROLES.ADMIN]: {
+			value: MODULE_ROLES.ADMIN,
+			label: "Administrador",
+			description: "Acesso total ao sistema",
+			color: "destructive",
+		},
+	} as const,
 	items: [
 		{
 			title: "Usuários",
@@ -36,5 +55,5 @@ export const MODULE_DATA_CORE: ModuleData = {
 			status: MODULE_STATUS.DESENVOLVIMENTO,
 		},
 	],
-	roles: [USER_ROLES.ADMIN],
+	roles: [MODULE_ROLES.SUPERADMIN, MODULE_ROLES.ADMIN],
 } as const;

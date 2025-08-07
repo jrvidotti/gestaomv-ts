@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import {
 	cargos,
 	departamentos,
@@ -15,8 +15,10 @@ import type { StatusFuncionarioType } from "@/modules/rh/types";
 import { and, asc, count, eq, inArray, sql } from "drizzle-orm";
 
 export class FuncionariosService {
+	constructor(private db: Db) {}
+
 	async criarFuncionario(funcionarioData: CriarFuncionarioData) {
-		const [funcionario] = await db
+		const [funcionario] = await this.db
 			.insert(funcionarios)
 			.values({
 				...funcionarioData,
@@ -71,7 +73,7 @@ export class FuncionariosService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const funcionariosList = await db
+		const funcionariosList = await this.db
 			.select({
 				id: funcionarios.id,
 				nome: funcionarios.nome,
@@ -123,7 +125,7 @@ export class FuncionariosService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(funcionarios)
 			.where(whereClause);
@@ -135,7 +137,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionarioPorId(id: number) {
-		const funcionario = await db.query.funcionarios.findFirst({
+		const funcionario = await this.db.query.funcionarios.findFirst({
 			where: eq(funcionarios.id, id),
 			with: {
 				cargo: true,
@@ -154,7 +156,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionarioPorCpf(cpf: string) {
-		const funcionario = await db.query.funcionarios.findFirst({
+		const funcionario = await this.db.query.funcionarios.findFirst({
 			where: eq(funcionarios.cpf, cpf),
 			with: {
 				cargo: true,
@@ -168,7 +170,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionarioPorEmail(email: string) {
-		const funcionario = await db.query.funcionarios.findFirst({
+		const funcionario = await this.db.query.funcionarios.findFirst({
 			where: eq(funcionarios.email, email),
 			with: {
 				cargo: true,
@@ -182,7 +184,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionariosPorDepartamento(departamentoId: number) {
-		const funcionariosList = await db.query.funcionarios.findMany({
+		const funcionariosList = await this.db.query.funcionarios.findMany({
 			where: eq(funcionarios.departamentoId, departamentoId),
 			with: {
 				cargo: true,
@@ -194,7 +196,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionariosPorCargo(cargoId: number) {
-		const funcionariosList = await db.query.funcionarios.findMany({
+		const funcionariosList = await this.db.query.funcionarios.findMany({
 			where: eq(funcionarios.cargoId, cargoId),
 			with: {
 				departamento: true,
@@ -206,7 +208,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionariosPorStatus(status: StatusFuncionarioType[]) {
-		const funcionariosList = await db.query.funcionarios.findMany({
+		const funcionariosList = await this.db.query.funcionarios.findMany({
 			where: inArray(funcionarios.status, status),
 			with: {
 				cargo: true,
@@ -219,7 +221,7 @@ export class FuncionariosService {
 	}
 
 	async buscarFuncionarioPorPontowebId(pontowebId: number) {
-		const funcionario = await db.query.funcionarios.findFirst({
+		const funcionario = await this.db.query.funcionarios.findFirst({
 			where: eq(funcionarios.pontowebId, pontowebId),
 			with: {
 				cargo: true,
@@ -241,7 +243,7 @@ export class FuncionariosService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db
+		await this.db
 			.update(funcionarios)
 			.set(dadosAtualizacao)
 			.where(eq(funcionarios.id, id));
@@ -263,7 +265,7 @@ export class FuncionariosService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db
+		await this.db
 			.update(funcionarios)
 			.set(dadosAtualizacao)
 			.where(eq(funcionarios.id, id));
@@ -272,8 +274,6 @@ export class FuncionariosService {
 	}
 
 	async deletarFuncionario(id: number): Promise<void> {
-		await db.delete(funcionarios).where(eq(funcionarios.id, id));
+		await this.db.delete(funcionarios).where(eq(funcionarios.id, id));
 	}
 }
-
-export const funcionariosService = new FuncionariosService();

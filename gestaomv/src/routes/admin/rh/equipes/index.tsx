@@ -27,7 +27,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { FiltrosEquipes } from "@/modules/rh/types";
 import { useTRPC } from "@/trpc/react";
@@ -147,9 +147,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_RH,
-				USER_ROLES.USUARIO_RH,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.RH_GERENCIA,
+				ALL_ROLES.RH_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

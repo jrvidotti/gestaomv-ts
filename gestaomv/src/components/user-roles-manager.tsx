@@ -4,8 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { USER_ROLES } from "@/constants";
-import { USER_ROLES_DATA } from "@/constants";
+import { ALL_ROLES, ALL_ROLES_DATA } from "@/constants";
 import type { UserRoleType } from "@/constants";
 import { Crown, Search, Shield } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +26,7 @@ export function UserRolesManager({
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Filtrar roles baseado na busca
-	const filteredRoles = Object.values(USER_ROLES_DATA).filter(
+	const filteredRoles = Object.values(ALL_ROLES_DATA).filter(
 		(roleData) =>
 			roleData.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			roleData.description.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -36,7 +35,7 @@ export function UserRolesManager({
 	// Agrupar roles por categoria
 	const adminRoles = filteredRoles.filter(
 		(role) =>
-			role.value === USER_ROLES.ADMIN || role.value === USER_ROLES.SUPERADMIN,
+			role.value === ALL_ROLES.ADMIN || role.value === ALL_ROLES.SUPERADMIN,
 	);
 	const managementRoles = filteredRoles.filter(
 		(role) =>
@@ -48,7 +47,7 @@ export function UserRolesManager({
 
 	const RoleRow = ({
 		roleData,
-	}: { roleData: (typeof USER_ROLES_DATA)[UserRoleType] }) => {
+	}: { roleData: (typeof ALL_ROLES_DATA)[UserRoleType] }) => {
 		const isActive = userRoles.includes(roleData.value);
 
 		return (

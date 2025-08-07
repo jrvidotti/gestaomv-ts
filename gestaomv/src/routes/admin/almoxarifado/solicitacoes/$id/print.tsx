@@ -1,7 +1,7 @@
 import { MateriaisImpressao } from "@/components/almoxarifado/materiais-impressao";
 import type { MaterialVisualizacao } from "@/components/almoxarifado/materiais-visualizacao";
 import { RouteGuard } from "@/components/auth/route-guard";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { STATUS_SOLICITACAO_DATA } from "@/modules/almoxarifado/consts";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
@@ -56,10 +56,10 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.APROVADOR_ALMOXARIFADO,
-					USER_ROLES.GERENCIA_ALMOXARIFADO,
-					USER_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<div className={styles.printLoading}>
@@ -73,10 +73,10 @@ function RouteComponent() {
 		return (
 			<RouteGuard
 				requiredRoles={[
-					USER_ROLES.ADMIN,
-					USER_ROLES.APROVADOR_ALMOXARIFADO,
-					USER_ROLES.GERENCIA_ALMOXARIFADO,
-					USER_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<div className={styles.printError}>
@@ -124,9 +124,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<div className={styles.printContainer}>

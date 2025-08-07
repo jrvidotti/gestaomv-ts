@@ -2,7 +2,7 @@ import {
 	importarFuncionariosSchema,
 	sincronizarAfastamentosSchema,
 } from "@/modules/core/dtos";
-import { pontowebService } from "@/modules/rh/services/pontoweb.service";
+import { pontowebService } from "@/modules/rh/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 

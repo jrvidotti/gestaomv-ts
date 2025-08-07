@@ -1,5 +1,5 @@
 import { tagoneLoginSchema } from "@/modules/core/dtos";
-import { tagoneService } from "@/modules/core/services/tagone.service";
+import { tagoneService } from "@/modules/core/services";
 import { protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 
@@ -10,7 +10,7 @@ export const tagoneRouter = {
 			return tagoneService.loginAndSaveTagOne(ctx.user.id, input);
 		}),
 
-	getStatus: protectedProcedure.query(async ({ ctx }) => {
+	buscarStatus: protectedProcedure.query(async ({ ctx }) => {
 		return tagoneService.getTagOneStatus(ctx.user.id);
 	}),
 
@@ -18,7 +18,7 @@ export const tagoneRouter = {
 		return tagoneService.logoutTagOne(ctx.user.id);
 	}),
 
-	getUserTagOne: protectedProcedure.query(async ({ ctx }) => {
+	buscarUserTagOne: protectedProcedure.query(async ({ ctx }) => {
 		return tagoneService.getUserTagOne(ctx.user.id);
 	}),
 } satisfies TRPCRouterRecord;

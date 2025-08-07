@@ -23,7 +23,7 @@ import { useTRPC } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { AlertCircle, CheckCircle, Eye, EyeOff, Key } from "lucide-react";
+import { CheckCircle, Eye, EyeOff, Key } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ function AlterarSenhaPage() {
 	});
 
 	const changePasswordMutation = useMutation({
-		...trpc.auth.changePassword.mutationOptions(),
+		...trpc.auth.mudarSenha.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Senha alterada com sucesso!");
 			router.navigate({ to: "/admin/user/profile" });

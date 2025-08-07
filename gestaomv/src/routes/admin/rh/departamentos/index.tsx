@@ -25,7 +25,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { FiltrosDepartamentos } from "@/modules/rh/types";
 import { useTRPC } from "@/trpc/react";
@@ -120,7 +120,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 			<AdminLayout header={header}>
 				<div className="space-y-6">
 					{/* Filtros */}

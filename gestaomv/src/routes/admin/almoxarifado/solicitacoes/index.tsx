@@ -32,7 +32,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import {
@@ -123,7 +123,7 @@ function RouteComponent() {
 	);
 
 	// Query para listar unidades
-	const { data: unidades } = useQuery(trpc.unidades.findAll.queryOptions());
+	const { data: unidades } = useQuery(trpc.unidades.listar.queryOptions());
 
 	// Definições de colunas
 	const columnHelper = createColumnHelper<SolicitacaoMaterial>();
@@ -139,8 +139,8 @@ function RouteComponent() {
 	};
 
 	const isAdmin =
-		user?.roles?.includes(USER_ROLES.ADMIN) ||
-		user?.roles?.includes(USER_ROLES.GERENCIA_ALMOXARIFADO);
+		user?.roles?.includes(ALL_ROLES.ADMIN) ||
+		user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA);
 
 	const columns = [
 		columnHelper.accessor("id", {
@@ -487,9 +487,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_ALMOXARIFADO,
-				USER_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

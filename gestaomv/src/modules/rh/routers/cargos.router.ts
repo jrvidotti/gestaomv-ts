@@ -3,7 +3,7 @@ import {
 	criarCargoSchema,
 	filtrosCargosSchema,
 } from "@/modules/rh/dtos";
-import { cargosService } from "@/modules/rh/services/cargos.service";
+import { cargosService } from "@/modules/rh/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

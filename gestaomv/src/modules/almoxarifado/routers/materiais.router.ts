@@ -3,7 +3,7 @@ import {
 	filtroMateriaisSchema,
 	formMaterialSchema,
 } from "@/modules/almoxarifado/dtos";
-import { materiaisService } from "@/modules/almoxarifado/services/materiais.service";
+import { materiaisService } from "@/modules/almoxarifado/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

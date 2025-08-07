@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { departamentos } from "@/db/schemas";
 import type {
 	AtualizarDepartamentoData,
@@ -8,8 +8,9 @@ import type {
 import { and, asc, count, eq, sql } from "drizzle-orm";
 
 export class DepartamentosService {
+	constructor(private db: Db) {}
 	async criarDepartamento(departamentoData: CriarDepartamentoData) {
-		const [departamento] = await db
+		const [departamento] = await this.db
 			.insert(departamentos)
 			.values({
 				...departamentoData,
@@ -33,7 +34,7 @@ export class DepartamentosService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const departamentosList = await db
+		const departamentosList = await this.db
 			.select()
 			.from(departamentos)
 			.where(whereClause)
@@ -41,7 +42,7 @@ export class DepartamentosService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(departamentos)
 			.where(whereClause);
@@ -53,7 +54,7 @@ export class DepartamentosService {
 	}
 
 	async buscarDepartamentoPorId(id: number) {
-		const departamento = await db.query.departamentos.findFirst({
+		const departamento = await this.db.query.departamentos.findFirst({
 			where: eq(departamentos.id, id),
 		});
 
@@ -61,7 +62,7 @@ export class DepartamentosService {
 	}
 
 	async buscarDepartamentoPorNome(nome: string) {
-		const departamento = await db.query.departamentos.findFirst({
+		const departamento = await this.db.query.departamentos.findFirst({
 			where: eq(departamentos.nome, nome),
 		});
 
@@ -69,7 +70,7 @@ export class DepartamentosService {
 	}
 
 	async buscarDepartamentoPorPontowebId(pontowebId: number) {
-		const departamento = await db.query.departamentos.findFirst({
+		const departamento = await this.db.query.departamentos.findFirst({
 			where: eq(departamentos.pontowebId, pontowebId),
 		});
 
@@ -85,7 +86,7 @@ export class DepartamentosService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db
+		await this.db
 			.update(departamentos)
 			.set(dadosAtualizacao)
 			.where(eq(departamentos.id, id));
@@ -94,8 +95,6 @@ export class DepartamentosService {
 	}
 
 	async deletarDepartamento(id: number): Promise<void> {
-		await db.delete(departamentos).where(eq(departamentos.id, id));
+		await this.db.delete(departamentos).where(eq(departamentos.id, id));
 	}
 }
-
-export const departamentosService = new DepartamentosService();

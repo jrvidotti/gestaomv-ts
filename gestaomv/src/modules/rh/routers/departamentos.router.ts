@@ -3,7 +3,7 @@ import {
 	criarDepartamentoSchema,
 	filtrosDepartamentosSchema,
 } from "@/modules/rh/dtos";
-import { departamentosService } from "@/modules/rh/services/departamentos.service";
+import { departamentosService } from "@/modules/rh/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

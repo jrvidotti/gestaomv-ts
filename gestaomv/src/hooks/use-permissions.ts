@@ -1,5 +1,5 @@
 import { MODULES, MODULES_DATA, type ModuleType } from "@/constants";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 
 interface UsePermissionsReturn {
@@ -14,7 +14,7 @@ interface UsePermissionsReturn {
 export function usePermissions(): UsePermissionsReturn {
 	const { user, hasRole, hasAnyRole } = useAuth();
 
-	const isAdmin = hasRole(USER_ROLES.ADMIN) || hasRole(USER_ROLES.SUPERADMIN);
+	const isAdmin = hasRole(ALL_ROLES.ADMIN) || hasRole(ALL_ROLES.SUPERADMIN);
 
 	const canAccessModule = (moduleId: ModuleType): boolean => {
 		// Admin tem acesso a tudo

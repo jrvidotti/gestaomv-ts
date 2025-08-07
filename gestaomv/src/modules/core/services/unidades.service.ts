@@ -1,15 +1,13 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { eq } from "drizzle-orm";
 import type { CreateUnidadeDto, UpdateUnidadeDto } from "../dtos";
 import { unidades } from "../schemas";
 import type { Unidade } from "../types";
 
 export class UnidadesService {
-	private get db() {
-		return db;
-	}
+	constructor(private readonly db: Db) {}
 
-	async create(unidadeData: CreateUnidadeDto): Promise<Unidade> {
+	async criar(unidadeData: CreateUnidadeDto): Promise<Unidade> {
 		const [unidade] = await this.db
 			.insert(unidades)
 			.values({
@@ -20,7 +18,7 @@ export class UnidadesService {
 		return unidade;
 	}
 
-	async findAll(): Promise<Unidade[]> {
+	async listar(): Promise<Unidade[]> {
 		const allUnidades = await this.db.query.unidades.findMany({
 			with: {
 				empresa: true,
@@ -31,7 +29,7 @@ export class UnidadesService {
 		return allUnidades;
 	}
 
-	async findOne(id: number): Promise<Unidade | undefined> {
+	async buscar(id: number): Promise<Unidade | undefined> {
 		const unidade = await this.db.query.unidades.findFirst({
 			where: eq(unidades.id, id),
 			with: {
@@ -44,7 +42,7 @@ export class UnidadesService {
 		return unidade;
 	}
 
-	async update(
+	async atualizar(
 		id: number,
 		unidadeData: UpdateUnidadeDto,
 	): Promise<Unidade | undefined> {
@@ -55,14 +53,14 @@ export class UnidadesService {
 
 		await this.db.update(unidades).set(updateData).where(eq(unidades.id, id));
 
-		return await this.findOne(id);
+		return await this.buscar(id);
 	}
 
-	async remove(id: number): Promise<void> {
+	async deletar(id: number): Promise<void> {
 		await this.db.delete(unidades).where(eq(unidades.id, id));
 	}
 
-	async findByCodigo(codigo: number): Promise<Unidade | undefined> {
+	async buscarPorCodigo(codigo: number): Promise<Unidade | undefined> {
 		const unidade = await this.db.query.unidades.findFirst({
 			where: eq(unidades.codigo, codigo),
 			with: {
@@ -75,7 +73,7 @@ export class UnidadesService {
 		return unidade;
 	}
 
-	async findByEmpresa(empresaId: number): Promise<Unidade[]> {
+	async buscarPorEmpresa(empresaId: number): Promise<Unidade[]> {
 		const unidadesByEmpresa = await this.db.query.unidades.findMany({
 			where: eq(unidades.empresaId, empresaId),
 			with: {
@@ -87,7 +85,7 @@ export class UnidadesService {
 		return unidadesByEmpresa;
 	}
 
-	async findByPontowebId(pontowebId: number): Promise<Unidade | undefined> {
+	async buscarByPontowebId(pontowebId: number): Promise<Unidade | undefined> {
 		const unidade = await this.db.query.unidades.findFirst({
 			where: eq(unidades.pontowebId, pontowebId),
 			with: {
@@ -100,5 +98,3 @@ export class UnidadesService {
 		return unidade;
 	}
 }
-
-export const unidadesService = new UnidadesService();

@@ -10,7 +10,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { USER_ROLES_DATA } from "@/constants/user-roles";
+import { ALL_ROLES_DATA } from "@/constants";
 import { useAuth } from "@/hooks/use-auth";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
@@ -29,7 +29,7 @@ function ProfilePage() {
 		data: user,
 		isLoading,
 		error,
-	} = useQuery(trpc.auth.profile.queryOptions());
+	} = useQuery(trpc.auth.buscarPerfil.queryOptions());
 
 	const handleLogout = async () => {
 		try {
@@ -289,7 +289,7 @@ function ProfilePage() {
 									<div className="flex items-center gap-2 mt-1 flex-wrap">
 										{user.roles.length > 0 ? (
 											user.roles.map((role) => {
-												const roleData = USER_ROLES_DATA[role];
+												const roleData = ALL_ROLES_DATA[role];
 												return (
 													<Badge
 														key={role}

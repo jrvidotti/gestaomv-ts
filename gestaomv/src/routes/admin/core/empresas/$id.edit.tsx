@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import type { UpdateEmpresaDto } from "@/modules/core/dtos";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -34,9 +34,9 @@ function EditEmpresaPage() {
 		data: empresa,
 		isLoading,
 		error,
-	} = useQuery(trpc.empresas.findOne.queryOptions({ id: empresaId }));
+	} = useQuery(trpc.empresas.buscar.queryOptions({ id: empresaId }));
 	const { mutate: updateEmpresa, isPending } = useMutation({
-		...trpc.empresas.update.mutationOptions(),
+		...trpc.empresas.atualizar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Empresa atualizada com sucesso!");
 			navigate({ to: "/admin/core/empresas" });
@@ -71,7 +71,7 @@ function EditEmpresaPage() {
 
 	if (isLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-4xl mx-auto">
 						<Card>
@@ -100,7 +100,7 @@ function EditEmpresaPage() {
 
 	if (error || !empresa) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 				<AdminLayout header={header}>
 					<div className="max-w-4xl mx-auto">
 						<Card>
@@ -125,7 +125,7 @@ function EditEmpresaPage() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="max-w-4xl mx-auto space-y-6">
 					<EmpresaForm

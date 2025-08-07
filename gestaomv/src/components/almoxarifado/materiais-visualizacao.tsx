@@ -150,10 +150,10 @@ export function MateriaisVisualizacao({
 		setModalAberto(true);
 	};
 
-	const fecharModal = () => {
-		setModalAberto(false);
-		setMaterialSelecionado(null);
-	};
+	// const fecharModal = () => {
+	// 	setModalAberto(false);
+	// 	setMaterialSelecionado(null);
+	// };
 
 	if (materiais.length === 0) {
 		return (

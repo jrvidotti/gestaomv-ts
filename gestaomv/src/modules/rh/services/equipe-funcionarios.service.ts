@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { equipeFuncionarios, equipes, funcionarios } from "@/db/schemas";
 import type {
 	AtualizarEquipeFuncionarioData,
@@ -8,10 +8,12 @@ import type {
 import { and, asc, count, eq } from "drizzle-orm";
 
 export class EquipeFuncionariosService {
+	constructor(private db: Db) {}
+
 	async adicionarFuncionarioEquipe(
 		equipeFuncionarioData: CriarEquipeFuncionarioData,
 	) {
-		const [equipeFuncionario] = await db
+		const [equipeFuncionario] = await this.db
 			.insert(equipeFuncionarios)
 			.values({
 				...equipeFuncionarioData,
@@ -48,7 +50,7 @@ export class EquipeFuncionariosService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const equipeFuncionariosList = await db
+		const equipeFuncionariosList = await this.db
 			.select({
 				id: equipeFuncionarios.id,
 				funcionarioId: equipeFuncionarios.funcionarioId,
@@ -79,7 +81,7 @@ export class EquipeFuncionariosService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(equipeFuncionarios)
 			.where(whereClause);
@@ -91,7 +93,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async buscarEquipeFuncionarioPorId(id: number) {
-		const equipeFuncionario = await db.query.equipeFuncionarios.findFirst({
+		const equipeFuncionario = await this.db.query.equipeFuncionarios.findFirst({
 			where: eq(equipeFuncionarios.id, id),
 			with: {
 				funcionario: {
@@ -108,7 +110,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async buscarFuncionariosPorEquipe(equipeId: number) {
-		const funcionariosList = await db.query.equipeFuncionarios.findMany({
+		const funcionariosList = await this.db.query.equipeFuncionarios.findMany({
 			where: eq(equipeFuncionarios.equipeId, equipeId),
 			with: {
 				funcionario: {
@@ -125,7 +127,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async buscarEquipesPorFuncionario(funcionarioId: string) {
-		const equipesList = await db.query.equipeFuncionarios.findMany({
+		const equipesList = await this.db.query.equipeFuncionarios.findMany({
 			where: eq(equipeFuncionarios.funcionarioId, funcionarioId),
 			with: {
 				equipe: true,
@@ -137,7 +139,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async buscarLideresDaEquipe(equipeId: number) {
-		const lideres = await db.query.equipeFuncionarios.findMany({
+		const lideres = await this.db.query.equipeFuncionarios.findMany({
 			where: and(
 				eq(equipeFuncionarios.equipeId, equipeId),
 				eq(equipeFuncionarios.ehLider, true),
@@ -160,7 +162,7 @@ export class EquipeFuncionariosService {
 		funcionarioId: string,
 		equipeId: number,
 	): Promise<boolean> {
-		const vinculo = await db.query.equipeFuncionarios.findFirst({
+		const vinculo = await this.db.query.equipeFuncionarios.findFirst({
 			where: and(
 				eq(equipeFuncionarios.funcionarioId, funcionarioId),
 				eq(equipeFuncionarios.equipeId, equipeId),
@@ -174,7 +176,7 @@ export class EquipeFuncionariosService {
 		funcionarioId: string,
 		equipeId: number,
 	): Promise<boolean> {
-		const vinculo = await db.query.equipeFuncionarios.findFirst({
+		const vinculo = await this.db.query.equipeFuncionarios.findFirst({
 			where: and(
 				eq(equipeFuncionarios.funcionarioId, funcionarioId),
 				eq(equipeFuncionarios.equipeId, equipeId),
@@ -194,7 +196,7 @@ export class EquipeFuncionariosService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db
+		await this.db
 			.update(equipeFuncionarios)
 			.set(dadosAtualizacao)
 			.where(eq(equipeFuncionarios.id, id));
@@ -203,7 +205,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async definirLiderEquipe(funcionarioId: string, equipeId: number) {
-		await db
+		await this.db
 			.update(equipeFuncionarios)
 			.set({ ehLider: true, atualizadoEm: new Date().toISOString() })
 			.where(
@@ -217,7 +219,7 @@ export class EquipeFuncionariosService {
 	}
 
 	async removerLiderEquipe(funcionarioId: string, equipeId: number) {
-		await db
+		await this.db
 			.update(equipeFuncionarios)
 			.set({ ehLider: false, atualizadoEm: new Date().toISOString() })
 			.where(
@@ -234,7 +236,7 @@ export class EquipeFuncionariosService {
 		funcionarioId: string,
 		equipeId: number,
 	): Promise<void> {
-		await db
+		await this.db
 			.delete(equipeFuncionarios)
 			.where(
 				and(
@@ -245,16 +247,14 @@ export class EquipeFuncionariosService {
 	}
 
 	async removerFuncionarioDeTodasEquipes(funcionarioId: string): Promise<void> {
-		await db
+		await this.db
 			.delete(equipeFuncionarios)
 			.where(eq(equipeFuncionarios.funcionarioId, funcionarioId));
 	}
 
 	async removerTodosFuncionariosDaEquipe(equipeId: number): Promise<void> {
-		await db
+		await this.db
 			.delete(equipeFuncionarios)
 			.where(eq(equipeFuncionarios.equipeId, equipeId));
 	}
 }
-
-export const equipeFuncionariosService = new EquipeFuncionariosService();

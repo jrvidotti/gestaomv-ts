@@ -111,7 +111,7 @@ export class ConfiguracoesService {
 		return await this.getConfiguracoesSistema();
 	}
 
-	private getDescription(key: string): string {
+	getDescription(key: string): string {
 		const descriptions: Record<string, string> = {
 			allowUserRegistration:
 				"Permite que novos usuários se registrem no sistema",
@@ -126,7 +126,7 @@ export class ConfiguracoesService {
 		return descriptions[key] || "";
 	}
 
-	async initializeDefaultSettings(): Promise<void> {
+	async initiacializarConfiguracoesPadrao(): Promise<void> {
 		const defaultSettings = [
 			{ key: "allowUserRegistration", value: "true" },
 			{ key: "maintenanceMode", value: "false" },
@@ -148,5 +148,3 @@ export class ConfiguracoesService {
 		}
 	}
 }
-
-export const configuracoesService = new ConfiguracoesService();

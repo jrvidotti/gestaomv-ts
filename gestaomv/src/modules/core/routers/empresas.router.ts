@@ -1,55 +1,57 @@
 import { createEmpresaSchema, updateEmpresaSchema } from "@/modules/core/dtos";
-import { empresasService } from "@/modules/core/services/empresas.service";
+import { empresasService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 
 export const empresasRouter = {
-	findAll: adminProcedure.query(async () => {
-		return await empresasService.findAll();
+	listar: adminProcedure.query(async () => {
+		return await empresasService.listar();
 	}),
 
-	findOne: adminProcedure
+	buscar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
-			const empresa = await empresasService.findOne(input.id);
+			const empresa = await empresasService.buscar(input.id);
 			if (!empresa) {
 				throw new Error("Empresa não encontrada");
 			}
 			return empresa;
 		}),
 
-	findByCnpj: adminProcedure
+	buscarPorCnpj: adminProcedure
 		.input(z.object({ cnpj: z.string() }))
 		.query(async ({ input }) => {
-			const empresa = await empresasService.findByCnpj(input.cnpj);
+			const empresa = await empresasService.buscarPorCnpj(input.cnpj);
 			if (!empresa) {
 				throw new Error("Empresa não encontrada");
 			}
 			return empresa;
 		}),
 
-	findByPontowebId: adminProcedure
+	buscarPorPontowebId: adminProcedure
 		.input(z.object({ pontowebId: z.number() }))
 		.query(async ({ input }) => {
-			const empresa = await empresasService.findByPontowebId(input.pontowebId);
+			const empresa = await empresasService.buscarPorPontowebId(
+				input.pontowebId,
+			);
 			if (!empresa) {
 				throw new Error("Empresa não encontrada");
 			}
 			return empresa;
 		}),
 
-	create: adminProcedure
+	criar: adminProcedure
 		.input(createEmpresaSchema)
 		.mutation(async ({ input }) => {
-			const empresaExistente = await empresasService.findByCnpj(input.cnpj);
+			const empresaExistente = await empresasService.buscarPorCnpj(input.cnpj);
 			if (empresaExistente) {
 				throw new Error("CNPJ já cadastrado no sistema");
 			}
-			return await empresasService.create(input);
+			return await empresasService.criar(input);
 		}),
 
-	update: adminProcedure
+	atualizar: adminProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -58,7 +60,7 @@ export const empresasRouter = {
 		)
 		.mutation(async ({ input }) => {
 			if (input.data.cnpj) {
-				const empresaExistente = await empresasService.findByCnpj(
+				const empresaExistente = await empresasService.buscarPorCnpj(
 					input.data.cnpj,
 				);
 				if (empresaExistente && empresaExistente.id !== input.id) {
@@ -66,17 +68,17 @@ export const empresasRouter = {
 				}
 			}
 
-			const empresa = await empresasService.update(input.id, input.data);
+			const empresa = await empresasService.atualizar(input.id, input.data);
 			if (!empresa) {
 				throw new Error("Empresa não encontrada");
 			}
 			return empresa;
 		}),
 
-	remove: adminProcedure
+	deletar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ input }) => {
-			const empresa = await empresasService.findOne(input.id);
+			const empresa = await empresasService.buscar(input.id);
 			if (!empresa) {
 				throw new Error("Empresa não encontrada");
 			}
@@ -87,7 +89,7 @@ export const empresasRouter = {
 				);
 			}
 
-			await empresasService.remove(input.id);
+			await empresasService.deletar(input.id);
 			return { message: "Empresa removida com sucesso" };
 		}),
 } satisfies TRPCRouterRecord;

@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { STATUS_OPTIONS } from "@/modules/almoxarifado/consts";
 import type {
 	ConsumoAnalitico,
@@ -44,7 +44,7 @@ function RouteComponent() {
 	const [tipoRelatorio, setTipoRelatorio] =
 		useState<TipoRelatorioConsumo>("sintetico");
 
-	const { data: unidades } = useQuery(trpc.unidades.findAll.queryOptions());
+	const { data: unidades } = useQuery(trpc.unidades.listar.queryOptions());
 
 	const { data: tiposMaterial } = useQuery(
 		trpc.almoxarifado.materiais.listarTiposMaterial.queryOptions(),
@@ -269,7 +269,7 @@ function RouteComponent() {
 
 	return (
 		<RouteGuard
-			requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_ALMOXARIFADO]}
+			requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.ALMOXARIFADO_GERENCIA]}
 		>
 			<AdminLayout header={header}>
 				<div className="space-y-6">

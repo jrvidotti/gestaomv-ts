@@ -17,7 +17,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { STATUS_FUNCIONARIO } from "@/modules/rh/consts";
 import { useTRPC } from "@/trpc/react";
 import { useQuery } from "@tanstack/react-query";
@@ -219,9 +219,9 @@ function RouteComponent() {
 	return (
 		<RouteGuard
 			requiredRoles={[
-				USER_ROLES.ADMIN,
-				USER_ROLES.GERENCIA_RH,
-				USER_ROLES.USUARIO_RH,
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.RH_GERENCIA,
+				ALL_ROLES.RH_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

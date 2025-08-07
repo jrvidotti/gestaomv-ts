@@ -1,6 +1,6 @@
 import { criarAvaliacaoPeriodicaSchema } from "@/modules/rh/dtos";
 import { classificacaoAvaliacaoPeriodicaEnum } from "@/modules/rh/enums";
-import { avaliacoesPeriodicasService } from "@/modules/rh/services/avaliacoes-periodicas.service";
+import { avaliacoesPeriodicasService } from "@/modules/rh/services";
 import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";

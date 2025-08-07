@@ -13,21 +13,21 @@ import {
 	updateChecklistItemSchema,
 	updateChecklistTemplateSchema,
 } from "../dtos/templates";
-import { ChecklistTemplatesService } from "../services/templates.service";
+import { templatesService } from "../services";
 
 export const templatesRouter = createTRPCRouter({
 	// Listar templates (protegido - qualquer usuário autenticado)
 	listar: protectedProcedure
 		.input(listChecklistTemplatesSchema)
 		.query(async ({ input }) => {
-			return await ChecklistTemplatesService.listar(input);
+			return await templatesService.listar(input);
 		}),
 
 	// Buscar template por ID (protegido)
 	buscar: protectedProcedure
 		.input(getChecklistTemplateSchema)
 		.query(async ({ input }) => {
-			const template = await ChecklistTemplatesService.buscar(input.id);
+			const template = await templatesService.buscar(input.id);
 
 			if (!template) {
 				throw new Error("Template não encontrado");
@@ -40,7 +40,7 @@ export const templatesRouter = createTRPCRouter({
 	criar: adminProcedure
 		.input(createChecklistTemplateSchema)
 		.mutation(async ({ input, ctx }) => {
-			return await ChecklistTemplatesService.criar(input, ctx.user.id);
+			return await templatesService.criar(input, ctx.user.id);
 		}),
 
 	// Atualizar template (admin)
@@ -52,7 +52,7 @@ export const templatesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ input }) => {
 			const { id, ...data } = input;
-			const template = await ChecklistTemplatesService.atualizar(id, data);
+			const template = await templatesService.atualizar(id, data);
 
 			if (!template) {
 				throw new Error("Template não encontrado");
@@ -65,7 +65,7 @@ export const templatesRouter = createTRPCRouter({
 	deletar: adminProcedure
 		.input(deleteChecklistTemplateSchema)
 		.mutation(async ({ input }) => {
-			const success = await ChecklistTemplatesService.deletar(input.id);
+			const success = await templatesService.deletar(input.id);
 
 			if (!success) {
 				throw new Error("Falha ao deletar template");
@@ -83,10 +83,7 @@ export const templatesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ input }) => {
 			const { templateId, ...itemData } = input;
-			return await ChecklistTemplatesService.adicionarItem(
-				templateId,
-				itemData,
-			);
+			return await templatesService.adicionarItem(templateId, itemData);
 		}),
 
 	// Atualizar item (admin)
@@ -98,7 +95,7 @@ export const templatesRouter = createTRPCRouter({
 		)
 		.mutation(async ({ input }) => {
 			const { id, ...data } = input;
-			const item = await ChecklistTemplatesService.atualizarItem(id, data);
+			const item = await templatesService.atualizarItem(id, data);
 
 			if (!item) {
 				throw new Error("Item não encontrado");
@@ -111,7 +108,7 @@ export const templatesRouter = createTRPCRouter({
 	deletarItem: adminProcedure
 		.input(deleteChecklistTemplateSchema)
 		.mutation(async ({ input }) => {
-			const success = await ChecklistTemplatesService.deletarItem(input.id);
+			const success = await templatesService.deletarItem(input.id);
 
 			if (!success) {
 				throw new Error("Falha ao deletar item");
@@ -124,7 +121,7 @@ export const templatesRouter = createTRPCRouter({
 	reordenarItens: adminProcedure
 		.input(reorderItemsSchema)
 		.mutation(async ({ input }) => {
-			const success = await ChecklistTemplatesService.reordenarItens(
+			const success = await templatesService.reordenarItens(
 				input.templateId,
 				input.itens,
 			);

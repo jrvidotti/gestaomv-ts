@@ -7,8 +7,8 @@ import {
 	removeUserRoleSchema,
 	tagoneLoginSchema,
 } from "@/modules/core/dtos";
-import { authService } from "@/modules/core/services/auth.service";
-import { usersService } from "@/modules/core/services/users.service";
+import { authService } from "@/modules/core/services";
+import { usersService } from "@/modules/core/services";
 import {
 	adminProcedure,
 	protectedProcedure,
@@ -21,42 +21,42 @@ export const authRouter = {
 		return authService.login(input);
 	}),
 
-	loginWithTagOne: publicProcedure
+	loginComTagOne: publicProcedure
 		.input(tagoneLoginSchema)
 		.mutation(async ({ input }) => {
-			return authService.loginWithTagOne(input);
+			return authService.loginComTagOne(input);
 		}),
 
-	register: publicProcedure
+	registrar: publicProcedure
 		.input(registerSchema)
 		.mutation(async ({ input }) => {
-			return authService.register(input);
+			return authService.registrar(input);
 		}),
 
-	profile: protectedProcedure.query(async ({ ctx }) => {
+	buscarPerfil: protectedProcedure.query(async ({ ctx }) => {
 		if (ctx.user?.id === -1) {
-			return authService.superuserProfile();
+			return authService.perfilSuperadmin();
 		}
-		return authService.getUserWithRoles(ctx.user.id);
+		return authService.buscarPerfil(ctx.user.id);
 	}),
 
-	getUserRoles: protectedProcedure
+	buscarUserRoles: protectedProcedure
 		.input(getUserRolesSchema)
 		.query(async ({ input }) => {
-			return authService.getUserRoles(input.userId);
+			return authService.buscarUserRoles(input.userId);
 		}),
 
-	addUserRole: adminProcedure
+	adicionarUserRole: adminProcedure
 		.input(addUserRoleSchema)
 		.mutation(async ({ input }) => {
-			await authService.addUserRole(input);
+			await authService.adicionarUserRole(input);
 			return { message: "Role adicionada com sucesso" };
 		}),
 
-	removeUserRole: adminProcedure
+	removerUserRole: adminProcedure
 		.input(removeUserRoleSchema)
 		.mutation(async ({ input }) => {
-			await authService.removeUserRole(input);
+			await authService.removerUserRole(input);
 			return { message: "Role removida com sucesso" };
 		}),
 
@@ -66,10 +66,10 @@ export const authRouter = {
 		return { message: "Logout realizado com sucesso" };
 	}),
 
-	changePassword: protectedProcedure
+	mudarSenha: protectedProcedure
 		.input(changePasswordSchema)
 		.mutation(async ({ input, ctx }) => {
-			await usersService.changePassword(ctx.user.id, {
+			await usersService.mudarSenha(ctx.user.id, {
 				currentPassword: input.currentPassword,
 				newPassword: input.newPassword,
 			});

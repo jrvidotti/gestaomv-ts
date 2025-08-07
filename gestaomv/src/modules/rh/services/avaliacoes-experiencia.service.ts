@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { avaliacoesExperiencia, funcionarios, users } from "@/db/schemas";
 import type {
 	AtualizarAvaliacaoExperienciaData,
@@ -9,6 +9,8 @@ import type { TipoAvaliacaoExperienciaType } from "@/modules/rh/types";
 import { and, count, desc, eq, gte, lte } from "drizzle-orm";
 
 export class AvaliacoesExperienciaService {
+	constructor(private db: Db) {}
+
 	private calcularMedia(
 		pontualidade: number,
 		comprometimento: number,
@@ -40,7 +42,7 @@ export class AvaliacoesExperienciaService {
 			avaliacaoData.conhecimentoTecnico,
 		);
 
-		const [avaliacao] = await db
+		const [avaliacao] = await this.db
 			.insert(avaliacoesExperiencia)
 			.values({
 				...avaliacaoData,
@@ -93,7 +95,7 @@ export class AvaliacoesExperienciaService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const avaliacoesList = await db
+		const avaliacoesList = await this.db
 			.select({
 				id: avaliacoesExperiencia.id,
 				funcionarioId: avaliacoesExperiencia.funcionarioId,
@@ -135,7 +137,7 @@ export class AvaliacoesExperienciaService {
 			.limit(limite)
 			.offset(offset);
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(avaliacoesExperiencia)
 			.where(whereClause);
@@ -147,7 +149,7 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async buscarAvaliacaoExperienciaPorId(id: number) {
-		const avaliacao = await db.query.avaliacoesExperiencia.findFirst({
+		const avaliacao = await this.db.query.avaliacoesExperiencia.findFirst({
 			where: eq(avaliacoesExperiencia.id, id),
 			with: {
 				funcionario: {
@@ -164,7 +166,7 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async buscarAvaliacoesPorFuncionario(funcionarioId: number) {
-		const avaliacoesList = await db.query.avaliacoesExperiencia.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesExperiencia.findMany({
 			where: eq(avaliacoesExperiencia.funcionarioId, funcionarioId),
 			with: {
 				avaliador: true,
@@ -176,7 +178,7 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async buscarAvaliacoesPorAvaliador(avaliadorId: number) {
-		const avaliacoesList = await db.query.avaliacoesExperiencia.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesExperiencia.findMany({
 			where: eq(avaliacoesExperiencia.avaliadorId, avaliadorId),
 			with: {
 				funcionario: {
@@ -193,7 +195,7 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async buscarAvaliacoesPorTipo(tipo: TipoAvaliacaoExperienciaType) {
-		const avaliacoesList = await db.query.avaliacoesExperiencia.findMany({
+		const avaliacoesList = await this.db.query.avaliacoesExperiencia.findMany({
 			where: eq(avaliacoesExperiencia.tipo, tipo),
 			with: {
 				funcionario: {
@@ -211,13 +213,15 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async buscarUltimaAvaliacaoFuncionario(funcionarioId: number) {
-		const ultimaAvaliacao = await db.query.avaliacoesExperiencia.findFirst({
-			where: eq(avaliacoesExperiencia.funcionarioId, funcionarioId),
-			with: {
-				avaliador: true,
+		const ultimaAvaliacao = await this.db.query.avaliacoesExperiencia.findFirst(
+			{
+				where: eq(avaliacoesExperiencia.funcionarioId, funcionarioId),
+				with: {
+					avaliador: true,
+				},
+				orderBy: [desc(avaliacoesExperiencia.dataAvaliacao)],
 			},
-			orderBy: [desc(avaliacoesExperiencia.dataAvaliacao)],
-		});
+		);
 
 		return ultimaAvaliacao;
 	}
@@ -258,7 +262,7 @@ export class AvaliacoesExperienciaService {
 			}
 		}
 
-		await db
+		await this.db
 			.update(avaliacoesExperiencia)
 			.set(dadosAtualizacao)
 			.where(eq(avaliacoesExperiencia.id, id));
@@ -267,10 +271,8 @@ export class AvaliacoesExperienciaService {
 	}
 
 	async deletarAvaliacaoExperiencia(id: number): Promise<void> {
-		await db
+		await this.db
 			.delete(avaliacoesExperiencia)
 			.where(eq(avaliacoesExperiencia.id, id));
 	}
 }
-
-export const avaliacoesExperienciaService = new AvaliacoesExperienciaService();

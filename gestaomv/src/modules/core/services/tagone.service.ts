@@ -1,18 +1,29 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { userTagone, users } from "@/db/schemas";
 import type { TagOneLoginResult, TagoneLoginDto } from "@/modules/core/dtos";
 import { TagoneClient } from "@movelabs/tagone";
 import { eq } from "drizzle-orm";
 
 export class TagoneService {
-	private tagoneBaseUrl: string;
+	private _tagoneClient?: TagoneClient;
 
-	constructor() {
-		this.tagoneBaseUrl = process.env.TAGONE_BASE_URL || "";
+	constructor(
+		private readonly db: Db,
+		private readonly tagoneBaseUrl?: string,
+	) {
+		this._tagoneClient = this.tagoneBaseUrl
+			? new TagoneClient(this.tagoneBaseUrl)
+			: undefined;
+		if (!this._tagoneClient) {
+			throw new Error("TagOne client não configurado");
+		}
 	}
 
-	private getTagOneClient() {
-		return new TagoneClient(this.tagoneBaseUrl);
+	private get tagOneClient() {
+		if (!this._tagoneClient) {
+			throw new Error("TagOne client não configurado");
+		}
+		return this._tagoneClient;
 	}
 
 	async loginWithTagOne(
@@ -20,9 +31,8 @@ export class TagoneService {
 		password: string,
 	): Promise<TagOneLoginResult | null> {
 		try {
-			const tagoneClient = this.getTagOneClient();
-			const loggedClaims = await tagoneClient.doLogin(username, password);
-			const tagoneCookie = tagoneClient.tagoneCookie;
+			const loggedClaims = await this.tagOneClient.doLogin(username, password);
+			const tagoneCookie = this.tagOneClient.tagoneCookie;
 
 			if (!tagoneCookie) {
 				throw new Error("Falha ao obter cookie de autenticação");
@@ -40,10 +50,9 @@ export class TagoneService {
 
 	async validateTagOneCookie(tagoneCookie: string): Promise<boolean> {
 		try {
-			const tagoneClient = this.getTagOneClient();
-			tagoneClient.setCookie(tagoneCookie);
+			this.tagOneClient.setCookie(tagoneCookie);
 
-			const loggedClaims = await tagoneClient.getLoggedClaims();
+			const loggedClaims = await this.tagOneClient.getLoggedClaims();
 
 			return !!loggedClaims;
 		} catch (error) {
@@ -63,7 +72,7 @@ export class TagoneService {
 		}
 
 		// Verificar se já existe um registro para este usuário
-		const existingRecord = await db
+		const existingRecord = await this.db
 			.select()
 			.from(userTagone)
 			.where(eq(userTagone.userId, userId))
@@ -71,7 +80,7 @@ export class TagoneService {
 
 		if (existingRecord.length > 0) {
 			// Atualizar registro existente
-			await db
+			await this.db
 				.update(userTagone)
 				.set({
 					usuarioTagone: loginData.usuarioTagone,
@@ -81,7 +90,7 @@ export class TagoneService {
 				.where(eq(userTagone.userId, userId));
 		} else {
 			// Criar novo registro
-			await db.insert(userTagone).values({
+			await this.db.insert(userTagone).values({
 				userId,
 				usuarioTagone: loginData.usuarioTagone,
 				tagoneCookie: loginResult.tagoneCookie,
@@ -96,14 +105,14 @@ export class TagoneService {
 
 	async getTagOneStatus(userId: number) {
 		// Buscar dados do usuário para verificar o authProvider
-		const user = await db
+		const user = await this.db
 			.select()
 			.from(users)
 			.where(eq(users.id, userId))
 			.limit(1);
 		const userAuthProvider = user.length > 0 ? user[0].authProvider : null;
 
-		const record = await db
+		const record = await this.db
 			.select()
 			.from(userTagone)
 			.where(eq(userTagone.userId, userId))
@@ -144,14 +153,14 @@ export class TagoneService {
 	}
 
 	async logoutTagOne(userId: number) {
-		const record = await db
+		const record = await this.db
 			.select()
 			.from(userTagone)
 			.where(eq(userTagone.userId, userId))
 			.limit(1);
 
 		if (record.length > 0) {
-			await db
+			await this.db
 				.update(userTagone)
 				.set({
 					tagoneCookie: null,
@@ -167,7 +176,7 @@ export class TagoneService {
 	}
 
 	async getUserTagOne(userId: number) {
-		const record = await db
+		const record = await this.db
 			.select()
 			.from(userTagone)
 			.where(eq(userTagone.userId, userId))
@@ -175,5 +184,3 @@ export class TagoneService {
 		return record.length > 0 ? record[0] : null;
 	}
 }
-
-export const tagoneService = new TagoneService();

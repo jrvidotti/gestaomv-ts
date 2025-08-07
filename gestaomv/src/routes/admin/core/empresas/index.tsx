@@ -19,7 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -50,9 +50,9 @@ function EmpresasListPage() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(trpc.empresas.findAll.queryOptions());
+	} = useQuery(trpc.empresas.listar.queryOptions());
 	const { mutate: removeEmpresa } = useMutation({
-		...trpc.empresas.remove.mutationOptions(),
+		...trpc.empresas.deletar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Empresa removida com sucesso!");
 			refetch();
@@ -96,7 +96,7 @@ function EmpresasListPage() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
 				<div className="space-y-4">
 					{/* Campo de Busca */}

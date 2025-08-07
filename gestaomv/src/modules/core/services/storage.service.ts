@@ -277,5 +277,3 @@ export class StorageService {
 		return this.client !== null;
 	}
 }
-
-export const storageService = new StorageService();

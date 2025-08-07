@@ -1,24 +1,28 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { materiais, tiposMaterial, unidadesMedida } from "@/db/schemas";
 import type {
 	AtualizarMaterialData,
 	CriarMaterialData,
 	FiltrosMateriais,
 } from "@/modules/almoxarifado/dtos";
-import { storageService } from "@/modules/core/services/storage.service";
+import type { StorageService } from "@/modules/core/services/storage.service";
 import { and, count, eq, sql } from "drizzle-orm";
 
 export class MateriaisService {
+	constructor(
+		private db: Db,
+		private storageService: StorageService,
+	) {}
 	async listarTiposMaterial() {
-		return await db.select().from(tiposMaterial);
+		return await this.db.select().from(tiposMaterial);
 	}
 
 	async listarUnidadesMedida() {
-		return await db.select().from(unidadesMedida);
+		return await this.db.select().from(unidadesMedida);
 	}
 
 	async criarMaterial(materialData: CriarMaterialData) {
-		const [material] = await db
+		const [material] = await this.db
 			.insert(materiais)
 			.values({
 				...materialData,
@@ -48,7 +52,7 @@ export class MateriaisService {
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const materiaisList = await db.query.materiais.findMany({
+		const materiaisList = await this.db.query.materiais.findMany({
 			where: whereClause,
 			with: {
 				tipoMaterial: true,
@@ -59,7 +63,7 @@ export class MateriaisService {
 			offset: offset,
 		});
 
-		const [{ total }] = await db
+		const [{ total }] = await this.db
 			.select({ total: count() })
 			.from(materiais)
 			.where(whereClause);
@@ -71,7 +75,7 @@ export class MateriaisService {
 	}
 
 	async buscarMaterialPorId(id: number) {
-		const material = await db.query.materiais.findFirst({
+		const material = await this.db.query.materiais.findFirst({
 			where: eq(materiais.id, id),
 			with: {
 				tipoMaterial: true,
@@ -88,7 +92,7 @@ export class MateriaisService {
 			atualizadoEm: new Date().toISOString(),
 		};
 
-		await db
+		await this.db
 			.update(materiais)
 			.set(dadosAtualizacao)
 			.where(eq(materiais.id, id));
@@ -97,7 +101,7 @@ export class MateriaisService {
 	}
 
 	async inativarMaterial(id: number): Promise<void> {
-		await db
+		await this.db
 			.update(materiais)
 			.set({
 				ativo: false,
@@ -123,8 +127,8 @@ export class MateriaisService {
 
 		try {
 			// Deletar arquivo do storage se o serviço estiver configurado
-			if (storageService.isConfigurado()) {
-				await storageService.deletarArquivo(urlFoto);
+			if (this.storageService.isConfigurado()) {
+				await this.storageService.deletarArquivo(urlFoto);
 			}
 		} catch (error) {
 			// Log do erro mas não falha a operação se o arquivo não for encontrado no storage
@@ -132,7 +136,7 @@ export class MateriaisService {
 		}
 
 		// Remover URL da foto do material no banco de dados
-		await db
+		await this.db
 			.update(materiais)
 			.set({
 				foto: null,
@@ -141,5 +145,3 @@ export class MateriaisService {
 			.where(eq(materiais.id, materialId));
 	}
 }
-
-export const materiaisService = new MateriaisService();

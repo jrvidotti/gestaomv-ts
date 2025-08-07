@@ -26,7 +26,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	type AtualizarCargoData,
 	atualizarCargoSchema,
@@ -120,7 +120,7 @@ function RouteComponent() {
 
 	if (isLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 				<AdminLayout header={header}>
 					<div className="flex items-center justify-center py-8">
 						<p className="text-muted-foreground">Carregando cargo...</p>
@@ -132,7 +132,7 @@ function RouteComponent() {
 
 	if (!cargo) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 				<AdminLayout header={header}>
 					<div className="flex items-center justify-center py-8">
 						<p className="text-muted-foreground">Cargo não encontrado</p>
@@ -143,7 +143,7 @@ function RouteComponent() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 			<AdminLayout header={header}>
 				<div className="max-w-2xl mx-auto">
 					<Card>

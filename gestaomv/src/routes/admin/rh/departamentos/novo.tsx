@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	type CriarDepartamentoData,
 	criarDepartamentoSchema,
@@ -84,7 +84,7 @@ function RouteComponent() {
 	);
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 			<AdminLayout header={header}>
 				<div className="max-w-2xl mx-auto">
 					<Card>

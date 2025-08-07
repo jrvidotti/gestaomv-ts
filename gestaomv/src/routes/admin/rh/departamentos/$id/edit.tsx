@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { USER_ROLES } from "@/constants";
+import { ALL_ROLES } from "@/constants";
 import {
 	type AtualizarDepartamentoData,
 	atualizarDepartamentoSchema,
@@ -104,7 +104,7 @@ function RouteComponent() {
 
 	if (isLoading) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 				<AdminLayout header={header}>
 					<div className="flex items-center justify-center py-8">
 						<p className="text-muted-foreground">Carregando departamento...</p>
@@ -116,7 +116,7 @@ function RouteComponent() {
 
 	if (!departamento) {
 		return (
-			<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+			<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 				<AdminLayout header={header}>
 					<div className="flex items-center justify-center py-8">
 						<p className="text-muted-foreground">Departamento não encontrado</p>
@@ -127,7 +127,7 @@ function RouteComponent() {
 	}
 
 	return (
-		<RouteGuard requiredRoles={[USER_ROLES.ADMIN, USER_ROLES.GERENCIA_RH]}>
+		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN, ALL_ROLES.RH_GERENCIA]}>
 			<AdminLayout header={header}>
 				<div className="max-w-2xl mx-auto">
 					<Card>

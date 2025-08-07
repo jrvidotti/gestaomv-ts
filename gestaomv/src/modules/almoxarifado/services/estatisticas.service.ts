@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import {
 	materiais,
 	solicitacoesMaterial,
@@ -15,6 +15,8 @@ import type { TopMaterialResult } from "@/modules/almoxarifado/types";
 import { and, count, desc, eq, sql } from "drizzle-orm";
 
 export class EstatisticasService {
+	constructor(private db: Db) {}
+
 	async obterEstatisticas(
 		dataInicial?: Date,
 		dataFinal?: Date,
@@ -36,24 +38,24 @@ export class EstatisticasService {
 		}
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const [{ totalSolicitacoes }] = await db
+		const [{ totalSolicitacoes }] = await this.db
 			.select({ totalSolicitacoes: count() })
 			.from(solicitacoesMaterial)
 			.where(whereClause);
 
-		const [{ materiaisAtivos }] = await db
+		const [{ materiaisAtivos }] = await this.db
 			.select({ materiaisAtivos: count() })
 			.from(materiais)
 			.where(eq(materiais.ativo, true));
 
-		const [{ unidadesAtivas }] = await db
+		const [{ unidadesAtivas }] = await this.db
 			.select({
 				unidadesAtivas: sql<number>`COUNT(DISTINCT ${solicitacoesMaterial.unidadeId})`,
 			})
 			.from(solicitacoesMaterial)
 			.where(whereClause);
 
-		const valorTotal = await db
+		const valorTotal = await this.db
 			.select({
 				total: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada} * ${materiais.valorUnitario})`,
 			})
@@ -71,7 +73,7 @@ export class EstatisticasService {
 			)
 			.where(whereClause);
 
-		const solicitacoesPorStatus = await db
+		const solicitacoesPorStatus = await this.db
 			.select({
 				status: solicitacoesMaterial.status,
 				total: count(),
@@ -120,7 +122,7 @@ export class EstatisticasService {
 		].filter(Boolean);
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const topMateriais: TopMaterialResult[] = await db
+		const topMateriais: TopMaterialResult[] = await this.db
 			.select({
 				materialId: materiais.id,
 				materialNome: materiais.nome,
@@ -176,7 +178,7 @@ export class EstatisticasService {
 		].filter(Boolean);
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const usoPorTipo = await db
+		const usoPorTipo = await this.db
 			.select({
 				tipo: materiais.tipoMaterialId,
 				totalSolicitado: sql<number>`SUM(${solicitacoesMaterialItens.qtdSolicitada})`,
@@ -227,7 +229,7 @@ export class EstatisticasService {
 		].filter(Boolean);
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
 
-		const usoPorUnidade = await db
+		const usoPorUnidade = await this.db
 			.select({
 				unidadeId: unidades.id,
 				unidadeNome: unidades.nome,
@@ -289,7 +291,7 @@ export class EstatisticasService {
 	): Promise<ConsumoSintetico[]> {
 		const whereClause = this.construirCondicoesFiltro(filtros);
 
-		const consumoSintetico = await db
+		const consumoSintetico = await this.db
 			.select({
 				unidadeId: unidades.id,
 				unidadeNome: unidades.nome,
@@ -330,7 +332,7 @@ export class EstatisticasService {
 	): Promise<ConsumoAnalitico[]> {
 		const whereClause = this.construirCondicoesFiltro(filtros);
 
-		const consumoAnalitico = await db
+		const consumoAnalitico = await this.db
 			.select({
 				unidadeId: unidades.id,
 				unidadeNome: unidades.nome,
@@ -382,5 +384,3 @@ export class EstatisticasService {
 		}));
 	}
 }
-
-export const estatisticasService = new EstatisticasService();
