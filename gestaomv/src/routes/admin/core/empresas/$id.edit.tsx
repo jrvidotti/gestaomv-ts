@@ -34,9 +34,9 @@ function EditEmpresaPage() {
 		data: empresa,
 		isLoading,
 		error,
-	} = useQuery(trpc.empresas.findOne.queryOptions({ id: empresaId }));
+	} = useQuery(trpc.empresas.buscar.queryOptions({ id: empresaId }));
 	const { mutate: updateEmpresa, isPending } = useMutation({
-		...trpc.empresas.update.mutationOptions(),
+		...trpc.empresas.atualizar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Empresa atualizada com sucesso!");
 			navigate({ to: "/admin/core/empresas" });

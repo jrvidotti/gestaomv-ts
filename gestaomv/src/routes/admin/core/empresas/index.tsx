@@ -50,9 +50,9 @@ function EmpresasListPage() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(trpc.empresas.findAll.queryOptions());
+	} = useQuery(trpc.empresas.listar.queryOptions());
 	const { mutate: removeEmpresa } = useMutation({
-		...trpc.empresas.remove.mutationOptions(),
+		...trpc.empresas.deletar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Empresa removida com sucesso!");
 			refetch();

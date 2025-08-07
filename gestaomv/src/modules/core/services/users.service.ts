@@ -6,7 +6,7 @@ import { userRoles, userTagone, users } from "../schemas";
 import type { CriarUser, User, UserRoleType } from "../types";
 
 export class UsersService {
-	async create(
+	async criar(
 		userData: Omit<CriarUser, "id" | "createdAt" | "updatedAt">,
 		roles?: UserRoleType[],
 	): Promise<User> {
@@ -28,7 +28,7 @@ export class UsersService {
 		return { ...user, roles: [] };
 	}
 
-	async findAll(): Promise<User[]> {
+	async listar(): Promise<User[]> {
 		const users = await db.query.users.findMany({
 			with: {
 				userRoles: {
@@ -47,7 +47,7 @@ export class UsersService {
 		});
 	}
 
-	async findOne(id: number): Promise<User | undefined> {
+	async buscar(id: number): Promise<User | undefined> {
 		const userWithRoles = await db.query.users.findFirst({
 			where: eq(users.id, id),
 			with: {
@@ -74,7 +74,7 @@ export class UsersService {
 			},
 		});
 		if (!user) return undefined;
-		return await this.findOne(user.id);
+		return await this.buscar(user.id);
 	}
 
 	async findByTagOneUsername(username: string): Promise<User | undefined> {
@@ -85,16 +85,16 @@ export class UsersService {
 			},
 		});
 		if (!userTagoneRecord || !userTagoneRecord.userId) return undefined;
-		return await this.findOne(userTagoneRecord.userId);
+		return await this.buscar(userTagoneRecord.userId);
 	}
 
-	async update(
+	async atualizar(
 		id: number,
 		userData: Partial<Omit<CriarUser, "id" | "createdAt">>,
 		roles?: UserRoleType[],
 	): Promise<User | undefined> {
 		// Buscar estado atual do usuário ANTES da atualização
-		const currentUser = await this.findOne(id);
+		const currentUser = await this.buscar(id);
 		if (!currentUser) {
 			throw new Error("Usuário não encontrado");
 		}
@@ -119,7 +119,7 @@ export class UsersService {
 				.values(roles.map((role) => ({ userId: id, role })));
 		}
 
-		const updatedUser = await this.findOne(id);
+		const updatedUser = await this.buscar(id);
 
 		// Verificar se usuário passou de "sem roles" para "com roles" (aprovação)
 		if (hadNoRoles && roles && roles.length > 0 && updatedUser) {
@@ -143,7 +143,7 @@ export class UsersService {
 		return updatedUser;
 	}
 
-	async remove(id: number): Promise<void> {
+	async deletar(id: number): Promise<void> {
 		await db.delete(users).where(eq(users.id, id));
 	}
 
@@ -185,7 +185,7 @@ export class UsersService {
 			.where(and(eq(userRoles.userId, userId), eq(userRoles.role, role)));
 	}
 
-	async changePassword(
+	async mudarSenha(
 		userId: number,
 		changePasswordData: Omit<ChangePasswordDto, "confirmPassword">,
 	): Promise<void> {
@@ -227,7 +227,7 @@ export class UsersService {
 			.where(eq(users.id, userId));
 	}
 
-	async findPendingUsers(): Promise<User[]> {
+	async listarUsersPendentes(): Promise<User[]> {
 		const usersWithRoles = await db.query.users.findMany({
 			where: eq(users.isActive, true),
 			with: {
@@ -253,7 +253,7 @@ export class UsersService {
 		return pendingUsers;
 	}
 
-	async getUserStats(): Promise<{
+	async buscarStatusUsuarios(): Promise<{
 		totalUsers: number;
 		activeUsers: number;
 		pendingUsers: number;

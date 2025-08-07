@@ -51,9 +51,9 @@ function UnidadesListPage() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(trpc.unidades.findAll.queryOptions());
+	} = useQuery(trpc.unidades.listar.queryOptions());
 	const { mutate: removeUnidade } = useMutation({
-		...trpc.unidades.remove.mutationOptions(),
+		...trpc.unidades.deletar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Unidade removida com sucesso!");
 			refetch();

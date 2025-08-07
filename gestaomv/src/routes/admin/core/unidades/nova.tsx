@@ -20,7 +20,7 @@ function NovaUnidadePage() {
 	const trpc = useTRPC();
 
 	const { mutate: createUnidade, isPending } = useMutation({
-		...trpc.unidades.create.mutationOptions(),
+		...trpc.unidades.criar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Unidade criada com sucesso!");
 			navigate({ to: "/admin/core/unidades" });

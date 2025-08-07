@@ -44,7 +44,7 @@ function RouteComponent() {
 	const [tipoRelatorio, setTipoRelatorio] =
 		useState<TipoRelatorioConsumo>("sintetico");
 
-	const { data: unidades } = useQuery(trpc.unidades.findAll.queryOptions());
+	const { data: unidades } = useQuery(trpc.unidades.listar.queryOptions());
 
 	const { data: tiposMaterial } = useQuery(
 		trpc.almoxarifado.materiais.listarTiposMaterial.queryOptions(),

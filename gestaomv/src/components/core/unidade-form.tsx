@@ -53,7 +53,7 @@ export function UnidadeForm({
 
 	// Buscar empresas para o select
 	const { data: empresas, isLoading: empresasLoading } = useQuery(
-		trpc.empresas.findAll.queryOptions(),
+		trpc.empresas.listar.queryOptions(),
 	);
 
 	const form = useForm<CreateUnidadeDto | UpdateUnidadeDto>({

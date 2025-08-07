@@ -5,43 +5,43 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 
 export const unidadesRouter = {
-	findAll: adminProcedure.query(async () => {
+	listar: adminProcedure.query(async () => {
 		return await unidadesService.findAll();
 	}),
 
-	findOne: adminProcedure
+	buscar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
-			const unidade = await unidadesService.findOne(input.id);
+			const unidade = await unidadesService.buscar(input.id);
 			if (!unidade) {
 				throw new Error("Unidade não encontrada");
 			}
 			return unidade;
 		}),
 
-	findByCodigo: adminProcedure
+	buscarPorCodigo: adminProcedure
 		.input(z.object({ codigo: z.number() }))
 		.query(async ({ input }) => {
-			const unidade = await unidadesService.findByCodigo(input.codigo);
+			const unidade = await unidadesService.buscarPorCodigo(input.codigo);
 			if (!unidade) {
 				throw new Error("Unidade não encontrada");
 			}
 			return unidade;
 		}),
 
-	findByEmpresa: adminProcedure
+	buscarPorEmpresa: adminProcedure
 		.input(z.object({ empresaId: z.number() }))
 		.query(async ({ input }) => {
-			return await unidadesService.findByEmpresa(input.empresaId);
+			return await unidadesService.buscarPorEmpresa(input.empresaId);
 		}),
 
-	create: adminProcedure
+	criar: adminProcedure
 		.input(createUnidadeSchema)
 		.mutation(async ({ input }) => {
-			return await unidadesService.create(input);
+			return await unidadesService.criar(input);
 		}),
 
-	update: adminProcedure
+	atualizar: adminProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -49,17 +49,17 @@ export const unidadesRouter = {
 			}),
 		)
 		.mutation(async ({ input }) => {
-			const unidade = await unidadesService.update(input.id, input.data);
+			const unidade = await unidadesService.atualizar(input.id, input.data);
 			if (!unidade) {
 				throw new Error("Unidade não encontrada");
 			}
 			return unidade;
 		}),
 
-	remove: adminProcedure
+	deletar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ input }) => {
-			await unidadesService.remove(input.id);
+			await unidadesService.deletar(input.id);
 			return { message: "Unidade removida com sucesso" };
 		}),
 } satisfies TRPCRouterRecord;

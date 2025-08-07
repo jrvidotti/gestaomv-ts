@@ -44,7 +44,7 @@ export class PontowebService {
 		empresaPontoWeb: any,
 	): Promise<{ id: number; acao: "criada" | "atualizada" }> {
 		// Verificar se empresa já existe por pontowebId
-		const empresaExistente = await empresasService.findByPontowebId(
+		const empresaExistente = await empresasService.buscarPorPontowebId(
 			empresaPontoWeb.Id,
 		);
 
@@ -58,14 +58,14 @@ export class PontowebService {
 
 		if (empresaExistente) {
 			// Atualizar empresa existente
-			const empresaAtualizada = await empresasService.update(
+			const empresaAtualizada = await empresasService.atualizar(
 				empresaExistente.id,
 				dadosEmpresa,
 			);
 			return { id: empresaAtualizada?.id || 0, acao: "atualizada" };
 		}
 		// Criar nova empresa
-		const novaEmpresa = await empresasService.create(dadosEmpresa);
+		const novaEmpresa = await empresasService.criar(dadosEmpresa);
 		return { id: novaEmpresa.id, acao: "criada" };
 	}
 
@@ -85,14 +85,14 @@ export class PontowebService {
 
 		if (unidadeExistente) {
 			// Atualizar unidade existente
-			const unidadeAtualizada = await unidadesService.update(
+			const unidadeAtualizada = await unidadesService.atualizar(
 				unidadeExistente.id,
 				dadosUnidade,
 			);
 			return { id: unidadeAtualizada?.id || 0, acao: "atualizada" };
 		}
 		// Criar nova unidade
-		const novaUnidade = await unidadesService.create(dadosUnidade);
+		const novaUnidade = await unidadesService.criar(dadosUnidade);
 		return { id: novaUnidade.id, acao: "criada" };
 	}
 

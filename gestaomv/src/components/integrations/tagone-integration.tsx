@@ -23,10 +23,10 @@ export function TagOneIntegration() {
 		data: tagoneStatus,
 		isLoading: isLoadingTagone,
 		refetch: refetchTagoneStatus,
-	} = useQuery(trpc.tagone.getStatus.queryOptions());
+	} = useQuery(trpc.tagone.buscarStatus.queryOptions());
 
 	const { data: userTagone, refetch: refetchUserTagone } = useQuery(
-		trpc.tagone.getUserTagOne.queryOptions(),
+		trpc.tagone.buscarUserTagOne.queryOptions(),
 	);
 
 	const [showLoginForm, setShowLoginForm] = useState(false);

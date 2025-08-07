@@ -78,7 +78,7 @@ function RouteComponent() {
 
 	// Buscar unidades
 	const { data: unidades, isLoading: carregandoUnidades } = useQuery(
-		trpc.unidades.findAll.queryOptions(),
+		trpc.unidades.listar.queryOptions(),
 	);
 
 	const { mutate: criarSolicitacao, error: erroMutacao } = useMutation({

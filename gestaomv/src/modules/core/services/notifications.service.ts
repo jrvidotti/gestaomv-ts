@@ -1,5 +1,4 @@
-import { USER_ROLES_DATA } from "@/constants";
-import { ALL_ROLES } from "@/constants";
+import { ALL_ROLES, ALL_ROLES_DATA } from "@/constants";
 import { env } from "@/env";
 import { configuracoesService } from "@/modules/core/services/configuracoes.service";
 import { emailService } from "@/modules/core/services/email.service";
@@ -41,7 +40,7 @@ export class NotificationsService {
 
 			// Buscar dados dos administradores usando import dinâmico
 			const admins = await Promise.all(
-				adminIds.map((id) => usersService.findOne(id)),
+				adminIds.map((id) => usersService.buscar(id)),
 			);
 
 			const validAdmins = admins.filter((admin) => admin?.email);
@@ -214,7 +213,7 @@ export class NotificationsService {
 
 		// Converter roles para labels amigáveis
 		const roleLabels = assignedRoles
-			.map((role) => USER_ROLES_DATA[role]?.label || role)
+			.map((role) => ALL_ROLES_DATA[role]?.label || role)
 			.join(", ");
 
 		return `
@@ -318,7 +317,7 @@ export class NotificationsService {
 			}
 
 			const admins = await Promise.all(
-				targetAdminIds.map((id) => usersService.findOne(id)),
+				targetAdminIds.map((id) => usersService.buscar(id)),
 			);
 
 			const validAdmins = admins.filter((admin) => !!admin?.email);

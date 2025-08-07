@@ -4,13 +4,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 // Tipos inferidos automaticamente do tRPC
 type UserProfile = NonNullable<
-	Awaited<ReturnType<typeof trpcClient.auth.profile.query>>
+	Awaited<ReturnType<typeof trpcClient.auth.buscarPerfil.query>>
 >;
 type LoginInput = Parameters<typeof trpcClient.auth.login.mutate>[0];
 type TagOneLoginInput = Parameters<
-	typeof trpcClient.auth.loginWithTagOne.mutate
+	typeof trpcClient.auth.loginComTagOne.mutate
 >[0];
-type RegisterInput = Parameters<typeof trpcClient.auth.register.mutate>[0];
+type RegisterInput = Parameters<typeof trpcClient.auth.registrar.mutate>[0];
 
 interface AuthContextType {
 	user: UserProfile | null;
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			try {
 				const token = localStorage.getItem("auth_token");
 				if (token) {
-					const userProfile = await trpcClient.auth.profile.query();
+					const userProfile = await trpcClient.auth.buscarPerfil.query();
 					if (userProfile) {
 						setUser(userProfile);
 					}
@@ -72,8 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const loginWithTagOne = async (credentials: TagOneLoginInput) => {
 		setIsLoading(true);
 		try {
-			const response =
-				await trpcClient.auth.loginWithTagOne.mutate(credentials);
+			const response = await trpcClient.auth.loginComTagOne.mutate(credentials);
 
 			// Armazenar token e dados do usuário
 			localStorage.setItem("auth_token", response.access_token);
@@ -88,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const register = async (data: RegisterInput) => {
 		setIsLoading(true);
 		try {
-			const response = await trpcClient.auth.register.mutate(data);
+			const response = await trpcClient.auth.registrar.mutate(data);
 
 			// Armazenar token e dados do usuário
 			localStorage.setItem("auth_token", response.access_token);
@@ -144,7 +143,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	// Busca roles de um usuário específico (para admins)
 	const getUserRoles = async (userId: number): Promise<UserRoleType[]> => {
 		try {
-			return await trpcClient.auth.getUserRoles.query({ userId });
+			return await trpcClient.auth.buscarUserRoles.query({ userId });
 		} catch (error) {
 			console.error("Erro ao buscar roles do usuário:", error);
 			return [];

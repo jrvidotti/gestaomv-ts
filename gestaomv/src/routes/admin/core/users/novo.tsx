@@ -23,7 +23,7 @@ function NovoUserPage() {
 	const trpc = useTRPC();
 
 	const { mutate: createUser, isPending } = useMutation({
-		...trpc.users.create.mutationOptions(),
+		...trpc.users.criar.mutationOptions(),
 		onSuccess: (data) => {
 			toast.success("Usuário criado com sucesso!");
 

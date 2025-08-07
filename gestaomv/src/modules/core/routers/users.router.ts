@@ -5,15 +5,15 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 
 export const usersRouter = {
-	findAll: adminProcedure.query(async () => {
-		const users = await usersService.findAll();
+	listar: adminProcedure.query(async () => {
+		const users = await usersService.listar();
 		return users.map(({ password, ...user }) => user);
 	}),
 
-	findOne: adminProcedure
+	buscar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
-			const user = await usersService.findOne(input.id);
+			const user = await usersService.buscar(input.id);
 			if (!user) {
 				throw new Error("Usuário não encontrado");
 			}
@@ -21,13 +21,13 @@ export const usersRouter = {
 			return userWithoutPassword;
 		}),
 
-	create: adminProcedure.input(createUserSchema).mutation(async ({ input }) => {
-		const user = await usersService.create(input);
+	criar: adminProcedure.input(createUserSchema).mutation(async ({ input }) => {
+		const user = await usersService.criar(input);
 		const { password, ...userWithoutPassword } = user;
 		return userWithoutPassword;
 	}),
 
-	update: adminProcedure
+	atualizar: adminProcedure
 		.input(
 			z.object({
 				id: z.number(),
@@ -36,7 +36,7 @@ export const usersRouter = {
 		)
 		.mutation(async ({ input }) => {
 			const { roles, ...userData } = input.data;
-			const user = await usersService.update(input.id, userData, roles);
+			const user = await usersService.atualizar(input.id, userData, roles);
 			if (!user) {
 				throw new Error("Usuário não encontrado");
 			}
@@ -44,19 +44,19 @@ export const usersRouter = {
 			return userWithoutPassword;
 		}),
 
-	remove: adminProcedure
+	deletar: adminProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ input }) => {
-			await usersService.remove(input.id);
+			await usersService.deletar(input.id);
 			return { message: "Usuário removido com sucesso" };
 		}),
 
-	findPendingUsers: adminProcedure.query(async () => {
-		const pendingUsers = await usersService.findPendingUsers();
+	listarUsersPendentes: adminProcedure.query(async () => {
+		const pendingUsers = await usersService.listarUsersPendentes();
 		return pendingUsers.map(({ password, ...user }) => user);
 	}),
 
-	getUserStats: adminProcedure.query(async () => {
-		return await usersService.getUserStats();
+	buscarStatusUsuarios: adminProcedure.query(async () => {
+		return await usersService.buscarStatusUsuarios();
 	}),
 } satisfies TRPCRouterRecord;

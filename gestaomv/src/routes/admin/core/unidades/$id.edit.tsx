@@ -34,9 +34,9 @@ function EditUnidadePage() {
 		data: unidade,
 		isLoading,
 		error,
-	} = useQuery(trpc.unidades.findOne.queryOptions({ id: unidadeId }));
+	} = useQuery(trpc.unidades.buscar.queryOptions({ id: unidadeId }));
 	const { mutate: updateUnidade, isPending } = useMutation({
-		...trpc.unidades.update.mutationOptions(),
+		...trpc.unidades.atualizar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Unidade atualizada com sucesso!");
 			navigate({ to: "/admin/core/unidades" });

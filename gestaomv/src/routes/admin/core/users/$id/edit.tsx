@@ -49,9 +49,9 @@ function EditUserPage() {
 		data: user,
 		isLoading,
 		error,
-	} = useQuery(trpc.users.findOne.queryOptions({ id: userId }));
+	} = useQuery(trpc.users.buscar.queryOptions({ id: userId }));
 	const { mutate: updateUser, isPending } = useMutation({
-		...trpc.users.update.mutationOptions(),
+		...trpc.users.atualizar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Usuário atualizado com sucesso!");
 		},

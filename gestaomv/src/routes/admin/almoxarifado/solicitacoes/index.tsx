@@ -123,7 +123,7 @@ function RouteComponent() {
 	);
 
 	// Query para listar unidades
-	const { data: unidades } = useQuery(trpc.unidades.findAll.queryOptions());
+	const { data: unidades } = useQuery(trpc.unidades.listar.queryOptions());
 
 	// Definições de colunas
 	const columnHelper = createColumnHelper<SolicitacaoMaterial>();

@@ -22,7 +22,7 @@ export function useUserRoles({ userId, enabled = true }: UseUserRolesOptions) {
 		isLoading: isLoadingRoles,
 		error,
 	} = useQuery(
-		trpc.auth.getUserRoles.queryOptions(
+		trpc.auth.buscarUserRoles.queryOptions(
 			{ userId },
 			{ enabled: enabled && !!userId },
 		),
@@ -30,7 +30,7 @@ export function useUserRoles({ userId, enabled = true }: UseUserRolesOptions) {
 
 	// Query para buscar dados completos do usuário
 	const { data: userData, isLoading: isLoadingUser } = useQuery(
-		trpc.users.findOne.queryOptions(
+		trpc.users.buscar.queryOptions(
 			{ id: userId },
 			{ enabled: enabled && !!userId },
 		),
@@ -38,7 +38,7 @@ export function useUserRoles({ userId, enabled = true }: UseUserRolesOptions) {
 
 	// Mutations
 	const addRoleMutation = useMutation(
-		trpc.auth.addUserRole.mutationOptions({
+		trpc.auth.adicionarUserRole.mutationOptions({
 			onSuccess: () => {
 				queryClient.invalidateQueries({
 					queryKey: ["auth.getUserRoles", { userId }],
@@ -56,7 +56,7 @@ export function useUserRoles({ userId, enabled = true }: UseUserRolesOptions) {
 	);
 
 	const removeRoleMutation = useMutation(
-		trpc.auth.removeUserRole.mutationOptions({
+		trpc.auth.removerUserRole.mutationOptions({
 			onSuccess: () => {
 				queryClient.invalidateQueries({
 					queryKey: ["auth.getUserRoles", { userId }],

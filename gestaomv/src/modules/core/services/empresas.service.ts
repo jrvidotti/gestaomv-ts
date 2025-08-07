@@ -9,7 +9,7 @@ export class EmpresasService {
 		return db;
 	}
 
-	async create(empresaData: CreateEmpresaDto): Promise<Empresa> {
+	async criar(empresaData: CreateEmpresaDto): Promise<Empresa> {
 		const [empresa] = await this.db
 			.insert(empresas)
 			.values({
@@ -20,7 +20,7 @@ export class EmpresasService {
 		return empresa;
 	}
 
-	async findAll(): Promise<Empresa[]> {
+	async listar(): Promise<Empresa[]> {
 		const allEmpresas = await this.db.query.empresas.findMany({
 			with: {
 				unidades: true,
@@ -31,7 +31,7 @@ export class EmpresasService {
 		return allEmpresas;
 	}
 
-	async findOne(id: number): Promise<Empresa | undefined> {
+	async buscar(id: number): Promise<Empresa | undefined> {
 		const empresa = await this.db.query.empresas.findFirst({
 			where: eq(empresas.id, id),
 			with: {
@@ -44,7 +44,7 @@ export class EmpresasService {
 		return empresa;
 	}
 
-	async update(
+	async atualizar(
 		id: number,
 		empresaData: UpdateEmpresaDto,
 	): Promise<Empresa | undefined> {
@@ -55,14 +55,14 @@ export class EmpresasService {
 
 		await this.db.update(empresas).set(updateData).where(eq(empresas.id, id));
 
-		return await this.findOne(id);
+		return await this.buscar(id);
 	}
 
-	async remove(id: number): Promise<void> {
+	async deletar(id: number): Promise<void> {
 		await this.db.delete(empresas).where(eq(empresas.id, id));
 	}
 
-	async findByCnpj(cnpj: string): Promise<Empresa | undefined> {
+	async buscarPorCnpj(cnpj: string): Promise<Empresa | undefined> {
 		const empresa = await this.db.query.empresas.findFirst({
 			where: eq(empresas.cnpj, cnpj),
 			with: {
@@ -75,7 +75,7 @@ export class EmpresasService {
 		return empresa;
 	}
 
-	async findByPontowebId(pontowebId: number): Promise<Empresa | undefined> {
+	async buscarPorPontowebId(pontowebId: number): Promise<Empresa | undefined> {
 		const empresa = await this.db.query.empresas.findFirst({
 			where: eq(empresas.pontowebId, pontowebId),
 			with: {

@@ -10,35 +10,35 @@ import type { TRPCRouterRecord } from "@trpc/server";
 const superadminProcedure = createRoleProcedure([ALL_ROLES.SUPERADMIN]);
 
 export const superadminRouter = {
-	getStats: superadminProcedure.query(async () => {
-		return await superadminService.getSystemStats();
+	buscarStatsSistema: superadminProcedure.query(async () => {
+		return await superadminService.buscarStatsSistema();
 	}),
 
-	getSystemInfo: superadminProcedure.query(async () => {
-		return await superadminService.getSystemInfo();
+	buscarInfoSistema: superadminProcedure.query(async () => {
+		return await superadminService.buscarInfoSistema();
 	}),
 
-	getMigrationInfo: superadminProcedure.query(async () => {
-		return await superadminService.getMigrationInfo();
+	buscarInfoMigracoes: superadminProcedure.query(async () => {
+		return await superadminService.buscarInfoMigracoes();
 	}),
 
-	runMigrations: superadminProcedure.mutation(async () => {
-		const result = await superadminService.runMigrations();
+	executarMigracoes: superadminProcedure.mutation(async () => {
+		const result = await superadminService.executarMigracoes();
 		return {
 			...result,
 			timestamp: new Date().toISOString(),
 		};
 	}),
 
-	seedOperation: superadminProcedure
+	operacaoSeed: superadminProcedure
 		.input(seedOperationSchema)
 		.mutation(async ({ input }) => {
-			return await superadminService.seedOperation(input.operation);
+			return await superadminService.operacaoSeed(input.operation);
 		}),
 
-	createAdmin: superadminProcedure
+	criarAdmin: superadminProcedure
 		.input(createAdminSchema)
 		.mutation(async ({ input }) => {
-			return await superadminService.createAdmin(input);
+			return await superadminService.criarAdmin(input);
 		}),
 } satisfies TRPCRouterRecord;

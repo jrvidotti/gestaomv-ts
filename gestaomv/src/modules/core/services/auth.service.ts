@@ -7,45 +7,36 @@ import type {
 	RemoveUserRoleDto,
 	TagoneLoginDto,
 } from "@/modules/core/dtos";
-import { emailService } from "@/modules/core/services/email.service";
-import { notificationsService } from "@/modules/core/services/notifications.service";
-import { tagoneService } from "@/modules/core/services/tagone.service";
-import { usersService } from "@/modules/core/services/users.service";
+import {
+	type EmailService,
+	emailService,
+} from "@/modules/core/services/email.service";
+import {
+	type NotificationsService,
+	notificationsService,
+} from "@/modules/core/services/notifications.service";
+import {
+	type TagoneService,
+	tagoneService,
+} from "@/modules/core/services/tagone.service";
+import {
+	type UsersService,
+	usersService,
+} from "@/modules/core/services/users.service";
 import type { User, UserRoleType } from "@/modules/core/types";
 import { TRPCError } from "@trpc/server";
 import type { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 
 export class AuthService {
-	private isValidEmail(email: string): boolean {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
-	}
+	constructor(
+		private usersService: UsersService,
+		private tagoneService: TagoneService,
+		private notificationsService: NotificationsService,
+		private emailService: EmailService,
+	) {}
 
-	static generateAccessToken(user: User) {
-		const payload: JwtPayload = {
-			email: user.email,
-			sub: user.id.toString(),
-			roles: user.roles,
-		};
-		const access_token = jwt.sign(payload, env.JWT_SECRET, {
-			expiresIn: "30d",
-		});
-		return access_token;
-	}
-
-	async validateUser(email: string, password: string): Promise<User | null> {
-		const user = await usersService.findByEmail(email);
-		if (
-			user?.password &&
-			(await usersService.validatePassword(password, user.password))
-		) {
-			return user;
-		}
-		return null;
-	}
-
-	private async loginSuperadmin(
+	async loginSuperadmin(
 		email: string,
 		password: string,
 	): Promise<AuthResponse> {
@@ -58,9 +49,9 @@ export class AuthService {
 		}
 
 		// Criar usuário virtual do superadmin
-		const superadminUser = this.superuserProfile();
+		const superadminUser = this.perfilSuperadmin();
 
-		const access_token = AuthService.generateAccessToken(superadminUser);
+		const access_token = this.generateAccessToken(superadminUser);
 
 		const { password: _, ...userWithoutPassword } = superadminUser;
 
@@ -70,7 +61,7 @@ export class AuthService {
 		};
 	}
 
-	superuserProfile(): User {
+	perfilSuperadmin(): User {
 		return {
 			id: -1,
 			email: env.SUPERADMIN_EMAIL,
@@ -111,7 +102,7 @@ export class AuthService {
 		// Verificar se o usuário possui roles atribuídas
 		this.checkUserHasRoles(user);
 
-		const access_token = AuthService.generateAccessToken(user);
+		const access_token = this.generateAccessToken(user);
 
 		const { password, ...userWithoutPassword } = user;
 
@@ -121,24 +112,24 @@ export class AuthService {
 		};
 	}
 
-	async register(registerDto: RegisterDto): Promise<AuthResponse> {
-		const existingUser = await usersService.findByEmail(registerDto.email);
+	async registrar(registerDto: RegisterDto): Promise<AuthResponse> {
+		const existingUser = await this.usersService.findByEmail(registerDto.email);
 		if (existingUser) {
 			throw new Error("Email já está em uso");
 		}
 
-		const user = await usersService.create(registerDto);
-		const access_token = AuthService.generateAccessToken(user);
+		const user = await this.usersService.criar(registerDto);
+		const access_token = this.generateAccessToken(user);
 
 		// Enviar e-mail de boas-vindas de forma assíncrona
 		// Não aguardar para não bloquear o registro em caso de erro
-		emailService.sendWelcomeEmail(user.email, user.name).catch((error) => {
+		this.emailService.sendWelcomeEmail(user.email, user.name).catch((error) => {
 			console.error("Erro ao enviar e-mail de boas-vindas:", error);
 		});
 
 		// Enviar notificação para administradores de forma assíncrona
 		const { password, ...userWithoutPassword } = user;
-		notificationsService
+		this.notificationsService
 			.notifyNewUserRegistration(userWithoutPassword)
 			.catch((error) => {
 				console.error("Erro ao enviar notificação de novo usuário:", error);
@@ -153,7 +144,7 @@ export class AuthService {
 	async getProfile(
 		userId: number,
 	): Promise<Omit<User, "password"> | undefined> {
-		const user = await usersService.findOne(userId);
+		const user = await this.usersService.buscar(userId);
 		if (!user) {
 			return undefined;
 		}
@@ -162,31 +153,31 @@ export class AuthService {
 		return userWithoutPassword;
 	}
 
-	async getUserRoles(userId: number): Promise<UserRoleType[]> {
-		return await usersService.getUserRoles(userId);
+	async buscarUserRoles(userId: number): Promise<UserRoleType[]> {
+		return await this.usersService.getUserRoles(userId);
 	}
 
-	async addUserRole(addUserRoleDto: AddUserRoleDto): Promise<void> {
-		return await usersService.addUserRole(
+	async adicionarUserRole(addUserRoleDto: AddUserRoleDto): Promise<void> {
+		return await this.usersService.addUserRole(
 			addUserRoleDto.userId,
 			addUserRoleDto.role,
 		);
 	}
 
-	async removeUserRole(removeUserRoleDto: RemoveUserRoleDto): Promise<void> {
-		return await usersService.removeUserRole(
+	async removerUserRole(removeUserRoleDto: RemoveUserRoleDto): Promise<void> {
+		return await this.usersService.removeUserRole(
 			removeUserRoleDto.userId,
 			removeUserRoleDto.role,
 		);
 	}
 
-	async getUserWithRoles(userId: number): Promise<User | undefined> {
-		return await usersService.findOne(userId);
+	async buscarPerfil(userId: number): Promise<User | undefined> {
+		return await this.usersService.buscar(userId);
 	}
 
-	async loginWithTagOne(loginDto: TagoneLoginDto): Promise<AuthResponse> {
+	async loginComTagOne(loginDto: TagoneLoginDto): Promise<AuthResponse> {
 		// Tentar fazer login no TagOne
-		const tagoneResult = await tagoneService.loginWithTagOne(
+		const tagoneResult = await this.tagoneService.loginWithTagOne(
 			loginDto.usuarioTagone,
 			loginDto.senha,
 		);
@@ -228,11 +219,12 @@ export class AuthService {
 
 		if (tagoneEmail && this.isValidEmail(tagoneEmail)) {
 			// Se existe usuário com este e-mail, verificar se já tem userTagone
-			const existingEmailUser = await usersService.findByEmail(tagoneEmail);
+			const existingEmailUser =
+				await this.usersService.findByEmail(tagoneEmail);
 			if (existingEmailUser && existingEmailUser.authProvider !== "tagone") {
 				// Verificar se este usuário já conectou ao TagOne
 				const existingTagoneConnection =
-					await usersService.findByTagOneUsername(loginDto.usuarioTagone);
+					await this.usersService.findByTagOneUsername(loginDto.usuarioTagone);
 				if (
 					!existingTagoneConnection ||
 					existingTagoneConnection.id !== existingEmailUser.id
@@ -246,7 +238,7 @@ export class AuthService {
 		}
 
 		// Buscar usuário existente com este username TagOne
-		const existingTagoneUser = await usersService.findByTagOneUsername(
+		const existingTagoneUser = await this.usersService.findByTagOneUsername(
 			loginDto.usuarioTagone,
 		);
 
@@ -258,13 +250,13 @@ export class AuthService {
 			user = existingTagoneUser;
 
 			// Atualizar ou criar registro TagOne
-			await tagoneService.loginAndSaveTagOne(user.id, {
+			await this.tagoneService.loginAndSaveTagOne(user.id, {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
 		} else {
 			// Criar novo usuário
-			const newUser = await usersService.create({
+			const newUser = await this.usersService.criar({
 				email: emailToUse,
 				name: nameToUse, // Nome preferencial do TagOne
 				authProvider: "tagone",
@@ -274,18 +266,18 @@ export class AuthService {
 			user = newUser;
 
 			// Criar registro TagOne
-			await tagoneService.loginAndSaveTagOne(user.id, {
+			await this.tagoneService.loginAndSaveTagOne(user.id, {
 				usuarioTagone: loginDto.usuarioTagone,
 				senha: loginDto.senha,
 			});
 
-			await notificationsService.notifyNewUserRegistration(user);
+			await this.notificationsService.notifyNewUserRegistration(user);
 		}
 
 		// Verificar se o usuário possui roles atribuídas
 		this.checkUserHasRoles(user);
 
-		const access_token = AuthService.generateAccessToken(user);
+		const access_token = this.generateAccessToken(user);
 
 		const { password, ...userWithoutPassword } = user;
 
@@ -293,6 +285,37 @@ export class AuthService {
 			access_token,
 			user: userWithoutPassword,
 		};
+	}
+
+	private isValidEmail(email: string): boolean {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	}
+
+	private generateAccessToken(user: User) {
+		const payload: JwtPayload = {
+			email: user.email,
+			sub: user.id.toString(),
+			roles: user.roles,
+		};
+		const access_token = jwt.sign(payload, env.JWT_SECRET, {
+			expiresIn: "30d",
+		});
+		return access_token;
+	}
+
+	private async validateUser(
+		email: string,
+		password: string,
+	): Promise<User | null> {
+		const user = await this.usersService.findByEmail(email);
+		if (
+			user?.password &&
+			(await this.usersService.validatePassword(password, user.password))
+		) {
+			return user;
+		}
+		return null;
 	}
 
 	private checkUserHasRoles(user: User) {
@@ -304,4 +327,10 @@ export class AuthService {
 	}
 }
 
-export const authService = new AuthService();
+// Singleton
+export const authService = new AuthService(
+	usersService,
+	tagoneService,
+	notificationsService,
+	emailService,
+);

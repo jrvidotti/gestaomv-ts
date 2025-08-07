@@ -55,15 +55,15 @@ function UsersListPage() {
 		isLoading,
 		error,
 		refetch,
-	} = useQuery(trpc.users.findAll.queryOptions());
+	} = useQuery(trpc.users.listar.queryOptions());
 	const { mutate: updateUser } = useMutation({
-		...trpc.users.update.mutationOptions(),
+		...trpc.users.atualizar.mutationOptions(),
 		onSuccess: () => {
 			refetch();
 		},
 	});
 	const { mutate: removeUser } = useMutation({
-		...trpc.users.remove.mutationOptions(),
+		...trpc.users.deletar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Usuário removido com sucesso!");
 			refetch();

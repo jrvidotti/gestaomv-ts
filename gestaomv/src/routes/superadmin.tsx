@@ -17,7 +17,7 @@ function SuperadminPage() {
 	const [showOnlyLog, setShowOnlyLog] = useState(false);
 
 	const { data: systemInfoData, isLoading: systemLoading } = useQuery(
-		trpc.superadmin.getSystemInfo.queryOptions(),
+		trpc.superadmin.buscarInfoSistema.queryOptions(),
 	);
 
 	// Queries
@@ -25,13 +25,13 @@ function SuperadminPage() {
 		data: statsData,
 		isLoading: statsLoading,
 		refetch: refetchStats,
-	} = useQuery(trpc.superadmin.getStats.queryOptions());
+	} = useQuery(trpc.superadmin.buscarStatsSistema.queryOptions());
 
 	const {
 		data: migrationInfoData,
 		isLoading: migrationLoading,
 		refetch: refetchMigrationInfo,
-	} = useQuery(trpc.superadmin.getMigrationInfo.queryOptions());
+	} = useQuery(trpc.superadmin.buscarInfoMigracoes.queryOptions());
 
 	const addLog = useCallback((message: string, timestamp?: string) => {
 		const timestamp2 = timestamp || new Date().toLocaleTimeString();
@@ -39,7 +39,7 @@ function SuperadminPage() {
 	}, []);
 
 	const runMigrationsMutation = useMutation(
-		trpc.superadmin.runMigrations.mutationOptions({
+		trpc.superadmin.executarMigracoes.mutationOptions({
 			onSuccess: (result) => {
 				if (result.success) {
 					addLog(`✅ ${result.message || "Migrações aplicadas com sucesso!"}`);
@@ -57,7 +57,7 @@ function SuperadminPage() {
 	);
 
 	const runSeedMutation = useMutation(
-		trpc.superadmin.seedOperation.mutationOptions({
+		trpc.superadmin.operacaoSeed.mutationOptions({
 			onSuccess: (result) => {
 				if (result.success) {
 					addLog(`✅ Sucesso: ${result.operation}!`);

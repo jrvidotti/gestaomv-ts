@@ -20,7 +20,7 @@ function NovaEmpresaPage() {
 	const trpc = useTRPC();
 
 	const { mutate: createEmpresa, isPending } = useMutation({
-		...trpc.empresas.create.mutationOptions(),
+		...trpc.empresas.criar.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Empresa criada com sucesso!");
 			navigate({ to: "/admin/core/empresas" });

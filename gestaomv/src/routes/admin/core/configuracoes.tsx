@@ -35,7 +35,7 @@ function ConfiguracoesPage() {
 		trpc.configuracoes.getConfiguracoesSistema.queryOptions(),
 	);
 	const { data: users, isLoading: usersLoading } = useQuery(
-		trpc.users.findAll.queryOptions(),
+		trpc.users.listar.queryOptions(),
 	);
 
 	// Mutation para salvar configurações

@@ -14,8 +14,8 @@ export const configuracoesRouter = {
 			return await configuracoesService.updateConfiguracoesSistema(input);
 		}),
 
-	initializeDefaultSettings: adminProcedure.mutation(async () => {
-		await configuracoesService.initializeDefaultSettings();
+	initiacializarConfiguracoesPadrao: adminProcedure.mutation(async () => {
+		await configuracoesService.initiacializarConfiguracoesPadrao();
 		return { message: "Configurações padrão inicializadas com sucesso" };
 	}),
 } satisfies TRPCRouterRecord;

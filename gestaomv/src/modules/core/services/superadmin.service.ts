@@ -54,7 +54,7 @@ interface Journal {
 export class SuperadminService {
 	private usersService = new UsersService();
 
-	async getSystemStats(): Promise<SystemStatsDTO> {
+	async buscarStatsSistema(): Promise<SystemStatsDTO> {
 		try {
 			const safeCount = async (table: any, tableName: string) => {
 				try {
@@ -111,7 +111,7 @@ export class SuperadminService {
 		}
 	}
 
-	async getSystemInfo(): Promise<SystemInfoDTO> {
+	async buscarInfoSistema(): Promise<SystemInfoDTO> {
 		try {
 			const packageJsonPath = path.join(process.cwd(), "package.json");
 			const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
@@ -184,7 +184,7 @@ export class SuperadminService {
 		}
 	}
 
-	async getMigrationInfo(): Promise<MigrationInfoDTO> {
+	async buscarInfoMigracoes(): Promise<MigrationInfoDTO> {
 		try {
 			const migrationsFolder = env.MIGRATIONS_PATH.startsWith(".")
 				? path.join(process.cwd(), env.MIGRATIONS_PATH)
@@ -237,7 +237,7 @@ export class SuperadminService {
 		}
 	}
 
-	async runMigrations(): Promise<{ success: boolean; message: string }> {
+	async executarMigracoes(): Promise<{ success: boolean; message: string }> {
 		try {
 			const migrationsFolder = env.MIGRATIONS_PATH.startsWith(".")
 				? path.join(process.cwd(), env.MIGRATIONS_PATH)
@@ -251,7 +251,7 @@ export class SuperadminService {
 
 			const hasUser = await db.query.users.findFirst();
 			if (!hasUser)
-				await this.usersService.create(
+				await this.usersService.criar(
 					{
 						email: env.SUPERADMIN_EMAIL,
 						password: env.SUPERADMIN_PASSWORD,
@@ -275,7 +275,7 @@ export class SuperadminService {
 		}
 	}
 
-	async seedOperation(operation: SeedOperationDTO["operation"]) {
+	async operacaoSeed(operation: SeedOperationDTO["operation"]) {
 		const configs = [
 			usersConfig,
 			tiposMaterialConfig,
@@ -398,9 +398,9 @@ export class SuperadminService {
 		};
 	}
 
-	async createAdmin(data: CreateAdminDTO) {
+	async criarAdmin(data: CreateAdminDTO) {
 		try {
-			const adminUser = await this.usersService.create(
+			const adminUser = await this.usersService.criar(
 				{
 					email: data.email,
 					password: data.password,

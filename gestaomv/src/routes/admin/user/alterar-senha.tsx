@@ -42,7 +42,7 @@ function AlterarSenhaPage() {
 	});
 
 	const changePasswordMutation = useMutation({
-		...trpc.auth.changePassword.mutationOptions(),
+		...trpc.auth.mudarSenha.mutationOptions(),
 		onSuccess: () => {
 			toast.success("Senha alterada com sucesso!");
 			router.navigate({ to: "/admin/user/profile" });
