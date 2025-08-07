@@ -55,5 +55,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
         env:
           REGISTRY: ${{ env.REGISTRY }}
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
