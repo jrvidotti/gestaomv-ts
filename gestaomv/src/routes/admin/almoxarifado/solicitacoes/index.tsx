@@ -140,7 +140,7 @@ function RouteComponent() {
 
 	const isAdmin =
 		user?.roles?.includes(ALL_ROLES.ADMIN) ||
-		user?.roles?.includes(ALL_ROLES.GERENCIA_ALMOXARIFADO);
+		user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA);
 
 	const columns = [
 		columnHelper.accessor("id", {
@@ -488,8 +488,8 @@ function RouteComponent() {
 		<RouteGuard
 			requiredRoles={[
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.GERENCIA_ALMOXARIFADO,
-				ALL_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

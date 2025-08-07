@@ -2,8 +2,8 @@ import { MODULE_STATUS, type ModuleData } from "@/constants";
 import { Mail, Target, UserCheck, Users } from "lucide-react";
 
 export const MODULE_ROLES = {
-	GERENCIA_CRM: "gerencia_crm",
-	USUARIO_CRM: "usuario_crm",
+	CRM_GERENCIA: "crm_gerencia",
+	CRM_USUARIO: "crm_usuario",
 } as const;
 
 export const MODULE_DATA: ModuleData = {
@@ -16,14 +16,14 @@ export const MODULE_DATA: ModuleData = {
 	icon: UserCheck,
 	moduleRoles: MODULE_ROLES,
 	moduleRolesData: {
-		[MODULE_ROLES.GERENCIA_CRM]: {
-			value: MODULE_ROLES.GERENCIA_CRM,
+		[MODULE_ROLES.CRM_GERENCIA]: {
+			value: MODULE_ROLES.CRM_GERENCIA,
 			label: "Gerente CRM",
 			description: "Acesso de gerenciamento de CRM",
 			color: "default",
 		},
-		[MODULE_ROLES.USUARIO_CRM]: {
-			value: MODULE_ROLES.USUARIO_CRM,
+		[MODULE_ROLES.CRM_USUARIO]: {
+			value: MODULE_ROLES.CRM_USUARIO,
 			label: "Usuário CRM",
 			description: "Acesso de usuário de CRM",
 		},
@@ -46,8 +46,8 @@ export const MODULE_DATA: ModuleData = {
 			url: "/admin/crm/campaigns",
 			icon: Mail,
 			status: MODULE_STATUS.DESENVOLVIMENTO,
-			roles: [MODULE_ROLES.GERENCIA_CRM],
+			roles: [MODULE_ROLES.CRM_GERENCIA],
 		},
 	],
-	roles: [MODULE_ROLES.GERENCIA_CRM, MODULE_ROLES.USUARIO_CRM],
+	roles: [MODULE_ROLES.CRM_GERENCIA, MODULE_ROLES.CRM_USUARIO],
 } as const;

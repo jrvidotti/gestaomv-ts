@@ -149,8 +149,8 @@ function RouteComponent() {
 		<RouteGuard
 			requiredRoles={[
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.GERENCIA_ALMOXARIFADO,
-				ALL_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

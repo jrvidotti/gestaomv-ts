@@ -372,7 +372,7 @@ export class NotificationsService {
 			// Buscar todos os aprovadores de almoxarifado
 			const aprovadores = await usersService.findUsersByRoles([
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.APROVADOR_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_APROVADOR,
 			]);
 
 			if (aprovadores.length === 0) {
@@ -449,8 +449,8 @@ export class NotificationsService {
 			// Buscar todos os gerentes de almoxarifado
 			const gerentes = await usersService.findUsersByRoles([
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.GERENCIA_ALMOXARIFADO,
-				ALL_ROLES.APROVADOR_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_APROVADOR,
 			]);
 
 			if (gerentes.length === 0) {

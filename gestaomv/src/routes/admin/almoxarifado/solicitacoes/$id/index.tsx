@@ -57,8 +57,8 @@ function RouteComponent() {
 	);
 
 	const isAdmin = user?.roles?.includes(ALL_ROLES.ADMIN);
-	const isAprovador = user?.roles?.includes(ALL_ROLES.APROVADOR_ALMOXARIFADO);
-	const isGerente = user?.roles?.includes(ALL_ROLES.GERENCIA_ALMOXARIFADO);
+	const isAprovador = user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_APROVADOR);
+	const isGerente = user?.roles?.includes(ALL_ROLES.ALMOXARIFADO_GERENCIA);
 	const isOwner = user?.id === solicitacao?.solicitanteId;
 
 	// Permissões derivadas
@@ -232,9 +232,9 @@ function RouteComponent() {
 			<RouteGuard
 				requiredRoles={[
 					ALL_ROLES.ADMIN,
-					ALL_ROLES.APROVADOR_ALMOXARIFADO,
-					ALL_ROLES.GERENCIA_ALMOXARIFADO,
-					ALL_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -253,9 +253,9 @@ function RouteComponent() {
 			<RouteGuard
 				requiredRoles={[
 					ALL_ROLES.ADMIN,
-					ALL_ROLES.APROVADOR_ALMOXARIFADO,
-					ALL_ROLES.GERENCIA_ALMOXARIFADO,
-					ALL_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<AdminLayout header={header}>
@@ -320,8 +320,8 @@ function RouteComponent() {
 		<RouteGuard
 			requiredRoles={[
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.GERENCIA_ALMOXARIFADO,
-				ALL_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<AdminLayout header={header}>

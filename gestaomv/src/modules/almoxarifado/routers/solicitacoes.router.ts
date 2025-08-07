@@ -13,15 +13,15 @@ import z from "zod";
 // Procedures específicos por role
 const aprovadorProcedure = createRoleProcedure([
 	ALL_ROLES.ADMIN,
-	ALL_ROLES.APROVADOR_ALMOXARIFADO,
+	ALL_ROLES.ALMOXARIFADO_APROVADOR,
 ]);
 const gestorAlmoxarifadoProcedure = createRoleProcedure([
 	ALL_ROLES.ADMIN,
-	ALL_ROLES.APROVADOR_ALMOXARIFADO,
-	ALL_ROLES.GERENCIA_ALMOXARIFADO,
+	ALL_ROLES.ALMOXARIFADO_APROVADOR,
+	ALL_ROLES.ALMOXARIFADO_GERENCIA,
 ]);
 const gerenteAlmoxarifadoProcedure = createRoleProcedure([
-	ALL_ROLES.GERENCIA_ALMOXARIFADO,
+	ALL_ROLES.ALMOXARIFADO_GERENCIA,
 ]);
 
 export const solicitacoesRouter = {

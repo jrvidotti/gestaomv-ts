@@ -57,9 +57,9 @@ function RouteComponent() {
 			<RouteGuard
 				requiredRoles={[
 					ALL_ROLES.ADMIN,
-					ALL_ROLES.APROVADOR_ALMOXARIFADO,
-					ALL_ROLES.GERENCIA_ALMOXARIFADO,
-					ALL_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<div className={styles.printLoading}>
@@ -74,9 +74,9 @@ function RouteComponent() {
 			<RouteGuard
 				requiredRoles={[
 					ALL_ROLES.ADMIN,
-					ALL_ROLES.APROVADOR_ALMOXARIFADO,
-					ALL_ROLES.GERENCIA_ALMOXARIFADO,
-					ALL_ROLES.USUARIO_ALMOXARIFADO,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_USUARIO,
 				]}
 			>
 				<div className={styles.printError}>
@@ -125,8 +125,8 @@ function RouteComponent() {
 		<RouteGuard
 			requiredRoles={[
 				ALL_ROLES.ADMIN,
-				ALL_ROLES.GERENCIA_ALMOXARIFADO,
-				ALL_ROLES.USUARIO_ALMOXARIFADO,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_USUARIO,
 			]}
 		>
 			<div className={styles.printContainer}>
