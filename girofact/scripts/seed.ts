@@ -2,11 +2,13 @@ import {
   type ResultImportacao,
   executaImportacao,
   usersConfig,
-} from "@/lib/import-export";
+  consultasCpfConfig,
+} from "@/lib/seed";
 
 async function main() {
   const results: Record<string, ResultImportacao> = {};
   results.users = await executaImportacao(usersConfig);
+  results.consultasCpf = await executaImportacao(consultasCpfConfig);
   console.table(results, ["importados", "ignorados", "erros", "tempoMs"]);
 }
 

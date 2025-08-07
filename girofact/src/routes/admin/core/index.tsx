@@ -37,7 +37,7 @@ function AdminCoreDashboard() {
 
   // Queries tRPC
   const { data: userStats, isLoading: statsLoading } = useQuery(
-    trpc.core.users.buscarStatusUsuarios.queryOptions()
+    trpc.core.users.buscarStatsUsuarios.queryOptions()
   );
   const { data: pendingUsers, isLoading: pendingLoading } = useQuery(
     trpc.core.users.listarUsersPendentes.queryOptions()

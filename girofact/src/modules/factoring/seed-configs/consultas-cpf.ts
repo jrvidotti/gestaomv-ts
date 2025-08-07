@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { consultasCpf } from "@/db/schemas";
-import type { ImportExportOptions } from "@/lib/import-export";
+import type { ImportExportOptions } from "@/lib/seed";
 
 export interface ConsultaCpfImport {
   cpf: string;
@@ -8,7 +8,7 @@ export interface ConsultaCpfImport {
   criadoEm: string | null;
 }
 
-export const config = {
+export const consultasCpfConfig = {
   nomeArquivo: "consultas-cpf",
   descricaoArquivo: "Dados de consultas CPF para seed",
   buscarItens: async () => {

@@ -261,15 +261,15 @@ function SuperadminPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span>Usuários:</span>
-                  <Badge>{statsData?.base.users}</Badge>
+                  <Badge>{statsData?.core.users}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span>Empresas:</span>
-                  <Badge>{statsData?.base.empresas}</Badge>
+                  <Badge>{statsData?.core.empresas}</Badge>
                 </div>
                 <div className="flex justify-between">
                   <span>Unidades:</span>
-                  <Badge>{statsData?.base.unidades}</Badge>
+                  <Badge>{statsData?.core.unidades}</Badge>
                 </div>
               </CardContent>
             </Card>

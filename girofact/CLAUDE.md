@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabalhar no app `gestaomv` (@gestaomv/app).
+Este arquivo fornece orientações para o Claude Code (claude.ai/code) ao trabalhar no app `girofact`.
 
 ## Comandos
 
@@ -196,14 +196,13 @@ trpc.core.users.*
 ##### **Auth** (Autenticação)
 
 - `login` _mutation_ - Login com email/senha (`publicProcedure`)
-- `loginWithTagOne` _mutation_ - Login via TagOne (`publicProcedure`)
-- `register` _mutation_ - Registro de usuário (`publicProcedure`)
-- `profile` _query_ - Perfil do usuário logado (`protectedProcedure`)
-- `getUserRoles` _query_ - Buscar roles de usuário (`protectedProcedure`)
-- `addUserRole` _mutation_ - Adicionar role a usuário (`adminProcedure`)
-- `removeUserRole` _mutation_ - Remover role de usuário (`adminProcedure`)
+- `registrar` _mutation_ - Registro de usuário (`publicProcedure`)
+- `buscarPerfil` _query_ - Perfil do usuário logado (`protectedProcedure`)
+- `buscarUserRoles` _query_ - Buscar roles de usuário (`protectedProcedure`)
+- `adicionarUserRole` _mutation_ - Adicionar role a usuário (`adminProcedure`)
+- `removerUserRole` _mutation_ - Remover role de usuário (`adminProcedure`)
 - `logout` _mutation_ - Logout do sistema (`protectedProcedure`)
-- `changePassword` _mutation_ - Alterar senha (`protectedProcedure`)
+- `mudarSenha` _mutation_ - Alterar senha (`protectedProcedure`)
 
 ##### **Configurações**
 
@@ -211,150 +210,24 @@ trpc.core.users.*
 - `updateConfiguracoesSistema` _mutation_ - Atualizar configurações (`adminProcedure`)
 - `initializeDefaultSettings` _mutation_ - Inicializar configurações padrão (`adminProcedure`)
 
-##### **Empresas**
-
-- `findAll` _query_ - Listar todas empresas (`adminProcedure`)
-- `findOne` _query_ - Buscar empresa por ID (`adminProcedure`)
-- `findByCnpj` _query_ - Buscar empresa por CNPJ (`adminProcedure`)
-- `findByPontowebId` _query_ - Buscar empresa por ID do Pontoweb (`adminProcedure`)
-- `create` _mutation_ - Criar nova empresa (`adminProcedure`)
-- `update` _mutation_ - Atualizar empresa (`adminProcedure`)
-- `remove` _mutation_ - Remover empresa (`adminProcedure`)
-
 ##### **Superadmin**
 
-- `getStats` _query_ - Estatísticas do sistema (`superadminProcedure`)
-- `getSystemInfo` _query_ - Informações do sistema (`superadminProcedure`)
-- `getMigrationInfo` _query_ - Informações de migração (`superadminProcedure`)
-- `runMigrations` _mutation_ - Executar migrações (`superadminProcedure`)
-- `seedOperation` _mutation_ - Operações de seed (`superadminProcedure`)
-- `createAdmin` _mutation_ - Criar usuário admin (`superadminProcedure`)
-
-##### **TagOne**
-
-- `login` _mutation_ - Login no TagOne (`protectedProcedure`)
-- `getStatus` _query_ - Status da integração TagOne (`protectedProcedure`)
-- `logout` _mutation_ - Logout do TagOne (`protectedProcedure`)
-- `getUserTagOne` _query_ - Dados TagOne do usuário (`protectedProcedure`)
-
-##### **Unidades**
-
-- `findAll` _query_ - Listar todas unidades (`adminProcedure`)
-- `findOne` _query_ - Buscar unidade por ID (`adminProcedure`)
-- `findByCodigo` _query_ - Buscar unidade por código (`adminProcedure`)
-- `findByEmpresa` _query_ - Buscar unidades por empresa (`adminProcedure`)
-- `create` _mutation_ - Criar nova unidade (`adminProcedure`)
-- `update` _mutation_ - Atualizar unidade (`adminProcedure`)
-- `remove` _mutation_ - Remover unidade (`adminProcedure`)
+- `buscarStatsSistema` _query_ - Estatísticas do sistema (`superadminProcedure`)
+- `buscarInfoSistema` _query_ - Informações do sistema (`superadminProcedure`)
+- `buscarInfoMigracoes` _query_ - Informações de migração (`superadminProcedure`)
+- `executarMigracoes` _mutation_ - Executar migrações (`superadminProcedure`)
+- `operacaoSeed` _mutation_ - Operações de seed (`superadminProcedure`)
+- `criarAdmin` _mutation_ - Criar usuário admin (`superadminProcedure`)
 
 ##### **Users** (Usuários)
 
-- `findAll` _query_ - Listar todos usuários (`adminProcedure`)
-- `findOne` _query_ - Buscar usuário por ID (`adminProcedure`)
-- `create` _mutation_ - Criar novo usuário (`adminProcedure`)
-- `update` _mutation_ - Atualizar usuário (`adminProcedure`)
-- `remove` _mutation_ - Remover usuário (`adminProcedure`)
-- `findPendingUsers` _query_ - Usuários pendentes de aprovação (`adminProcedure`)
-- `getUserStats` _query_ - Estatísticas de usuários (`adminProcedure`)
-
-#### **Módulo RH**
-
-##### **Departamentos**
-
-- `criar` _mutation_ - Criar departamento (`adminProcedure`)
-- `listar` _query_ - Listar departamentos com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar departamento por ID (`protectedProcedure`)
-- `atualizar` _mutation_ - Atualizar departamento (`adminProcedure`)
-- `deletar` _mutation_ - Deletar departamento (`adminProcedure`)
-
-##### **Equipes**
-
-- `criar` _mutation_ - Criar equipe (`adminProcedure`)
-- `listar` _query_ - Listar equipes com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar equipe por ID (`protectedProcedure`)
-- `atualizar` _mutation_ - Atualizar equipe (`adminProcedure`)
-- `deletar` _mutation_ - Deletar equipe (`adminProcedure`)
-- `adicionarFuncionario` _mutation_ - Adicionar funcionário à equipe (`adminProcedure`)
-- `buscarFuncionarios` _query_ - Funcionários da equipe (`protectedProcedure`)
-- `buscarPorFuncionario` _query_ - Equipes do funcionário (`protectedProcedure`)
-- `definirLider` _mutation_ - Definir líder da equipe (`adminProcedure`)
-- `removerFuncionario` _mutation_ - Remover funcionário da equipe (`adminProcedure`)
-
-##### **Cargos**
-
-- `criar` _mutation_ - Criar cargo (`adminProcedure`)
-- `listar` _query_ - Listar cargos com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar cargo por ID (`protectedProcedure`)
-- `buscarPorDepartamento` _query_ - Cargos do departamento (`protectedProcedure`)
-- `atualizar` _mutation_ - Atualizar cargo (`adminProcedure`)
-- `deletar` _mutation_ - Deletar cargo (`adminProcedure`)
-
-##### **Funcionários**
-
-- `criar` _mutation_ - Criar funcionário (`adminProcedure`)
-- `listar` _query_ - Listar funcionários com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar funcionário por ID (`protectedProcedure`)
-- `buscarPorDepartamento` _query_ - Funcionários do departamento (`protectedProcedure`)
-- `buscarPorCargo` _query_ - Funcionários do cargo (`protectedProcedure`)
-- `atualizar` _mutation_ - Atualizar funcionário (`adminProcedure`)
-- `alterarStatus` _mutation_ - Alterar status do funcionário (`adminProcedure`)
-- `deletar` _mutation_ - Deletar funcionário (`adminProcedure`)
-- `criarUserFuncionario` _mutation_ - Vincular usuário a funcionário (`adminProcedure`)
-- `buscarPorUser` _query_ - Funcionário vinculado ao usuário (`protectedProcedure`)
-- `deletarUserFuncionario` _mutation_ - Desvincular usuário de funcionário (`adminProcedure`)
-
-##### **Avaliações de Experiência**
-
-- `criar` _mutation_ - Criar avaliação de experiência (`adminProcedure`)
-- `listar` _query_ - Listar avaliações com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar avaliação por ID (`protectedProcedure`)
-- `buscarPorFuncionario` _query_ - Avaliações do funcionário (`protectedProcedure`)
-
-##### **Avaliações Periódicas**
-
-- `criar` _mutation_ - Criar avaliação periódica (`adminProcedure`)
-- `listar` _query_ - Listar avaliações com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar avaliação por ID (`protectedProcedure`)
-- `buscarPorFuncionario` _query_ - Avaliações do funcionário (`protectedProcedure`)
-
-##### **Pontoweb**
-
-- `importarFuncionarios` _mutation_ - Importar funcionários do Pontoweb (`adminProcedure`)
-- `sincronizarAfastamentos` _mutation_ - Sincronizar afastamentos (`adminProcedure`)
-- `obterMotivosDemissao` _query_ - Motivos de demissão (`protectedProcedure`)
-
-#### **Módulo Almoxarifado**
-
-##### **Materiais**
-
-- `criar` _mutation_ - Criar material (`adminProcedure`)
-- `listar` _query_ - Listar materiais com filtros (`protectedProcedure`)
-- `buscar` _query_ - Buscar material por ID (`protectedProcedure`)
-- `atualizar` _mutation_ - Atualizar material (`adminProcedure`)
-- `inativar` _mutation_ - Inativar material (`adminProcedure`)
-- `listarTiposMaterial` _query_ - Tipos de material (`protectedProcedure`)
-- `listarUnidadesMedida` _query_ - Unidades de medida (`protectedProcedure`)
-- `deletarFoto` _mutation_ - Deletar foto do material (`adminProcedure`)
-
-##### **Solicitações**
-
-- `criar` _mutation_ - Criar solicitação (`protectedProcedure`)
-- `listar` _query_ - Listar solicitações (filtradas por permissão) (`protectedProcedure`)
-- `buscar` _query_ - Buscar solicitação por ID (`protectedProcedure`)
-- `aprovarOuRejeitar` _mutation_ - Aprovar/rejeitar solicitação (`aprovadorProcedure`)
-- `atender` _mutation_ - Atender solicitação (`gestorAlmoxarifadoProcedure`)
-- `cancelar` _mutation_ - Cancelar solicitação (`protectedProcedure`)
-- `atualizarQtdAtendidaAprovador` _mutation_ - Atualizar qtd atendida (aprovador) (`aprovadorProcedure`)
-- `atualizarQtdAtendidaGerente` _mutation_ - Atualizar qtd atendida (gerente) (`gerenteAlmoxarifadoProcedure`)
-
-##### **Stats** (Estatísticas)
-
-- `obterEstatisticas` _query_ - Estatísticas gerais (`protectedProcedure`)
-- `obterTopMateriais` _query_ - Materiais mais solicitados (`protectedProcedure`)
-- `obterUsoPorTipo` _query_ - Uso por tipo de material (`protectedProcedure`)
-- `obterUsoPorUnidade` _query_ - Uso por unidade (`protectedProcedure`)
-- `obterConsumoSintetico` _query_ - Relatório de consumo sintético (`protectedProcedure`)
-- `obterConsumoAnalitico` _query_ - Relatório de consumo analítico (`protectedProcedure`)
+- `listar` _query_ - Listar todos usuários (`adminProcedure`)
+- `buscar` _query_ - Buscar usuário por ID (`adminProcedure`)
+- `criar` _mutation_ - Criar novo usuário (`adminProcedure`)
+- `atualizar` _mutation_ - Atualizar usuário (`adminProcedure`)
+- `remover` _mutation_ - Remover usuário (`adminProcedure`)
+- `buscarUsersPendentes` _query_ - Usuários pendentes de aprovação (`adminProcedure`)
+- `buscarStatsUsuarios` _query_ - Estatísticas de usuários (`adminProcedure`)
 
 ### Permissões
 
@@ -362,14 +235,9 @@ trpc.core.users.*
 - **`protectedProcedure`**: Usuário autenticado
 - **`adminProcedure`**: Administrador
 - **`superadminProcedure`**: Super administrador
-- **`aprovadorProcedure`**: Admin ou Aprovador Almoxarifado
-- **`gestorAlmoxarifadoProcedure`**: Admin, Aprovador ou Gerência Almoxarifado
-- **`gerenteAlmoxarifadoProcedure`**: Apenas Gerência Almoxarifado
 
 ### Observações Importantes
 
 - Todos os endpoints retornam dados tipados via Zod schemas
 - Filtros de listagem incluem paginação (`pagina`, `limite`)
-- Endpoints de listagem no módulo RH e Almoxarifado respeitam permissões específicas
-- Solicitações são filtradas por permissão: usuários comuns veem apenas as próprias
 - Schemas de validação estão em `src/modules/[module]/dtos/`
