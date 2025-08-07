@@ -2,7 +2,7 @@
 	"name": "gestaomv-workspace",
 	"private": true,
 	"type": "module",
-	"workspaces": ["gestaomv", "packages/*"],
+	"workspaces": ["gestaomv", "girofact", "packages/*"],
 	"scripts": {
 		"dev": "yarn workspace @gestaomv/app dev",
 		"build": "yarn workspace @gestaomv/app build",
