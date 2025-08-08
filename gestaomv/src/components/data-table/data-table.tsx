@@ -17,7 +17,7 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, ChevronsUpDown } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronsUpDown, Loader2 } from "lucide-react";
 import { DataTableHeader } from "./data-table-header";
 import { DataTablePagination } from "./data-table-pagination";
 import type { DataTableProps } from "./types";
@@ -110,8 +110,12 @@ export function DataTable<TData>({
 		getRowId,
 	});
 
+	// Determinar se deve mostrar o loading state ou manter os dados
+	const shouldShowLoadingState = isLoading && data.length === 0;
+	const shouldShowOverlayLoader = isLoading && data.length > 0;
+
 	return (
-		<Card className={className}>
+		<Card className={`${className} relative`}>
 			<DataTableHeader
 				title={title}
 				description={description}
@@ -122,6 +126,13 @@ export function DataTable<TData>({
 				onClearFilters={onClearFilters}
 			/>
 
+			{/* Loader sobreposto discreto */}
+			{shouldShowOverlayLoader && (
+				<div className="absolute top-4 right-4 z-10 bg-background/80 backdrop-blur-sm rounded-md p-2 border shadow-sm">
+					<Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+				</div>
+			)}
+
 			<CardContent>
 				{error ? (
 					<div className="flex items-center justify-center py-8">
@@ -129,7 +140,7 @@ export function DataTable<TData>({
 							Erro ao carregar dados: {error.message}
 						</p>
 					</div>
-				) : isLoading ? (
+				) : shouldShowLoadingState ? (
 					<div className="flex items-center justify-center py-8">
 						<p className="text-muted-foreground">Carregando...</p>
 					</div>
