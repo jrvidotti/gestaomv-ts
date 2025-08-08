@@ -64,7 +64,7 @@ COPY --from=builder --chown=appuser:appgroup /app/gestaomv/scripts/ ./scripts/
 USER appuser
 
 ENV DATABASE_PATH="/app/data/database.sqlite"
-ENV DATAFILES_PATH="/app/data"
+ENV DATAFILES_PATH="/app/seed"
 ENV MIGRATIONS_PATH="/app/migrations"
 ENV HOSTNAME="localhost"
 ENV PORT=3000

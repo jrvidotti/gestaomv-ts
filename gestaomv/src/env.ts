@@ -6,7 +6,7 @@ export const env = createEnv({
     SERVER_URL: z.url().optional().default("http://localhost:3000"),
     DATABASE_PATH: z.string().optional().default("./data/database.sqlite"),
     NODE_ENV: z.string().optional().default("production"),
-    DATAFILES_PATH: z.string().optional().default("./data"),
+    DATAFILES_PATH: z.string().optional().default("./seed"),
     MIGRATIONS_PATH: z.string().optional().default("./src/db/migrations"),
     JWT_SECRET: z.string(),
     TAGONE_BASE_URL: z.string(),
