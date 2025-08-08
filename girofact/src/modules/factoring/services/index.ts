@@ -9,11 +9,12 @@ import { OperacoesService } from "./operacoes.service";
 import { PessoasService } from "./pessoas.service";
 import { RecebimentosService } from "./recebimentos.service";
 import { RelatoriosService } from "./relatorios.service";
+import { db } from "@/db";
 
 // Singletons dos services
 export const calculosFinanceiros = new CalculosFinanceirosService();
 export const carteirasService = new CarteirasService();
-export const pessoasService = new PessoasService();
+export const pessoasService = new PessoasService(db);
 export const clientesService = new ClientesService();
 export const operacoesService = new OperacoesService();
 export const documentosService = new DocumentosService();
