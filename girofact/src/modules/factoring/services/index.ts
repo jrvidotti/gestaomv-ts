@@ -1,13 +1,13 @@
+import { AnexosService } from "./anexos.service";
 import { CalculosFinanceirosService } from "./calculos-financeiros.service";
 import { CarteirasService } from "./carteiras.service";
-import { PessoasService } from "./pessoas.service";
 import { ClientesService } from "./clientes.service";
-import { OperacoesService } from "./operacoes.service";
 import { DocumentosService } from "./documentos.service";
-import { OcorrenciasService } from "./ocorrencias.service";
 import { LancamentosService } from "./lancamentos.service";
+import { OcorrenciasService } from "./ocorrencias.service";
+import { OperacoesService } from "./operacoes.service";
+import { PessoasService } from "./pessoas.service";
 import { RecebimentosService } from "./recebimentos.service";
-import { AnexosService } from "./anexos.service";
 import { RelatoriosService } from "./relatorios.service";
 
 // Singletons dos services

@@ -1,5 +1,7 @@
 import { db } from "@/db";
+import type { StatusAnexo, TipoArquivo } from "../enums";
 import {
+	anexos,
 	carteiras,
 	clientes,
 	contatosReferencia,
@@ -156,11 +158,11 @@ export async function seedFactoring() {
 				taxaJurosPadrao: 2.5 + i * 0.1,
 				tarifaDevolucaoCheques: 50,
 				tarifaProrrogacao: 25,
-				dataUltimaAnaliseCredito: new Date().toISOString().split('T')[0],
+				dataUltimaAnaliseCredito: new Date().toISOString().split("T")[0],
 				usuarioResponsavelAnalise: 1,
 				historicoAlteracoesLimite: [
 					{
-						data: new Date().toISOString().split('T')[0],
+						data: new Date().toISOString().split("T")[0],
 						limiteAnterior: 0,
 						novoLimite: isEmpresa ? 50000 + i * 10000 : 5000 + i * 1000,
 						usuario: "1",
@@ -204,12 +206,183 @@ export async function seedFactoring() {
 		}
 		await db.insert(contatosReferencia).values(contatosReferenciaSeed);
 
+		// 8. Criar anexos de exemplo
+		console.log("📎 Criando anexos...");
+		const anexosSeed: {
+			pessoaId?: number;
+			clienteId?: number;
+			operacaoId?: number;
+			documentoId?: number;
+			tipoArquivo: TipoArquivo;
+			chaveArquivoS3: string;
+			nomeArquivo: string;
+			tamanhoArquivo: number;
+			tipoMime: string;
+			observacao: string;
+			userId: number;
+			status: StatusAnexo;
+		}[] = [];
+
+		// Anexos para pessoas
+		for (let i = 0; i < todasPessoas.length; i++) {
+			const pessoa = todasPessoas[i];
+
+			// Documento de identidade
+			anexosSeed.push({
+				pessoaId: pessoa.id,
+				tipoArquivo: "documento" as TipoArquivo,
+				chaveArquivoS3: `factoring/pessoas/${pessoa.id}/documento-identidade-${Date.now()}.pdf`,
+				nomeArquivo:
+					pessoa.tipoPessoa === "fisica" ? "rg-cpf.pdf" : "contrato-social.pdf",
+				tamanhoArquivo: 1024 * (100 + i * 10), // Tamanho em bytes
+				tipoMime: "application/pdf",
+				observacao:
+					pessoa.tipoPessoa === "fisica"
+						? "Documento de identidade e CPF frente e verso"
+						: "Contrato social consolidado e última alteração",
+				userId: 1,
+				status: "ativo" as StatusAnexo,
+			});
+
+			// Comprovante de residência/endereço
+			anexosSeed.push({
+				pessoaId: pessoa.id,
+				tipoArquivo: "comprovante" as TipoArquivo,
+				chaveArquivoS3: `factoring/pessoas/${pessoa.id}/comprovante-endereco-${Date.now()}.pdf`,
+				nomeArquivo: "comprovante-endereco.pdf",
+				tamanhoArquivo: 1024 * (80 + i * 5),
+				tipoMime: "application/pdf",
+				observacao: "Comprovante de endereço atualizado - conta de luz",
+				userId: 1,
+				status: "ativo" as StatusAnexo,
+			});
+
+			// Foto do local (para alguns)
+			if (i % 3 === 0) {
+				anexosSeed.push({
+					pessoaId: pessoa.id,
+					tipoArquivo: "foto" as TipoArquivo,
+					chaveArquivoS3: `factoring/pessoas/${pessoa.id}/foto-fachada-${Date.now()}.jpg`,
+					nomeArquivo: "foto-fachada.jpg",
+					tamanhoArquivo: 1024 * (500 + i * 20),
+					tipoMime: "image/jpeg",
+					observacao: "Foto da fachada do estabelecimento/residência",
+					userId: 1,
+					status: "ativo" as StatusAnexo,
+				});
+			}
+		}
+
+		// Anexos para clientes
+		for (let i = 0; i < clientesCriados.length; i++) {
+			const cliente = clientesCriados[i];
+
+			// Ficha cadastral
+			anexosSeed.push({
+				clienteId: cliente.id,
+				tipoArquivo: "documento" as TipoArquivo,
+				chaveArquivoS3: `factoring/clientes/${cliente.id}/ficha-cadastral-${Date.now()}.pdf`,
+				nomeArquivo: "ficha-cadastral-assinada.pdf",
+				tamanhoArquivo: 1024 * (200 + i * 15),
+				tipoMime: "application/pdf",
+				observacao:
+					"Ficha cadastral preenchida e assinada com reconhecimento de firma",
+				userId: 1,
+				status: "ativo" as StatusAnexo,
+			});
+
+			// Análise de crédito
+			anexosSeed.push({
+				clienteId: cliente.id,
+				tipoArquivo: "documento" as TipoArquivo,
+				chaveArquivoS3: `factoring/clientes/${cliente.id}/analise-credito-${Date.now()}.pdf`,
+				nomeArquivo: "analise-credito.pdf",
+				tamanhoArquivo: 1024 * (150 + i * 10),
+				tipoMime: "application/pdf",
+				observacao: `Análise de crédito realizada em ${new Date().toLocaleDateString("pt-BR")} - Score: ${700 + i * 10}`,
+				userId: 1,
+				status: "ativo" as StatusAnexo,
+			});
+
+			// Referências bancárias
+			if (i % 2 === 0) {
+				anexosSeed.push({
+					clienteId: cliente.id,
+					tipoArquivo: "comprovante" as TipoArquivo,
+					chaveArquivoS3: `factoring/clientes/${cliente.id}/referencias-bancarias-${Date.now()}.pdf`,
+					nomeArquivo: "referencias-bancarias.pdf",
+					tamanhoArquivo: 1024 * (100 + i * 8),
+					tipoMime: "application/pdf",
+					observacao:
+						"Carta de referências bancárias - Banco do Brasil e Bradesco",
+					userId: 1,
+					status: "ativo" as StatusAnexo,
+				});
+			}
+
+			// Balanço patrimonial (para empresas)
+			const pessoaCliente = todasPessoas.find(
+				(p) => p.id === clientesCriados[i].pessoaId,
+			);
+			if (pessoaCliente?.tipoPessoa === "juridica") {
+				anexosSeed.push({
+					clienteId: cliente.id,
+					tipoArquivo: "documento" as TipoArquivo,
+					chaveArquivoS3: `factoring/clientes/${cliente.id}/balanco-patrimonial-${Date.now()}.pdf`,
+					nomeArquivo: "balanco-patrimonial-2024.pdf",
+					tamanhoArquivo: 1024 * (300 + i * 25),
+					tipoMime: "application/pdf",
+					observacao: "Balanço patrimonial e DRE do último exercício fiscal",
+					userId: 1,
+					status: "ativo" as StatusAnexo,
+				});
+			}
+
+			// Anexos gerais diversos
+			if (i % 3 === 1) {
+				anexosSeed.push({
+					clienteId: cliente.id,
+					tipoArquivo: "anexo_geral" as TipoArquivo,
+					chaveArquivoS3: `factoring/clientes/${cliente.id}/procuracao-${Date.now()}.pdf`,
+					nomeArquivo: "procuracao-poderes.pdf",
+					tamanhoArquivo: 1024 * (50 + i * 5),
+					tipoMime: "application/pdf",
+					observacao:
+						"Procuração com poderes específicos para operações de factoring",
+					userId: 1,
+					status: "ativo" as StatusAnexo,
+				});
+			}
+
+			// Alguns anexos arquivados
+			if (i % 4 === 0) {
+				anexosSeed.push({
+					clienteId: cliente.id,
+					tipoArquivo: "documento" as TipoArquivo,
+					chaveArquivoS3: `factoring/clientes/${cliente.id}/doc-antigo-${Date.now()}.pdf`,
+					nomeArquivo: "documento-versao-antiga.pdf",
+					tamanhoArquivo: 1024 * (75 + i * 6),
+					tipoMime: "application/pdf",
+					observacao:
+						"Documento substituído por versão mais recente - mantido para histórico",
+					userId: 1,
+					status: "arquivado" as StatusAnexo,
+				});
+			}
+		}
+
+		const anexosCriados = await db
+			.insert(anexos)
+			.values(anexosSeed)
+			.returning();
+
 		console.log("✅ Seed do módulo Factoring concluído com sucesso!");
 		console.log(`- ${todasPessoas.length} pessoas criadas`);
 		console.log(`- ${clientesCriados.length} clientes criados`);
 		console.log(
 			`- ${contatosReferenciaSeed.length} contatos de referência criados`,
 		);
+		console.log(`- ${anexosCriados.length} anexos criados`);
 		console.log("- 1 carteira criada");
 	} catch (error) {
 		console.error("❌ Erro no seed do módulo Factoring:", error);

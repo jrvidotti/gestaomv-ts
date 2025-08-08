@@ -3,22 +3,23 @@ import { users } from "@/modules/core/schemas";
 import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type { StatusAnexo, TipoArquivo } from "../enums";
-import {
-	STATUS_ANEXO_ARRAY,
-	TIPOS_ARQUIVO_ARRAY,
-} from "../enums";
-import { pessoas, clientes, operacoes, documentos } from "./index";
+import { STATUS_ANEXO_ARRAY, TIPOS_ARQUIVO_ARRAY } from "../enums";
+import { clientes, documentos, operacoes, pessoas } from "./index";
 
 export const anexos = sqliteTable("factoring_anexos", {
 	id: idAutoIncrement(),
-	pessoaId: integer("pessoa_id")
-		.references(() => pessoas.id, { onDelete: "cascade" }),
-	clienteId: integer("cliente_id")
-		.references(() => clientes.id, { onDelete: "cascade" }),
-	operacaoId: integer("operacao_id")
-		.references(() => operacoes.id, { onDelete: "cascade" }),
-	documentoId: integer("documento_id")
-		.references(() => documentos.id, { onDelete: "cascade" }),
+	pessoaId: integer("pessoa_id").references(() => pessoas.id, {
+		onDelete: "cascade",
+	}),
+	clienteId: integer("cliente_id").references(() => clientes.id, {
+		onDelete: "cascade",
+	}),
+	operacaoId: integer("operacao_id").references(() => operacoes.id, {
+		onDelete: "cascade",
+	}),
+	documentoId: integer("documento_id").references(() => documentos.id, {
+		onDelete: "cascade",
+	}),
 	observacao: text("observacao"),
 	tipoArquivo: text("tipo_arquivo", { enum: TIPOS_ARQUIVO_ARRAY })
 		.$type<TipoArquivo>()

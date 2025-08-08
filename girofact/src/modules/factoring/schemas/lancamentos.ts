@@ -11,58 +11,58 @@ import { operacoes } from "./operacoes";
 import { recebimentos } from "./recebimentos";
 
 export const lancamentos = sqliteTable("factoring_lancamentos", {
-  id: idAutoIncrement(),
-  clienteId: integer("cliente_id")
-    .references(() => clientes.id, { onDelete: "restrict" })
-    .notNull(),
-  operacaoId: integer("operacao_id").references(() => operacoes.id, {
-    onDelete: "restrict",
-  }),
-  ocorrenciaId: integer("ocorrencia_id").references(() => ocorrencias.id, {
-    onDelete: "restrict",
-  }),
-  recebimentoId: integer("recebimento_id").references(() => recebimentos.id, {
-    onDelete: "restrict",
-  }),
-  dataLancamento: text("data_lancamento").notNull(),
-  valorLancamento: real("valor_lancamento").notNull(),
-  tipoLancamento: text("tipo_lancamento", { enum: TIPOS_LANCAMENTO_ARRAY })
-    .$type<TipoLancamento>()
-    .notNull(),
-  carteiraId: integer("carteira_id")
-    .references(() => carteiras.id, { onDelete: "restrict" })
-    .notNull(),
-  observacao: text("observacao"),
-  userId: integer("user_id")
-    .references(() => users.id, { onDelete: "restrict" })
-    .notNull(),
-  ...timestamps(),
+	id: idAutoIncrement(),
+	clienteId: integer("cliente_id")
+		.references(() => clientes.id, { onDelete: "restrict" })
+		.notNull(),
+	operacaoId: integer("operacao_id").references(() => operacoes.id, {
+		onDelete: "restrict",
+	}),
+	ocorrenciaId: integer("ocorrencia_id").references(() => ocorrencias.id, {
+		onDelete: "restrict",
+	}),
+	recebimentoId: integer("recebimento_id").references(() => recebimentos.id, {
+		onDelete: "restrict",
+	}),
+	dataLancamento: text("data_lancamento").notNull(),
+	valorLancamento: real("valor_lancamento").notNull(),
+	tipoLancamento: text("tipo_lancamento", { enum: TIPOS_LANCAMENTO_ARRAY })
+		.$type<TipoLancamento>()
+		.notNull(),
+	carteiraId: integer("carteira_id")
+		.references(() => carteiras.id, { onDelete: "restrict" })
+		.notNull(),
+	observacao: text("observacao"),
+	userId: integer("user_id")
+		.references(() => users.id, { onDelete: "restrict" })
+		.notNull(),
+	...timestamps(),
 });
 
 // Relations
 export const lancamentosRelations = relations(lancamentos, ({ one }) => ({
-  cliente: one(clientes, {
-    fields: [lancamentos.clienteId],
-    references: [clientes.id],
-  }),
-  operacao: one(operacoes, {
-    fields: [lancamentos.operacaoId],
-    references: [operacoes.id],
-  }),
-  ocorrencia: one(ocorrencias, {
-    fields: [lancamentos.ocorrenciaId],
-    references: [ocorrencias.id],
-  }),
-  recebimento: one(recebimentos, {
-    fields: [lancamentos.recebimentoId],
-    references: [recebimentos.id],
-  }),
-  carteira: one(carteiras, {
-    fields: [lancamentos.carteiraId],
-    references: [carteiras.id],
-  }),
-  user: one(users, {
-    fields: [lancamentos.userId],
-    references: [users.id],
-  }),
+	cliente: one(clientes, {
+		fields: [lancamentos.clienteId],
+		references: [clientes.id],
+	}),
+	operacao: one(operacoes, {
+		fields: [lancamentos.operacaoId],
+		references: [operacoes.id],
+	}),
+	ocorrencia: one(ocorrencias, {
+		fields: [lancamentos.ocorrenciaId],
+		references: [ocorrencias.id],
+	}),
+	recebimento: one(recebimentos, {
+		fields: [lancamentos.recebimentoId],
+		references: [recebimentos.id],
+	}),
+	carteira: one(carteiras, {
+		fields: [lancamentos.carteiraId],
+		references: [carteiras.id],
+	}),
+	user: one(users, {
+		fields: [lancamentos.userId],
+		references: [users.id],
+	}),
 }));

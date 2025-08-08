@@ -46,12 +46,15 @@ export const getUserRoleLabel = (role: UserRoleType): string => {
  * @param currentDepth - Nível atual (usado internamente na recursão)
  * @throws {Error} - Lança erro se encontrar mais de 2 níveis
  */
-export function validateMenuDepth(items: readonly ModuleItem[], currentDepth = 0): void {
+export function validateMenuDepth(
+	items: readonly ModuleItem[],
+	currentDepth = 0,
+): void {
 	if (currentDepth >= 2) {
 		throw new Error("Menu não pode ter mais de 2 níveis de profundidade");
 	}
-	
-	items.forEach(item => {
+
+	items.forEach((item) => {
 		if (item.items && item.items.length > 0) {
 			validateMenuDepth(item.items, currentDepth + 1);
 		}

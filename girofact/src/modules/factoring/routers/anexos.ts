@@ -1,50 +1,57 @@
-import { protectedProcedure, router } from "@/trpc/init";
-import { AnexosService } from "../services/anexos.service";
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {
-  ListarAnexosPorClienteInputDto,
-  ListarAnexosPorPessoaInputDto,
-  ListarAnexosPorOperacaoInputDto,
-  ListarAnexosPorDocumentoInputDto,
-  CriarAnexoInputDto,
-  ArquivarAnexoInputDto,
+	ArquivarAnexoInputDto,
+	CriarAnexoInputDto,
+	ListarAnexosPorClienteInputDto,
+	ListarAnexosPorDocumentoInputDto,
+	ListarAnexosPorOperacaoInputDto,
+	ListarAnexosPorPessoaInputDto,
+	UploadAnexoInputDto,
 } from "../dtos/anexos.dto";
+import { AnexosService } from "../services/anexos.service";
 
 const anexosService = new AnexosService();
 
-export const anexosRouter = router({
-  listarPorCliente: protectedProcedure
-    .input(ListarAnexosPorClienteInputDto)
-    .query(async ({ input }) => {
-      return anexosService.listarPorCliente(input.clienteId);
-    }),
+export const anexosRouter = createTRPCRouter({
+	listarPorCliente: protectedProcedure
+		.input(ListarAnexosPorClienteInputDto)
+		.query(async ({ input }) => {
+			return anexosService.listarPorCliente(input.clienteId);
+		}),
 
-  listarPorPessoa: protectedProcedure
-    .input(ListarAnexosPorPessoaInputDto)
-    .query(async ({ input }) => {
-      return anexosService.listarPorPessoa(input.pessoaId);
-    }),
+	listarPorPessoa: protectedProcedure
+		.input(ListarAnexosPorPessoaInputDto)
+		.query(async ({ input }) => {
+			return anexosService.listarPorPessoa(input.pessoaId);
+		}),
 
-  listarPorOperacao: protectedProcedure
-    .input(ListarAnexosPorOperacaoInputDto)
-    .query(async ({ input }) => {
-      return anexosService.listarPorOperacao(input.operacaoId);
-    }),
+	listarPorOperacao: protectedProcedure
+		.input(ListarAnexosPorOperacaoInputDto)
+		.query(async ({ input }) => {
+			return anexosService.listarPorOperacao(input.operacaoId);
+		}),
 
-  listarPorDocumento: protectedProcedure
-    .input(ListarAnexosPorDocumentoInputDto)
-    .query(async ({ input }) => {
-      return anexosService.listarPorDocumento(input.documentoId);
-    }),
+	listarPorDocumento: protectedProcedure
+		.input(ListarAnexosPorDocumentoInputDto)
+		.query(async ({ input }) => {
+			return anexosService.listarPorDocumento(input.documentoId);
+		}),
 
-  criar: protectedProcedure
-    .input(CriarAnexoInputDto)
-    .mutation(async ({ input, ctx }) => {
-      return anexosService.criar(input, ctx.user.id);
-    }),
+	criar: protectedProcedure
+		.input(CriarAnexoInputDto)
+		.mutation(async ({ input, ctx }) => {
+			return anexosService.criar(input, ctx.user.id);
+		}),
 
-  arquivar: protectedProcedure
-    .input(ArquivarAnexoInputDto)
-    .mutation(async ({ input }) => {
-      return anexosService.arquivar(input.id);
-    }),
+	upload: protectedProcedure
+		.input(UploadAnexoInputDto)
+		.mutation(async ({ input, ctx }) => {
+			return anexosService.upload(input, ctx.user.id);
+		}),
+
+	arquivar: protectedProcedure
+		.input(ArquivarAnexoInputDto)
+		.mutation(async ({ input }) => {
+			return anexosService.arquivar(input.id);
+		}),
 });

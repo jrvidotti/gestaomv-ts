@@ -1,8 +1,8 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "2b778cbe-154b-4f59-bf20-12ea5337175b",
-	"prevId": "00000000-0000-0000-0000-000000000000",
+	"id": "55f7f289-6b6f-4132-a152-4bc52d8bc3e0",
+	"prevId": "2b778cbe-154b-4f59-bf20-12ea5337175b",
 	"tables": {
 		"user_roles": {
 			"name": "user_roles",
@@ -1647,18 +1647,32 @@
 					"notNull": true,
 					"autoincrement": true
 				},
-				"tipo_entidade": {
-					"name": "tipo_entidade",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true,
-					"autoincrement": false
-				},
-				"id_entidade": {
-					"name": "id_entidade",
+				"pessoa_id": {
+					"name": "pessoa_id",
 					"type": "integer",
 					"primaryKey": false,
-					"notNull": true,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"cliente_id": {
+					"name": "cliente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"operacao_id": {
+					"name": "operacao_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"documento_id": {
+					"name": "documento_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
 					"autoincrement": false
 				},
 				"observacao": {
@@ -1737,6 +1751,42 @@
 			},
 			"indexes": {},
 			"foreignKeys": {
+				"factoring_anexos_pessoa_id_factoring_pessoas_id_fk": {
+					"name": "factoring_anexos_pessoa_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_anexos",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["pessoa_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"factoring_anexos_cliente_id_factoring_clientes_id_fk": {
+					"name": "factoring_anexos_cliente_id_factoring_clientes_id_fk",
+					"tableFrom": "factoring_anexos",
+					"tableTo": "factoring_clientes",
+					"columnsFrom": ["cliente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"factoring_anexos_operacao_id_factoring_operacoes_id_fk": {
+					"name": "factoring_anexos_operacao_id_factoring_operacoes_id_fk",
+					"tableFrom": "factoring_anexos",
+					"tableTo": "factoring_operacoes",
+					"columnsFrom": ["operacao_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"factoring_anexos_documento_id_factoring_documentos_id_fk": {
+					"name": "factoring_anexos_documento_id_factoring_documentos_id_fk",
+					"tableFrom": "factoring_anexos",
+					"tableTo": "factoring_documentos",
+					"columnsFrom": ["documento_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
 				"factoring_anexos_user_id_users_id_fk": {
 					"name": "factoring_anexos_user_id_users_id_fk",
 					"tableFrom": "factoring_anexos",

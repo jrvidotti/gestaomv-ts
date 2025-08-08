@@ -178,7 +178,7 @@ export function AppSidebar() {
 												</Link>
 											</SidebarMenuButton>
 										</SidebarMenuItem>
-										
+
 										{/* Renderizar todos os itens do módulo (nível 1) */}
 										{item.items
 											?.filter((subItem) => canAccessPage(subItem.url))
@@ -196,7 +196,7 @@ export function AppSidebar() {
 															</Link>
 														</SidebarMenuButton>
 													</SidebarMenuItem>
-													
+
 													{/* Subitens nível 2 com indentação */}
 													{subItem.items
 														?.filter((deepItem) => canAccessPage(deepItem.url))

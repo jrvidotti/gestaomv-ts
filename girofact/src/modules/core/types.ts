@@ -11,10 +11,10 @@ export type CriarUserRole = typeof userRoles.$inferInsert;
 export type { UserRoleType } from "@/constants";
 
 export type User = typeof users.$inferSelect & {
-  roles: UserRoleType[];
+	roles: UserRoleType[];
 };
 export type CriarUser = typeof users.$inferInsert & {
-  password?: string;
+	password?: string;
 };
 
 // ===== SETTINGS =====
