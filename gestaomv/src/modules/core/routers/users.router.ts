@@ -1,3 +1,4 @@
+import { USER_ROLES_ARRAY } from "@/constants";
 import { createUserSchema, updateUserSchema } from "@/modules/core/dtos";
 import { usersService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
@@ -18,6 +19,10 @@ export const usersRouter = {
 				throw new Error("Usuário não encontrado");
 			}
 			const { password, ...userWithoutPassword } = user;
+
+			userWithoutPassword.roles = userWithoutPassword.roles.filter((role) =>
+				USER_ROLES_ARRAY.includes(role),
+			);
 			return userWithoutPassword;
 		}),
 
