@@ -1,0 +1,13 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+count.txt
+.env
+.env.docker
+.nitro
+.tanstack
+.output
+.vinxi
+data/database.sqlite*

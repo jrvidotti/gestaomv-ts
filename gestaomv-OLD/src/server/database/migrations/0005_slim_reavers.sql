@@ -1,1 +1,0 @@
-ALTER TABLE `users` ADD `auth_provider` text DEFAULT 'local' NOT NULL;

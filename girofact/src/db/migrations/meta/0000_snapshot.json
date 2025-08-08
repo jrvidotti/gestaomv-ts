@@ -1,0 +1,1811 @@
+{
+	"version": "6",
+	"dialect": "sqlite",
+	"id": "2b778cbe-154b-4f59-bf20-12ea5337175b",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"tables": {
+		"user_roles": {
+			"name": "user_roles",
+			"columns": {
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"role": {
+					"name": "role",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_roles_user_id_users_id_fk": {
+					"name": "user_roles_user_id_users_id_fk",
+					"tableFrom": "user_roles",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"user_roles_user_id_role_pk": {
+					"columns": ["user_id", "role"],
+					"name": "user_roles_user_id_role_pk"
+				}
+			},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"users": {
+			"name": "users",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"password": {
+					"name": "password",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"is_active": {
+					"name": "is_active",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"avatar": {
+					"name": "avatar",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"auth_provider": {
+					"name": "auth_provider",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'local'"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"users_email_unique": {
+					"name": "users_email_unique",
+					"columns": ["email"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"configuracoes": {
+			"name": "configuracoes",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"key": {
+					"name": "key",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"value": {
+					"name": "value",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"category": {
+					"name": "category",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'general'"
+				},
+				"is_public": {
+					"name": "is_public",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"updated_at": {
+					"name": "updated_at",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"configuracoes_key_unique": {
+					"name": "configuracoes_key_unique",
+					"columns": ["key"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_carteiras": {
+			"name": "factoring_carteiras",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"nome": {
+					"name": "nome",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"banco": {
+					"name": "banco",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"agencia": {
+					"name": "agencia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"conta": {
+					"name": "conta",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"chave_pix": {
+					"name": "chave_pix",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_carteiras_user_id_users_id_fk": {
+					"name": "factoring_carteiras_user_id_users_id_fk",
+					"tableFrom": "factoring_carteiras",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_dados_bancarios": {
+			"name": "factoring_dados_bancarios",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"pessoa_id": {
+					"name": "pessoa_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"banco": {
+					"name": "banco",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"agencia": {
+					"name": "agencia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"conta": {
+					"name": "conta",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"digito_verificador": {
+					"name": "digito_verificador",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"tipo_conta": {
+					"name": "tipo_conta",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'corrente'"
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"unique_banco_agencia_conta": {
+					"name": "unique_banco_agencia_conta",
+					"columns": ["banco", "agencia", "conta"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {
+				"factoring_dados_bancarios_pessoa_id_factoring_pessoas_id_fk": {
+					"name": "factoring_dados_bancarios_pessoa_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_dados_bancarios",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["pessoa_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_pessoas": {
+			"name": "factoring_pessoas",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"tipo_pessoa": {
+					"name": "tipo_pessoa",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"documento": {
+					"name": "documento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"nome_razao_social": {
+					"name": "nome_razao_social",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"nome_fantasia": {
+					"name": "nome_fantasia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_nascimento_fundacao": {
+					"name": "data_nascimento_fundacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"inscricao_estadual": {
+					"name": "inscricao_estadual",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"inscricao_municipal": {
+					"name": "inscricao_municipal",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"nome_mae": {
+					"name": "nome_mae",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"sexo": {
+					"name": "sexo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"cep": {
+					"name": "cep",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"logradouro": {
+					"name": "logradouro",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"numero": {
+					"name": "numero",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"complemento": {
+					"name": "complemento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"bairro": {
+					"name": "bairro",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"cidade": {
+					"name": "cidade",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"estado": {
+					"name": "estado",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"observacoes_gerais": {
+					"name": "observacoes_gerais",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"factoring_pessoas_documento_unique": {
+					"name": "factoring_pessoas_documento_unique",
+					"columns": ["documento"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_telefones": {
+			"name": "factoring_telefones",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"pessoa_id": {
+					"name": "pessoa_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"numero": {
+					"name": "numero",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"principal": {
+					"name": "principal",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"whatsapp": {
+					"name": "whatsapp",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"inativo": {
+					"name": "inativo",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_telefones_pessoa_id_factoring_pessoas_id_fk": {
+					"name": "factoring_telefones_pessoa_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_telefones",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["pessoa_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_clientes": {
+			"name": "factoring_clientes",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"pessoa_id": {
+					"name": "pessoa_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'ativo'"
+				},
+				"observacoes_cliente": {
+					"name": "observacoes_cliente",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"credito_autorizado": {
+					"name": "credito_autorizado",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"limite_credito": {
+					"name": "limite_credito",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"taxa_juros_padrao": {
+					"name": "taxa_juros_padrao",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"tarifa_devolucao_cheques": {
+					"name": "tarifa_devolucao_cheques",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tarifa_prorrogacao": {
+					"name": "tarifa_prorrogacao",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tarifa_protesto": {
+					"name": "tarifa_protesto",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tarifa_resgate": {
+					"name": "tarifa_resgate",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_ultima_analise_credito": {
+					"name": "data_ultima_analise_credito",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"usuario_responsavel_analise": {
+					"name": "usuario_responsavel_analise",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"historico_alteracoes_limite": {
+					"name": "historico_alteracoes_limite",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"factoring_clientes_pessoa_id_unique": {
+					"name": "factoring_clientes_pessoa_id_unique",
+					"columns": ["pessoa_id"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {
+				"factoring_clientes_pessoa_id_factoring_pessoas_id_fk": {
+					"name": "factoring_clientes_pessoa_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_clientes",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["pessoa_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_clientes_usuario_responsavel_analise_users_id_fk": {
+					"name": "factoring_clientes_usuario_responsavel_analise_users_id_fk",
+					"tableFrom": "factoring_clientes",
+					"tableTo": "users",
+					"columnsFrom": ["usuario_responsavel_analise"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_contatos_referencia": {
+			"name": "factoring_contatos_referencia",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"cliente_id": {
+					"name": "cliente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"tipo_referencia": {
+					"name": "tipo_referencia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"pessoa_id": {
+					"name": "pessoa_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"nome_completo": {
+					"name": "nome_completo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"telefone": {
+					"name": "telefone",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"documento": {
+					"name": "documento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"empresa_organizacao": {
+					"name": "empresa_organizacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"cargo_funcao": {
+					"name": "cargo_funcao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"observacoes": {
+					"name": "observacoes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_contatos_referencia_cliente_id_factoring_clientes_id_fk": {
+					"name": "factoring_contatos_referencia_cliente_id_factoring_clientes_id_fk",
+					"tableFrom": "factoring_contatos_referencia",
+					"tableTo": "factoring_clientes",
+					"columnsFrom": ["cliente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"factoring_contatos_referencia_pessoa_id_factoring_pessoas_id_fk": {
+					"name": "factoring_contatos_referencia_pessoa_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_contatos_referencia",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["pessoa_id"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_operacoes": {
+			"name": "factoring_operacoes",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"uid": {
+					"name": "uid",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"cliente_id": {
+					"name": "cliente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"taxa_juros": {
+					"name": "taxa_juros",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_liquido": {
+					"name": "valor_liquido",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'efetivada'"
+				},
+				"usuario_aprovador_id": {
+					"name": "usuario_aprovador_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_aprovacao": {
+					"name": "data_aprovacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_pagamento": {
+					"name": "data_pagamento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"carteira_id": {
+					"name": "carteira_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"observacoes": {
+					"name": "observacoes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"factoring_operacoes_uid_unique": {
+					"name": "factoring_operacoes_uid_unique",
+					"columns": ["uid"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {
+				"factoring_operacoes_cliente_id_factoring_clientes_id_fk": {
+					"name": "factoring_operacoes_cliente_id_factoring_clientes_id_fk",
+					"tableFrom": "factoring_operacoes",
+					"tableTo": "factoring_clientes",
+					"columnsFrom": ["cliente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_operacoes_usuario_aprovador_id_users_id_fk": {
+					"name": "factoring_operacoes_usuario_aprovador_id_users_id_fk",
+					"tableFrom": "factoring_operacoes",
+					"tableTo": "users",
+					"columnsFrom": ["usuario_aprovador_id"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				},
+				"factoring_operacoes_carteira_id_factoring_carteiras_id_fk": {
+					"name": "factoring_operacoes_carteira_id_factoring_carteiras_id_fk",
+					"tableFrom": "factoring_operacoes",
+					"tableTo": "factoring_carteiras",
+					"columnsFrom": ["carteira_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_operacoes_user_id_users_id_fk": {
+					"name": "factoring_operacoes_user_id_users_id_fk",
+					"tableFrom": "factoring_operacoes",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_documentos": {
+			"name": "factoring_documentos",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"uid": {
+					"name": "uid",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"operacao_id": {
+					"name": "operacao_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"tipo_documento": {
+					"name": "tipo_documento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"data_vencimento": {
+					"name": "data_vencimento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_documento": {
+					"name": "valor_documento",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"float": {
+					"name": "float",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"data_vencimento_prorrogada": {
+					"name": "data_vencimento_prorrogada",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'pendente'"
+				},
+				"valor_juros_operacao": {
+					"name": "valor_juros_operacao",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": 0
+				},
+				"observacoes": {
+					"name": "observacoes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"foi_devolvido": {
+					"name": "foi_devolvido",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"emitente_id": {
+					"name": "emitente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"avalista_id": {
+					"name": "avalista_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"numero_documento": {
+					"name": "numero_documento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"dados_bancarios_id": {
+					"name": "dados_bancarios_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"numero_cheque": {
+					"name": "numero_cheque",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"factoring_documentos_uid_unique": {
+					"name": "factoring_documentos_uid_unique",
+					"columns": ["uid"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {
+				"factoring_documentos_operacao_id_factoring_operacoes_id_fk": {
+					"name": "factoring_documentos_operacao_id_factoring_operacoes_id_fk",
+					"tableFrom": "factoring_documentos",
+					"tableTo": "factoring_operacoes",
+					"columnsFrom": ["operacao_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_documentos_emitente_id_factoring_pessoas_id_fk": {
+					"name": "factoring_documentos_emitente_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_documentos",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["emitente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_documentos_avalista_id_factoring_pessoas_id_fk": {
+					"name": "factoring_documentos_avalista_id_factoring_pessoas_id_fk",
+					"tableFrom": "factoring_documentos",
+					"tableTo": "factoring_pessoas",
+					"columnsFrom": ["avalista_id"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				},
+				"factoring_documentos_dados_bancarios_id_factoring_dados_bancarios_id_fk": {
+					"name": "factoring_documentos_dados_bancarios_id_factoring_dados_bancarios_id_fk",
+					"tableFrom": "factoring_documentos",
+					"tableTo": "factoring_dados_bancarios",
+					"columnsFrom": ["dados_bancarios_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_ocorrencias": {
+			"name": "factoring_ocorrencias",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"documento_id": {
+					"name": "documento_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"tipo_ocorrencia": {
+					"name": "tipo_ocorrencia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"data_ocorrencia": {
+					"name": "data_ocorrencia",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_tarifa": {
+					"name": "valor_tarifa",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"valor_juros": {
+					"name": "valor_juros",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_vencimento_atual": {
+					"name": "data_vencimento_atual",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_vencimento_prorrogada": {
+					"name": "data_vencimento_prorrogada",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"alinea_devolucao": {
+					"name": "alinea_devolucao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"observacao": {
+					"name": "observacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_ocorrencias_documento_id_factoring_documentos_id_fk": {
+					"name": "factoring_ocorrencias_documento_id_factoring_documentos_id_fk",
+					"tableFrom": "factoring_ocorrencias",
+					"tableTo": "factoring_documentos",
+					"columnsFrom": ["documento_id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"factoring_ocorrencias_user_id_users_id_fk": {
+					"name": "factoring_ocorrencias_user_id_users_id_fk",
+					"tableFrom": "factoring_ocorrencias",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_lancamentos": {
+			"name": "factoring_lancamentos",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"cliente_id": {
+					"name": "cliente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"operacao_id": {
+					"name": "operacao_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"ocorrencia_id": {
+					"name": "ocorrencia_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"recebimento_id": {
+					"name": "recebimento_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"data_lancamento": {
+					"name": "data_lancamento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_lancamento": {
+					"name": "valor_lancamento",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"tipo_lancamento": {
+					"name": "tipo_lancamento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"carteira_id": {
+					"name": "carteira_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"observacao": {
+					"name": "observacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_lancamentos_cliente_id_factoring_clientes_id_fk": {
+					"name": "factoring_lancamentos_cliente_id_factoring_clientes_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "factoring_clientes",
+					"columnsFrom": ["cliente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_lancamentos_operacao_id_factoring_operacoes_id_fk": {
+					"name": "factoring_lancamentos_operacao_id_factoring_operacoes_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "factoring_operacoes",
+					"columnsFrom": ["operacao_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_lancamentos_ocorrencia_id_factoring_ocorrencias_id_fk": {
+					"name": "factoring_lancamentos_ocorrencia_id_factoring_ocorrencias_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "factoring_ocorrencias",
+					"columnsFrom": ["ocorrencia_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_lancamentos_recebimento_id_factoring_recebimentos_id_fk": {
+					"name": "factoring_lancamentos_recebimento_id_factoring_recebimentos_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "factoring_recebimentos",
+					"columnsFrom": ["recebimento_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_lancamentos_carteira_id_factoring_carteiras_id_fk": {
+					"name": "factoring_lancamentos_carteira_id_factoring_carteiras_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "factoring_carteiras",
+					"columnsFrom": ["carteira_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_lancamentos_user_id_users_id_fk": {
+					"name": "factoring_lancamentos_user_id_users_id_fk",
+					"tableFrom": "factoring_lancamentos",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_recebimentos": {
+			"name": "factoring_recebimentos",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"cliente_id": {
+					"name": "cliente_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"data_recebimento": {
+					"name": "data_recebimento",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"valor_recebimento": {
+					"name": "valor_recebimento",
+					"type": "real",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"carteira_id": {
+					"name": "carteira_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"observacao": {
+					"name": "observacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_recebimentos_cliente_id_factoring_clientes_id_fk": {
+					"name": "factoring_recebimentos_cliente_id_factoring_clientes_id_fk",
+					"tableFrom": "factoring_recebimentos",
+					"tableTo": "factoring_clientes",
+					"columnsFrom": ["cliente_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_recebimentos_carteira_id_factoring_carteiras_id_fk": {
+					"name": "factoring_recebimentos_carteira_id_factoring_carteiras_id_fk",
+					"tableFrom": "factoring_recebimentos",
+					"tableTo": "factoring_carteiras",
+					"columnsFrom": ["carteira_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				},
+				"factoring_recebimentos_user_id_users_id_fk": {
+					"name": "factoring_recebimentos_user_id_users_id_fk",
+					"tableFrom": "factoring_recebimentos",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_anexos": {
+			"name": "factoring_anexos",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"tipo_entidade": {
+					"name": "tipo_entidade",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"id_entidade": {
+					"name": "id_entidade",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"observacao": {
+					"name": "observacao",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tipo_arquivo": {
+					"name": "tipo_arquivo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"chave_arquivo_s3": {
+					"name": "chave_arquivo_s3",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"nome_arquivo": {
+					"name": "nome_arquivo",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tamanho_arquivo": {
+					"name": "tamanho_arquivo",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"tipo_mime": {
+					"name": "tipo_mime",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'ativo'"
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				},
+				"atualizado_em": {
+					"name": "atualizado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"factoring_anexos_user_id_users_id_fk": {
+					"name": "factoring_anexos_user_id_users_id_fk",
+					"tableFrom": "factoring_anexos",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "restrict",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"factoring_consultas_cpf": {
+			"name": "factoring_consultas_cpf",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
+				"cpf": {
+					"name": "cpf",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"dados": {
+					"name": "dados",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'{}'"
+				},
+				"criado_em": {
+					"name": "criado_em",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": "(CURRENT_TIMESTAMP)"
+				}
+			},
+			"indexes": {
+				"factoring_consultas_cpf_cpf_unique": {
+					"name": "factoring_consultas_cpf_cpf_unique",
+					"columns": ["cpf"],
+					"isUnique": true
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		}
+	},
+	"views": {},
+	"enums": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	},
+	"internal": {
+		"indexes": {}
+	}
+}
