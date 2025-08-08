@@ -54,6 +54,7 @@ WORKDIR /app
 COPY --chown=appuser:appgroup gestaomv/package.json ./
 COPY --chown=appuser:appgroup gestaomv/src/db/migrations ./migrations
 COPY --chown=appuser:appgroup gestaomv/data ./data
+COPY --chown=appuser:appgroup gestaomv/seed ./seed
 
 # Copiar aplicação buildada
 COPY --from=builder --chown=appuser:appgroup /app/gestaomv/.output/ ./.output/
