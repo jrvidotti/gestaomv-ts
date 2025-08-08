@@ -11,6 +11,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MaskedInput } from "@/components/ui/masked-input";
 import {
 	Select,
 	SelectContent,
@@ -34,7 +35,7 @@ const pessoaFormSchema = z.object({
 	documento: z.string().min(11, "Documento é obrigatório"),
 	nomeRazaoSocial: z.string().min(1, "Nome/Razão social é obrigatório"),
 	nomeFantasia: z.string().optional(),
-	dataNascimentoFundacao: z.string().optional(),
+	dataNascimentoFundacao: z.string().optional().or(z.literal("")),
 	inscricaoEstadual: z.string().optional(),
 	inscricaoMunicipal: z.string().optional(),
 	nomeMae: z.string().optional(),
@@ -139,10 +140,14 @@ export function PessoaForm({
 			return;
 		}
 
-		// Converter "nao_informado" para undefined para o backend
+		// Converter "nao_informado" para undefined e data vazia para undefined
 		const submitData = {
 			...data,
 			sexo: data.sexo === "nao_informado" ? undefined : data.sexo,
+			dataNascimentoFundacao:
+				data.dataNascimentoFundacao === ""
+					? undefined
+					: data.dataNascimentoFundacao,
 		};
 
 		onSubmit(submitData, telefones, dadosBancarios);
@@ -188,36 +193,36 @@ export function PessoaForm({
 								{/* Aba Dados Básicos */}
 								<TabsContent value="basicos" className="space-y-6">
 									<div className="space-y-4">
-										<FormField
-											control={form.control}
-											name="tipoPessoa"
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>Tipo de Pessoa</FormLabel>
-													<Select
-														onValueChange={field.onChange}
-														defaultValue={field.value}
-													>
-														<FormControl>
-															<SelectTrigger>
-																<SelectValue placeholder="Selecione o tipo" />
-															</SelectTrigger>
-														</FormControl>
-														<SelectContent>
-															<SelectItem value="fisica">
-																Pessoa Física
-															</SelectItem>
-															<SelectItem value="juridica">
-																Pessoa Jurídica
-															</SelectItem>
-														</SelectContent>
-													</Select>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+										<div className="flex gap-4 items-end">
+											<FormField
+												control={form.control}
+												name="tipoPessoa"
+												render={({ field }) => (
+													<FormItem className="flex-1">
+														<FormLabel>Tipo de Pessoa</FormLabel>
+														<Select
+															onValueChange={field.onChange}
+															defaultValue={field.value}
+														>
+															<FormControl>
+																<SelectTrigger>
+																	<SelectValue placeholder="Selecione o tipo" />
+																</SelectTrigger>
+															</FormControl>
+															<SelectContent>
+																<SelectItem value="fisica">
+																	Pessoa Física
+																</SelectItem>
+																<SelectItem value="juridica">
+																	Pessoa Jurídica
+																</SelectItem>
+															</SelectContent>
+														</Select>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
 
-										<div className="flex gap-2">
 											<FormField
 												control={form.control}
 												name="documento"
@@ -227,29 +232,41 @@ export function PessoaForm({
 															{tipoPessoa === "fisica" ? "CPF" : "CNPJ"}
 														</FormLabel>
 														<FormControl>
-															<Input
-																{...field}
-																placeholder={
-																	tipoPessoa === "fisica"
-																		? "000.000.000-00"
-																		: "00.000.000/0000-00"
-																}
-															/>
+															<div className="relative">
+																<MaskedInput
+																	name={field.name}
+																	value={field.value}
+																	onChange={field.onChange}
+																	onBlur={field.onBlur}
+																	mask={
+																		tipoPessoa === "fisica"
+																			? "000.000.000-00"
+																			: "00.000.000/0000-00"
+																	}
+																	placeholder={
+																		tipoPessoa === "fisica"
+																			? "000.000.000-00"
+																			: "00.000.000/0000-00"
+																	}
+																	className="pr-20"
+																/>
+																{onBuscarDocumento && (
+																	<Button
+																		type="button"
+																		variant="ghost"
+																		size="sm"
+																		onClick={handleBuscarDocumento}
+																		className="absolute right-1 top-1 h-8 px-3"
+																	>
+																		Buscar
+																	</Button>
+																)}
+															</div>
 														</FormControl>
 														<FormMessage />
 													</FormItem>
 												)}
 											/>
-											{onBuscarDocumento && (
-												<Button
-													type="button"
-													variant="outline"
-													onClick={handleBuscarDocumento}
-													className="mt-8"
-												>
-													Buscar
-												</Button>
-											)}
 										</div>
 
 										<FormField

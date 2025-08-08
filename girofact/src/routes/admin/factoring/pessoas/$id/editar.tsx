@@ -64,25 +64,33 @@ function EditarPessoaPage() {
 	});
 
 	// Buscar dados por documento (API Direct Data)
-	const { mutate: buscarPorDocumento } = useMutation({
-		...trpc.factoring.pessoas.buscarPorCpfCnpj.mutationOptions(),
-		onSuccess: (data) => {
-			toast.success("Dados encontrados! Preenchendo formulário...");
-			// Aqui você pode preencher o formulário com os dados retornados
-		},
-		onError: (error) => {
-			toast.error(`Erro ao buscar documento: ${error.message}`);
-		},
-	});
+	const buscarPorDocumento = async (documento: string) => {
+		try {
+			const data = await trpc.factoring.pessoas.buscarPorCpfCnpj.query({
+				documento,
+			});
+			if (data) {
+				toast.success("Dados encontrados! Preenchendo formulário...");
+				// Aqui você pode preencher o formulário com os dados retornados
+			} else {
+				toast.info("Nenhum dado encontrado para este documento.");
+			}
+		} catch (error) {
+			toast.error(
+				`Erro ao buscar documento: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
+			);
+		}
+	};
 
 	const handleSubmit = (data: any, telefones: any, dadosBancarios: any) => {
 		// Ajustar dados antes de enviar
 		const submitData = {
-			id: Number.parseInt(id),
 			...data,
-			dataNascimentoFundacao: data.dataNascimentoFundacao
-				? new Date(data.dataNascimentoFundacao)
-				: undefined,
+			id: Number.parseInt(id),
+			dataNascimentoFundacao:
+				data.dataNascimentoFundacao && data.dataNascimentoFundacao !== ""
+					? new Date(data.dataNascimentoFundacao)
+					: undefined,
 			telefones: telefones.map((tel: any) => ({
 				...tel,
 				id: tel.isNew ? undefined : tel.id, // Remove ID temporário para novos
@@ -110,7 +118,9 @@ function EditarPessoaPage() {
 	};
 
 	const handleBuscarDocumento = (documento: string) => {
-		buscarPorDocumento({ documento });
+		if (documento) {
+			buscarPorDocumento(documento);
+		}
 	};
 
 	const header = (
@@ -192,11 +202,15 @@ function EditarPessoaPage() {
 		documento: pessoa.documento,
 		nomeRazaoSocial: pessoa.nomeRazaoSocial,
 		nomeFantasia: pessoa.nomeFantasia || "",
-		dataNascimentoFundacao: pessoa.dataNascimentoFundacao || "",
+		dataNascimentoFundacao: pessoa.dataNascimentoFundacao
+			? pessoa.dataNascimentoFundacao instanceof Date
+				? pessoa.dataNascimentoFundacao.toISOString().split("T")[0]
+				: pessoa.dataNascimentoFundacao
+			: "",
 		inscricaoEstadual: pessoa.inscricaoEstadual || "",
 		inscricaoMunicipal: pessoa.inscricaoMunicipal || "",
 		nomeMae: pessoa.nomeMae || "",
-		sexo: pessoa.sexo || "",
+		sexo: pessoa.sexo || "nao_informado",
 		email: pessoa.email || "",
 		observacoesGerais: pessoa.observacoesGerais || "",
 		cep: pessoa.cep || "",

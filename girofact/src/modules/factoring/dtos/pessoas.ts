@@ -96,7 +96,10 @@ export const createPessoaSchema = z
 		}
 	});
 
-export const updatePessoaSchema = createPessoaSchema.partial();
+export const updatePessoaSchema = createPessoaSchema.partial().extend({
+	id: z.number().positive(),
+	dataNascimentoFundacao: z.union([z.date(), z.string()]).optional(),
+});
 
 export const findPessoaSchema = z.object({
 	id: z.number().positive(),
