@@ -27,12 +27,12 @@ function EditarCarteiraPage() {
     isLoading: isLoadingCarteira,
     error,
   } = useQuery(
-    trpc.factoring.carteiras.buscar.queryOptions({ id: Number(id) }),
+    trpc.factoring.carteiras.findById.queryOptions({ id: Number(id) }),
   );
 
   // Atualizar carteira
   const { mutate: updateCarteira, isPending } = useMutation({
-    ...trpc.factoring.carteiras.atualizar.mutationOptions(),
+    ...trpc.factoring.carteiras.update.mutationOptions(),
     onSuccess: () => {
       toast.success("Carteira atualizada com sucesso!");
       navigate({

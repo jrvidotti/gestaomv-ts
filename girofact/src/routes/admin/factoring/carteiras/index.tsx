@@ -24,12 +24,15 @@ function CarteirasListPage() {
     isLoading,
     refetch,
   } = useQuery(
-    trpc.factoring.carteiras.listar.queryOptions(),
+    trpc.factoring.carteiras.list.queryOptions({
+      page: 1,
+      limit: 20,
+    }),
   );
 
   // Deletar carteira
   const { mutate: deleteCarteira } = useMutation({
-    ...trpc.factoring.carteiras.remover.mutationOptions(),
+    ...trpc.factoring.carteiras.delete.mutationOptions(),
     onSuccess: () => {
       toast.success("Carteira removida com sucesso!");
       refetch();
@@ -71,7 +74,7 @@ function CarteirasListPage() {
         <Card>
           <CardContent className="p-6">
             <CarteirasTable
-              data={carteiras || []}
+              data={carteiras?.data || []}
               isLoading={isLoading}
               onDelete={handleDelete}
             />

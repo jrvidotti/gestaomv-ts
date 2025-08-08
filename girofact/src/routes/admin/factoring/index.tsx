@@ -21,7 +21,7 @@ import {
   DollarSign,
   Activity,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 export const Route = createFileRoute("/admin/factoring/")({
@@ -35,6 +35,13 @@ function FactoringDashboard() {
   });
 
   const trpc = useTRPC();
+
+  // Data de referência fixa para evitar loop infinito
+  const dataReferencia = useMemo(() => {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Normalizar para início do dia
+    return hoje;
+  }, []);
 
   // Buscar dados do dashboard executivo
   const {
@@ -53,7 +60,7 @@ function FactoringDashboard() {
     isLoading: isPosicaoLoading,
   } = useQuery(
     trpc.factoring.relatorios.posicaoDocumentos.queryOptions({
-      dataReferencia: new Date(),
+      dataReferencia: dataReferencia,
     }),
   );
 

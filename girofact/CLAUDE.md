@@ -293,3 +293,4 @@ export const dadosBancarios = sqliteTable(
   })
 );
 ```
+- Use Number.parseInt instead of the equivalent global.

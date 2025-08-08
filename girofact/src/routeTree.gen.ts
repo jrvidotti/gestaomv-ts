@@ -23,14 +23,14 @@ import { Route as AdminFactoringOperacoesIndexRouteImport } from './routes/admin
 import { Route as AdminFactoringCarteirasIndexRouteImport } from './routes/admin/factoring/carteiras/index'
 import { Route as AdminCoreUsersIndexRouteImport } from './routes/admin/core/users/index'
 import { Route as AdminFactoringPessoasNovaRouteImport } from './routes/admin/factoring/pessoas/nova'
-import { Route as AdminFactoringPessoasIdRouteImport } from './routes/admin/factoring/pessoas/$id'
 import { Route as AdminFactoringOperacoesNovaRouteImport } from './routes/admin/factoring/operacoes/nova'
 import { Route as AdminFactoringOperacoesUidRouteImport } from './routes/admin/factoring/operacoes/$uid'
 import { Route as AdminFactoringCarteirasNovaRouteImport } from './routes/admin/factoring/carteiras/nova'
 import { Route as AdminCoreUsersNovoRouteImport } from './routes/admin/core/users/novo'
 import { Route as AdminCoreMeProfileRouteImport } from './routes/admin/core/_me/profile'
 import { Route as AdminCoreMeAlterarSenhaRouteImport } from './routes/admin/core/_me/alterar-senha'
-import { Route as AdminFactoringPessoasIdEditarRouteImport } from './routes/admin/factoring/pessoas/$id.editar'
+import { Route as AdminFactoringPessoasIdIndexRouteImport } from './routes/admin/factoring/pessoas/$id/index'
+import { Route as AdminFactoringPessoasIdEditarRouteImport } from './routes/admin/factoring/pessoas/$id/editar'
 import { Route as AdminFactoringOperacoesUidEditarRouteImport } from './routes/admin/factoring/operacoes/$uid.editar'
 import { Route as AdminFactoringCarteirasIdEditarRouteImport } from './routes/admin/factoring/carteiras/$id/editar'
 import { Route as AdminCoreUsersIdEditRouteImport } from './routes/admin/core/users/$id/edit'
@@ -104,11 +104,6 @@ const AdminFactoringPessoasNovaRoute =
     path: '/admin/factoring/pessoas/nova',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminFactoringPessoasIdRoute = AdminFactoringPessoasIdRouteImport.update({
-  id: '/admin/factoring/pessoas/$id',
-  path: '/admin/factoring/pessoas/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminFactoringOperacoesNovaRoute =
   AdminFactoringOperacoesNovaRouteImport.update({
     id: '/admin/factoring/operacoes/nova',
@@ -142,11 +137,17 @@ const AdminCoreMeAlterarSenhaRoute = AdminCoreMeAlterarSenhaRouteImport.update({
   path: '/admin/core/alterar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminFactoringPessoasIdIndexRoute =
+  AdminFactoringPessoasIdIndexRouteImport.update({
+    id: '/admin/factoring/pessoas/$id/',
+    path: '/admin/factoring/pessoas/$id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminFactoringPessoasIdEditarRoute =
   AdminFactoringPessoasIdEditarRouteImport.update({
-    id: '/editar',
-    path: '/editar',
-    getParentRoute: () => AdminFactoringPessoasIdRoute,
+    id: '/admin/factoring/pessoas/$id/editar',
+    path: '/admin/factoring/pessoas/$id/editar',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const AdminFactoringOperacoesUidEditarRoute =
   AdminFactoringOperacoesUidEditarRouteImport.update({
@@ -195,7 +196,6 @@ export interface FileRoutesByFullPath {
   '/admin/factoring/carteiras/nova': typeof AdminFactoringCarteirasNovaRoute
   '/admin/factoring/operacoes/$uid': typeof AdminFactoringOperacoesUidRouteWithChildren
   '/admin/factoring/operacoes/nova': typeof AdminFactoringOperacoesNovaRoute
-  '/admin/factoring/pessoas/$id': typeof AdminFactoringPessoasIdRouteWithChildren
   '/admin/factoring/pessoas/nova': typeof AdminFactoringPessoasNovaRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
   '/admin/factoring/carteiras': typeof AdminFactoringCarteirasIndexRoute
@@ -205,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/admin/factoring/carteiras/$id/editar': typeof AdminFactoringCarteirasIdEditarRoute
   '/admin/factoring/operacoes/$uid/editar': typeof AdminFactoringOperacoesUidEditarRoute
   '/admin/factoring/pessoas/$id/editar': typeof AdminFactoringPessoasIdEditarRoute
+  '/admin/factoring/pessoas/$id': typeof AdminFactoringPessoasIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -220,7 +221,6 @@ export interface FileRoutesByTo {
   '/admin/factoring/carteiras/nova': typeof AdminFactoringCarteirasNovaRoute
   '/admin/factoring/operacoes/$uid': typeof AdminFactoringOperacoesUidRouteWithChildren
   '/admin/factoring/operacoes/nova': typeof AdminFactoringOperacoesNovaRoute
-  '/admin/factoring/pessoas/$id': typeof AdminFactoringPessoasIdRouteWithChildren
   '/admin/factoring/pessoas/nova': typeof AdminFactoringPessoasNovaRoute
   '/admin/core/users': typeof AdminCoreUsersIndexRoute
   '/admin/factoring/carteiras': typeof AdminFactoringCarteirasIndexRoute
@@ -230,6 +230,7 @@ export interface FileRoutesByTo {
   '/admin/factoring/carteiras/$id/editar': typeof AdminFactoringCarteirasIdEditarRoute
   '/admin/factoring/operacoes/$uid/editar': typeof AdminFactoringOperacoesUidEditarRoute
   '/admin/factoring/pessoas/$id/editar': typeof AdminFactoringPessoasIdEditarRoute
+  '/admin/factoring/pessoas/$id': typeof AdminFactoringPessoasIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -246,7 +247,6 @@ export interface FileRoutesById {
   '/admin/factoring/carteiras/nova': typeof AdminFactoringCarteirasNovaRoute
   '/admin/factoring/operacoes/$uid': typeof AdminFactoringOperacoesUidRouteWithChildren
   '/admin/factoring/operacoes/nova': typeof AdminFactoringOperacoesNovaRoute
-  '/admin/factoring/pessoas/$id': typeof AdminFactoringPessoasIdRouteWithChildren
   '/admin/factoring/pessoas/nova': typeof AdminFactoringPessoasNovaRoute
   '/admin/core/users/': typeof AdminCoreUsersIndexRoute
   '/admin/factoring/carteiras/': typeof AdminFactoringCarteirasIndexRoute
@@ -256,6 +256,7 @@ export interface FileRoutesById {
   '/admin/factoring/carteiras/$id/editar': typeof AdminFactoringCarteirasIdEditarRoute
   '/admin/factoring/operacoes/$uid/editar': typeof AdminFactoringOperacoesUidEditarRoute
   '/admin/factoring/pessoas/$id/editar': typeof AdminFactoringPessoasIdEditarRoute
+  '/admin/factoring/pessoas/$id/': typeof AdminFactoringPessoasIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -273,7 +274,6 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/nova'
     | '/admin/factoring/operacoes/$uid'
     | '/admin/factoring/operacoes/nova'
-    | '/admin/factoring/pessoas/$id'
     | '/admin/factoring/pessoas/nova'
     | '/admin/core/users'
     | '/admin/factoring/carteiras'
@@ -283,6 +283,7 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/$id/editar'
     | '/admin/factoring/operacoes/$uid/editar'
     | '/admin/factoring/pessoas/$id/editar'
+    | '/admin/factoring/pessoas/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,7 +299,6 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/nova'
     | '/admin/factoring/operacoes/$uid'
     | '/admin/factoring/operacoes/nova'
-    | '/admin/factoring/pessoas/$id'
     | '/admin/factoring/pessoas/nova'
     | '/admin/core/users'
     | '/admin/factoring/carteiras'
@@ -308,6 +308,7 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/$id/editar'
     | '/admin/factoring/operacoes/$uid/editar'
     | '/admin/factoring/pessoas/$id/editar'
+    | '/admin/factoring/pessoas/$id'
   id:
     | '__root__'
     | '/'
@@ -323,7 +324,6 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/nova'
     | '/admin/factoring/operacoes/$uid'
     | '/admin/factoring/operacoes/nova'
-    | '/admin/factoring/pessoas/$id'
     | '/admin/factoring/pessoas/nova'
     | '/admin/core/users/'
     | '/admin/factoring/carteiras/'
@@ -333,6 +333,7 @@ export interface FileRouteTypes {
     | '/admin/factoring/carteiras/$id/editar'
     | '/admin/factoring/operacoes/$uid/editar'
     | '/admin/factoring/pessoas/$id/editar'
+    | '/admin/factoring/pessoas/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -349,7 +350,6 @@ export interface RootRouteChildren {
   AdminFactoringCarteirasNovaRoute: typeof AdminFactoringCarteirasNovaRoute
   AdminFactoringOperacoesUidRoute: typeof AdminFactoringOperacoesUidRouteWithChildren
   AdminFactoringOperacoesNovaRoute: typeof AdminFactoringOperacoesNovaRoute
-  AdminFactoringPessoasIdRoute: typeof AdminFactoringPessoasIdRouteWithChildren
   AdminFactoringPessoasNovaRoute: typeof AdminFactoringPessoasNovaRoute
   AdminCoreUsersIndexRoute: typeof AdminCoreUsersIndexRoute
   AdminFactoringCarteirasIndexRoute: typeof AdminFactoringCarteirasIndexRoute
@@ -357,6 +357,8 @@ export interface RootRouteChildren {
   AdminFactoringPessoasIndexRoute: typeof AdminFactoringPessoasIndexRoute
   AdminCoreUsersIdEditRoute: typeof AdminCoreUsersIdEditRoute
   AdminFactoringCarteirasIdEditarRoute: typeof AdminFactoringCarteirasIdEditarRoute
+  AdminFactoringPessoasIdEditarRoute: typeof AdminFactoringPessoasIdEditarRoute
+  AdminFactoringPessoasIdIndexRoute: typeof AdminFactoringPessoasIdIndexRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/upload': typeof ApiUploadServerRoute
@@ -474,13 +476,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFactoringPessoasNovaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/factoring/pessoas/$id': {
-      id: '/admin/factoring/pessoas/$id'
-      path: '/admin/factoring/pessoas/$id'
-      fullPath: '/admin/factoring/pessoas/$id'
-      preLoaderRoute: typeof AdminFactoringPessoasIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/factoring/operacoes/nova': {
       id: '/admin/factoring/operacoes/nova'
       path: '/admin/factoring/operacoes/nova'
@@ -523,12 +518,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoreMeAlterarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/factoring/pessoas/$id/': {
+      id: '/admin/factoring/pessoas/$id/'
+      path: '/admin/factoring/pessoas/$id'
+      fullPath: '/admin/factoring/pessoas/$id'
+      preLoaderRoute: typeof AdminFactoringPessoasIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/factoring/pessoas/$id/editar': {
       id: '/admin/factoring/pessoas/$id/editar'
-      path: '/editar'
+      path: '/admin/factoring/pessoas/$id/editar'
       fullPath: '/admin/factoring/pessoas/$id/editar'
       preLoaderRoute: typeof AdminFactoringPessoasIdEditarRouteImport
-      parentRoute: typeof AdminFactoringPessoasIdRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/factoring/operacoes/$uid/editar': {
       id: '/admin/factoring/operacoes/$uid/editar'
@@ -594,20 +596,6 @@ const AdminFactoringOperacoesUidRouteWithChildren =
     AdminFactoringOperacoesUidRouteChildren,
   )
 
-interface AdminFactoringPessoasIdRouteChildren {
-  AdminFactoringPessoasIdEditarRoute: typeof AdminFactoringPessoasIdEditarRoute
-}
-
-const AdminFactoringPessoasIdRouteChildren: AdminFactoringPessoasIdRouteChildren =
-  {
-    AdminFactoringPessoasIdEditarRoute: AdminFactoringPessoasIdEditarRoute,
-  }
-
-const AdminFactoringPessoasIdRouteWithChildren =
-  AdminFactoringPessoasIdRoute._addFileChildren(
-    AdminFactoringPessoasIdRouteChildren,
-  )
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SuperadminRoute: SuperadminRoute,
@@ -622,7 +610,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminFactoringCarteirasNovaRoute: AdminFactoringCarteirasNovaRoute,
   AdminFactoringOperacoesUidRoute: AdminFactoringOperacoesUidRouteWithChildren,
   AdminFactoringOperacoesNovaRoute: AdminFactoringOperacoesNovaRoute,
-  AdminFactoringPessoasIdRoute: AdminFactoringPessoasIdRouteWithChildren,
   AdminFactoringPessoasNovaRoute: AdminFactoringPessoasNovaRoute,
   AdminCoreUsersIndexRoute: AdminCoreUsersIndexRoute,
   AdminFactoringCarteirasIndexRoute: AdminFactoringCarteirasIndexRoute,
@@ -630,6 +617,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminFactoringPessoasIndexRoute: AdminFactoringPessoasIndexRoute,
   AdminCoreUsersIdEditRoute: AdminCoreUsersIdEditRoute,
   AdminFactoringCarteirasIdEditarRoute: AdminFactoringCarteirasIdEditarRoute,
+  AdminFactoringPessoasIdEditarRoute: AdminFactoringPessoasIdEditarRoute,
+  AdminFactoringPessoasIdIndexRoute: AdminFactoringPessoasIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

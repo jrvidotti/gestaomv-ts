@@ -4,14 +4,13 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Users, Edit, ArrowLeft, Mail, MapPin, Calendar } from "lucide-react";
 
-export const Route = createFileRoute("/admin/factoring/pessoas/$id")({
+export const Route = createFileRoute("/admin/factoring/pessoas/$id/")({
   component: PessoaDetailsPage,
 });
 
@@ -25,20 +24,19 @@ function PessoaDetailsPage() {
     isLoading,
     error,
   } = useQuery(
-    trpc.factoring.pessoas.buscar.queryOptions({
-      id: parseInt(id),
-    }),
+    trpc.factoring.pessoas.findById.queryOptions({
+      id: Number.parseInt(id),
+    })
   );
 
   const formatDocument = (documento: string, tipo: "fisica" | "juridica") => {
     if (tipo === "fisica") {
       return documento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    } else {
-      return documento.replace(
-        /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-        "$1.$2.$3/$4-$5",
-      );
     }
+    return documento.replace(
+      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+      "$1.$2.$3/$4-$5"
+    );
   };
 
   const formatDate = (dateStr: string | null) => {
@@ -58,14 +56,16 @@ function PessoaDetailsPage() {
             Voltar
           </Link>
         </Button>,
-        ...(pessoa ? [
-          <Button key="edit" asChild>
-            <Link to="/admin/factoring/pessoas/$id/editar" params={{ id }}>
-              <Edit className="h-4 w-4 mr-2" />
-              Editar
-            </Link>
-          </Button>
-        ] : []),
+        ...(pessoa
+          ? [
+              <Button key="edit" asChild>
+                <Link to="/admin/factoring/pessoas/$id/editar" params={{ id }}>
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
+                </Link>
+              </Button>,
+            ]
+          : []),
       ]}
     />
   );
@@ -124,8 +124,14 @@ function PessoaDetailsPage() {
                     Tipo de Pessoa
                   </label>
                   <div className="mt-1">
-                    <Badge variant={pessoa.tipoPessoa === "fisica" ? "default" : "secondary"}>
-                      {pessoa.tipoPessoa === "fisica" ? "Pessoa Física" : "Pessoa Jurídica"}
+                    <Badge
+                      variant={
+                        pessoa.tipoPessoa === "fisica" ? "default" : "secondary"
+                      }
+                    >
+                      {pessoa.tipoPessoa === "fisica"
+                        ? "Pessoa Física"
+                        : "Pessoa Jurídica"}
                     </Badge>
                   </div>
                 </div>
@@ -141,7 +147,9 @@ function PessoaDetailsPage() {
 
               <div>
                 <label className="text-sm font-medium text-muted-foreground">
-                  {pessoa.tipoPessoa === "fisica" ? "Nome Completo" : "Razão Social"}
+                  {pessoa.tipoPessoa === "fisica"
+                    ? "Nome Completo"
+                    : "Razão Social"}
                 </label>
                 <div className="mt-1 font-medium text-lg">
                   {pessoa.nomeRazaoSocial}
@@ -153,9 +161,7 @@ function PessoaDetailsPage() {
                   <label className="text-sm font-medium text-muted-foreground">
                     Nome Fantasia
                   </label>
-                  <div className="mt-1">
-                    {pessoa.nomeFantasia}
-                  </div>
+                  <div className="mt-1">{pessoa.nomeFantasia}</div>
                 </div>
               )}
 
@@ -164,7 +170,9 @@ function PessoaDetailsPage() {
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">
                       <Calendar className="h-4 w-4 inline mr-1" />
-                      {pessoa.tipoPessoa === "fisica" ? "Data de Nascimento" : "Data de Fundação"}
+                      {pessoa.tipoPessoa === "fisica"
+                        ? "Data de Nascimento"
+                        : "Data de Fundação"}
                     </label>
                     <div className="mt-1">
                       {formatDate(pessoa.dataNascimentoFundacao)}
@@ -179,7 +187,7 @@ function PessoaDetailsPage() {
                       E-mail
                     </label>
                     <div className="mt-1">
-                      <a 
+                      <a
                         href={`mailto:${pessoa.email}`}
                         className="text-blue-600 hover:underline"
                       >
@@ -198,9 +206,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Nome da Mãe
                       </label>
-                      <div className="mt-1">
-                        {pessoa.nomeMae}
-                      </div>
+                      <div className="mt-1">{pessoa.nomeMae}</div>
                     </div>
                   )}
 
@@ -261,9 +267,7 @@ function PessoaDetailsPage() {
                     <label className="text-sm font-medium text-muted-foreground">
                       CEP
                     </label>
-                    <div className="mt-1 font-mono">
-                      {pessoa.cep}
-                    </div>
+                    <div className="mt-1 font-mono">{pessoa.cep}</div>
                   </div>
                 )}
 
@@ -273,9 +277,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Logradouro
                       </label>
-                      <div className="mt-1">
-                        {pessoa.logradouro}
-                      </div>
+                      <div className="mt-1">{pessoa.logradouro}</div>
                     </div>
                   )}
 
@@ -284,9 +286,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Número
                       </label>
-                      <div className="mt-1">
-                        {pessoa.numero}
-                      </div>
+                      <div className="mt-1">{pessoa.numero}</div>
                     </div>
                   )}
                 </div>
@@ -297,9 +297,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Complemento
                       </label>
-                      <div className="mt-1">
-                        {pessoa.complemento}
-                      </div>
+                      <div className="mt-1">{pessoa.complemento}</div>
                     </div>
                   )}
 
@@ -308,9 +306,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Bairro
                       </label>
-                      <div className="mt-1">
-                        {pessoa.bairro}
-                      </div>
+                      <div className="mt-1">{pessoa.bairro}</div>
                     </div>
                   )}
                 </div>
@@ -321,9 +317,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Cidade
                       </label>
-                      <div className="mt-1">
-                        {pessoa.cidade}
-                      </div>
+                      <div className="mt-1">{pessoa.cidade}</div>
                     </div>
                   )}
 
@@ -332,9 +326,7 @@ function PessoaDetailsPage() {
                       <label className="text-sm font-medium text-muted-foreground">
                         Estado
                       </label>
-                      <div className="mt-1">
-                        {pessoa.estado}
-                      </div>
+                      <div className="mt-1">{pessoa.estado}</div>
                     </div>
                   )}
                 </div>
@@ -349,9 +341,7 @@ function PessoaDetailsPage() {
                 <CardTitle>Observações</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="whitespace-pre-wrap">
-                  {pessoa.observacoes}
-                </div>
+                <div className="whitespace-pre-wrap">{pessoa.observacoes}</div>
               </CardContent>
             </Card>
           )}
@@ -367,9 +357,7 @@ function PessoaDetailsPage() {
                   <label className="text-sm font-medium text-muted-foreground">
                     Criado em
                   </label>
-                  <div className="mt-1">
-                    {formatDate(pessoa.criadoEm)}
-                  </div>
+                  <div className="mt-1">{formatDate(pessoa.criadoEm)}</div>
                 </div>
                 {pessoa.atualizadoEm && (
                   <div>

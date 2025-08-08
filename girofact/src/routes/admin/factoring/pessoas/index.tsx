@@ -24,12 +24,15 @@ function PessoasListPage() {
     isLoading,
     refetch,
   } = useQuery(
-    trpc.factoring.pessoas.listar.queryOptions(),
+    trpc.factoring.pessoas.list.queryOptions({
+      page: 1,
+      limit: 20,
+    }),
   );
 
   // Deletar pessoa
   const { mutate: deletePessoa } = useMutation({
-    ...trpc.factoring.pessoas.remover.mutationOptions(),
+    ...trpc.factoring.pessoas.delete.mutationOptions(),
     onSuccess: () => {
       toast.success("Pessoa removida com sucesso!");
       refetch();
@@ -71,7 +74,7 @@ function PessoasListPage() {
         <Card>
           <CardContent className="p-6">
             <PessoasTable
-              data={pessoas || []}
+              data={pessoas?.data || []}
               isLoading={isLoading}
               onDelete={handleDelete}
             />

@@ -66,22 +66,22 @@ function OperacaoDetailsPage() {
     error,
     refetch,
   } = useQuery(
-    trpc.factoring.operacoes.buscar.queryOptions({
+    trpc.factoring.operacoes.findByUid.queryOptions({
       uid,
     }),
   );
 
-  // Aprovar operação
-  const { mutate: aprovarOperacao, isPending: isApproving } = useMutation({
-    ...trpc.factoring.operacoes.aprovar.mutationOptions(),
-    onSuccess: () => {
-      toast.success("Operação aprovada com sucesso!");
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(`Erro ao aprovar operação: ${error.message}`);
-    },
-  });
+  // TODO: Implementar método aprovar no router
+  // const { mutate: aprovarOperacao, isPending: isApproving } = useMutation({
+  //   ...trpc.factoring.operacoes.aprovar.mutationOptions(),
+  //   onSuccess: () => {
+  //     toast.success("Operação aprovada com sucesso!");
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(`Erro ao aprovar operação: ${error.message}`);
+  //   },
+  // });
 
   // Efetivar operação
   const { mutate: efetivarOperacao, isPending: isEffective } = useMutation({

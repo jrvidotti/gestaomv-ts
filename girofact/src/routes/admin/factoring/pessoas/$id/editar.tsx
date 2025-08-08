@@ -25,14 +25,14 @@ function EditarPessoaPage() {
     isLoading: isLoadingPessoa,
     refetch,
   } = useQuery(
-    trpc.factoring.pessoas.buscar.queryOptions({
-      id: parseInt(id),
-    }),
+    trpc.factoring.pessoas.findById.queryOptions({
+      id: Number.parseInt(id),
+    })
   );
 
   // Atualizar pessoa
   const { mutate: updatePessoa, isPending } = useMutation({
-    ...trpc.factoring.pessoas.atualizar.mutationOptions(),
+    ...trpc.factoring.pessoas.update.mutationOptions(),
     onSuccess: () => {
       toast.success("Pessoa atualizada com sucesso!");
       navigate({
@@ -47,7 +47,7 @@ function EditarPessoaPage() {
 
   // Buscar dados por documento (API Direct Data)
   const { mutate: buscarPorDocumento } = useMutation({
-    ...trpc.factoring.pessoas.buscarPorDocumento.mutationOptions(),
+    ...trpc.factoring.pessoas.buscarPorCpfCnpj.mutationOptions(),
     onSuccess: (data) => {
       toast.success("Dados encontrados! Preenchendo formulário...");
       // Aqui você pode preencher o formulário com os dados retornados
@@ -60,10 +60,10 @@ function EditarPessoaPage() {
   const handleSubmit = (data: any) => {
     // Ajustar dados antes de enviar
     const submitData = {
-      id: parseInt(id),
+      id: Number.parseInt(id),
       ...data,
-      dataNascimentoFundacao: data.dataNascimentoFundacao 
-        ? new Date(data.dataNascimentoFundacao) 
+      dataNascimentoFundacao: data.dataNascimentoFundacao
+        ? new Date(data.dataNascimentoFundacao)
         : undefined,
     };
     updatePessoa(submitData);

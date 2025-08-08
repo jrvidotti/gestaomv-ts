@@ -30,7 +30,7 @@ const pessoaFormSchema = z.object({
   inscricaoEstadual: z.string().optional(),
   inscricaoMunicipal: z.string().optional(),
   nomeMae: z.string().optional(),
-  sexo: z.enum(["M", "F", ""]).optional(),
+  sexo: z.enum(["masculino", "feminino", "nao_informado"]).optional(),
   email: z.string().email("E-mail inválido").optional().or(z.literal("")),
   observacoes: z.string().optional(),
   // Endereço
@@ -75,7 +75,7 @@ export function PessoaForm({
       inscricaoEstadual: initialData?.inscricaoEstadual || "",
       inscricaoMunicipal: initialData?.inscricaoMunicipal || "",
       nomeMae: initialData?.nomeMae || "",
-      sexo: (initialData?.sexo as "M" | "F" | "") || "",
+      sexo: initialData?.sexo || "nao_informado",
       email: initialData?.email || "",
       observacoes: initialData?.observacoes || "",
       cep: initialData?.cep || "",
@@ -91,7 +91,12 @@ export function PessoaForm({
   const tipoPessoa = form.watch("tipoPessoa");
 
   const handleSubmit = (data: PessoaFormData) => {
-    onSubmit(data);
+    // Converter "nao_informado" para undefined para o backend
+    const submitData = {
+      ...data,
+      sexo: data.sexo === "nao_informado" ? undefined : data.sexo,
+    };
+    onSubmit(submitData);
   };
 
   const handleBuscarDocumento = () => {
@@ -271,9 +276,9 @@ export function PessoaForm({
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="">Não informado</SelectItem>
-                              <SelectItem value="M">Masculino</SelectItem>
-                              <SelectItem value="F">Feminino</SelectItem>
+                              <SelectItem value="nao_informado">Não informado</SelectItem>
+                              <SelectItem value="masculino">Masculino</SelectItem>
+                              <SelectItem value="feminino">Feminino</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />

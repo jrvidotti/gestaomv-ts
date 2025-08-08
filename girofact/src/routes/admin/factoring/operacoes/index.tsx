@@ -24,7 +24,10 @@ function OperacoesListPage() {
     isLoading,
     refetch,
   } = useQuery(
-    trpc.factoring.operacoes.listar.queryOptions(),
+    trpc.factoring.operacoes.list.queryOptions({
+      page: 1,
+      limit: 20,
+    }),
   );
 
   // Cancelar operação
@@ -71,7 +74,7 @@ function OperacoesListPage() {
         <Card>
           <CardContent className="p-6">
             <OperacoesTable
-              data={operacoes || []}
+              data={operacoes?.data || []}
               isLoading={isLoading}
               onCancel={handleCancel}
             />

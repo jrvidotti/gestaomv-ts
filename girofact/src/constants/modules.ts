@@ -9,7 +9,9 @@ import type { ModuleStatus } from "./modules-status";
  * @items: Itens do módulo
  *   @roles: Roles do usuário que podem acessar o item (caso não seja informado, o atributo é herdado do módulo)
  */
-export const MODULES_DATA = [CORE.MODULE_DATA, FACTORING.MODULE_DATA] as const;
+const MODULES_DATA_RAW = [CORE.MODULE_DATA, FACTORING.MODULE_DATA] as const;
+
+export const MODULES_DATA = MODULES_DATA_RAW;
 
 export const MODULE = {
 	CORE: "core",
@@ -38,6 +40,24 @@ export const getUserRoleLabel = (role: UserRoleType): string => {
 	return ALL_ROLES_DATA[role]?.label || role;
 };
 
+/**
+ * Valida se a estrutura do menu não ultrapassa 2 níveis de profundidade
+ * @param items - Itens do menu para validar
+ * @param currentDepth - Nível atual (usado internamente na recursão)
+ * @throws {Error} - Lança erro se encontrar mais de 2 níveis
+ */
+export function validateMenuDepth(items: readonly ModuleItem[], currentDepth = 0): void {
+	if (currentDepth >= 2) {
+		throw new Error("Menu não pode ter mais de 2 níveis de profundidade");
+	}
+	
+	items.forEach(item => {
+		if (item.items && item.items.length > 0) {
+			validateMenuDepth(item.items, currentDepth + 1);
+		}
+	});
+}
+
 export interface ModuleItem {
 	title: string;
 	description?: string;
@@ -62,3 +82,10 @@ export interface ModuleData extends ModuleItem {
 	color: string;
 	items?: readonly ModuleItem[];
 }
+
+// Validar a estrutura dos módulos na inicialização
+MODULES_DATA.forEach((module) => {
+	if (module.items) {
+		validateMenuDepth(module.items);
+	}
+});

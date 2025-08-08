@@ -65,21 +65,21 @@ export const MODULE_DATA: ModuleData = {
       items: [
         {
           title: "Pessoas",
-          url: "/admin/factoring/cadastros/pessoas",
+          url: "/admin/factoring/pessoas",
           icon: Users,
-          status: MODULE_STATUS.DESENVOLVIMENTO,
+          status: MODULE_STATUS.ATIVO,
         },
         {
           title: "Clientes",
-          url: "/admin/factoring/cadastros/clientes",
+          url: "/admin/factoring/clientes",
           icon: Users,
           status: MODULE_STATUS.DESENVOLVIMENTO,
         },
         {
           title: "Carteiras",
-          url: "/admin/factoring/cadastros/carteiras",
+          url: "/admin/factoring/carteiras",
           icon: CreditCard,
-          status: MODULE_STATUS.DESENVOLVIMENTO,
+          status: MODULE_STATUS.ATIVO,
         },
       ],
     },
@@ -91,9 +91,9 @@ export const MODULE_DATA: ModuleData = {
       items: [
         {
           title: "Operações",
-          url: "/admin/factoring/operacoes/lista",
+          url: "/admin/factoring/operacoes",
           icon: FileText,
-          status: MODULE_STATUS.DESENVOLVIMENTO,
+          status: MODULE_STATUS.ATIVO,
         },
         {
           title: "Documentos",

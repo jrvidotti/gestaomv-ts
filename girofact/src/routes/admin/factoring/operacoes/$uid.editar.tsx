@@ -25,14 +25,14 @@ function EditarOperacaoPage() {
     isLoading: isLoadingOperacao,
     refetch,
   } = useQuery(
-    trpc.factoring.operacoes.buscar.queryOptions({
+    trpc.factoring.operacoes.findByUid.queryOptions({
       uid,
     }),
   );
 
   // Atualizar operação
   const { mutate: updateOperacao, isPending } = useMutation({
-    ...trpc.factoring.operacoes.atualizar.mutationOptions(),
+    ...trpc.factoring.operacoes.upsertOperacao.mutationOptions(),
     onSuccess: () => {
       toast.success("Operação atualizada com sucesso!");
       navigate({
@@ -45,17 +45,16 @@ function EditarOperacaoPage() {
     },
   });
 
-  // Calcular valores
-  const { mutate: calcularOperacao } = useMutation({
-    ...trpc.factoring.operacoes.calcular.mutationOptions(),
-    onSuccess: (data) => {
-      toast.success(`Valor calculado: R$ ${data.valorLiquido.toFixed(2)}`);
-      // Aqui você poderia atualizar o formulário com o valor calculado
-    },
-    onError: (error) => {
-      toast.error(`Erro no cálculo: ${error.message}`);
-    },
-  });
+  // TODO: Implementar método de cálculo no router
+  // const { mutate: calcularOperacao } = useMutation({
+  //   ...trpc.factoring.operacoes.calcular.mutationOptions(),
+  //   onSuccess: (data) => {
+  //     toast.success(`Valor calculado: R$ ${data.valorLiquido.toFixed(2)}`);
+  //   },
+  //   onError: (error) => {
+  //     toast.error(`Erro no cálculo: ${error.message}`);
+  //   },
+  // });
 
   const handleSubmit = (data: any) => {
     // Ajustar dados antes de enviar

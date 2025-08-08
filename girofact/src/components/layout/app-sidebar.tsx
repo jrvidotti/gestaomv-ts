@@ -166,6 +166,7 @@ export function AppSidebar() {
 							<SidebarMenu>
 								{itensMenu.map((item) => (
 									<React.Fragment key={item.title}>
+										{/* Item principal - Dashboard */}
 										<SidebarMenuItem>
 											<SidebarMenuButton
 												asChild
@@ -177,20 +178,43 @@ export function AppSidebar() {
 												</Link>
 											</SidebarMenuButton>
 										</SidebarMenuItem>
+										
+										{/* Renderizar todos os itens do módulo (nível 1) */}
 										{item.items
 											?.filter((subItem) => canAccessPage(subItem.url))
 											.map((subItem) => (
-												<SidebarMenuItem key={subItem.title}>
-													<SidebarMenuButton
-														asChild
-														isActive={pathname === subItem.url}
-													>
-														<Link to={subItem.url}>
-															<subItem.icon />
-															<span>{subItem.title}</span>
-														</Link>
-													</SidebarMenuButton>
-												</SidebarMenuItem>
+												<React.Fragment key={subItem.title}>
+													{/* Item nível 1 */}
+													<SidebarMenuItem>
+														<SidebarMenuButton
+															asChild
+															isActive={pathname === subItem.url}
+														>
+															<Link to={subItem.url}>
+																<subItem.icon className="h-4 w-4" />
+																<span>{subItem.title}</span>
+															</Link>
+														</SidebarMenuButton>
+													</SidebarMenuItem>
+													
+													{/* Subitens nível 2 com indentação */}
+													{subItem.items
+														?.filter((deepItem) => canAccessPage(deepItem.url))
+														.map((deepItem) => (
+															<SidebarMenuItem key={deepItem.title}>
+																<SidebarMenuButton
+																	asChild
+																	isActive={pathname === deepItem.url}
+																	className="pl-8"
+																>
+																	<Link to={deepItem.url}>
+																		<deepItem.icon className="h-4 w-4" />
+																		<span>{deepItem.title}</span>
+																	</Link>
+																</SidebarMenuButton>
+															</SidebarMenuItem>
+														))}
+												</React.Fragment>
 											))}
 									</React.Fragment>
 								))}

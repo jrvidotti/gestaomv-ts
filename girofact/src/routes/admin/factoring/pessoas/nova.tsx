@@ -21,7 +21,7 @@ function NovaPessoaPage() {
 
   // Criar pessoa
   const { mutate: createPessoa, isPending } = useMutation({
-    ...trpc.factoring.pessoas.criar.mutationOptions(),
+    ...trpc.factoring.pessoas.create.mutationOptions(),
     onSuccess: (data) => {
       toast.success("Pessoa criada com sucesso!");
       navigate({
@@ -36,7 +36,7 @@ function NovaPessoaPage() {
 
   // Buscar dados por documento (API Direct Data)
   const { mutate: buscarPorDocumento } = useMutation({
-    ...trpc.factoring.pessoas.buscarPorDocumento.mutationOptions(),
+    ...trpc.factoring.pessoas.buscarPorCpfCnpj.mutationOptions(),
     onSuccess: (data) => {
       toast.success("Dados encontrados! Preenchendo formulário...");
       // Aqui você pode preencher o formulário com os dados retornados

@@ -21,7 +21,7 @@ function NovaCarteiraPage() {
 
   // Criar carteira
   const { mutate: createCarteira, isPending } = useMutation({
-    ...trpc.factoring.carteiras.criar.mutationOptions(),
+    ...trpc.factoring.carteiras.create.mutationOptions(),
     onSuccess: (data) => {
       toast.success("Carteira criada com sucesso!");
       navigate({
