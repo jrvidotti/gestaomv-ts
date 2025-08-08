@@ -11,7 +11,7 @@
 		"test": "vitest run",
 		"format": "biome format --fix",
 		"lint": "biome lint --fix",
-		"typecheck": "biome check",
+		"typecheck": "biome check --fix --unsafe",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:seed": "yarn db:migrate && tsx --env-file=.env scripts/seed.ts"

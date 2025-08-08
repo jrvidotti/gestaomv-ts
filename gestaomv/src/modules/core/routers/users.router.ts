@@ -1,15 +1,25 @@
 import { USER_ROLES_ARRAY } from "@/constants";
-import { createUserSchema, updateUserSchema } from "@/modules/core/dtos";
+import {
+	createUserSchema,
+	filtroUsuariosSchema,
+	updateUserSchema,
+} from "@/modules/core/dtos";
 import { usersService } from "@/modules/core/services";
 import { adminProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 
 export const usersRouter = {
-	listar: adminProcedure.query(async () => {
-		const users = await usersService.listar();
-		return users.map(({ password, ...user }) => user);
-	}),
+	listar: adminProcedure
+		.input(filtroUsuariosSchema)
+		.query(async ({ input }) => {
+			const filtros = {
+				...input,
+				pagina: input.pagina ?? 1,
+				limite: input.limite ?? 20,
+			};
+			return await usersService.listar(filtros);
+		}),
 
 	buscar: adminProcedure
 		.input(z.object({ id: z.number() }))

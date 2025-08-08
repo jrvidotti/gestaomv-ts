@@ -1,9 +1,9 @@
 import { RouteGuard } from "@/components/auth/route-guard";
+import { DataTable, useDataTable } from "@/components/data-table";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,27 +11,14 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { ALL_ROLES } from "@/constants";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link, useNavigate } from "@tanstack/react-router";
-import {
-	Edit,
-	MapPin,
-	MoreHorizontal,
-	Plus,
-	Search,
-	Trash2,
-} from "lucide-react";
+import { createColumnHelper } from "@tanstack/react-table";
+import { Edit, MapPin, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -39,9 +26,23 @@ export const Route = createFileRoute("/admin/core/unidades/")({
 	component: UnidadesListPage,
 });
 
+// Tipo para a unidade
+type Unidade = {
+	id: string;
+	nome: string;
+	codigo: number;
+	pontowebId?: string;
+	cidade?: string;
+	estado?: string;
+	empresa?: {
+		razaoSocial: string;
+	};
+};
+
 function UnidadesListPage() {
 	const navigate = useNavigate();
 	const [searchTerm, setSearchTerm] = useState("");
+	const searchDebounced = useDebounce(searchTerm, 300);
 
 	const trpc = useTRPC();
 
@@ -67,19 +68,137 @@ function UnidadesListPage() {
 	const filteredUnidades =
 		unidades?.filter(
 			(unidade) =>
-				unidade.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				unidade.codigo.toString().includes(searchTerm) ||
-				unidade.cidade?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				unidade.nome.toLowerCase().includes(searchDebounced.toLowerCase()) ||
+				unidade.codigo.toString().includes(searchDebounced) ||
+				unidade.cidade?.toLowerCase().includes(searchDebounced.toLowerCase()) ||
 				unidade.empresa?.razaoSocial
 					?.toLowerCase()
-					.includes(searchTerm.toLowerCase()),
+					.includes(searchDebounced.toLowerCase()),
 		) || [];
+
+	// Configuração do hook de data table
+	const dataTable = useDataTable({
+		data: filteredUnidades,
+		totalCount: filteredUnidades.length,
+		currentPage: 1,
+		currentPageSize: 20,
+	});
+
+	// Definições de colunas
+	const columnHelper = createColumnHelper<Unidade>();
+
+	const columns = [
+		columnHelper.accessor("nome", {
+			header: "Nome",
+			cell: (info) => {
+				const unidade = info.row.original;
+				return (
+					<div>
+						<div className="font-medium">{unidade.nome}</div>
+						{unidade.empresa && (
+							<div className="text-sm text-muted-foreground">
+								{unidade.empresa.razaoSocial}
+							</div>
+						)}
+					</div>
+				);
+			},
+			enableSorting: true,
+		}),
+		columnHelper.accessor("codigo", {
+			header: "Código",
+			cell: (info) => <Badge variant="outline">{info.getValue()}</Badge>,
+			enableSorting: true,
+		}),
+		columnHelper.accessor("pontowebId", {
+			header: "PontoWeb ID",
+			cell: (info) => {
+				const pontowebId = info.getValue();
+				return pontowebId ? (
+					<Badge variant="secondary">{pontowebId}</Badge>
+				) : (
+					<span className="text-muted-foreground">-</span>
+				);
+			},
+			enableSorting: true,
+		}),
+		columnHelper.display({
+			id: "localizacao",
+			header: "Localização",
+			cell: (info) => {
+				const unidade = info.row.original;
+				return unidade.cidade ? (
+					<div>
+						<div>{unidade.cidade}</div>
+						{unidade.estado && (
+							<div className="text-sm text-muted-foreground">
+								{unidade.estado}
+							</div>
+						)}
+					</div>
+				) : (
+					<span className="text-muted-foreground">-</span>
+				);
+			},
+		}),
+		columnHelper.display({
+			id: "actions",
+			header: "Ações",
+			cell: (info) => {
+				const unidade = info.row.original;
+				return (
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="sm">
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem asChild>
+								<Link
+									to="/admin/core/unidades/$id/edit"
+									params={{ id: unidade.id }}
+								>
+									<Edit className="h-4 w-4 mr-2" />
+									Editar
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								className="text-red-600"
+								onClick={() => handleDelete(unidade.id)}
+							>
+								<Trash2 className="h-4 w-4 mr-2" />
+								Excluir
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				);
+			},
+		}),
+	];
 
 	const handleDelete = (id: string) => {
 		if (confirm("Tem certeza que deseja excluir esta unidade?")) {
 			removeUnidade({ id });
 		}
 	};
+
+	const handleRowClick = (unidade: Unidade) => {
+		navigate({
+			to: "/admin/core/unidades/$id/edit",
+			params: { id: unidade.id },
+		});
+	};
+
+	// Componente de filtro
+	const filtroNome = (
+		<Input
+			placeholder="Buscar por nome, código ou cidade..."
+			value={searchTerm}
+			onChange={(e) => setSearchTerm(e.target.value)}
+			className="h-8 w-full"
+		/>
+	);
 
 	const header = (
 		<PageHeader
@@ -100,158 +219,28 @@ function UnidadesListPage() {
 	return (
 		<RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
 			<AdminLayout header={header}>
-				<div className="space-y-4">
-					{/* Campo de Busca */}
-					<Card>
-						<CardContent className="pt-6">
-							<div className="relative">
-								<Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-								<Input
-									placeholder="Buscar por nome, código ou cidade..."
-									value={searchTerm}
-									onChange={(e) => setSearchTerm(e.target.value)}
-									className="pl-8"
-								/>
-							</div>
-						</CardContent>
-					</Card>
-
-					{/* Estados de Loading/Erro */}
-					{isLoading && (
-						<Card>
-							<CardContent className="py-8">
-								<div className="text-center text-muted-foreground">
-									Carregando unidades...
-								</div>
-							</CardContent>
-						</Card>
-					)}
-
-					{error && (
-						<Card>
-							<CardContent className="py-8">
-								<div className="text-center text-red-600">
-									Erro ao carregar unidades: {error.message}
-								</div>
-							</CardContent>
-						</Card>
-					)}
-
-					{/* Tabela de Unidades */}
-					{!isLoading && !error && (
-						<Card>
-							<CardContent className="p-0">
-								<Table>
-									<TableHeader>
-										<TableRow>
-											<TableHead>Nome</TableHead>
-											<TableHead>Código</TableHead>
-											<TableHead>PontoWeb ID</TableHead>
-											<TableHead>Localização</TableHead>
-											<TableHead className="w-[100px]">Ações</TableHead>
-										</TableRow>
-									</TableHeader>
-									<TableBody>
-										{filteredUnidades.length === 0 ? (
-											<TableRow>
-												<TableCell
-													colSpan={5}
-													className="text-center py-8 text-muted-foreground"
-												>
-													{searchTerm
-														? "Nenhuma unidade encontrada para a busca"
-														: "Nenhuma unidade cadastrada"}
-												</TableCell>
-											</TableRow>
-										) : (
-											filteredUnidades.map((unidade) => (
-												<TableRow
-													key={unidade.id}
-													className="cursor-pointer hover:bg-muted/50"
-													onClick={() =>
-														navigate({
-															to: "/admin/core/unidades/$id/edit",
-															params: { id: unidade.id },
-														})
-													}
-												>
-													<TableCell>
-														<div>
-															<div className="font-medium">{unidade.nome}</div>
-															{unidade.empresa && (
-																<div className="text-sm text-muted-foreground">
-																	{unidade.empresa.razaoSocial}
-																</div>
-															)}
-														</div>
-													</TableCell>
-													<TableCell>
-														<Badge variant="outline">{unidade.codigo}</Badge>
-													</TableCell>
-													<TableCell>
-														{unidade.pontowebId ? (
-															<Badge variant="secondary">
-																{unidade.pontowebId}
-															</Badge>
-														) : (
-															<span className="text-muted-foreground">-</span>
-														)}
-													</TableCell>
-													<TableCell>
-														{unidade.cidade ? (
-															<div>
-																<div>{unidade.cidade}</div>
-																{unidade.estado && (
-																	<div className="text-sm text-muted-foreground">
-																		{unidade.estado}
-																	</div>
-																)}
-															</div>
-														) : (
-															<span className="text-muted-foreground">-</span>
-														)}
-													</TableCell>
-													<TableCell>
-														<DropdownMenu>
-															<DropdownMenuTrigger
-																asChild
-																onClick={(e) => e.stopPropagation()}
-															>
-																<Button variant="ghost" size="sm">
-																	<MoreHorizontal className="h-4 w-4" />
-																</Button>
-															</DropdownMenuTrigger>
-															<DropdownMenuContent align="end">
-																<DropdownMenuItem asChild>
-																	<Link
-																		to="/admin/core/unidades/$id/edit"
-																		params={{ id: unidade.id }}
-																	>
-																		<Edit className="h-4 w-4 mr-2" />
-																		Editar
-																	</Link>
-																</DropdownMenuItem>
-																<DropdownMenuItem
-																	className="text-red-600"
-																	onClick={(e) => {
-																		e.stopPropagation();
-																		handleDelete(unidade.id);
-																	}}
-																>
-																	<Trash2 className="h-4 w-4 mr-2" />
-																	Excluir
-																</DropdownMenuItem>
-															</DropdownMenuContent>
-														</DropdownMenu>
-													</TableCell>
-												</TableRow>
-											))
-										)}
-									</TableBody>
-								</Table>
-							</CardContent>
-						</Card>
-					)}
+				<div className="space-y-6">
+					<DataTable
+						{...dataTable.getTableProps()}
+						columns={columns}
+						data={filteredUnidades}
+						isLoading={isLoading}
+						error={error}
+						title="Unidades"
+						description={`${filteredUnidades.length} unidades encontradas`}
+						onRowClick={handleRowClick}
+						emptyMessage={
+							searchTerm
+								? "Nenhuma unidade encontrada para a busca"
+								: "Nenhuma unidade cadastrada"
+						}
+						filterComponents={{
+							nome: filtroNome,
+						}}
+						manualPagination={false}
+						manualSorting={false}
+						manualFiltering={false}
+					/>
 				</div>
 			</AdminLayout>
 		</RouteGuard>

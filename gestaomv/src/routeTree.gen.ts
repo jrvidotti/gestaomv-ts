@@ -45,6 +45,9 @@ import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/e
 import { Route as AdminChecklistTemplatesNovoRouteImport } from './routes/admin/checklist/templates/novo'
 import { Route as AdminAlmoxarifadoSolicitacoesNovaRouteImport } from './routes/admin/almoxarifado/solicitacoes/nova'
 import { Route as AdminAlmoxarifadoMateriaisNovoRouteImport } from './routes/admin/almoxarifado/materiais/novo'
+import { Route as AdminCoreUsersIndexOldRouteImport } from './routes/admin/core/users/index.old'
+import { Route as AdminCoreUnidadesIndexOldRouteImport } from './routes/admin/core/unidades/index.old'
+import { Route as AdminCoreEmpresasIndexOldRouteImport } from './routes/admin/core/empresas/index.old'
 import { Route as AdminAlmoxarifadoSolicitacoesIndexOldRouteImport } from './routes/admin/almoxarifado/solicitacoes/index.old'
 import { Route as AdminAlmoxarifadoMateriaisIndexOldRouteImport } from './routes/admin/almoxarifado/materiais/index.old'
 import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/rh/departamentos/$id/index'
@@ -246,6 +249,23 @@ const AdminAlmoxarifadoMateriaisNovoRoute =
     path: '/admin/almoxarifado/materiais/novo',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminCoreUsersIndexOldRoute = AdminCoreUsersIndexOldRouteImport.update({
+  id: '/admin/core/users/index/old',
+  path: '/admin/core/users/index/old',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCoreUnidadesIndexOldRoute =
+  AdminCoreUnidadesIndexOldRouteImport.update({
+    id: '/admin/core/unidades/index/old',
+    path: '/admin/core/unidades/index/old',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminCoreEmpresasIndexOldRoute =
+  AdminCoreEmpresasIndexOldRouteImport.update({
+    id: '/admin/core/empresas/index/old',
+    path: '/admin/core/empresas/index/old',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminAlmoxarifadoSolicitacoesIndexOldRoute =
   AdminAlmoxarifadoSolicitacoesIndexOldRouteImport.update({
     id: '/admin/almoxarifado/solicitacoes/index/old',
@@ -370,6 +390,9 @@ export interface FileRoutesByFullPath {
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdIndexRoute
   '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
   '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
+  '/admin/core/empresas/index/old': typeof AdminCoreEmpresasIndexOldRoute
+  '/admin/core/unidades/index/old': typeof AdminCoreUnidadesIndexOldRoute
+  '/admin/core/users/index/old': typeof AdminCoreUsersIndexOldRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -417,6 +440,9 @@ export interface FileRoutesByTo {
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdIndexRoute
   '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
   '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
+  '/admin/core/empresas/index/old': typeof AdminCoreEmpresasIndexOldRoute
+  '/admin/core/unidades/index/old': typeof AdminCoreUnidadesIndexOldRoute
+  '/admin/core/users/index/old': typeof AdminCoreUsersIndexOldRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -465,6 +491,9 @@ export interface FileRoutesById {
   '/admin/rh/departamentos/$id/': typeof AdminRhDepartamentosIdIndexRoute
   '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
   '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
+  '/admin/core/empresas/index/old': typeof AdminCoreEmpresasIndexOldRoute
+  '/admin/core/unidades/index/old': typeof AdminCoreUnidadesIndexOldRoute
+  '/admin/core/users/index/old': typeof AdminCoreUsersIndexOldRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -514,6 +543,9 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id'
     | '/admin/almoxarifado/materiais/index/old'
     | '/admin/almoxarifado/solicitacoes/index/old'
+    | '/admin/core/empresas/index/old'
+    | '/admin/core/unidades/index/old'
+    | '/admin/core/users/index/old'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -561,6 +593,9 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id'
     | '/admin/almoxarifado/materiais/index/old'
     | '/admin/almoxarifado/solicitacoes/index/old'
+    | '/admin/core/empresas/index/old'
+    | '/admin/core/unidades/index/old'
+    | '/admin/core/users/index/old'
   id:
     | '__root__'
     | '/'
@@ -608,6 +643,9 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id/'
     | '/admin/almoxarifado/materiais/index/old'
     | '/admin/almoxarifado/solicitacoes/index/old'
+    | '/admin/core/empresas/index/old'
+    | '/admin/core/unidades/index/old'
+    | '/admin/core/users/index/old'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -656,6 +694,9 @@ export interface RootRouteChildren {
   AdminRhDepartamentosIdIndexRoute: typeof AdminRhDepartamentosIdIndexRoute
   AdminAlmoxarifadoMateriaisIndexOldRoute: typeof AdminAlmoxarifadoMateriaisIndexOldRoute
   AdminAlmoxarifadoSolicitacoesIndexOldRoute: typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
+  AdminCoreEmpresasIndexOldRoute: typeof AdminCoreEmpresasIndexOldRoute
+  AdminCoreUnidadesIndexOldRoute: typeof AdminCoreUnidadesIndexOldRoute
+  AdminCoreUsersIndexOldRoute: typeof AdminCoreUsersIndexOldRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/upload': typeof ApiUploadServerRoute
@@ -927,6 +968,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAlmoxarifadoMateriaisNovoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/core/users/index/old': {
+      id: '/admin/core/users/index/old'
+      path: '/admin/core/users/index/old'
+      fullPath: '/admin/core/users/index/old'
+      preLoaderRoute: typeof AdminCoreUsersIndexOldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/unidades/index/old': {
+      id: '/admin/core/unidades/index/old'
+      path: '/admin/core/unidades/index/old'
+      fullPath: '/admin/core/unidades/index/old'
+      preLoaderRoute: typeof AdminCoreUnidadesIndexOldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/core/empresas/index/old': {
+      id: '/admin/core/empresas/index/old'
+      path: '/admin/core/empresas/index/old'
+      fullPath: '/admin/core/empresas/index/old'
+      preLoaderRoute: typeof AdminCoreEmpresasIndexOldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/almoxarifado/solicitacoes/index/old': {
       id: '/admin/almoxarifado/solicitacoes/index/old'
       path: '/admin/almoxarifado/solicitacoes/index/old'
@@ -1085,6 +1147,9 @@ const rootRouteChildren: RootRouteChildren = {
     AdminAlmoxarifadoMateriaisIndexOldRoute,
   AdminAlmoxarifadoSolicitacoesIndexOldRoute:
     AdminAlmoxarifadoSolicitacoesIndexOldRoute,
+  AdminCoreEmpresasIndexOldRoute: AdminCoreEmpresasIndexOldRoute,
+  AdminCoreUnidadesIndexOldRoute: AdminCoreUnidadesIndexOldRoute,
+  AdminCoreUsersIndexOldRoute: AdminCoreUsersIndexOldRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

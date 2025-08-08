@@ -21,6 +21,11 @@ export type { UserRoleType } from "@/constants";
 export type User = typeof users.$inferSelect & {
 	roles: UserRoleType[];
 };
+
+export type UserWithoutPassword = Omit<User, "password"> & {
+	roles: UserRoleType[];
+};
+
 export type CriarUser = typeof users.$inferInsert & {
 	password?: string;
 };
