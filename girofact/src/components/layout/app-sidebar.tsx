@@ -48,9 +48,7 @@ export function AppSidebar() {
 	const router = useRouter();
 	const routerState = useRouterState();
 	const pathname = routerState.location.pathname;
-	const [moduloSelecionado, setModuloSelecionado] = useState<
-		string | undefined
-	>(undefined);
+	const [moduloSelecionado, setModuloSelecionado] = useState<string>("");
 
 	// Obter apenas módulos que o usuário tem acesso
 	const accessibleModules = getAccessibleModules();
@@ -72,6 +70,8 @@ export function AppSidebar() {
 				// Para módulos não reconhecidos, usar primeiro módulo disponível
 				if (accessibleModules.length > 0) {
 					setModuloSelecionado(accessibleModules[0].module);
+				} else {
+					setModuloSelecionado("");
 				}
 			}
 		}
@@ -111,17 +111,16 @@ export function AppSidebar() {
 					<Select
 						value={moduloSelecionado}
 						onValueChange={handleModuleChange}
-						disabled={moduloSelecionado === undefined}
+						disabled={!moduloSelecionado || accessibleModules.length === 0}
 					>
 						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Carregando...">
-								{moduloSelecionado === undefined ? (
+								{!moduloSelecionado ? (
 									<div className="flex items-center gap-2">
 										<Loader2 className="h-4 w-4 animate-spin" />
 										Carregando...
 									</div>
 								) : (
-									moduloSelecionado &&
 									(() => {
 										const moduloAtual = MODULES_DATA.find(
 											(m) => m.module === moduloSelecionado,
@@ -153,7 +152,7 @@ export function AppSidebar() {
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarGroupContent>
-						{moduloSelecionado === undefined ? (
+						{!moduloSelecionado ? (
 							<div className="flex items-center justify-center py-8">
 								<div className="flex flex-col items-center gap-2">
 									<Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -260,13 +259,13 @@ export function AppSidebar() {
 								sideOffset={4}
 							>
 								<DropdownMenuItem asChild>
-									<Link to="/admin/user/profile">
+									<Link to="/admin/core/profile">
 										<User />
 										Perfil
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem asChild>
-									<Link to="/admin/user/alterar-senha">
+									<Link to="/admin/core/alterar-senha">
 										<Key />
 										Alterar Senha
 									</Link>
