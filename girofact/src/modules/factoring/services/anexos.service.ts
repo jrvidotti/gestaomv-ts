@@ -22,11 +22,64 @@ export class AnexosService {
     }
   }
 
-  async listarPorEntidade(tipoEntidade: string, entidadeId: number) {
+  async listarPorCliente(clienteId: number) {
     return db.query.anexos.findMany({
       where: and(
-        eq(anexos.tipoEntidade, tipoEntidade),
-        eq(anexos.entidadeId, entidadeId),
+        eq(anexos.clienteId, clienteId),
+        eq(anexos.status, "ativo")
+      ),
+      orderBy: [desc(anexos.criadoEm)],
+      with: {
+        user: {
+          columns: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  async listarPorPessoa(pessoaId: number) {
+    return db.query.anexos.findMany({
+      where: and(
+        eq(anexos.pessoaId, pessoaId),
+        eq(anexos.status, "ativo")
+      ),
+      orderBy: [desc(anexos.criadoEm)],
+      with: {
+        user: {
+          columns: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  async listarPorOperacao(operacaoId: number) {
+    return db.query.anexos.findMany({
+      where: and(
+        eq(anexos.operacaoId, operacaoId),
+        eq(anexos.status, "ativo")
+      ),
+      orderBy: [desc(anexos.criadoEm)],
+      with: {
+        user: {
+          columns: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  async listarPorDocumento(documentoId: number) {
+    return db.query.anexos.findMany({
+      where: and(
+        eq(anexos.documentoId, documentoId),
         eq(anexos.status, "ativo")
       ),
       orderBy: [desc(anexos.criadoEm)],

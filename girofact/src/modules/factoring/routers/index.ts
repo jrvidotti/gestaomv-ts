@@ -6,6 +6,7 @@ import { operacoesRouter } from "./operacoes";
 import { documentosRouter } from "./documentos";
 import { lancamentosRouter } from "./lancamentos";
 import { relatoriosRouter } from "./relatorios";
+import { anexosRouter } from "./anexos";
 
 export const factoringRouter = createTRPCRouter({
   carteiras: carteirasRouter,
@@ -15,6 +16,7 @@ export const factoringRouter = createTRPCRouter({
   documentos: documentosRouter,
   lancamentos: lancamentosRouter,
   relatorios: relatoriosRouter,
+  anexos: anexosRouter,
 });
 
 export type FactoringRouter = typeof factoringRouter;

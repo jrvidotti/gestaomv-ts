@@ -73,7 +73,7 @@ export const MODULE_DATA: ModuleData = {
           title: "Clientes",
           url: "/admin/factoring/clientes",
           icon: Users,
-          status: MODULE_STATUS.DESENVOLVIMENTO,
+          status: MODULE_STATUS.ATIVO,
         },
         {
           title: "Carteiras",

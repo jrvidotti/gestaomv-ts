@@ -26,14 +26,15 @@ import {
 } from "@tanstack/react-table";
 import { Edit, MoreHorizontal, Search, Trash2, Eye, FileText } from "lucide-react";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 type Cliente = {
   id: number;
   pessoaId: number;
-  limiteLiquido: number | null;
-  limiteAntecipacao: number | null;
-  ativo: boolean;
+  status: "ativo" | "inativo" | "bloqueado" | "suspenso";
+  limiteCredito: number;
+  taxaJurosPadrao: number;
+  creditoAutorizado: boolean;
   criadoEm: string;
   pessoa: {
     tipoPessoa: "fisica" | "juridica";
@@ -52,7 +53,7 @@ interface ClientesTableProps {
   data: Cliente[];
   isLoading?: boolean;
   onDelete: (id: number) => void;
-  onToggleActive: (id: number, ativo: boolean) => void;
+  onToggleActive?: (id: number, ativo: boolean) => void;
 }
 
 const columnHelper = createColumnHelper<Cliente>();
@@ -64,6 +65,7 @@ export function ClientesTable({
   onToggleActive 
 }: ClientesTableProps) {
   const [globalFilter, setGlobalFilter] = useState("");
+  const navigate = useNavigate();
 
   const formatDocument = (documento: string, tipo: "fisica" | "juridica") => {
     if (tipo === "fisica") {
@@ -77,22 +79,50 @@ export function ClientesTable({
   };
 
   const formatCurrency = (value: number | null) => {
-    if (!value) return "-";
+    if (value === null || value === undefined) return "-";
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
     }).format(value);
   };
 
+  const handleRowClick = (cliente: Cliente, event: React.MouseEvent) => {
+    // Evitar navegação se o clique for na coluna de ações
+    if ((event.target as HTMLElement).closest('[data-actions]')) {
+      return;
+    }
+    
+    navigate({
+      to: "/admin/factoring/clientes/$id",
+      params: { id: cliente.id.toString() }
+    });
+  };
+
   const columns = [
-    columnHelper.display({
-      id: "status",
+    columnHelper.accessor("status", {
       header: "Status",
-      cell: (info) => (
-        <Badge variant={info.row.original.ativo ? "default" : "secondary"}>
-          {info.row.original.ativo ? "Ativo" : "Inativo"}
-        </Badge>
-      ),
+      cell: (info) => {
+        const status = info.getValue();
+        const variants = {
+          ativo: "default",
+          inativo: "secondary", 
+          bloqueado: "destructive",
+          suspenso: "outline",
+        } as const;
+        
+        const labels = {
+          ativo: "Ativo",
+          inativo: "Inativo",
+          bloqueado: "Bloqueado", 
+          suspenso: "Suspenso",
+        } as const;
+
+        return (
+          <Badge variant={variants[status] || "secondary"}>
+            {labels[status] || status}
+          </Badge>
+        );
+      },
     }),
     columnHelper.accessor("pessoa.tipoPessoa", {
       header: "Tipo",
@@ -138,19 +168,19 @@ export function ClientesTable({
         );
       },
     }),
-    columnHelper.accessor("limiteLiquido", {
-      header: "Limite Líquido",
+    columnHelper.accessor("limiteCredito", {
+      header: "Limite de Crédito",
       cell: (info) => (
         <div className="text-sm font-mono">
           {formatCurrency(info.getValue())}
         </div>
       ),
     }),
-    columnHelper.accessor("limiteAntecipacao", {
-      header: "Limite Antecipação",
+    columnHelper.accessor("taxaJurosPadrao", {
+      header: "Taxa Padrão",
       cell: (info) => (
         <div className="text-sm font-mono">
-          {formatCurrency(info.getValue())}
+          {info.getValue()}% a.m.
         </div>
       ),
     }),
@@ -177,45 +207,49 @@ export function ClientesTable({
       cell: (info) => {
         const cliente = info.row.original;
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link
-                  to="/admin/factoring/clientes/$id"
-                  params={{ id: cliente.id.toString() }}
+          <div data-actions>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/admin/factoring/clientes/$id"
+                    params={{ id: cliente.id.toString() }}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    Visualizar
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    to="/admin/factoring/clientes/$id/editar"
+                    params={{ id: cliente.id.toString() }}
+                  >
+                    <Edit className="h-4 w-4 mr-2" />
+                    Editar
+                  </Link>
+                </DropdownMenuItem>
+                {onToggleActive && (
+                  <DropdownMenuItem 
+                    onClick={() => onToggleActive(cliente.id, cliente.status !== "ativo")}
+                  >
+                    {cliente.status === "ativo" ? "Desativar" : "Ativar"}
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={() => onDelete(cliente.id)}
                 >
-                  <Eye className="h-4 w-4 mr-2" />
-                  Visualizar
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  to="/admin/factoring/clientes/$id/editar"
-                  params={{ id: cliente.id.toString() }}
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  Editar
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => onToggleActive(cliente.id, !cliente.ativo)}
-              >
-                {cliente.ativo ? "Desativar" : "Ativar"}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-red-600"
-                onClick={() => onDelete(cliente.id)}
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Excluir
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         );
       },
     }),
@@ -286,7 +320,11 @@ export function ClientesTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow 
+                  key={row.id}
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={(event) => handleRowClick(row.original, event)}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

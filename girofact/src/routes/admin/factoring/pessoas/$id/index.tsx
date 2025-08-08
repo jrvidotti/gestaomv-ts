@@ -8,7 +8,7 @@ import { ALL_ROLES } from "@/constants";
 import { useTRPC } from "@/trpc/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Edit, ArrowLeft, Mail, MapPin, Calendar } from "lucide-react";
+import { Users, Edit, ArrowLeft, Mail, MapPin, Calendar, Phone, CreditCard } from "lucide-react";
 
 export const Route = createFileRoute("/admin/factoring/pessoas/$id/")({
   component: PessoaDetailsPage,
@@ -334,14 +334,101 @@ function PessoaDetailsPage() {
             </Card>
           )}
 
+          {/* Telefones */}
+          {pessoa.telefones && pessoa.telefones.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Phone className="h-5 w-5" />
+                  Telefones
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {pessoa.telefones.map((telefone: any, index: number) => (
+                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-lg">
+                        {telefone.numero.length === 11 
+                          ? telefone.numero.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+                          : telefone.numero.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+                        }
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      {telefone.principal && (
+                        <Badge variant="default">Principal</Badge>
+                      )}
+                      {telefone.whatsapp && (
+                        <Badge variant="secondary">WhatsApp</Badge>
+                      )}
+                      {telefone.inativo && (
+                        <Badge variant="destructive">Inativo</Badge>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Dados Bancários */}
+          {pessoa.dadosBancarios && pessoa.dadosBancarios.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CreditCard className="h-5 w-5" />
+                  Dados Bancários
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {pessoa.dadosBancarios.map((dados: any, index: number) => (
+                  <div key={index} className="p-4 border rounded-lg">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Banco
+                        </label>
+                        <div className="mt-1 font-mono">{dados.banco}</div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Tipo de Conta
+                        </label>
+                        <div className="mt-1">
+                          <Badge variant={dados.tipoConta === "corrente" ? "default" : "secondary"}>
+                            {dados.tipoConta === "corrente" ? "Corrente" : "Poupança"}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Agência
+                        </label>
+                        <div className="mt-1 font-mono">{dados.agencia}</div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-muted-foreground">
+                          Conta
+                        </label>
+                        <div className="mt-1 font-mono">
+                          {dados.conta}-{dados.digitoVerificador}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Observações */}
-          {pessoa.observacoes && (
+          {pessoa.observacoesGerais && (
             <Card>
               <CardHeader>
                 <CardTitle>Observações</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="whitespace-pre-wrap">{pessoa.observacoes}</div>
+                <div className="whitespace-pre-wrap">{pessoa.observacoesGerais}</div>
               </CardContent>
             </Card>
           )}

@@ -46,13 +46,15 @@ function NovaPessoaPage() {
     },
   });
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: any, telefones: any, dadosBancarios: any) => {
     // Ajustar dados antes de enviar
     const submitData = {
       ...data,
       dataNascimentoFundacao: data.dataNascimentoFundacao 
         ? new Date(data.dataNascimentoFundacao) 
         : undefined,
+      telefones: telefones.filter((tel: any) => !tel.isNew || tel.numero), // Remove telefones vazios
+      dadosBancarios: dadosBancarios.filter((db: any) => !db.isNew || (db.banco && db.agencia && db.conta)), // Remove dados bancários vazios
     };
     createPessoa(submitData);
   };

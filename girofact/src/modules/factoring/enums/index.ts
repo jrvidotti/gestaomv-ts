@@ -84,15 +84,6 @@ export const TIPO_LANCAMENTO = {
 export type TipoLancamento =
   (typeof TIPO_LANCAMENTO)[keyof typeof TIPO_LANCAMENTO];
 
-export const TIPO_ENTIDADE_ANEXO = {
-  PESSOA: "pessoa",
-  CLIENTE: "cliente",
-  DOCUMENTO: "documento",
-  OPERACAO: "operacao",
-} as const;
-
-export type TipoEntidadeAnexo =
-  (typeof TIPO_ENTIDADE_ANEXO)[keyof typeof TIPO_ENTIDADE_ANEXO];
 
 export const TIPO_ARQUIVO = {
   DOCUMENTO: "documento",
@@ -153,9 +144,6 @@ export const TIPOS_LANCAMENTO_ARRAY = Object.values(TIPO_LANCAMENTO) as [
   TipoLancamento,
   ...TipoLancamento[],
 ];
-export const TIPOS_ENTIDADE_ANEXO_ARRAY = Object.values(
-  TIPO_ENTIDADE_ANEXO
-) as [TipoEntidadeAnexo, ...TipoEntidadeAnexo[]];
 export const TIPOS_ARQUIVO_ARRAY = Object.values(TIPO_ARQUIVO) as [
   TipoArquivo,
   ...TipoArquivo[],

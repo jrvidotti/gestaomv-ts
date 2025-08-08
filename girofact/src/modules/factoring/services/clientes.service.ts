@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { clientes, contatosReferencia, pessoas } from "../schemas";
+import { clientes, contatosReferencia, pessoas, telefones } from "../schemas";
 import type {
   CreateClienteDto,
   UpdateClienteDto,
@@ -97,7 +97,7 @@ export class ClientesService {
         pessoa: {
           with: {
             telefones: {
-              where: eq(pessoas.telefones.inativo, false),
+              where: eq(telefones.inativo, false),
             },
             dadosBancarios: true,
           },

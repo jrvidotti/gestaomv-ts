@@ -26,7 +26,7 @@ import {
 } from "@tanstack/react-table";
 import { Edit, MoreHorizontal, Search, Trash2, Eye } from "lucide-react";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 type Pessoa = {
   id: number;
@@ -48,6 +48,7 @@ const columnHelper = createColumnHelper<Pessoa>();
 
 export function PessoasTable({ data, isLoading, onDelete }: PessoasTableProps) {
   const [globalFilter, setGlobalFilter] = useState("");
+  const navigate = useNavigate();
 
   const formatDocument = (documento: string, tipo: "fisica" | "juridica") => {
     if (tipo === "fisica") {
@@ -60,6 +61,18 @@ export function PessoasTable({ data, isLoading, onDelete }: PessoasTableProps) {
         "$1.$2.$3/$4-$5",
       );
     }
+  };
+
+  const handleRowClick = (pessoa: Pessoa, event: React.MouseEvent) => {
+    // Evitar navegação se o clique for na coluna de ações
+    if ((event.target as HTMLElement).closest('[data-actions]')) {
+      return;
+    }
+    
+    navigate({
+      to: "/admin/factoring/pessoas/$id",
+      params: { id: pessoa.id.toString() }
+    });
   };
 
   const columns = [
@@ -115,40 +128,42 @@ export function PessoasTable({ data, isLoading, onDelete }: PessoasTableProps) {
       id: "actions",
       header: "Ações",
       cell: (info) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem asChild>
-              <Link
-                to="/admin/factoring/pessoas/$id"
-                params={{ id: info.row.original.id.toString() }}
+        <div data-actions>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link
+                  to="/admin/factoring/pessoas/$id"
+                  params={{ id: info.row.original.id.toString() }}
+                >
+                  <Eye className="h-4 w-4 mr-2" />
+                  Visualizar
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  to="/admin/factoring/pessoas/$id/editar"
+                  params={{ id: info.row.original.id.toString() }}
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-600"
+                onClick={() => onDelete(info.row.original.id)}
               >
-                <Eye className="h-4 w-4 mr-2" />
-                Visualizar
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link
-                to="/admin/factoring/pessoas/$id/editar"
-                params={{ id: info.row.original.id.toString() }}
-              >
-                <Edit className="h-4 w-4 mr-2" />
-                Editar
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-red-600"
-              onClick={() => onDelete(info.row.original.id)}
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Excluir
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                <Trash2 className="h-4 w-4 mr-2" />
+                Excluir
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       ),
     }),
   ];
@@ -218,7 +233,11 @@ export function PessoasTable({ data, isLoading, onDelete }: PessoasTableProps) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow 
+                  key={row.id} 
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={(event) => handleRowClick(row.original, event)}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

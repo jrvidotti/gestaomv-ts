@@ -57,7 +57,7 @@ function EditarPessoaPage() {
     },
   });
 
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: any, telefones: any, dadosBancarios: any) => {
     // Ajustar dados antes de enviar
     const submitData = {
       id: Number.parseInt(id),
@@ -65,6 +65,14 @@ function EditarPessoaPage() {
       dataNascimentoFundacao: data.dataNascimentoFundacao
         ? new Date(data.dataNascimentoFundacao)
         : undefined,
+      telefones: telefones.map((tel: any) => ({
+        ...tel,
+        id: tel.isNew ? undefined : tel.id, // Remove ID temporário para novos
+      })),
+      dadosBancarios: dadosBancarios.map((db: any) => ({
+        ...db,
+        id: db.isNew ? undefined : db.id, // Remove ID temporário para novos
+      })),
     };
     updatePessoa(submitData);
   };
@@ -145,7 +153,7 @@ function EditarPessoaPage() {
     nomeMae: pessoa.nomeMae || "",
     sexo: pessoa.sexo || "",
     email: pessoa.email || "",
-    observacoes: pessoa.observacoes || "",
+    observacoesGerais: pessoa.observacoesGerais || "",
     cep: pessoa.cep || "",
     logradouro: pessoa.logradouro || "",
     numero: pessoa.numero || "",
@@ -155,6 +163,19 @@ function EditarPessoaPage() {
     estado: pessoa.estado || "",
   };
 
+  // Preparar dados iniciais de telefones e dados bancários
+  const initialTelefones = pessoa.telefones?.map((tel: any) => ({
+    ...tel,
+    isEditing: false,
+    isNew: false,
+  })) || [];
+
+  const initialDadosBancarios = pessoa.dadosBancarios?.map((db: any) => ({
+    ...db,
+    isEditing: false,
+    isNew: false,
+  })) || [];
+
   return (
     <RouteGuard requiredRoles={[ALL_ROLES.ADMIN]}>
       <AdminLayout header={header}>
@@ -162,6 +183,8 @@ function EditarPessoaPage() {
           <PessoaForm
             mode="edit"
             initialData={initialData}
+            initialTelefones={initialTelefones}
+            initialDadosBancarios={initialDadosBancarios}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             onBuscarDocumento={handleBuscarDocumento}
