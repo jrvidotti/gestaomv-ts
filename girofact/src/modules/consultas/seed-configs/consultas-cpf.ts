@@ -1,6 +1,6 @@
 import { db } from "@/db";
-import { consultasCpf } from "@/db/schemas";
 import type { ImportExportOptions } from "@/lib/seed";
+import { consultasCpf } from "../schemas";
 
 export interface ConsultaCpfImport {
 	cpf: string;

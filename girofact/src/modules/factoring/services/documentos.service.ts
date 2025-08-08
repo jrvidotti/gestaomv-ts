@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { endOfDay, format, startOfDay } from "date-fns";
 import { and, count, desc, eq, gte, lte } from "drizzle-orm";
 import type {
@@ -17,6 +17,7 @@ import { NotFoundError, ValidationError } from "../errors";
 import { documentos, ocorrencias, operacoes } from "../schemas";
 
 export class DocumentosService {
+	constructor(private db: Db) {}
 	async compensacaoLote(data: CompensacaoLoteDto, userId: number) {
 		const {
 			documentos: documentosIds,
@@ -26,7 +27,7 @@ export class DocumentosService {
 		} = data;
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				const resultados = [];
 
 				for (const { id } of documentosIds) {
@@ -99,7 +100,7 @@ export class DocumentosService {
 		}
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Atualizar documento
 				await tx
 					.update(documentos)
@@ -150,7 +151,7 @@ export class DocumentosService {
 		}
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Atualizar documento
 				await tx
 					.update(documentos)
@@ -321,7 +322,7 @@ export class DocumentosService {
 		}
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Atualizar documento
 				await tx
 					.update(documentos)
@@ -373,7 +374,7 @@ export class DocumentosService {
 		}
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Atualizar documento
 				await tx
 					.update(documentos)
@@ -483,7 +484,7 @@ export class DocumentosService {
 					chave = doc.operacao.cliente.id.toString();
 					label = doc.operacao.cliente.pessoa.nomeRazaoSocial;
 					break;
-				case "vencimento":
+				case "vencimento": {
 					const diasVencimento = this.calcularDiasVencimento(
 						doc.dataVencimento,
 						dataReferencia,
@@ -491,6 +492,7 @@ export class DocumentosService {
 					chave = this.getFaixaVencimento(diasVencimento);
 					label = chave;
 					break;
+				}
 				default:
 					chave = "todos";
 					label = "Todos os documentos";

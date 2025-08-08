@@ -1,9 +1,10 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { endOfDay, format, startOfDay } from "date-fns";
 import { and, count, eq, gte, lte, sum } from "drizzle-orm";
 import { clientes, documentos, lancamentos, operacoes } from "../schemas";
 
 export class RelatoriosService {
+	constructor(private db: Db) {}
 	async dashboardExecutivo(dataInicio: Date, dataFim: Date) {
 		const periodo = and(
 			gte(operacoes.criadoEm, startOfDay(dataInicio).toISOString()),
@@ -11,30 +12,30 @@ export class RelatoriosService {
 		);
 
 		// Volume operado
-		const volumeOperado = await db
+		const volumeOperado = await this.db
 			.select({ total: sum(operacoes.valorLiquido) })
 			.from(operacoes)
 			.where(periodo);
 
 		// Total de operações
-		const totalOperacoes = await db
+		const totalOperacoes = await this.db
 			.select({ count: count() })
 			.from(operacoes)
 			.where(periodo);
 
 		// Clientes ativos (que fizeram operações no período)
-		const clientesAtivos = await db
+		const clientesAtivos = await this.db
 			.selectDistinct({ clienteId: operacoes.clienteId })
 			.from(operacoes)
 			.where(periodo);
 
 		// Taxa de inadimplência (documentos devolvidos vs total)
-		const documentosDevolvidos = await db
+		const documentosDevolvidos = await this.db
 			.select({ count: count() })
 			.from(documentos)
 			.where(eq(documentos.foiDevolvido, true));
 
-		const totalDocumentos = await db
+		const totalDocumentos = await this.db
 			.select({ count: count() })
 			.from(documentos);
 
@@ -51,7 +52,7 @@ export class RelatoriosService {
 	}
 
 	async posicaoDocumentos(dataReferencia: Date) {
-		const documentosPendentes = await db
+		const documentosPendentes = await this.db
 			.select({
 				count: count(),
 				valor: sum(documentos.valorDocumento),
@@ -59,7 +60,7 @@ export class RelatoriosService {
 			.from(documentos)
 			.where(eq(documentos.status, "pendente"));
 
-		const documentosCompensados = await db
+		const documentosCompensados = await this.db
 			.select({
 				count: count(),
 				valor: sum(documentos.valorDocumento),
@@ -67,7 +68,7 @@ export class RelatoriosService {
 			.from(documentos)
 			.where(eq(documentos.status, "compensado"));
 
-		const documentosDevolvidos = await db
+		const documentosDevolvidos = await this.db
 			.select({
 				count: count(),
 				valor: sum(documentos.valorDocumento),
@@ -92,17 +93,17 @@ export class RelatoriosService {
 	}
 
 	async carteiraClientes() {
-		const clientesAtivos = await db
+		const clientesAtivos = await this.db
 			.select({ count: count() })
 			.from(clientes)
 			.where(eq(clientes.status, "ativo"));
 
-		const clientesBloqueados = await db
+		const clientesBloqueados = await this.db
 			.select({ count: count() })
 			.from(clientes)
 			.where(eq(clientes.status, "bloqueado"));
 
-		const limiteTotal = await db
+		const limiteTotal = await this.db
 			.select({ total: sum(clientes.limiteCredito) })
 			.from(clientes)
 			.where(eq(clientes.creditoAutorizado, true));

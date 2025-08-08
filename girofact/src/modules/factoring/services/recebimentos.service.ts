@@ -1,12 +1,13 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { desc, eq } from "drizzle-orm";
 import { TIPO_LANCAMENTO } from "../enums";
 import { lancamentos, recebimentos } from "../schemas";
 
 export class RecebimentosService {
+	constructor(private db: Db) {}
 	async criar(data: any, userId: number) {
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Criar recebimento
 				const [recebimento] = await tx
 					.insert(recebimentos)
@@ -38,7 +39,7 @@ export class RecebimentosService {
 	}
 
 	async listarPorCliente(clienteId: number) {
-		return db.query.recebimentos.findMany({
+		return this.db.query.recebimentos.findMany({
 			where: eq(recebimentos.clienteId, clienteId),
 			orderBy: [desc(recebimentos.dataRecebimento)],
 			with: {

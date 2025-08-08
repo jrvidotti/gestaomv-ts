@@ -79,7 +79,11 @@ interface PessoaFormProps {
 	isLoading?: boolean;
 	mode: "create" | "edit";
 	onBuscarCep?: (cep: string) => void;
-	onBuscarDocumento?: (documento: string) => void;
+	onBuscarDocumento?: (
+		documento: string,
+		onSuccess?: (dados: any) => void,
+	) => void;
+	isLoadingBusca?: boolean;
 }
 
 export function PessoaForm({
@@ -92,6 +96,7 @@ export function PessoaForm({
 	mode,
 	onBuscarCep,
 	onBuscarDocumento,
+	isLoadingBusca,
 }: PessoaFormProps) {
 	const [telefones, setTelefones] = useState<TelefoneEdit[]>(initialTelefones);
 	const [dadosBancarios, setDadosBancarios] = useState<DadoBancarioEdit[]>(
@@ -156,7 +161,20 @@ export function PessoaForm({
 	const handleBuscarDocumento = () => {
 		const documento = form.getValues("documento");
 		if (documento && onBuscarDocumento) {
-			onBuscarDocumento(documento);
+			onBuscarDocumento(documento, (dados) => {
+				// Preencher formulário com os dados encontrados
+				form.reset({
+					...dados,
+					dataNascimentoFundacao: dados.dataNascimentoFundacao
+						? dados.dataNascimentoFundacao.toISOString().split("T")[0]
+						: "",
+				});
+
+				// Preencher telefones se existirem
+				if (dados.telefones && dados.telefones.length > 0) {
+					setTelefones(dados.telefones);
+				}
+			});
 		}
 	};
 
@@ -257,8 +275,9 @@ export function PessoaForm({
 																		size="sm"
 																		onClick={handleBuscarDocumento}
 																		className="absolute right-1 top-1 h-8 px-3"
+																		disabled={isLoadingBusca}
 																	>
-																		Buscar
+																		{isLoadingBusca ? "Buscando..." : "Buscar"}
 																	</Button>
 																)}
 															</div>

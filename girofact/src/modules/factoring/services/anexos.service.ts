@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { storageService } from "@/modules/core/services";
 import { and, desc, eq } from "drizzle-orm";
 import type { UploadAnexoInput } from "../dtos/anexos.dto";
@@ -6,9 +6,10 @@ import { NotFoundError } from "../errors";
 import { anexos } from "../schemas";
 
 export class AnexosService {
+	constructor(private db: Db) {}
 	async criar(data: any, userId: number) {
 		try {
-			const [anexo] = await db
+			const [anexo] = await this.db
 				.insert(anexos)
 				.values({
 					...data,
@@ -25,7 +26,7 @@ export class AnexosService {
 	}
 
 	async listarPorCliente(clienteId: number) {
-		return db.query.anexos.findMany({
+		return this.db.query.anexos.findMany({
 			where: and(eq(anexos.clienteId, clienteId), eq(anexos.status, "ativo")),
 			orderBy: [desc(anexos.criadoEm)],
 			with: {
@@ -40,7 +41,7 @@ export class AnexosService {
 	}
 
 	async listarPorPessoa(pessoaId: number) {
-		return db.query.anexos.findMany({
+		return this.db.query.anexos.findMany({
 			where: and(eq(anexos.pessoaId, pessoaId), eq(anexos.status, "ativo")),
 			orderBy: [desc(anexos.criadoEm)],
 			with: {
@@ -55,7 +56,7 @@ export class AnexosService {
 	}
 
 	async listarPorOperacao(operacaoId: number) {
-		return db.query.anexos.findMany({
+		return this.db.query.anexos.findMany({
 			where: and(eq(anexos.operacaoId, operacaoId), eq(anexos.status, "ativo")),
 			orderBy: [desc(anexos.criadoEm)],
 			with: {
@@ -70,7 +71,7 @@ export class AnexosService {
 	}
 
 	async listarPorDocumento(documentoId: number) {
-		return db.query.anexos.findMany({
+		return this.db.query.anexos.findMany({
 			where: and(
 				eq(anexos.documentoId, documentoId),
 				eq(anexos.status, "ativo"),
@@ -100,7 +101,7 @@ export class AnexosService {
 			);
 
 			// Criar registro no banco de dados
-			const [anexo] = await db
+			const [anexo] = await this.db
 				.insert(anexos)
 				.values({
 					pessoaId: data.pessoaId,
@@ -127,7 +128,7 @@ export class AnexosService {
 	}
 
 	async arquivar(id: number) {
-		const anexo = await db.query.anexos.findFirst({
+		const anexo = await this.this.db.query.anexos.findFirst({
 			where: eq(anexos.id, id),
 		});
 
@@ -135,7 +136,7 @@ export class AnexosService {
 			throw new NotFoundError("Anexo não encontrado");
 		}
 
-		const [updated] = await db
+		const [updated] = await this.db
 			.update(anexos)
 			.set({
 				status: "arquivado",

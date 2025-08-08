@@ -1,12 +1,13 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { desc, eq } from "drizzle-orm";
 import { STATUS_DOCUMENTO, TIPO_LANCAMENTO, TIPO_OCORRENCIA } from "../enums";
 import { NotFoundError } from "../errors";
 import { documentos, lancamentos, ocorrencias } from "../schemas";
 
 export class OcorrenciasService {
+	constructor(private db: Db) {}
 	async listarPorDocumento(documentoId: number) {
-		return db.query.ocorrencias.findMany({
+		return this.db.query.ocorrencias.findMany({
 			where: eq(ocorrencias.documentoId, documentoId),
 			orderBy: [desc(ocorrencias.dataOcorrencia)],
 			with: {

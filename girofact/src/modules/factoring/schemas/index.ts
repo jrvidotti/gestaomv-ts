@@ -7,4 +7,3 @@ export * from "./ocorrencias";
 export * from "./lancamentos";
 export * from "./recebimentos";
 export * from "./anexos";
-export * from "./consultas-cpf";

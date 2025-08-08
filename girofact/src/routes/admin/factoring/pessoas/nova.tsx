@@ -35,16 +35,31 @@ function NovaPessoaPage() {
 	});
 
 	// Buscar dados por documento (API Direct Data)
-	const { mutate: buscarPorDocumento } = useMutation({
-		...trpc.factoring.pessoas.buscarPorCpfCnpj.mutationOptions(),
-		onSuccess: (data) => {
-			toast.success("Dados encontrados! Preenchendo formulário...");
-			// Aqui você pode preencher o formulário com os dados retornados
+	const { mutate: buscarPorDocumento, isPending: isLoadingBusca } = useMutation(
+		{
+			...trpc.factoring.pessoas.buscarPorCpfCnpj.mutationOptions(),
+			onSuccess: (resultado: any) => {
+				if (resultado.fonte === "banco_local") {
+					toast.info("Pessoa já cadastrada no sistema");
+				} else if (resultado.fonte === "api_direct_data" && resultado.dados) {
+					toast.success("Dados encontrados! Preenchendo formulário...");
+					// Os dados serão preenchidos via callback no componente PessoaForm
+				} else if (resultado.fonte === "cache" && resultado.dados) {
+					toast.success(
+						"Dados encontrados no cache! Preenchendo formulário...",
+					);
+					// Os dados serão preenchidos via callback no componente PessoaForm
+				} else if (resultado.fonte === "nao_encontrado") {
+					toast.warning(resultado.mensagem || "Dados não encontrados");
+				} else if (resultado.fonte === "erro") {
+					toast.error(resultado.mensagem || "Erro ao buscar dados");
+				}
+			},
+			onError: (error) => {
+				toast.error(`Erro ao buscar documento: ${error.message}`);
+			},
 		},
-		onError: (error) => {
-			toast.error(`Erro ao buscar documento: ${error.message}`);
-		},
-	});
+	);
 
 	const handleSubmit = (data: any, telefones: any, dadosBancarios: any) => {
 		// Ajustar dados antes de enviar
@@ -67,8 +82,26 @@ function NovaPessoaPage() {
 		});
 	};
 
-	const handleBuscarDocumento = (documento: string) => {
-		buscarPorDocumento({ documento });
+	const handleBuscarDocumento = (
+		documento: string,
+		onSuccess?: (dados: any) => void,
+	) => {
+		buscarPorDocumento(
+			{ documento },
+			{
+				onSuccess: (resultado: any) => {
+					if (
+						(resultado.fonte === "api_direct_data" ||
+							resultado.fonte === "cache") &&
+						resultado.dados &&
+						onSuccess
+					) {
+						// Chamar callback para preencher formulário
+						onSuccess(resultado.dados);
+					}
+				},
+			},
+		);
 	};
 
 	const header = (
@@ -97,6 +130,7 @@ function NovaPessoaPage() {
 						onCancel={handleCancel}
 						onBuscarDocumento={handleBuscarDocumento}
 						isLoading={isPending}
+						isLoadingBusca={isLoadingBusca}
 					/>
 				</div>
 			</AdminLayout>

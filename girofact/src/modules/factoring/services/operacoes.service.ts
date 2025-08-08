@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { and, count, desc, eq, gte, like, lte } from "drizzle-orm";
 import { calculosFinanceiros } from ".";
 import type {
@@ -21,11 +21,12 @@ import {
 import { clientes, documentos, operacoes } from "../schemas";
 
 export class OperacoesService {
+	constructor(private db: Db) {}
 	async upsertOperacao(data: UpsertOperacaoDto, userId: number) {
 		const { uid, clienteId, taxaJuros, observacoes } = data;
 
 		// Verificar se cliente existe e tem crédito autorizado
-		const cliente = await db.query.clientes.findFirst({
+		const cliente = await this.this.db.query.clientes.findFirst({
 			where: eq(clientes.id, clienteId),
 		});
 
@@ -39,7 +40,7 @@ export class OperacoesService {
 
 		try {
 			// Verificar se operação já existe (upsert)
-			const operacaoExistente = await db.query.operacoes.findFirst({
+			const operacaoExistente = await this.this.db.query.operacoes.findFirst({
 				where: eq(operacoes.uid, uid),
 			});
 
@@ -88,7 +89,7 @@ export class OperacoesService {
 		const { uidOperacao, uidDocumento, ...documentoData } = data;
 
 		// Verificar se operação existe e está em rascunho
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, uidOperacao),
 		});
 
@@ -104,7 +105,7 @@ export class OperacoesService {
 
 		try {
 			// Verificar se documento já existe (upsert)
-			const documentoExistente = await db.query.documentos.findFirst({
+			const documentoExistente = await this.this.db.query.documentos.findFirst({
 				where: eq(documentos.uid, uidDocumento),
 			});
 
@@ -146,7 +147,7 @@ export class OperacoesService {
 		const { uidOperacao, uidDocumento } = data;
 
 		// Verificar se operação está em rascunho
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, uidOperacao),
 		});
 
@@ -161,7 +162,7 @@ export class OperacoesService {
 		}
 
 		try {
-			await db.delete(documentos).where(eq(documentos.uid, uidDocumento));
+			await this.db.delete(documentos).where(eq(documentos.uid, uidDocumento));
 			return { success: true, message: "Documento removido com sucesso" };
 		} catch (error) {
 			throw new Error(
@@ -173,7 +174,7 @@ export class OperacoesService {
 	async efetivarOperacao(data: EfetivarOperacaoDto, userId: number) {
 		const { uid, status } = data;
 
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, uid),
 			with: {
 				documentos: true,
@@ -270,7 +271,7 @@ export class OperacoesService {
 	async cancelarOperacao(data: CancelarOperacaoDto) {
 		const { uid, observacoes } = data;
 
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, uid),
 			with: {
 				documentos: true,
@@ -320,7 +321,7 @@ export class OperacoesService {
 	async liquidarOperacao(data: LiquidarOperacaoDto) {
 		const { uid, dataPagamento, carteiraId, observacoes } = data;
 
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, uid),
 		});
 
@@ -358,7 +359,7 @@ export class OperacoesService {
 	}
 
 	async findByUid(data: FindOperacaoDto) {
-		const operacao = await db.query.operacoes.findFirst({
+		const operacao = await this.this.db.query.operacoes.findFirst({
 			where: eq(operacoes.uid, data.uid),
 			with: {
 				cliente: {
@@ -447,7 +448,7 @@ export class OperacoesService {
 
 		// Buscar dados paginados
 		const [data_result, total_result] = await Promise.all([
-			db.query.operacoes.findMany({
+			this.db.query.operacoes.findMany({
 				where: whereClause,
 				orderBy: [desc(operacoes.criadoEm)],
 				limit,
@@ -473,7 +474,7 @@ export class OperacoesService {
 					},
 				},
 			}),
-			db
+			this.db
 				.select({ count: count() })
 				.from(operacoes)
 				.where(whereClause)

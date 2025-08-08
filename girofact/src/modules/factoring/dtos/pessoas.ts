@@ -7,13 +7,18 @@ const enderecoSchema = z.object({
 	cep: z
 		.string()
 		.regex(/^\d{5}-?\d{3}$/, "CEP deve ter 8 dígitos")
-		.optional(),
+		.optional()
+		.or(z.literal("").transform(() => undefined)),
 	logradouro: z.string().optional(),
 	numero: z.string().optional(),
 	complemento: z.string().optional(),
 	bairro: z.string().optional(),
 	cidade: z.string().optional(),
-	estado: z.string().length(2, "Estado deve ter 2 caracteres").optional(),
+	estado: z
+		.string()
+		.length(2, "Estado deve ter 2 caracteres")
+		.optional()
+		.or(z.literal("").transform(() => undefined)),
 });
 
 // Schema para telefone
@@ -45,7 +50,11 @@ export const createPessoaSchema = z
 		inscricaoMunicipal: z.string().optional(),
 		nomeMae: z.string().optional(),
 		sexo: z.enum(["masculino", "feminino"]).optional(),
-		email: z.email("E-mail inválido").optional(),
+		email: z
+			.string()
+			.email("E-mail inválido")
+			.optional()
+			.or(z.literal("").transform(() => undefined)),
 		...enderecoSchema.shape,
 		observacoesGerais: z.string().optional(),
 		telefones: z

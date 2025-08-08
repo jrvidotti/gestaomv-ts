@@ -1,3 +1,5 @@
+import { db } from "@/db";
+import { directDataService, viaCepService } from "@/modules/consultas/services";
 import { AnexosService } from "./anexos.service";
 import { CalculosFinanceirosService } from "./calculos-financeiros.service";
 import { CarteirasService } from "./carteiras.service";
@@ -9,20 +11,23 @@ import { OperacoesService } from "./operacoes.service";
 import { PessoasService } from "./pessoas.service";
 import { RecebimentosService } from "./recebimentos.service";
 import { RelatoriosService } from "./relatorios.service";
-import { db } from "@/db";
 
 // Singletons dos services
 export const calculosFinanceiros = new CalculosFinanceirosService();
-export const carteirasService = new CarteirasService();
-export const pessoasService = new PessoasService(db);
-export const clientesService = new ClientesService();
-export const operacoesService = new OperacoesService();
-export const documentosService = new DocumentosService();
-export const ocorrenciasService = new OcorrenciasService();
-export const lancamentosService = new LancamentosService();
-export const recebimentosService = new RecebimentosService();
-export const anexosService = new AnexosService();
-export const relatoriosService = new RelatoriosService();
+export const carteirasService = new CarteirasService(db);
+export const pessoasService = new PessoasService(
+	db,
+	directDataService,
+	viaCepService,
+);
+export const clientesService = new ClientesService(db);
+export const operacoesService = new OperacoesService(db);
+export const documentosService = new DocumentosService(db);
+export const ocorrenciasService = new OcorrenciasService(db);
+export const lancamentosService = new LancamentosService(db);
+export const recebimentosService = new RecebimentosService(db);
+export const anexosService = new AnexosService(db);
+export const relatoriosService = new RelatoriosService(db);
 
 // Exports das classes
 export * from "./calculos-financeiros.service";

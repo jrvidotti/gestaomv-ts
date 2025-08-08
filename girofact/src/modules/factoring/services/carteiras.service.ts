@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { and, count, desc, eq, like } from "drizzle-orm";
 import type {
 	CreateCarteiraDto,
@@ -11,9 +11,10 @@ import { NotFoundError, PreconditionFailedError } from "../errors";
 import { carteiras } from "../schemas";
 
 export class CarteirasService {
+	constructor(private db: Db) {}
 	async create(data: CreateCarteiraDto, userId: number) {
 		try {
-			const [carteira] = await db
+			const [carteira] = await this.db
 				.insert(carteiras)
 				.values({
 					...data,
@@ -30,7 +31,7 @@ export class CarteirasService {
 	}
 
 	async findById(data: FindCarteiraDto, userId: number) {
-		const carteira = await db.query.carteiras.findFirst({
+		const carteira = await this.this.db.query.carteiras.findFirst({
 			where: and(eq(carteiras.id, data.id), eq(carteiras.userId, userId)),
 			with: {
 				user: {
@@ -75,7 +76,7 @@ export class CarteirasService {
 
 		// Buscar dados paginados
 		const [data_result, total_result] = await Promise.all([
-			db.query.carteiras.findMany({
+			this.db.query.carteiras.findMany({
 				where: whereClause,
 				orderBy: [desc(carteiras.criadoEm)],
 				limit,
@@ -119,7 +120,7 @@ export class CarteirasService {
 		await this.findById({ id }, userId);
 
 		try {
-			const [updatedCarteira] = await db
+			const [updatedCarteira] = await this.db
 				.update(carteiras)
 				.set({
 					...atualizadoEma,
@@ -142,7 +143,7 @@ export class CarteirasService {
 
 		try {
 			// TODO: Verificar se há operações vinculadas antes de deletar
-			await db
+			await this.db
 				.delete(carteiras)
 				.where(and(eq(carteiras.id, data.id), eq(carteiras.userId, userId)));
 
@@ -161,7 +162,7 @@ export class CarteirasService {
 	}
 
 	async listByUser(userId: number) {
-		return db.query.carteiras.findMany({
+		return this.db.query.carteiras.findMany({
 			where: eq(carteiras.userId, userId),
 			orderBy: [desc(carteiras.criadoEm)],
 		});

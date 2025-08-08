@@ -15,6 +15,20 @@
 			"when": 1754657619590,
 			"tag": "0001_fluffy_flatman",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1754679353091,
+			"tag": "0002_equal_nextwave",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "6",
+			"when": 1754681981843,
+			"tag": "0003_fearless_mariko_yashida",
+			"breakpoints": true
 		}
 	]
 }

@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { format } from "date-fns";
 import { and, count, desc, eq, like, or } from "drizzle-orm";
 import type {
@@ -19,11 +19,12 @@ import {
 import { clientes, contatosReferencia, pessoas, telefones } from "../schemas";
 
 export class ClientesService {
+	constructor(private db: Db) {}
 	async create(data: CreateClienteDto, userId: number) {
 		const { contatosReferencia: contatosData, ...clienteData } = data;
 
 		// Verificar se a pessoa existe
-		const pessoa = await db.query.pessoas.findFirst({
+		const pessoa = await this.db.query.pessoas.findFirst({
 			where: eq(pessoas.id, data.pessoaId),
 		});
 
@@ -32,7 +33,7 @@ export class ClientesService {
 		}
 
 		// Verificar se já existe cliente para esta pessoa
-		const existingCliente = await db.query.clientes.findFirst({
+		const existingCliente = await this.db.query.clientes.findFirst({
 			where: eq(clientes.pessoaId, data.pessoaId),
 		});
 
@@ -50,7 +51,7 @@ export class ClientesService {
 		}
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Inserir cliente
 				const [cliente] = await tx
 					.insert(clientes)
@@ -91,7 +92,7 @@ export class ClientesService {
 	}
 
 	async findById(data: FindClienteDto) {
-		const cliente = await db.query.clientes.findFirst({
+		const cliente = await this.db.query.clientes.findFirst({
 			where: eq(clientes.id, data.id),
 			with: {
 				pessoa: {
@@ -161,7 +162,7 @@ export class ClientesService {
 		const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
 		// Query base com joins
-		let query = db
+		let query = this.db
 			.select({
 				cliente: clientes,
 				pessoa: {
@@ -195,7 +196,7 @@ export class ClientesService {
 		// Buscar dados paginados e total
 		const [data_result, total_result] = await Promise.all([
 			query.orderBy(desc(clientes.criadoEm)).limit(limit).offset(offset),
-			db
+			this.db
 				.select({ count: count() })
 				.from(clientes)
 				.innerJoin(pessoas, eq(clientes.pessoaId, pessoas.id))
@@ -247,7 +248,7 @@ export class ClientesService {
 		const clienteExistente = await this.findById({ id });
 
 		try {
-			return await db.transaction(async (tx) => {
+			return await this.db.transaction(async (tx) => {
 				// Atualizar cliente
 				const [updatedCliente] = await tx
 					.update(clientes)
@@ -291,7 +292,7 @@ export class ClientesService {
 
 		try {
 			// TODO: Verificar se há operações vinculadas antes de deletar
-			await db.delete(clientes).where(eq(clientes.id, data.id));
+			await this.db.delete(clientes).where(eq(clientes.id, data.id));
 
 			return { success: true, message: "Cliente excluído com sucesso" };
 		} catch (error) {
@@ -336,7 +337,7 @@ export class ClientesService {
 		];
 
 		try {
-			const [updatedCliente] = await db
+			const [updatedCliente] = await this.db
 				.update(clientes)
 				.set({
 					limiteCredito: novoLimite,
@@ -374,7 +375,7 @@ export class ClientesService {
 	}
 
 	async buscarClientesComLimiteDisponivel(limiteMinimo = 0) {
-		return db.query.clientes.findMany({
+		return this.db.query.clientes.findMany({
 			where: and(
 				eq(clientes.creditoAutorizado, true),
 				// TODO: Adicionar condição para limite disponível > limiteMinimo

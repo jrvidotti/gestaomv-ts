@@ -1,10 +1,11 @@
-import { db } from "@/db";
+import type { Db } from "@/db";
 import { format } from "date-fns";
 import { and, desc, eq, gte, lte, sum } from "drizzle-orm";
 import type { PaginatedResponse } from "../dtos";
 import { lancamentos } from "../schemas";
 
 export class LancamentosService {
+	constructor(private db: Db) {}
 	async extratoCliente(clienteId: number, dataInicio?: Date, dataFim?: Date) {
 		const conditions = [eq(lancamentos.clienteId, clienteId)];
 
@@ -15,7 +16,7 @@ export class LancamentosService {
 		if (dataFim)
 			conditions.push(lte(lancamentos.dataLancamento, dataFim.toISOString()));
 
-		return db.query.lancamentos.findMany({
+		return this.db.query.lancamentos.findMany({
 			where: and(...conditions),
 			orderBy: [desc(lancamentos.dataLancamento)],
 			with: {
@@ -32,7 +33,7 @@ export class LancamentosService {
 	}
 
 	async obterSaldoCliente(clienteId: number): Promise<number> {
-		const result = await db
+		const result = await this.db
 			.select({
 				entradas: sum(lancamentos.valorLancamento),
 			})
@@ -46,7 +47,7 @@ export class LancamentosService {
 
 		const entradas = result[0]?.entradas || 0;
 
-		const resultSaidas = await db
+		const resultSaidas = await this.db
 			.select({
 				saidas: sum(lancamentos.valorLancamento),
 			})
