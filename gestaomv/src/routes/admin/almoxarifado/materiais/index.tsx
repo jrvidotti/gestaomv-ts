@@ -2,7 +2,6 @@ import { RouteGuard } from "@/components/auth/route-guard";
 import { DataTable, useDataTable } from "@/components/data-table";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
-import { LookupSelect } from "@/components/lookup-select";
 import { Thumbnail } from "@/components/thumbnail";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,7 +35,6 @@ import {
 	Package,
 	Pencil,
 	Plus,
-	Search,
 	Trash2,
 } from "lucide-react";
 import { useState } from "react";
@@ -76,8 +74,9 @@ function RouteComponent() {
 	const { data, isLoading, refetch } = useQuery(
 		trpc.almoxarifado.materiais.listar.queryOptions(filtros),
 	);
-	const { data: tiposMaterialData, isLoading: isLoadingTiposMaterial } =
-		useQuery(trpc.almoxarifado.materiais.listarTiposMaterial.queryOptions());
+	const { data: tiposMaterialData } = useQuery(
+		trpc.almoxarifado.materiais.listarTiposMaterial.queryOptions(),
+	);
 
 	// Configuração do hook de data table
 	const dataTable = useDataTable({
@@ -230,16 +229,6 @@ function RouteComponent() {
 	};
 
 	// Handlers dos filtros
-	const handleBuscaFilter = (value: string) => {
-		navigate({
-			to: "/admin/almoxarifado/materiais",
-			search: {
-				...filtrosUrl,
-				busca: value || undefined,
-				pagina: 1,
-			},
-		});
-	};
 
 	const handleTipoFilter = (value: string) => {
 		navigate({
@@ -261,17 +250,14 @@ function RouteComponent() {
 
 	// Componentes de filtro
 	const filtroBusca = (
-		<div className="relative">
-			<Search className="h-4 w-4 absolute left-3 top-2 text-muted-foreground" />
-			<Input
-				placeholder="Buscar por nome ou descrição..."
-				value={busca}
-				onChange={(e) => setBusca(e.target.value)}
-				className={cn("h-8 pl-9 w-full", {
-					"bg-accent": filtrosUrl.busca,
-				})}
-			/>
-		</div>
+		<Input
+			placeholder="Buscar por nome ou descrição..."
+			value={busca}
+			onChange={(e) => setBusca(e.target.value)}
+			className={cn("h-8 w-full", {
+				"bg-accent": filtrosUrl.busca,
+			})}
+		/>
 	);
 
 	const filtroTipo = (

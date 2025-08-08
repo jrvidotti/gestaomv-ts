@@ -45,6 +45,8 @@ import { Route as AdminCoreEmpresasNovaRouteImport } from './routes/admin/core/e
 import { Route as AdminChecklistTemplatesNovoRouteImport } from './routes/admin/checklist/templates/novo'
 import { Route as AdminAlmoxarifadoSolicitacoesNovaRouteImport } from './routes/admin/almoxarifado/solicitacoes/nova'
 import { Route as AdminAlmoxarifadoMateriaisNovoRouteImport } from './routes/admin/almoxarifado/materiais/novo'
+import { Route as AdminAlmoxarifadoSolicitacoesIndexOldRouteImport } from './routes/admin/almoxarifado/solicitacoes/index.old'
+import { Route as AdminAlmoxarifadoMateriaisIndexOldRouteImport } from './routes/admin/almoxarifado/materiais/index.old'
 import { Route as AdminRhDepartamentosIdIndexRouteImport } from './routes/admin/rh/departamentos/$id/index'
 import { Route as AdminAlmoxarifadoSolicitacoesIdIndexRouteImport } from './routes/admin/almoxarifado/solicitacoes/$id/index'
 import { Route as AdminRhDepartamentosIdEditRouteImport } from './routes/admin/rh/departamentos/$id/edit'
@@ -244,6 +246,18 @@ const AdminAlmoxarifadoMateriaisNovoRoute =
     path: '/admin/almoxarifado/materiais/novo',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminAlmoxarifadoSolicitacoesIndexOldRoute =
+  AdminAlmoxarifadoSolicitacoesIndexOldRouteImport.update({
+    id: '/admin/almoxarifado/solicitacoes/index/old',
+    path: '/admin/almoxarifado/solicitacoes/index/old',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminAlmoxarifadoMateriaisIndexOldRoute =
+  AdminAlmoxarifadoMateriaisIndexOldRouteImport.update({
+    id: '/admin/almoxarifado/materiais/index/old',
+    path: '/admin/almoxarifado/materiais/index/old',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminRhDepartamentosIdIndexRoute =
   AdminRhDepartamentosIdIndexRouteImport.update({
     id: '/admin/rh/departamentos/$id/',
@@ -354,6 +368,8 @@ export interface FileRoutesByFullPath {
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
   '/admin/almoxarifado/solicitacoes/$id': typeof AdminAlmoxarifadoSolicitacoesIdIndexRoute
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdIndexRoute
+  '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
+  '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -399,6 +415,8 @@ export interface FileRoutesByTo {
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
   '/admin/almoxarifado/solicitacoes/$id': typeof AdminAlmoxarifadoSolicitacoesIdIndexRoute
   '/admin/rh/departamentos/$id': typeof AdminRhDepartamentosIdIndexRoute
+  '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
+  '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -445,6 +463,8 @@ export interface FileRoutesById {
   '/admin/rh/departamentos/$id/edit': typeof AdminRhDepartamentosIdEditRoute
   '/admin/almoxarifado/solicitacoes/$id/': typeof AdminAlmoxarifadoSolicitacoesIdIndexRoute
   '/admin/rh/departamentos/$id/': typeof AdminRhDepartamentosIdIndexRoute
+  '/admin/almoxarifado/materiais/index/old': typeof AdminAlmoxarifadoMateriaisIndexOldRoute
+  '/admin/almoxarifado/solicitacoes/index/old': typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -492,6 +512,8 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id/edit'
     | '/admin/almoxarifado/solicitacoes/$id'
     | '/admin/rh/departamentos/$id'
+    | '/admin/almoxarifado/materiais/index/old'
+    | '/admin/almoxarifado/solicitacoes/index/old'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -537,6 +559,8 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id/edit'
     | '/admin/almoxarifado/solicitacoes/$id'
     | '/admin/rh/departamentos/$id'
+    | '/admin/almoxarifado/materiais/index/old'
+    | '/admin/almoxarifado/solicitacoes/index/old'
   id:
     | '__root__'
     | '/'
@@ -582,6 +606,8 @@ export interface FileRouteTypes {
     | '/admin/rh/departamentos/$id/edit'
     | '/admin/almoxarifado/solicitacoes/$id/'
     | '/admin/rh/departamentos/$id/'
+    | '/admin/almoxarifado/materiais/index/old'
+    | '/admin/almoxarifado/solicitacoes/index/old'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -628,6 +654,8 @@ export interface RootRouteChildren {
   AdminRhDepartamentosIdEditRoute: typeof AdminRhDepartamentosIdEditRoute
   AdminAlmoxarifadoSolicitacoesIdIndexRoute: typeof AdminAlmoxarifadoSolicitacoesIdIndexRoute
   AdminRhDepartamentosIdIndexRoute: typeof AdminRhDepartamentosIdIndexRoute
+  AdminAlmoxarifadoMateriaisIndexOldRoute: typeof AdminAlmoxarifadoMateriaisIndexOldRoute
+  AdminAlmoxarifadoSolicitacoesIndexOldRoute: typeof AdminAlmoxarifadoSolicitacoesIndexOldRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/upload': typeof ApiUploadServerRoute
@@ -899,6 +927,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAlmoxarifadoMateriaisNovoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/almoxarifado/solicitacoes/index/old': {
+      id: '/admin/almoxarifado/solicitacoes/index/old'
+      path: '/admin/almoxarifado/solicitacoes/index/old'
+      fullPath: '/admin/almoxarifado/solicitacoes/index/old'
+      preLoaderRoute: typeof AdminAlmoxarifadoSolicitacoesIndexOldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/almoxarifado/materiais/index/old': {
+      id: '/admin/almoxarifado/materiais/index/old'
+      path: '/admin/almoxarifado/materiais/index/old'
+      fullPath: '/admin/almoxarifado/materiais/index/old'
+      preLoaderRoute: typeof AdminAlmoxarifadoMateriaisIndexOldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/rh/departamentos/$id/': {
       id: '/admin/rh/departamentos/$id/'
       path: '/admin/rh/departamentos/$id'
@@ -1039,6 +1081,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAlmoxarifadoSolicitacoesIdIndexRoute:
     AdminAlmoxarifadoSolicitacoesIdIndexRoute,
   AdminRhDepartamentosIdIndexRoute: AdminRhDepartamentosIdIndexRoute,
+  AdminAlmoxarifadoMateriaisIndexOldRoute:
+    AdminAlmoxarifadoMateriaisIndexOldRoute,
+  AdminAlmoxarifadoSolicitacoesIndexOldRoute:
+    AdminAlmoxarifadoSolicitacoesIndexOldRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

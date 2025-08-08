@@ -53,9 +53,11 @@ export class SolicitacoesService {
 		const solicitacaoCompleta = await this.buscarSolicitacaoMaterialPorId(
 			solicitacao.id,
 		);
-		
+
 		if (!solicitacaoCompleta) {
-			throw new Error("Erro ao criar solicitação: não foi possível recuperar a solicitação criada");
+			throw new Error(
+				"Erro ao criar solicitação: não foi possível recuperar a solicitação criada",
+			);
 		}
 
 		// Enviar notificação assíncrona para aprovadores (não esperar para não travar o response)
@@ -126,13 +128,25 @@ export class SolicitacoesService {
 		if (sortField && sortDirection) {
 			switch (sortField) {
 				case "id":
-					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.id) : desc(solicitacoesMaterial.id)];
+					orderBy = [
+						sortDirection === "asc"
+							? asc(solicitacoesMaterial.id)
+							: desc(solicitacoesMaterial.id),
+					];
 					break;
 				case "status":
-					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.status) : desc(solicitacoesMaterial.status)];
+					orderBy = [
+						sortDirection === "asc"
+							? asc(solicitacoesMaterial.status)
+							: desc(solicitacoesMaterial.status),
+					];
 					break;
 				case "dataOperacao":
-					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.dataOperacao) : desc(solicitacoesMaterial.dataOperacao)];
+					orderBy = [
+						sortDirection === "asc"
+							? asc(solicitacoesMaterial.dataOperacao)
+							: desc(solicitacoesMaterial.dataOperacao),
+					];
 					break;
 				default:
 					orderBy = [desc(solicitacoesMaterial.criadoEm)];
