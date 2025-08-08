@@ -325,17 +325,17 @@ export class PessoasService {
 		if (documentoLimpo.length === 11) {
 			// CPF (11 dígitos)
 			return await this.directDataService.consultarCpf(documento);
-		} else if (documentoLimpo.length === 14) {
+		}
+		if (documentoLimpo.length === 14) {
 			// CNPJ (14 dígitos)
 			return await this.directDataService.consultarCnpj(documento);
-		} else {
-			// Documento inválido
-			return {
-				fonte: "erro" as const,
-				dados: null,
-				erro: "Documento deve ter 11 dígitos (CPF) ou 14 dígitos (CNPJ)",
-			};
 		}
+		// Documento inválido
+		return {
+			fonte: "erro" as const,
+			dados: null,
+			erro: "Documento deve ter 11 dígitos (CPF) ou 14 dígitos (CNPJ)",
+		};
 	}
 
 	async buscarCep(cep: string) {

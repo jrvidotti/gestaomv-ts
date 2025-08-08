@@ -1,3 +1,4 @@
+import { DataSelectionDialog } from "@/components/factoring/forms/data-selection-dialog";
 import { DadosBancariosTable } from "@/components/factoring/tables/dados-bancarios-table";
 import { TelefonesTable } from "@/components/factoring/tables/telefones-table";
 import { Button } from "@/components/ui/button";
@@ -102,6 +103,8 @@ export function PessoaForm({
 	const [dadosBancarios, setDadosBancarios] = useState<DadoBancarioEdit[]>(
 		initialDadosBancarios,
 	);
+	const [dialogOpen, setDialogOpen] = useState(false);
+	const [dadosConsulta, setDadosConsulta] = useState<any>(null);
 
 	const form = useForm<PessoaFormData>({
 		resolver: zodResolver(pessoaFormSchema),
@@ -162,17 +165,77 @@ export function PessoaForm({
 		const documento = form.getValues("documento");
 		if (documento && onBuscarDocumento) {
 			onBuscarDocumento(documento, (dados) => {
-				// Preencher formulário com os dados encontrados
+				// Preencher automaticamente dados pessoais básicos
+				const dadosBasicos: any = {
+					tipoPessoa: dados.tipoPessoa || form.getValues("tipoPessoa"),
+					documento: dados.documento || documento,
+					nomeRazaoSocial: dados.nomeRazaoSocial || "",
+				};
+
+				// Adicionar campos específicos baseados no tipo de pessoa
+				if (dados.tipoPessoa === "fisica") {
+					if (dados.dataNascimentoFundacao) {
+						dadosBasicos.dataNascimentoFundacao = dados.dataNascimentoFundacao
+							.toISOString()
+							.split("T")[0];
+					}
+					if (dados.sexo) {
+						dadosBasicos.sexo = dados.sexo;
+					}
+					if (dados.nomeMae) {
+						dadosBasicos.nomeMae = dados.nomeMae;
+					}
+				} else if (dados.tipoPessoa === "juridica") {
+					if (dados.nomeFantasia) {
+						dadosBasicos.nomeFantasia = dados.nomeFantasia;
+					}
+					if (dados.dataNascimentoFundacao) {
+						dadosBasicos.dataNascimentoFundacao = dados.dataNascimentoFundacao
+							.toISOString()
+							.split("T")[0];
+					}
+					if (dados.inscricaoEstadual) {
+						dadosBasicos.inscricaoEstadual = dados.inscricaoEstadual;
+					}
+					if (dados.inscricaoMunicipal) {
+						dadosBasicos.inscricaoMunicipal = dados.inscricaoMunicipal;
+					}
+				}
+
+				// Aplicar dados básicos ao formulário
 				form.reset({
-					...dados,
-					dataNascimentoFundacao: dados.dataNascimentoFundacao
-						? dados.dataNascimentoFundacao.toISOString().split("T")[0]
-						: "",
+					...form.getValues(),
+					...dadosBasicos,
 				});
 
-				// Preencher telefones se existirem
-				if (dados.telefones && dados.telefones.length > 0) {
-					setTelefones(dados.telefones);
+				// Preparar dados complementares para o dialog
+				const dadosComplementares = {
+					enderecos:
+						dados.cep || dados.logradouro || dados.cidade
+							? [
+									{
+										cep: dados.cep,
+										logradouro: dados.logradouro,
+										numero: dados.numero,
+										complemento: dados.complemento,
+										bairro: dados.bairro,
+										cidade: dados.cidade,
+										estado: dados.estado,
+									},
+								]
+							: undefined,
+					emails: dados.email ? [dados.email] : undefined,
+					telefones: dados.telefones?.length > 0 ? dados.telefones : undefined,
+				};
+
+				// Verificar se há dados complementares para mostrar no dialog
+				if (
+					dadosComplementares.enderecos ||
+					dadosComplementares.emails ||
+					dadosComplementares.telefones
+				) {
+					setDadosConsulta(dadosComplementares);
+					setDialogOpen(true);
 				}
 			});
 		}
@@ -182,6 +245,68 @@ export function PessoaForm({
 		const cep = form.getValues("cep");
 		if (cep && onBuscarCep) {
 			onBuscarCep(cep);
+		}
+	};
+
+	const handleDocumentoKeyDown = (event: React.KeyboardEvent) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			
+			// Verificar se é cadastro novo e nome está vazio
+			const nomeRazaoSocial = form.getValues("nomeRazaoSocial");
+			const isNomeVazio = !nomeRazaoSocial || nomeRazaoSocial.trim() === "";
+			
+			if (mode === "create" && isNomeVazio) {
+				handleBuscarDocumento();
+			}
+		}
+	};
+
+	const handleImportSelectedData = (selecoes: {
+		enderecoIndex?: number;
+		emailIndex?: number;
+		telefoneIndices?: number[];
+	}) => {
+		if (!dadosConsulta) return;
+
+		const currentValues = form.getValues();
+		const updateData: any = { ...currentValues };
+
+		// Importar dados de endereço se selecionado
+		if (selecoes.enderecoIndex !== undefined && dadosConsulta.enderecos) {
+			const endereco = dadosConsulta.enderecos[selecoes.enderecoIndex];
+			if (endereco) {
+				if (endereco.cep) updateData.cep = endereco.cep;
+				if (endereco.logradouro) updateData.logradouro = endereco.logradouro;
+				if (endereco.numero) updateData.numero = endereco.numero;
+				if (endereco.complemento) updateData.complemento = endereco.complemento;
+				if (endereco.bairro) updateData.bairro = endereco.bairro;
+				if (endereco.cidade) updateData.cidade = endereco.cidade;
+				if (endereco.estado) updateData.estado = endereco.estado;
+			}
+		}
+
+		// Importar email se selecionado
+		if (selecoes.emailIndex !== undefined && dadosConsulta.emails) {
+			const email = dadosConsulta.emails[selecoes.emailIndex];
+			if (email) {
+				updateData.email = email;
+			}
+		}
+
+		// Aplicar atualizações ao formulário
+		form.reset(updateData);
+
+		// Importar telefones se selecionado
+		if (
+			selecoes.telefoneIndices &&
+			selecoes.telefoneIndices.length > 0 &&
+			dadosConsulta.telefones
+		) {
+			const telefonesParaImportar = selecoes.telefoneIndices
+				.map((index) => dadosConsulta.telefones![index])
+				.filter(Boolean);
+			setTelefones((prev) => [...prev, ...telefonesParaImportar]);
 		}
 	};
 
@@ -256,6 +381,7 @@ export function PessoaForm({
 																	value={field.value}
 																	onChange={field.onChange}
 																	onBlur={field.onBlur}
+																	onKeyDown={handleDocumentoKeyDown}
 																	mask={
 																		tipoPessoa === "fisica"
 																			? "000.000.000-00"
@@ -620,6 +746,14 @@ export function PessoaForm({
 					</Form>
 				</CardContent>
 			</Card>
+
+			{/* Dialog de Seleção de Dados */}
+			<DataSelectionDialog
+				open={dialogOpen}
+				onOpenChange={setDialogOpen}
+				dadosEncontrados={dadosConsulta || {}}
+				onImportSelected={handleImportSelectedData}
+			/>
 		</div>
 	);
 }
