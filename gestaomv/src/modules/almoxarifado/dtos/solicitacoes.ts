@@ -59,7 +59,9 @@ export const filtroSolicitacoesSchema = z.object({
 		.number()
 		.min(1, "Limite deve ser maior que 0")
 		.max(100, "Limite máximo é 100")
-		.default(20),
+		.default(10),
+	sortField: z.string().optional(),
+	sortDirection: z.enum(["asc", "desc"]).optional(),
 });
 
 // Schema para formulário de nova solicitação

@@ -16,7 +16,7 @@ import type {
 } from "@/modules/almoxarifado/types";
 import type { NotificationsService } from "@/modules/core/services/notifications.service";
 import { addDays } from "date-fns";
-import { type SQLWrapper, and, count, desc, eq, sql } from "drizzle-orm";
+import { type SQLWrapper, and, asc, count, desc, eq, sql } from "drizzle-orm";
 
 export class SolicitacoesService {
 	constructor(
@@ -27,7 +27,7 @@ export class SolicitacoesService {
 	async criarSolicitacaoMaterial(
 		solicitanteId: number,
 		solicitacaoData: CriarSolicitacaoMaterialData,
-	): Promise<SolicitacaoMaterial | undefined> {
+	): Promise<SolicitacaoMaterial> {
 		const [solicitacao] = await this.db
 			.insert(solicitacoesMaterial)
 			.values({
@@ -53,22 +53,25 @@ export class SolicitacoesService {
 		const solicitacaoCompleta = await this.buscarSolicitacaoMaterialPorId(
 			solicitacao.id,
 		);
-		if (solicitacaoCompleta) {
-			// Enviar notificação assíncrona para aprovadores (não esperar para não travar o response)
-			this.notificationsService
-				.notificarSolicitacaoCriada(
-					solicitacaoCompleta,
-					solicitacaoCompleta.itens || [],
-				)
-				.catch((error) => {
-					console.error(
-						"Erro ao enviar notificação de solicitação criada:",
-						error,
-					);
-				});
+		
+		if (!solicitacaoCompleta) {
+			throw new Error("Erro ao criar solicitação: não foi possível recuperar a solicitação criada");
 		}
 
-		return solicitacao;
+		// Enviar notificação assíncrona para aprovadores (não esperar para não travar o response)
+		this.notificationsService
+			.notificarSolicitacaoCriada(
+				solicitacaoCompleta,
+				solicitacaoCompleta.itens || [],
+			)
+			.catch((error) => {
+				console.error(
+					"Erro ao enviar notificação de solicitação criada:",
+					error,
+				);
+			});
+
+		return solicitacaoCompleta;
 	}
 
 	async listarSolicitacoesMaterial(filtros?: FiltrosSolicitacoes): Promise<{
@@ -82,7 +85,9 @@ export class SolicitacoesService {
 			dataInicial,
 			dataFinal,
 			pagina = 1,
-			limite = 20,
+			limite = 10,
+			sortField,
+			sortDirection = "desc",
 		} = filtros || {};
 		const offset = (pagina - 1) * limite;
 
@@ -115,6 +120,26 @@ export class SolicitacoesService {
 		}
 
 		const whereClause = condicoes.length > 0 ? and(...condicoes) : undefined;
+
+		// Definir ordenação dinâmica
+		let orderBy: any[];
+		if (sortField && sortDirection) {
+			switch (sortField) {
+				case "id":
+					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.id) : desc(solicitacoesMaterial.id)];
+					break;
+				case "status":
+					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.status) : desc(solicitacoesMaterial.status)];
+					break;
+				case "dataOperacao":
+					orderBy = [sortDirection === "asc" ? asc(solicitacoesMaterial.dataOperacao) : desc(solicitacoesMaterial.dataOperacao)];
+					break;
+				default:
+					orderBy = [desc(solicitacoesMaterial.criadoEm)];
+			}
+		} else {
+			orderBy = [desc(solicitacoesMaterial.criadoEm)];
+		}
 
 		const solicitacoesList = await this.db.query.solicitacoesMaterial.findMany({
 			where: whereClause,
@@ -157,7 +182,7 @@ export class SolicitacoesService {
 					},
 				},
 			},
-			orderBy: [desc(solicitacoesMaterial.criadoEm)],
+			orderBy,
 			limit: limite,
 			offset,
 		});

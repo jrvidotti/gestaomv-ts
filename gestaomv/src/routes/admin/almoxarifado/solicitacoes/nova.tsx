@@ -135,7 +135,7 @@ function RouteComponent() {
 			title="Nova Solicitação"
 			subtitle="Crie uma nova solicitação de materiais"
 			actions={[
-				<Link key="voltar" to="/admin/almoxarifado/solicitacoes">
+				<Link key="voltar" to="/admin/almoxarifado/solicitacoes" search={{}}>
 					<Button variant="outline" disabled={salvando}>
 						<ArrowLeft className="h-4 w-4 mr-2" />
 						Voltar

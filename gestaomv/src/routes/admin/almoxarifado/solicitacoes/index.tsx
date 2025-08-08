@@ -39,7 +39,7 @@ import {
 	STATUS_OPTIONS,
 	STATUS_SOLICITACAO_DATA,
 } from "@/modules/almoxarifado/consts";
-import type { FiltrosSolicitacoes } from "@/modules/almoxarifado/dtos";
+import { filtroSolicitacoesSchema } from "@/modules/almoxarifado/dtos";
 import { STATUS_SOLICITACAO } from "@/modules/almoxarifado/enums";
 import type { SolicitacaoMaterial } from "@/modules/almoxarifado/types";
 import { useTRPC } from "@/trpc/react";
@@ -71,23 +71,7 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/admin/almoxarifado/solicitacoes/")({
 	component: RouteComponent,
-	validateSearch: (search: Record<string, unknown>): FiltrosSolicitacoes => {
-		return {
-			pagina: typeof search.pagina === "number" ? search.pagina : 1,
-			limite: typeof search.limite === "number" ? search.limite : 20,
-			status: typeof search.status === "string" ? search.status : undefined,
-			unidadeId:
-				typeof search.unidadeId === "number" ? search.unidadeId : undefined,
-			solicitanteId:
-				typeof search.solicitanteId === "number"
-					? search.solicitanteId
-					: undefined,
-			dataInicial:
-				typeof search.dataInicial === "string" ? search.dataInicial : undefined,
-			dataFinal:
-				typeof search.dataFinal === "string" ? search.dataFinal : undefined,
-		};
-	},
+	validateSearch: filtroSolicitacoesSchema,
 });
 
 function RouteComponent() {
@@ -95,20 +79,25 @@ function RouteComponent() {
 	const { user } = useAuth();
 	const filtrosUrl = Route.useSearch();
 
-	const searchParams = Route.useSearch();
-
-	const [paginaAtual, setPaginaAtual] = useState(filtrosUrl.pagina || 1);
-
 	// Estados para TanStack Table
-	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+	// Construir estado de ordenação a partir da URL
+	const sorting: SortingState = filtrosUrl.sortField
+		? [
+				{
+					id: filtrosUrl.sortField,
+					desc: filtrosUrl.sortDirection === "desc",
+				},
+			]
+		: [];
 
 	const trpc = useTRPC();
 
-	// Construir filtros combinando paginação e filtros da tabela
+	// Construir filtros usando URL como fonte da verdade
 	const filtros = {
-		pagina: paginaAtual,
-		limite: filtrosUrl.limite || 20,
+		pagina: filtrosUrl.pagina,
+		limite: filtrosUrl.limite,
 		...(filtrosUrl.status && { status: filtrosUrl.status as any }),
 		...(filtrosUrl.unidadeId && { unidadeId: Number(filtrosUrl.unidadeId) }),
 		...(filtrosUrl.solicitanteId && {
@@ -116,6 +105,8 @@ function RouteComponent() {
 		}),
 		...(filtrosUrl.dataInicial && { dataInicial: filtrosUrl.dataInicial }),
 		...(filtrosUrl.dataFinal && { dataFinal: filtrosUrl.dataFinal }),
+		...(filtrosUrl.sortField && { sortField: filtrosUrl.sortField }),
+		...(filtrosUrl.sortDirection && { sortDirection: filtrosUrl.sortDirection }),
 	};
 
 	const { data, isLoading, refetch } = useQuery(
@@ -279,6 +270,22 @@ function RouteComponent() {
 		}),
 	];
 
+	// Função para atualizar ordenação via URL
+	const handleSortingChange = (updaterOrValue: SortingState | ((old: SortingState) => SortingState)) => {
+		const newSorting = typeof updaterOrValue === "function" ? updaterOrValue(sorting) : updaterOrValue;
+		const firstSort = newSorting[0];
+		
+		navigate({
+			to: "/admin/almoxarifado/solicitacoes",
+			search: {
+				...filtrosUrl,
+				sortField: firstSort?.id || undefined,
+				sortDirection: firstSort ? (firstSort.desc ? "desc" : "asc") : undefined,
+				pagina: 1, // Reset para primeira página ao ordenar
+			},
+		});
+	};
+
 	// Configuração da tabela TanStack
 	const table = useReactTable({
 		data: data?.solicitacoes || [],
@@ -287,13 +294,14 @@ function RouteComponent() {
 			sorting,
 			columnFilters,
 		},
-		onSortingChange: setSorting,
+		onSortingChange: handleSortingChange,
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		manualPagination: true, // Paginação manual via API
+		manualSorting: true, // Ordenação manual via API
 		pageCount: Math.ceil((data?.total || 0) / filtros.limite),
 	});
 
@@ -365,7 +373,7 @@ function RouteComponent() {
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
 			search: {
-				...searchParams,
+				...filtrosUrl,
 				status: value === "all" ? undefined : value,
 				pagina: 1,
 			},
@@ -376,7 +384,7 @@ function RouteComponent() {
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
 			search: {
-				...searchParams,
+				...filtrosUrl,
 				unidadeId: value === "all" ? undefined : Number(value),
 				pagina: 1,
 			},
@@ -390,7 +398,7 @@ function RouteComponent() {
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
 			search: {
-				...searchParams,
+				...filtrosUrl,
 				dataInicial: dates.dataInicial,
 				dataFinal: dates.dataFinal,
 				pagina: 1,
@@ -399,12 +407,10 @@ function RouteComponent() {
 	};
 
 	const limparFiltros = () => {
-		setPaginaAtual(1);
-		setSorting([]);
 		setColumnFilters([]);
 		navigate({
 			to: "/admin/almoxarifado/solicitacoes",
-			search: { pagina: 1, limite: 20 },
+			search: { pagina: 1, limite: 10 },
 		});
 	};
 
@@ -646,60 +652,91 @@ function RouteComponent() {
 									</Table>
 
 									{/* Paginação integrada com TanStack Table */}
-									{totalPaginas > 1 && (
+									{(totalPaginas > 1 || (data?.total || 0) > 0) && (
 										<div className="flex items-center justify-between pt-4">
-											<div className="flex items-center gap-2">
-												<p className="text-sm text-muted-foreground">
-													Página {paginaAtual} de {totalPaginas}
-												</p>
-												<div className="text-sm text-muted-foreground">
-													({data?.total || 0} solicitações no total)
+											<div className="flex items-center gap-4">
+												<div className="flex items-center gap-2">
+													<p className="text-sm text-muted-foreground">
+														Página {filtrosUrl.pagina} de {totalPaginas || 1}
+													</p>
+													<div className="text-sm text-muted-foreground">
+														({data?.total || 0} solicitações no total)
+													</div>
+												</div>
+												<div className="flex items-center gap-2">
+													<span className="text-sm text-muted-foreground">
+														Itens por página:
+													</span>
+													<Select
+														value={filtrosUrl.limite.toString()}
+														onValueChange={(value) => {
+															navigate({
+																to: "/admin/almoxarifado/solicitacoes",
+																search: {
+																	...filtrosUrl,
+																	limite: Number(value),
+																	pagina: 1,
+																},
+															});
+														}}
+													>
+														<SelectTrigger className="h-8 w-[70px]">
+															<SelectValue />
+														</SelectTrigger>
+														<SelectContent>
+															<SelectItem value="10">10</SelectItem>
+															<SelectItem value="20">20</SelectItem>
+															<SelectItem value="30">30</SelectItem>
+															<SelectItem value="50">50</SelectItem>
+															<SelectItem value="100">100</SelectItem>
+														</SelectContent>
+													</Select>
 												</div>
 											</div>
-											<div className="flex items-center gap-2">
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={() => {
-														const novaPagina = Math.max(1, paginaAtual - 1);
-														setPaginaAtual(novaPagina);
-														navigate({
-															to: "/admin/almoxarifado/solicitacoes",
-															search: {
-																...Route.useSearch(),
-																pagina: novaPagina,
-															},
-														});
-													}}
-													disabled={paginaAtual === 1}
-												>
-													Anterior
-												</Button>
-												<span className="text-sm text-muted-foreground px-2">
-													{paginaAtual} / {totalPaginas}
-												</span>
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={() => {
-														const novaPagina = Math.min(
-															totalPaginas,
-															paginaAtual + 1,
-														);
-														setPaginaAtual(novaPagina);
-														navigate({
-															to: "/admin/almoxarifado/solicitacoes",
-															search: {
-																...Route.useSearch(),
-																pagina: novaPagina,
-															},
-														});
-													}}
-													disabled={paginaAtual === totalPaginas}
-												>
-													Próxima
-												</Button>
-											</div>
+											{totalPaginas > 1 && (
+												<div className="flex items-center gap-2">
+													<Button
+														variant="outline"
+														size="sm"
+														onClick={() => {
+															const novaPagina = Math.max(1, filtrosUrl.pagina - 1);
+															navigate({
+																to: "/admin/almoxarifado/solicitacoes",
+																search: {
+																	...filtrosUrl,
+																	pagina: novaPagina,
+																},
+															});
+														}}
+														disabled={filtrosUrl.pagina === 1}
+													>
+														Anterior
+													</Button>
+													<span className="text-sm text-muted-foreground px-2">
+														{filtrosUrl.pagina} / {totalPaginas}
+													</span>
+													<Button
+														variant="outline"
+														size="sm"
+														onClick={() => {
+															const novaPagina = Math.min(
+																totalPaginas,
+																filtrosUrl.pagina + 1,
+															);
+															navigate({
+																to: "/admin/almoxarifado/solicitacoes",
+																search: {
+																	...filtrosUrl,
+																	pagina: novaPagina,
+																},
+															});
+														}}
+														disabled={filtrosUrl.pagina === totalPaginas}
+													>
+														Próxima
+													</Button>
+												</div>
+											)}
 										</div>
 									)}
 								</>
