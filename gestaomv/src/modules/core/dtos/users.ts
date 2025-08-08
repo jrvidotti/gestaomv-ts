@@ -50,6 +50,34 @@ export const changePasswordSchema = z
 		path: ["confirmPassword"],
 	});
 
+export const filtroUsuariosSchema = z.object({
+	nome: z.string().optional(),
+	email: z.string().optional(),
+	status: z.enum(["todos", "ativo", "inativo"]).optional(),
+	roles: z
+		.union([
+			z.array(userRoleEnumSchema),
+			z.array(z.any()), // Aceitar qualquer valor temporariamente
+		])
+		.optional()
+		.transform((arr) => {
+			// Filtrar valores nulos/inválidos e retornar undefined se array vazio
+			if (!arr || arr.length === 0) return undefined;
+			const validRoles = arr.filter(
+				(role) =>
+					role != null && role !== "" && USER_ROLES_ARRAY.includes(role as any),
+			);
+			return validRoles.length > 0 ? validRoles : undefined;
+		}),
+	pagina: z.number().min(1, "Página deve ser maior que 0").default(1),
+	limite: z
+		.number()
+		.min(1, "Limite deve ser maior que 0")
+		.max(100, "Limite máximo é 100")
+		.default(20),
+});
+
+export type FiltrosUsuarios = z.infer<typeof filtroUsuariosSchema>;
 export type AddUserRoleDto = z.infer<typeof addUserRoleSchema>;
 export type RemoveUserRoleDto = z.infer<typeof removeUserRoleSchema>;
 export type GetUserRolesDto = z.infer<typeof getUserRolesSchema>;

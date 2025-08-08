@@ -1,9 +1,14 @@
 import type { Db } from "@/db";
 import bcrypt from "bcrypt";
-import { and, eq } from "drizzle-orm";
-import type { ChangePasswordDto } from "../dtos";
+import { and, eq, or, sql } from "drizzle-orm";
+import type { ChangePasswordDto, FiltrosUsuarios } from "../dtos";
 import { userRoles, userTagone, users } from "../schemas";
-import type { CriarUser, User, UserRoleType } from "../types";
+import type {
+	CriarUser,
+	User,
+	UserRoleType,
+	UserWithoutPassword,
+} from "../types";
 
 export class UsersService {
 	constructor(private readonly db: Db) {}
@@ -30,23 +35,82 @@ export class UsersService {
 		return { ...user, roles: [] };
 	}
 
-	async listar(): Promise<User[]> {
-		const users = await this.db.query.users.findMany({
-			with: {
-				userRoles: {
-					columns: {
-						role: true,
+	async listar(
+		filtros?: FiltrosUsuarios,
+	): Promise<{ usuarios: UserWithoutPassword[]; total: number }> {
+		const whereConditions = [];
+
+		// Filtro de busca por nome (case-insensitive)
+		if (filtros?.nome) {
+			const searchTerm = `%${filtros.nome.toLowerCase()}%`;
+			whereConditions.push(sql`lower(${users.name}) like ${searchTerm}`);
+		}
+
+		// Filtro de busca por email (case-insensitive)
+		if (filtros?.email) {
+			const searchTerm = `%${filtros.email.toLowerCase()}%`;
+			whereConditions.push(sql`lower(${users.email}) like ${searchTerm}`);
+		}
+
+		// Filtro por status
+		if (filtros?.status && filtros.status !== "todos") {
+			const isActive = filtros.status === "ativo";
+			whereConditions.push(eq(users.isActive, isActive));
+		}
+
+		const whereClause =
+			whereConditions.length > 0 ? and(...whereConditions) : undefined;
+
+		const [usersList, totalCount] = await Promise.all([
+			this.db.query.users.findMany({
+				where: whereClause,
+				with: {
+					userRoles: {
+						columns: {
+							role: true,
+						},
 					},
 				},
-			},
-		});
-		return users.map((userWithRoles) => {
+				orderBy: (users, { desc }) => [desc(users.createdAt)],
+			}),
+			this.db.query.users
+				.findMany({
+					where: whereClause,
+					columns: { id: true },
+				})
+				.then((results) => results.length),
+		]);
+
+		let usuarios = usersList.map((userWithRoles) => {
 			const { userRoles, ...user } = userWithRoles;
 			return {
 				...user,
 				roles: userRoles.map((r) => r.role),
 			};
 		});
+
+		// Filtro por roles (aplicado após a consulta inicial)
+		if (filtros?.roles && filtros.roles.length > 0) {
+			usuarios = usuarios.filter((usuario) =>
+				filtros.roles?.some((role) => usuario.roles.includes(role)),
+			);
+		}
+
+		// Remover a senha dos resultados
+		const usuariosWithoutPassword = usuarios.map(
+			({ password, ...user }) => user,
+		);
+
+		// Recalcular total após filtro por roles se aplicado
+		const finalTotal =
+			filtros?.roles && filtros.roles.length > 0
+				? usuariosWithoutPassword.length
+				: totalCount;
+
+		return {
+			usuarios: usuariosWithoutPassword,
+			total: finalTotal,
+		};
 	}
 
 	async buscar(id: number): Promise<User | undefined> {
