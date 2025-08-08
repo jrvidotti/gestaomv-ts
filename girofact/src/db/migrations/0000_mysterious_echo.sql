@@ -19,7 +19,7 @@ CREATE TABLE `users` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
-CREATE TABLE `settings` (
+CREATE TABLE `configuracoes` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`key` text NOT NULL,
 	`value` text NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `settings` (
 	`updated_at` text DEFAULT (CURRENT_TIMESTAMP)
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `settings_key_unique` ON `settings` (`key`);--> statement-breakpoint
+CREATE UNIQUE INDEX `configuracoes_key_unique` ON `configuracoes` (`key`);--> statement-breakpoint
 CREATE TABLE `factoring_carteiras` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`nome` text NOT NULL,
@@ -160,7 +160,6 @@ CREATE UNIQUE INDEX `factoring_operacoes_uid_unique` ON `factoring_operacoes` (`
 CREATE TABLE `factoring_documentos` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`uid` text NOT NULL,
-	`seq` integer NOT NULL,
 	`operacao_id` integer NOT NULL,
 	`tipo_documento` text NOT NULL,
 	`data_vencimento` text NOT NULL,

@@ -52,5 +52,9 @@ export const operacoesRelations = relations(operacoes, ({ one, many }) => ({
     fields: [operacoes.userId],
     references: [users.id],
   }),
+  usuarioAprovador: one(users, {
+    fields: [operacoes.usuarioAprovadorId],
+    references: [users.id],
+  }),
   documentos: many(documentos),
 }));

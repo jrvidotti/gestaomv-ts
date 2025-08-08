@@ -10,7 +10,6 @@ import { ocorrencias } from "./ocorrencias";
 export const documentos = sqliteTable("factoring_documentos", {
   id: idAutoIncrement(),
   uid: text("uid").notNull().unique(),
-  seq: integer("seq").notNull(),
   operacaoId: integer("operacao_id")
     .references(() => operacoes.id, { onDelete: "restrict" })
     .notNull(),

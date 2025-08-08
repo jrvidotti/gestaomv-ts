@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a1604085-50ab-48e5-9ef2-ac2d2d3c8c2a",
+  "id": "2b778cbe-154b-4f59-bf20-12ea5337175b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user_roles": {
@@ -143,8 +143,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "settings": {
-      "name": "settings",
+    "configuracoes": {
+      "name": "configuracoes",
       "columns": {
         "id": {
           "name": "id",
@@ -208,8 +208,8 @@
         }
       },
       "indexes": {
-        "settings_key_unique": {
-          "name": "settings_key_unique",
+        "configuracoes_key_unique": {
+          "name": "configuracoes_key_unique",
           "columns": [
             "key"
           ],
@@ -1140,13 +1140,6 @@
         "uid": {
           "name": "uid",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "seq": {
-          "name": "seq",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

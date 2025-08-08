@@ -1,3 +1,14 @@
+import { 
+  addDays, 
+  differenceInCalendarDays, 
+  getDay, 
+  isWeekend,
+  addBusinessDays,
+  format,
+  parseISO,
+  startOfDay,
+  endOfDay
+} from "date-fns";
 import type { TipoJuros } from "../enums";
 
 export class CalculosFinanceirosService {
@@ -23,26 +34,33 @@ export class CalculosFinanceirosService {
   /**
    * Calcula os dias entre duas datas considerando regras de negócio
    */
-  calcularDias(dataInicio: Date, dataVencimento: Date, float = 0): number {
+  calcularDias(
+    dataInicio: Date | string,
+    dataVencimento: Date | string,
+    float = 0
+  ): number {
+    // Converter strings para Date se necessário
+    const inicio = typeof dataInicio === 'string' ? parseISO(dataInicio) : dataInicio;
+    const vencimento = typeof dataVencimento === 'string' ? parseISO(dataVencimento) : dataVencimento;
+
     // Calcula dias corridos até vencimento
-    const diasAteVencimento = Math.floor(
-      (dataVencimento.getTime() - dataInicio.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const diasAteVencimento = differenceInCalendarDays(vencimento, inicio);
 
     // Adiciona float à data de vencimento
-    const dataVencimentoComFloat = new Date(dataVencimento);
-    dataVencimentoComFloat.setDate(dataVencimento.getDate() + float);
+    const dataVencimentoComFloat = addDays(vencimento, float);
 
     // Verifica se a data com float cai em final de semana
-    const diaSemana = dataVencimentoComFloat.getDay();
     let diasAdicionais = 0;
 
-    if (diaSemana === 6) {
-      // Sábado
-      diasAdicionais = 2; // Adiciona sábado e domingo
-    } else if (diaSemana === 0) {
-      // Domingo
-      diasAdicionais = 1; // Adiciona apenas domingo
+    if (isWeekend(dataVencimentoComFloat)) {
+      const diaSemana = getDay(dataVencimentoComFloat);
+      if (diaSemana === 6) {
+        // Sábado - adiciona sábado e domingo
+        diasAdicionais = 2;
+      } else if (diaSemana === 0) {
+        // Domingo - adiciona apenas domingo
+        diasAdicionais = 1;
+      }
     }
 
     return diasAteVencimento + float + diasAdicionais;
@@ -54,14 +72,19 @@ export class CalculosFinanceirosService {
   calcularJurosProrrogacao(
     valorDocumento: number,
     taxaJuros: number,
-    dataVencimentoOriginal: Date,
-    novaDataVencimento: Date,
+    dataVencimentoOriginal: Date | string,
+    novaDataVencimento: Date | string,
     tipoJuros: TipoJuros = "simples"
   ): number {
-    const diasProrrogacao = Math.floor(
-      (novaDataVencimento.getTime() - dataVencimentoOriginal.getTime()) /
-        (1000 * 60 * 60 * 24)
-    );
+    // Converter strings para Date se necessário
+    const original = typeof dataVencimentoOriginal === 'string' 
+      ? parseISO(dataVencimentoOriginal) 
+      : dataVencimentoOriginal;
+    const nova = typeof novaDataVencimento === 'string' 
+      ? parseISO(novaDataVencimento) 
+      : novaDataVencimento;
+
+    const diasProrrogacao = differenceInCalendarDays(nova, original);
 
     return this.calcularJuros(
       valorDocumento,
@@ -91,26 +114,17 @@ export class CalculosFinanceirosService {
   /**
    * Verifica se uma data é dia útil (considera apenas fins de semana)
    */
-  isDiaUtil(data: Date): boolean {
-    const diaSemana = data.getDay();
-    return diaSemana !== 0 && diaSemana !== 6; // Não é domingo nem sábado
+  isDiaUtil(data: Date | string): boolean {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return !isWeekend(date);
   }
 
   /**
-   * Adiciona dias úteis a uma data
+   * Adiciona dias úteis a uma data usando date-fns
    */
-  adicionarDiasUteis(data: Date, dias: number): Date {
-    const resultado = new Date(data);
-    let diasAdicionados = 0;
-
-    while (diasAdicionados < dias) {
-      resultado.setDate(resultado.getDate() + 1);
-      if (this.isDiaUtil(resultado)) {
-        diasAdicionados++;
-      }
-    }
-
-    return resultado;
+  adicionarDiasUteis(data: Date | string, dias: number): Date {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return addBusinessDays(date, dias);
   }
 
   /**
@@ -128,6 +142,38 @@ export class CalculosFinanceirosService {
       style: "currency",
       currency: "BRL",
     }).format(valor);
+  }
+
+  /**
+   * Formatar data usando date-fns
+   */
+  formatarData(data: Date | string, formato = "dd/MM/yyyy"): string {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return format(date, formato);
+  }
+
+  /**
+   * Formatar data e hora usando date-fns
+   */
+  formatarDataHora(data: Date | string, formato = "dd/MM/yyyy HH:mm"): string {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return format(date, formato);
+  }
+
+  /**
+   * Converte data para início do dia (00:00:00)
+   */
+  iniciarDia(data: Date | string): Date {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return startOfDay(date);
+  }
+
+  /**
+   * Converte data para fim do dia (23:59:59)
+   */
+  finalizarDia(data: Date | string): Date {
+    const date = typeof data === 'string' ? parseISO(data) : data;
+    return endOfDay(date);
   }
 
   /**

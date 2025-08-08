@@ -35,7 +35,7 @@ export async function seedFactoring() {
 					tipoPessoa: "fisica",
 					documento: "12345678901",
 					nomeRazaoSocial: "João Silva Santos",
-					dataNascimentoFundacao: new Date("1985-06-15"),
+					dataNascimentoFundacao: "1985-06-15",
 					nomeMae: "Maria Silva",
 					sexo: "masculino",
 					email: "joao.silva@email.com",
@@ -50,7 +50,7 @@ export async function seedFactoring() {
 					tipoPessoa: "fisica",
 					documento: "98765432100",
 					nomeRazaoSocial: "Maria Oliveira Costa",
-					dataNascimentoFundacao: new Date("1990-03-22"),
+					dataNascimentoFundacao: "1990-03-22",
 					nomeMae: "Ana Oliveira",
 					sexo: "feminino",
 					email: "maria.costa@email.com",
@@ -74,7 +74,7 @@ export async function seedFactoring() {
 					documento: "12345678000195",
 					nomeRazaoSocial: "Empresa ABC Ltda",
 					nomeFantasia: "ABC Comercial",
-					dataNascimentoFundacao: new Date("2010-01-15"),
+					dataNascimentoFundacao: "2010-01-15",
 					inscricaoEstadual: "123456789",
 					email: "contato@abccomercial.com.br",
 					cep: "12345678",
@@ -89,7 +89,7 @@ export async function seedFactoring() {
 					documento: "98765432000176",
 					nomeRazaoSocial: "XYZ Indústria e Comércio S.A.",
 					nomeFantasia: "XYZ Group",
-					dataNascimentoFundacao: new Date("2005-08-30"),
+					dataNascimentoFundacao: "2005-08-30",
 					inscricaoEstadual: "987654321",
 					email: "financeiro@xyzgroup.com.br",
 					cep: "87654321",
@@ -156,17 +156,17 @@ export async function seedFactoring() {
 				taxaJurosPadrao: 2.5 + i * 0.1,
 				tarifaDevolucaoCheques: 50,
 				tarifaProrrogacao: 25,
-				dataUltimaAnaliseCredito: new Date(),
+				dataUltimaAnaliseCredito: new Date().toISOString().split('T')[0],
 				usuarioResponsavelAnalise: 1,
-				historicoAlteracoesLimite: JSON.stringify([
+				historicoAlteracoesLimite: [
 					{
-						data: new Date(),
+						data: new Date().toISOString().split('T')[0],
 						limiteAnterior: 0,
 						novoLimite: isEmpresa ? 50000 + i * 10000 : 5000 + i * 1000,
 						usuario: "1",
 						motivo: "Cadastro inicial via seed",
 					},
-				]),
+				],
 			});
 		}
 		const clientesCriados = await db
