@@ -11,28 +11,37 @@
 			"name": "Junior",
 			"password": "senha123",
 			"isActive": true,
-			"roles": ["admin", "superadmin"]
+			"roles": [
+				"admin",
+				"superadmin"
+			]
 		},
 		{
 			"email": "aprovador_almoxarifado@x.com",
 			"name": "Aprovador Almoxarifado",
 			"password": "senha123",
 			"isActive": true,
-			"roles": ["aprovador_almoxarifado"]
+			"roles": [
+				"almoxarifado_aprovador"
+			]
 		},
 		{
 			"email": "gerencia_almoxarifado@x.com",
 			"name": "Gerencia Almoxarifado",
 			"password": "senha123",
 			"isActive": true,
-			"roles": ["gerencia_almoxarifado"]
+			"roles": [
+				"almoxarifado_gerencia"
+			]
 		},
 		{
 			"email": "usuario_almoxarifado@x.com",
 			"name": "Usuario Almoxarifado",
 			"password": "senha123",
 			"isActive": true,
-			"roles": ["usuario_almoxarifado"]
+			"roles": [
+				"almoxarifado_usuario"
+			]
 		}
 	]
 }

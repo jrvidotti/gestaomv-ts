@@ -1,15 +1,15 @@
 import { createEmpresaSchema, updateEmpresaSchema } from "@/modules/core/dtos";
 import { empresasService } from "@/modules/core/services";
-import { adminProcedure } from "@/trpc/init";
+import { adminProcedure, protectedProcedure } from "@/trpc/init";
 import type { TRPCRouterRecord } from "@trpc/server";
 import z from "zod";
 
 export const empresasRouter = {
-	listar: adminProcedure.query(async () => {
+	listar: protectedProcedure.query(async () => {
 		return await empresasService.listar();
 	}),
 
-	buscar: adminProcedure
+	buscar: protectedProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
 			const empresa = await empresasService.buscar(input.id);
@@ -19,7 +19,7 @@ export const empresasRouter = {
 			return empresa;
 		}),
 
-	buscarPorCnpj: adminProcedure
+	buscarPorCnpj: protectedProcedure
 		.input(z.object({ cnpj: z.string() }))
 		.query(async ({ input }) => {
 			const empresa = await empresasService.buscarPorCnpj(input.cnpj);
@@ -29,7 +29,7 @@ export const empresasRouter = {
 			return empresa;
 		}),
 
-	buscarPorPontowebId: adminProcedure
+	buscarPorPontowebId: protectedProcedure
 		.input(z.object({ pontowebId: z.number() }))
 		.query(async ({ input }) => {
 			const empresa = await empresasService.buscarPorPontowebId(

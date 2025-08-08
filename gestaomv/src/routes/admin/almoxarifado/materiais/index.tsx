@@ -28,6 +28,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { ALL_ROLES } from "@/constants";
+import { useAuth } from "@/hooks/use-auth";
 import { useDebounce } from "@/hooks/use-debounce";
 import type { FiltrosMateriais } from "@/modules/almoxarifado/dtos/materiais";
 import { useTRPC } from "@/trpc/react";
@@ -67,6 +68,7 @@ export const Route = createFileRoute("/admin/almoxarifado/materiais/")({
 
 function RouteComponent() {
 	const navigate = useNavigate();
+	const { hasRole, hasAnyRole } = useAuth();
 	const {
 		busca: buscaUrl,
 		tipoMaterialId: tipoUrl,
@@ -81,6 +83,13 @@ function RouteComponent() {
 
 	const trpc = useTRPC();
 	const buscaDebounced = useDebounce(busca, 300);
+
+	// Verificar se o usuário pode editar materiais
+	const canEditMaterial = hasAnyRole([
+		ALL_ROLES.ADMIN,
+		ALL_ROLES.ALMOXARIFADO_GERENCIA,
+		ALL_ROLES.ALMOXARIFADO_APROVADOR,
+	]);
 
 	const filtros: FiltrosMateriais = {
 		busca: buscaDebounced || undefined,
@@ -134,14 +143,18 @@ function RouteComponent() {
 		<PageHeader
 			title="Materiais"
 			subtitle="Gerencie o catálogo de materiais do almoxarifado"
-			actions={[
-				<Link key="novo-material" to="/admin/almoxarifado/materiais/novo">
-					<Button>
-						<Plus className="h-4 w-4 mr-2" />
-						Novo Material
-					</Button>
-				</Link>,
-			]}
+			actions={
+				canEditMaterial
+					? [
+							<Link key="novo-material" to="/admin/almoxarifado/materiais/novo">
+								<Button>
+									<Plus className="h-4 w-4 mr-2" />
+									Novo Material
+								</Button>
+							</Link>,
+						]
+					: []
+			}
 		/>
 	);
 
@@ -244,7 +257,7 @@ function RouteComponent() {
 											? "Tente ajustar os filtros para encontrar materiais."
 											: "Comece cadastrando o primeiro material do almoxarifado."}
 									</p>
-									{!busca && !tipoSelecionadoId && (
+									{!busca && !tipoSelecionadoId && canEditMaterial && (
 										<Link to="/admin/almoxarifado/materiais/novo">
 											<Button>
 												<Plus className="h-4 w-4 mr-2" />
@@ -332,16 +345,18 @@ function RouteComponent() {
 																		Visualizar
 																	</DropdownMenuItem>
 																</Link>
-																<Link
-																	to="/admin/almoxarifado/materiais/$id/edit"
-																	params={{ id: material.id.toString() }}
-																>
-																	<DropdownMenuItem>
-																		<Pencil className="h-4 w-4 mr-2" />
-																		Editar
-																	</DropdownMenuItem>
-																</Link>
-																{material.ativo && (
+																{canEditMaterial && (
+																	<Link
+																		to="/admin/almoxarifado/materiais/$id/edit"
+																		params={{ id: material.id.toString() }}
+																	>
+																		<DropdownMenuItem>
+																			<Pencil className="h-4 w-4 mr-2" />
+																			Editar
+																		</DropdownMenuItem>
+																	</Link>
+																)}
+																{material.ativo && canEditMaterial && (
 																	<DropdownMenuItem
 																		onClick={() => handleInativar(material.id)}
 																		className="text-destructive"

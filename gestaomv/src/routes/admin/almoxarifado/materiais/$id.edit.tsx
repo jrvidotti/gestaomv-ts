@@ -4,9 +4,11 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { MaterialForm } from "@/components/almoxarifado/material-form";
+import { RouteGuard } from "@/components/auth/route-guard";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
+import { ALL_ROLES } from "@/constants";
 import type { atualizarMaterialSchema } from "@/modules/almoxarifado/dtos";
 import { useTRPC } from "@/trpc/react";
 
@@ -82,36 +84,60 @@ function EditMaterialPage() {
 
 	if (isLoadingMaterial) {
 		return (
-			<AdminLayout header={header}>
-				<div className="flex items-center justify-center h-32">
-					<div className="text-muted-foreground">
-						Carregando dados do material...
+			<RouteGuard
+				requiredRoles={[
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+				]}
+			>
+				<AdminLayout header={header}>
+					<div className="flex items-center justify-center h-32">
+						<div className="text-muted-foreground">
+							Carregando dados do material...
+						</div>
 					</div>
-				</div>
-			</AdminLayout>
+				</AdminLayout>
+			</RouteGuard>
 		);
 	}
 
 	if (!material) {
 		return (
-			<AdminLayout header={header}>
-				<div className="flex items-center justify-center h-32">
-					<div className="text-red-500">Material não encontrado</div>
-				</div>
-			</AdminLayout>
+			<RouteGuard
+				requiredRoles={[
+					ALL_ROLES.ADMIN,
+					ALL_ROLES.ALMOXARIFADO_GERENCIA,
+					ALL_ROLES.ALMOXARIFADO_APROVADOR,
+				]}
+			>
+				<AdminLayout header={header}>
+					<div className="flex items-center justify-center h-32">
+						<div className="text-red-500">Material não encontrado</div>
+					</div>
+				</AdminLayout>
+			</RouteGuard>
 		);
 	}
 
 	return (
-		<AdminLayout header={header}>
-			<MaterialForm
-				mode="edit"
-				initialData={material}
-				onSubmit={onSubmit}
-				isSubmitting={isPending}
-				isLoading={isLoadingMaterial}
-				formId="material-edit-form"
-			/>
-		</AdminLayout>
+		<RouteGuard
+			requiredRoles={[
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_APROVADOR,
+			]}
+		>
+			<AdminLayout header={header}>
+				<MaterialForm
+					mode="edit"
+					initialData={material}
+					onSubmit={onSubmit}
+					isSubmitting={isPending}
+					isLoading={isLoadingMaterial}
+					formId="material-edit-form"
+				/>
+			</AdminLayout>
+		</RouteGuard>
 	);
 }

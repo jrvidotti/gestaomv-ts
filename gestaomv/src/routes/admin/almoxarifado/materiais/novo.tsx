@@ -4,9 +4,11 @@ import { toast } from "sonner";
 import type { z } from "zod";
 
 import { MaterialForm } from "@/components/almoxarifado/material-form";
+import { RouteGuard } from "@/components/auth/route-guard";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
+import { ALL_ROLES } from "@/constants";
 import type { formMaterialSchema } from "@/modules/almoxarifado/dtos";
 import { useTRPC } from "@/trpc/react";
 
@@ -70,13 +72,21 @@ function NovoMaterialPage() {
 	);
 
 	return (
-		<AdminLayout header={header}>
-			<MaterialForm
-				mode="create"
-				onSubmit={onSubmit}
-				isSubmitting={isPending}
-				formId="material-form"
-			/>
-		</AdminLayout>
+		<RouteGuard
+			requiredRoles={[
+				ALL_ROLES.ADMIN,
+				ALL_ROLES.ALMOXARIFADO_GERENCIA,
+				ALL_ROLES.ALMOXARIFADO_APROVADOR,
+			]}
+		>
+			<AdminLayout header={header}>
+				<MaterialForm
+					mode="create"
+					onSubmit={onSubmit}
+					isSubmitting={isPending}
+					formId="material-form"
+				/>
+			</AdminLayout>
+		</RouteGuard>
 	);
 }
